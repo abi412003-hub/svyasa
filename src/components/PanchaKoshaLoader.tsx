@@ -142,23 +142,24 @@ const KoshaRing = ({
 // Swami Vivekananda Image Component
 const VivekanandaImage = ({ opacity, glowIntensity }: { opacity: number; glowIntensity: number }) => (
   <motion.div
-    className="absolute flex items-center justify-center"
+    className="absolute flex items-center justify-center z-10"
     initial={{ opacity: 0, scale: 0.8 }}
-    animate={{ opacity, scale: 1 }}
+    animate={{ opacity: 1, scale: 1 }}
     transition={{ duration: 1.2, ease: "easeOut" }}
   >
     <motion.img
       src={vivekanandaSketch}
       alt="Swami Vivekananda"
-      className="w-32 h-32 object-contain"
+      className="w-40 h-40 object-contain"
       style={{ 
         filter: `drop-shadow(0 0 ${glowIntensity * 20}px #E8751A)`,
       }}
       animate={{
+        scale: [1, 1.02, 1],
         filter: [
-          `drop-shadow(0 0 ${glowIntensity * 10}px #E8751A)`,
-          `drop-shadow(0 0 ${glowIntensity * 25}px #E8751A)`,
-          `drop-shadow(0 0 ${glowIntensity * 10}px #E8751A)`,
+          `drop-shadow(0 0 5px #E8751A)`,
+          `drop-shadow(0 0 15px #E8751A)`,
+          `drop-shadow(0 0 5px #E8751A)`,
         ],
       }}
       transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
