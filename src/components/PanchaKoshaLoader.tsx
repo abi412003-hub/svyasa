@@ -354,9 +354,10 @@ const PanchaKoshaLoader = ({ onComplete, isContentReady = true }: PanchaKoshaLoa
             <HeartOrb phase={phase} isBlissPhase={phase >= 7} />
           </div>
 
-          {/* S-VYASA text/logo */}
+          {/* S-VYASA text/logo - positioned below the outermost ring */}
           <motion.div
-            className="absolute bottom-32 flex flex-col items-center gap-4"
+            className="absolute flex flex-col items-center gap-3"
+            style={{ top: "calc(50% + 250px)" }}
             initial={{ opacity: 0 }}
             animate={{ opacity: phase >= 1 ? 1 : 0 }}
             transition={{ duration: 0.5 }}
@@ -365,16 +366,16 @@ const PanchaKoshaLoader = ({ onComplete, isContentReady = true }: PanchaKoshaLoa
               <motion.img
                 src={svyasaLogo}
                 alt="S-VYASA University"
-                className="h-16"
+                className="h-14"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5 }}
               />
             ) : (
               <motion.span
-                className="text-secondary/40 font-body font-semibold text-2xl tracking-[6px]"
+                className="text-secondary/50 font-body font-semibold text-xl tracking-[6px]"
                 initial={{ opacity: 0 }}
-                animate={{ opacity: 0.4 }}
+                animate={{ opacity: 0.5 }}
               >
                 S-VYASA
               </motion.span>
@@ -382,7 +383,7 @@ const PanchaKoshaLoader = ({ onComplete, isContentReady = true }: PanchaKoshaLoa
             
             {phase >= 6 && (
               <motion.p
-                className="text-secondary/70 font-body font-light text-sm tracking-[2px]"
+                className="text-secondary/70 font-body font-light text-sm tracking-[2px] text-center"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.5 }}
