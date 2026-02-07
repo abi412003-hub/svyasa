@@ -228,15 +228,17 @@ const PanchaKoshaLoader = ({ onComplete, isContentReady = true }: PanchaKoshaLoa
 
   // Animation sequence
   useEffect(() => {
-    if (prefersReducedMotion || !isFirstVisit) {
-      // Simple fade for reduced motion or returning visitors
+    if (prefersReducedMotion) {
+      // Simple fade for reduced motion
       setTimeout(() => {
         setIsExiting(true);
         sessionStorage.setItem('svyasa-visited', 'true');
         setTimeout(onComplete, 800);
-      }, isFirstVisit ? 1000 : 500);
+      }, 1000);
       return;
     }
+
+    // Always show full animation (removed session storage check for demo)
 
     const timings = [
       { phase: 1, delay: 400 },   // Emergence complete
