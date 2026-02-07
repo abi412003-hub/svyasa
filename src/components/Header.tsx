@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ChevronDown, Phone, Mail, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import svyasaLogo from "@/assets/svyasa-logo.svg";
 
 const navItems = [
   {
@@ -80,24 +81,23 @@ const Header = () => {
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <motion.a
-              href="/"
-              className="flex items-center gap-3"
-              whileHover={{ scale: 1.02 }}
-              transition={{ type: "spring", stiffness: 400 }}
-            >
+            <Link to="/">
               <motion.div
-                className="w-12 h-12 bg-gradient-to-br from-primary to-gold rounded-full flex items-center justify-center"
-                animate={{ boxShadow: ["0 0 0 0 rgba(232, 117, 26, 0.4)", "0 0 20px 5px rgba(232, 117, 26, 0)", "0 0 0 0 rgba(232, 117, 26, 0.4)"] }}
-                transition={{ duration: 2, repeat: Infinity }}
+                className="flex items-center gap-3"
+                whileHover={{ scale: 1.02 }}
+                transition={{ type: "spring", stiffness: 400 }}
               >
-                <span className="text-primary-foreground font-heading font-bold text-lg">S</span>
+                <motion.img
+                  src={svyasaLogo}
+                  alt="S-VYASA University"
+                  className={`transition-all duration-300 ${isScrolled ? "h-12" : "h-14"}`}
+                  animate={{ 
+                    filter: ["drop-shadow(0 0 0 rgba(232, 117, 26, 0))", "drop-shadow(0 0 8px rgba(232, 117, 26, 0.3))", "drop-shadow(0 0 0 rgba(232, 117, 26, 0))"] 
+                  }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                />
               </motion.div>
-              <div className="hidden sm:block">
-                <h1 className="font-heading text-xl font-bold text-secondary leading-tight">S-VYASA</h1>
-                <p className="text-xs text-muted-foreground">Deemed-to-be University</p>
-              </div>
-            </motion.a>
+            </Link>
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center gap-1">
