@@ -414,20 +414,19 @@ const PanchaKoshaLoader = ({ onComplete, isContentReady = true }: PanchaKoshaLoa
     <AnimatePresence>
       {!isExiting ? (
         <motion.div
-          className="fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden"
-          style={{ backgroundColor: "#0A1628" }}
+          className="fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden bg-white"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.6, ease: "easeInOut" }}
         >
-          {/* Background particles (stars) */}
+          {/* Background particles (saffron/gold on white) */}
           {particles.map((p) => (
             <Particle
               key={p.id}
               delay={p.delay}
               duration={p.duration}
               size={p.size}
-              color="#D4A843"
+              color="#E8751A"
               style={{
                 left: `${p.x}%`,
                 top: `${p.y}%`,
@@ -435,17 +434,17 @@ const PanchaKoshaLoader = ({ onComplete, isContentReady = true }: PanchaKoshaLoa
             />
           ))}
 
-          {/* Sacred geometry background grid */}
+          {/* Sacred geometry background grid - subtle cream pattern */}
           <motion.div
             className="absolute inset-0"
             style={{
               backgroundImage: `
-                radial-gradient(circle at center, transparent 0%, #0A1628 70%),
-                repeating-conic-gradient(from 0deg at 50% 50%, #D4A84308 0deg 30deg, transparent 30deg 60deg)
+                radial-gradient(circle at center, transparent 0%, white 70%),
+                repeating-conic-gradient(from 0deg at 50% 50%, #E8751A08 0deg 30deg, transparent 30deg 60deg)
               `,
               backgroundSize: "100% 100%, 100px 100px",
             }}
-            animate={{ opacity: [0.05, 0.1, 0.05] }}
+            animate={{ opacity: [0.1, 0.2, 0.1] }}
             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
           />
 
@@ -484,14 +483,14 @@ const PanchaKoshaLoader = ({ onComplete, isContentReady = true }: PanchaKoshaLoa
               <motion.img
                 src={svyasaLogo}
                 alt="S-VYASA University"
-                className="h-16 brightness-0 invert"
+                className="h-16"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5 }}
               />
             ) : (
               <motion.span
-                className="text-white/40 font-body font-semibold text-2xl tracking-[6px]"
+                className="text-secondary/40 font-body font-semibold text-2xl tracking-[6px]"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 0.4 }}
               >
@@ -501,7 +500,7 @@ const PanchaKoshaLoader = ({ onComplete, isContentReady = true }: PanchaKoshaLoa
             
             {phase >= 6 && (
               <motion.p
-                className="text-white/60 font-body font-light text-sm tracking-[2px]"
+                className="text-secondary/70 font-body font-light text-sm tracking-[2px]"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.5 }}
@@ -515,7 +514,7 @@ const PanchaKoshaLoader = ({ onComplete, isContentReady = true }: PanchaKoshaLoa
           <AnimatePresence>
             {showSkip && (
               <motion.button
-                className="absolute bottom-8 right-8 text-white/40 font-body text-xs tracking-wider hover:text-white/70 transition-colors"
+                className="absolute bottom-8 right-8 text-secondary/40 font-body text-xs tracking-wider hover:text-secondary/70 transition-colors"
                 onClick={handleSkip}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -527,15 +526,15 @@ const PanchaKoshaLoader = ({ onComplete, isContentReady = true }: PanchaKoshaLoa
             )}
           </AnimatePresence>
 
-          {/* Golden flash overlay for final dissolution */}
+          {/* Saffron/white flash overlay for final dissolution */}
           {phase >= 7 && (
             <motion.div
               className="absolute inset-0 pointer-events-none"
               style={{
-                background: "radial-gradient(circle at center, #F5D67B 0%, #D4A843 50%, transparent 100%)",
+                background: "radial-gradient(circle at center, #FFF9F0 0%, #E8751A30 50%, white 100%)",
               }}
               initial={{ opacity: 0, scale: 0.5 }}
-              animate={{ opacity: [0, 0.8, 1], scale: [0.5, 1, 2] }}
+              animate={{ opacity: [0, 0.6, 1], scale: [0.5, 1, 2] }}
               transition={{ duration: 0.6, ease: "easeIn" }}
             />
           )}
