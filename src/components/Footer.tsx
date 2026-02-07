@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import svyasaLogo from "@/assets/svyasa-logo.svg";
 
 const footerLinks = {
   "Quick Links": ["About Us", "Academics", "Research", "Admissions", "Campus Life"],
@@ -63,14 +64,12 @@ const Footer = () => {
             transition={{ delay: 0.1 }}
             className="lg:col-span-1"
           >
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 bg-gradient-to-br from-primary to-gold rounded-full flex items-center justify-center">
-                <span className="text-primary-foreground font-heading font-bold text-lg">S</span>
-              </div>
-              <div>
-                <h2 className="font-heading text-xl font-bold">S-VYASA</h2>
-                <p className="text-xs text-secondary-foreground/70">Deemed-to-be University</p>
-              </div>
+            <div className="mb-6">
+              <img 
+                src={svyasaLogo} 
+                alt="S-VYASA University" 
+                className="h-14 brightness-0 invert opacity-90"
+              />
             </div>
             
             <p className="text-sm text-secondary-foreground/80 mb-6 leading-relaxed">
