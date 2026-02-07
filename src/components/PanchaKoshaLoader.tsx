@@ -139,64 +139,150 @@ const KoshaRing = ({
   );
 };
 
-// Meditating silhouette SVG
-const MeditatingSilhouette = ({ opacity, glowIntensity }: { opacity: number; glowIntensity: number }) => (
+// Swami Vivekananda Face Sketch SVG
+const VivekanandaSketch = ({ opacity, glowIntensity }: { opacity: number; glowIntensity: number }) => (
   <motion.svg
-    width="120"
-    height="140"
-    viewBox="0 0 120 140"
+    width="140"
+    height="160"
+    viewBox="0 0 140 160"
     className="absolute"
     style={{ filter: `drop-shadow(0 0 ${glowIntensity * 20}px #D4A843)` }}
   >
     <defs>
-      <linearGradient id="silhouetteGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <linearGradient id="sketchGradient" x1="0%" y1="0%" x2="0%" y2="100%">
         <stop offset="0%" stopColor="#F5D67B" />
-        <stop offset="100%" stopColor="#D4A843" />
+        <stop offset="50%" stopColor="#D4A843" />
+        <stop offset="100%" stopColor="#C96B3C" />
       </linearGradient>
     </defs>
+    
+    {/* Face outline */}
     <motion.path
-      d="M60 10 
-         C50 10 42 18 42 28 
-         C42 38 50 46 60 46 
-         C70 46 78 38 78 28 
-         C78 18 70 10 60 10
-         M60 50
-         C55 50 50 55 48 62
-         L35 90
-         C32 95 35 100 40 100
-         L45 98
-         L42 115
-         C40 120 45 125 50 125
-         L52 125
-         L55 108
-         L60 108
-         L65 108
-         L68 125
-         L70 125
-         C75 125 80 120 78 115
-         L75 98
-         L80 100
-         C85 100 88 95 85 90
-         L72 62
-         C70 55 65 50 60 50
-         M30 75
-         C25 75 20 80 20 85
-         L15 110
-         C14 115 18 118 22 116
-         L35 105
-         M90 75
-         C95 75 100 80 100 85
-         L105 110
-         C106 115 102 118 98 116
-         L85 105"
+      d="M70 20
+         C45 20 30 45 30 70
+         C30 95 45 120 70 130
+         C95 120 110 95 110 70
+         C110 45 95 20 70 20"
       fill="none"
-      stroke="url(#silhouetteGradient)"
-      strokeWidth="2"
+      stroke="url(#sketchGradient)"
+      strokeWidth="1.5"
       strokeLinecap="round"
-      strokeLinejoin="round"
       initial={{ pathLength: 0, opacity: 0 }}
       animate={{ pathLength: 1, opacity }}
-      transition={{ duration: 1.5, ease: "easeInOut" }}
+      transition={{ duration: 1.2, ease: "easeInOut" }}
+    />
+    
+    {/* Turban - main wrap */}
+    <motion.path
+      d="M30 55
+         C25 40 35 20 70 15
+         C105 20 115 40 110 55
+         M25 50
+         C30 35 50 18 70 15
+         C90 18 110 35 115 50
+         M28 45
+         C35 28 55 12 70 10
+         C85 12 105 28 112 45"
+      fill="none"
+      stroke="url(#sketchGradient)"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      initial={{ pathLength: 0, opacity: 0 }}
+      animate={{ pathLength: 1, opacity }}
+      transition={{ duration: 1.0, delay: 0.2, ease: "easeInOut" }}
+    />
+    
+    {/* Turban folds */}
+    <motion.path
+      d="M35 35 C45 30 55 28 70 27 C85 28 95 30 105 35
+         M40 25 C50 22 60 20 70 20 C80 20 90 22 100 25
+         M45 18 C55 15 65 14 70 14 C75 14 85 15 95 18"
+      fill="none"
+      stroke="url(#sketchGradient)"
+      strokeWidth="1"
+      strokeLinecap="round"
+      initial={{ pathLength: 0, opacity: 0 }}
+      animate={{ pathLength: 1, opacity: opacity * 0.7 }}
+      transition={{ duration: 0.8, delay: 0.4, ease: "easeInOut" }}
+    />
+    
+    {/* Eyes */}
+    <motion.path
+      d="M50 65 C52 62 58 62 60 65 C58 68 52 68 50 65
+         M80 65 C82 62 88 62 90 65 C88 68 82 68 80 65"
+      fill="none"
+      stroke="url(#sketchGradient)"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      initial={{ pathLength: 0, opacity: 0 }}
+      animate={{ pathLength: 1, opacity }}
+      transition={{ duration: 0.6, delay: 0.6, ease: "easeInOut" }}
+    />
+    
+    {/* Eyebrows */}
+    <motion.path
+      d="M48 58 C52 55 58 55 62 58
+         M78 58 C82 55 88 55 92 58"
+      fill="none"
+      stroke="url(#sketchGradient)"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      initial={{ pathLength: 0, opacity: 0 }}
+      animate={{ pathLength: 1, opacity }}
+      transition={{ duration: 0.5, delay: 0.7, ease: "easeInOut" }}
+    />
+    
+    {/* Nose */}
+    <motion.path
+      d="M70 62
+         C70 70 68 80 65 85
+         C68 87 72 87 75 85"
+      fill="none"
+      stroke="url(#sketchGradient)"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      initial={{ pathLength: 0, opacity: 0 }}
+      animate={{ pathLength: 1, opacity }}
+      transition={{ duration: 0.6, delay: 0.8, ease: "easeInOut" }}
+    />
+    
+    {/* Lips */}
+    <motion.path
+      d="M58 98 C62 95 68 95 70 96 C72 95 78 95 82 98
+         M60 100 C65 103 75 103 80 100"
+      fill="none"
+      stroke="url(#sketchGradient)"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      initial={{ pathLength: 0, opacity: 0 }}
+      animate={{ pathLength: 1, opacity }}
+      transition={{ duration: 0.5, delay: 0.9, ease: "easeInOut" }}
+    />
+    
+    {/* Neck and shoulders hint */}
+    <motion.path
+      d="M55 130 C60 140 80 140 85 130
+         M45 145 C55 138 85 138 95 145
+         M40 150 C50 142 90 142 100 150"
+      fill="none"
+      stroke="url(#sketchGradient)"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      initial={{ pathLength: 0, opacity: 0 }}
+      animate={{ pathLength: 1, opacity: opacity * 0.8 }}
+      transition={{ duration: 0.7, delay: 1.0, ease: "easeInOut" }}
+    />
+    
+    {/* Inner calm expression lines */}
+    <motion.path
+      d="M55 65 L55 66 M85 65 L85 66"
+      fill="none"
+      stroke="url(#sketchGradient)"
+      strokeWidth="2"
+      strokeLinecap="round"
+      initial={{ opacity: 0 }}
+      animate={{ opacity }}
+      transition={{ duration: 0.3, delay: 1.1, ease: "easeInOut" }}
     />
   </motion.svg>
 );
@@ -377,8 +463,8 @@ const PanchaKoshaLoader = ({ onComplete, isContentReady = true }: PanchaKoshaLoa
               />
             ))}
 
-            {/* Meditating silhouette */}
-            <MeditatingSilhouette
+            {/* Swami Vivekananda face sketch */}
+            <VivekanandaSketch
               opacity={phase >= 1 ? 0.3 + (phase * 0.1) : 0}
               glowIntensity={phase >= 6 ? 1 : phase * 0.15}
             />
