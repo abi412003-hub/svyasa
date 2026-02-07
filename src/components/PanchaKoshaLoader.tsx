@@ -147,22 +147,29 @@ const VivekanandaImage = ({ opacity, glowIntensity }: { opacity: number; glowInt
     animate={{ opacity: 1, scale: 1 }}
     transition={{ duration: 1.2, ease: "easeOut" }}
   >
-    <motion.img
-      src={vivekanandaSketch}
-      alt="Swami Vivekananda"
-      className="w-40 h-40 object-contain"
-      style={{ 
-        filter: `drop-shadow(0 0 ${glowIntensity * 20}px #E8751A)`,
+    {/* Circular background for the image */}
+    <motion.div
+      className="absolute w-36 h-36 rounded-full bg-white"
+      style={{
+        boxShadow: "0 0 30px rgba(232, 117, 26, 0.3), 0 0 60px rgba(232, 117, 26, 0.15)",
       }}
       animate={{
-        scale: [1, 1.02, 1],
-        filter: [
-          `drop-shadow(0 0 5px #E8751A)`,
-          `drop-shadow(0 0 15px #E8751A)`,
-          `drop-shadow(0 0 5px #E8751A)`,
+        boxShadow: [
+          "0 0 20px rgba(232, 117, 26, 0.2), 0 0 40px rgba(232, 117, 26, 0.1)",
+          "0 0 40px rgba(232, 117, 26, 0.4), 0 0 80px rgba(232, 117, 26, 0.2)",
+          "0 0 20px rgba(232, 117, 26, 0.2), 0 0 40px rgba(232, 117, 26, 0.1)",
         ],
       }}
       transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+    />
+    <motion.img
+      src={vivekanandaSketch}
+      alt="Swami Vivekananda"
+      className="w-32 h-32 object-contain relative z-10"
+      animate={{
+        scale: [1, 1.03, 1],
+      }}
+      transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
     />
   </motion.div>
 );
