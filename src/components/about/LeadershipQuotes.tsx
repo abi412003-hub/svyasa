@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
-import chancellorPortrait from "@/assets/chancellor-portrait.jpg";
+import chancellorPortrait from "@/assets/chancellor-portrait.png";
 import vcPortrait from "@/assets/vc-portrait.jpg";
 
 const leaders = [
