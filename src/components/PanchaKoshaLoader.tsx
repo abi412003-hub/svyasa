@@ -87,9 +87,8 @@ const KoshaRing = ({
         style={{
           width: baseRadius * 2,
           height: baseRadius * 2,
-          border: `2px solid ${kosha.color}`,
-          boxShadow: `0 0 30px ${kosha.color}40, inset 0 0 30px ${kosha.color}20`,
-          filter: "blur(0.5px)",
+          border: `3px solid ${kosha.color}`,
+          boxShadow: `0 0 20px ${kosha.color}60, 0 0 40px ${kosha.color}30, inset 0 0 20px ${kosha.color}20`,
         }}
         animate={isComplete ? {
           rotate: 360 * (index % 2 === 0 ? 1 : -1),
@@ -107,10 +106,10 @@ const KoshaRing = ({
         style={{
           width: baseRadius * 2 - 10,
           height: baseRadius * 2 - 10,
-          background: `radial-gradient(circle, transparent 60%, ${kosha.color}15 100%)`,
+          background: `radial-gradient(circle, transparent 50%, ${kosha.color}25 100%)`,
         }}
         animate={{
-          opacity: [0.3, 0.6, 0.3],
+          opacity: [0.4, 0.7, 0.4],
         }}
         transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
       />
@@ -142,16 +141,16 @@ const KoshaRing = ({
 // Swami Vivekananda Face Sketch SVG
 const VivekanandaSketch = ({ opacity, glowIntensity }: { opacity: number; glowIntensity: number }) => (
   <motion.svg
-    width="140"
-    height="160"
+    width="160"
+    height="180"
     viewBox="0 0 140 160"
     className="absolute"
-    style={{ filter: `drop-shadow(0 0 ${glowIntensity * 20}px #D4A843)` }}
+    style={{ filter: `drop-shadow(0 0 ${glowIntensity * 15}px #E8751A)` }}
   >
     <defs>
       <linearGradient id="sketchGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" stopColor="#F5D67B" />
-        <stop offset="50%" stopColor="#D4A843" />
+        <stop offset="0%" stopColor="#1B3A5C" />
+        <stop offset="50%" stopColor="#E8751A" />
         <stop offset="100%" stopColor="#C96B3C" />
       </linearGradient>
     </defs>
@@ -164,8 +163,8 @@ const VivekanandaSketch = ({ opacity, glowIntensity }: { opacity: number; glowIn
          C95 120 110 95 110 70
          C110 45 95 20 70 20"
       fill="none"
-      stroke="url(#sketchGradient)"
-      strokeWidth="1.5"
+      stroke="#1B3A5C"
+      strokeWidth="2.5"
       strokeLinecap="round"
       initial={{ pathLength: 0, opacity: 0 }}
       animate={{ pathLength: 1, opacity }}
@@ -184,8 +183,8 @@ const VivekanandaSketch = ({ opacity, glowIntensity }: { opacity: number; glowIn
          C35 28 55 12 70 10
          C85 12 105 28 112 45"
       fill="none"
-      stroke="url(#sketchGradient)"
-      strokeWidth="1.5"
+      stroke="#E8751A"
+      strokeWidth="2.5"
       strokeLinecap="round"
       initial={{ pathLength: 0, opacity: 0 }}
       animate={{ pathLength: 1, opacity }}
@@ -198,11 +197,11 @@ const VivekanandaSketch = ({ opacity, glowIntensity }: { opacity: number; glowIn
          M40 25 C50 22 60 20 70 20 C80 20 90 22 100 25
          M45 18 C55 15 65 14 70 14 C75 14 85 15 95 18"
       fill="none"
-      stroke="url(#sketchGradient)"
-      strokeWidth="1"
+      stroke="#E8751A"
+      strokeWidth="1.5"
       strokeLinecap="round"
       initial={{ pathLength: 0, opacity: 0 }}
-      animate={{ pathLength: 1, opacity: opacity * 0.7 }}
+      animate={{ pathLength: 1, opacity: opacity * 0.8 }}
       transition={{ duration: 0.8, delay: 0.4, ease: "easeInOut" }}
     />
     
@@ -211,8 +210,8 @@ const VivekanandaSketch = ({ opacity, glowIntensity }: { opacity: number; glowIn
       d="M50 65 C52 62 58 62 60 65 C58 68 52 68 50 65
          M80 65 C82 62 88 62 90 65 C88 68 82 68 80 65"
       fill="none"
-      stroke="url(#sketchGradient)"
-      strokeWidth="1.5"
+      stroke="#1B3A5C"
+      strokeWidth="2"
       strokeLinecap="round"
       initial={{ pathLength: 0, opacity: 0 }}
       animate={{ pathLength: 1, opacity }}
@@ -224,8 +223,8 @@ const VivekanandaSketch = ({ opacity, glowIntensity }: { opacity: number; glowIn
       d="M48 58 C52 55 58 55 62 58
          M78 58 C82 55 88 55 92 58"
       fill="none"
-      stroke="url(#sketchGradient)"
-      strokeWidth="1.5"
+      stroke="#1B3A5C"
+      strokeWidth="2"
       strokeLinecap="round"
       initial={{ pathLength: 0, opacity: 0 }}
       animate={{ pathLength: 1, opacity }}
@@ -238,8 +237,8 @@ const VivekanandaSketch = ({ opacity, glowIntensity }: { opacity: number; glowIn
          C70 70 68 80 65 85
          C68 87 72 87 75 85"
       fill="none"
-      stroke="url(#sketchGradient)"
-      strokeWidth="1.5"
+      stroke="#1B3A5C"
+      strokeWidth="2"
       strokeLinecap="round"
       initial={{ pathLength: 0, opacity: 0 }}
       animate={{ pathLength: 1, opacity }}
@@ -251,8 +250,8 @@ const VivekanandaSketch = ({ opacity, glowIntensity }: { opacity: number; glowIn
       d="M58 98 C62 95 68 95 70 96 C72 95 78 95 82 98
          M60 100 C65 103 75 103 80 100"
       fill="none"
-      stroke="url(#sketchGradient)"
-      strokeWidth="1.5"
+      stroke="#1B3A5C"
+      strokeWidth="2"
       strokeLinecap="round"
       initial={{ pathLength: 0, opacity: 0 }}
       animate={{ pathLength: 1, opacity }}
@@ -265,25 +264,17 @@ const VivekanandaSketch = ({ opacity, glowIntensity }: { opacity: number; glowIn
          M45 145 C55 138 85 138 95 145
          M40 150 C50 142 90 142 100 150"
       fill="none"
-      stroke="url(#sketchGradient)"
-      strokeWidth="1.5"
+      stroke="#1B3A5C"
+      strokeWidth="2"
       strokeLinecap="round"
       initial={{ pathLength: 0, opacity: 0 }}
-      animate={{ pathLength: 1, opacity: opacity * 0.8 }}
+      animate={{ pathLength: 1, opacity: opacity * 0.9 }}
       transition={{ duration: 0.7, delay: 1.0, ease: "easeInOut" }}
     />
     
-    {/* Inner calm expression lines */}
-    <motion.path
-      d="M55 65 L55 66 M85 65 L85 66"
-      fill="none"
-      stroke="url(#sketchGradient)"
-      strokeWidth="2"
-      strokeLinecap="round"
-      initial={{ opacity: 0 }}
-      animate={{ opacity }}
-      transition={{ duration: 0.3, delay: 1.1, ease: "easeInOut" }}
-    />
+    {/* Inner calm expression lines - pupils */}
+    <motion.circle cx="55" cy="65" r="2" fill="#1B3A5C" initial={{ opacity: 0 }} animate={{ opacity }} transition={{ delay: 1.1 }} />
+    <motion.circle cx="85" cy="65" r="2" fill="#1B3A5C" initial={{ opacity: 0 }} animate={{ opacity }} transition={{ delay: 1.1 }} />
   </motion.svg>
 );
 
