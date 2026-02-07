@@ -94,7 +94,7 @@ const LeadershipQuotes = () => {
                     initial={{ scale: 0 }}
                     animate={isInView ? { scale: 1 } : {}}
                     transition={{ delay: 0.5 + index * 0.2, type: "spring" }}
-                    className="w-32 h-32 rounded-full overflow-hidden ring-4 ring-gold/50 group-hover:ring-gold transition-all"
+                    className="w-44 h-44 rounded-full overflow-hidden ring-4 ring-gold/50 group-hover:ring-gold transition-all"
                   >
                     <img
                       src={leader.image}
@@ -160,7 +160,7 @@ const LeadershipQuotes = () => {
                   <motion.div
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
-                    className="w-28 h-28 mx-auto rounded-full overflow-hidden ring-4 ring-gold/50 mb-4"
+                    className="w-40 h-40 mx-auto rounded-full overflow-hidden ring-4 ring-gold/50 mb-4"
                   >
                     <img
                       src={leaders[currentIndex].image}
