@@ -249,13 +249,13 @@ const PanchaKoshaLoader = ({ onComplete, isContentReady = true }: PanchaKoshaLoa
     // Always show full animation (removed session storage check for demo)
 
     const timings = [
-      { phase: 1, delay: 400 },   // Emergence complete
-      { phase: 2, kosha: 0, delay: 900 },   // Annamaya
-      { phase: 3, kosha: 1, delay: 1400 },  // Pranamaya
-      { phase: 4, kosha: 2, delay: 1900 },  // Manomaya
-      { phase: 5, kosha: 3, delay: 2400 },  // Vijnanamaya
-      { phase: 6, kosha: 4, delay: 2900 },  // Anandamaya
-      { phase: 7, delay: 3400 },  // Hold
+      { phase: 1, delay: 200 },   // Emergence complete
+      { phase: 2, kosha: 0, delay: 400 },   // Annamaya
+      { phase: 3, kosha: 1, delay: 600 },  // Pranamaya
+      { phase: 4, kosha: 2, delay: 800 },  // Manomaya
+      { phase: 5, kosha: 3, delay: 1000 },  // Vijnanamaya
+      { phase: 6, kosha: 4, delay: 1200 },  // Anandamaya
+      { phase: 7, delay: 1500 },  // Hold
     ];
 
     const timers: NodeJS.Timeout[] = [];
@@ -266,8 +266,8 @@ const PanchaKoshaLoader = ({ onComplete, isContentReady = true }: PanchaKoshaLoa
         if (kosha !== undefined) {
           setCurrentKosha(kosha);
           setShowLabel(kosha);
-          // Hide label after 400ms
-          setTimeout(() => setShowLabel(-1), 400);
+          // Hide label after 200ms
+          setTimeout(() => setShowLabel(-1), 200);
         }
       }, delay));
     });
@@ -278,13 +278,13 @@ const PanchaKoshaLoader = ({ onComplete, isContentReady = true }: PanchaKoshaLoa
         if (isContentReady) {
           setIsExiting(true);
           sessionStorage.setItem('svyasa-visited', 'true');
-          setTimeout(onComplete, 600);
+          setTimeout(onComplete, 400);
         } else {
           setTimeout(checkAndComplete, 100);
         }
       };
       checkAndComplete();
-    }, 3600));
+    }, 1800));
 
     return () => timers.forEach(clearTimeout);
   }, [onComplete, isContentReady, prefersReducedMotion, isFirstVisit]);
