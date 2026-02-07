@@ -2,10 +2,12 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ChevronDown, Phone, Mail, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const navItems = [
   {
     label: "About",
+    href: "/about",
     submenu: ["Vision & Mission", "History", "Leadership", "Accreditations"],
   },
   {
@@ -109,20 +111,40 @@ const Header = () => {
                   onMouseEnter={() => setActiveSubmenu(item.label)}
                   onMouseLeave={() => setActiveSubmenu(null)}
                 >
-                  <button className="px-4 py-2 flex items-center gap-1 text-foreground hover:text-primary transition-colors group">
-                    <span className="relative">
-                      {item.label}
-                      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
-                    </span>
-                    {item.submenu && (
-                      <ChevronDown
-                        size={16}
-                        className={`transition-transform duration-200 ${
-                          activeSubmenu === item.label ? "rotate-180" : ""
-                        }`}
-                      />
-                    )}
-                  </button>
+                  {'href' in item && item.href ? (
+                    <Link 
+                      to={item.href}
+                      className="px-4 py-2 flex items-center gap-1 text-foreground hover:text-primary transition-colors group"
+                    >
+                      <span className="relative">
+                        {item.label}
+                        <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
+                      </span>
+                      {item.submenu && (
+                        <ChevronDown
+                          size={16}
+                          className={`transition-transform duration-200 ${
+                            activeSubmenu === item.label ? "rotate-180" : ""
+                          }`}
+                        />
+                      )}
+                    </Link>
+                  ) : (
+                    <button className="px-4 py-2 flex items-center gap-1 text-foreground hover:text-primary transition-colors group">
+                      <span className="relative">
+                        {item.label}
+                        <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
+                      </span>
+                      {item.submenu && (
+                        <ChevronDown
+                          size={16}
+                          className={`transition-transform duration-200 ${
+                            activeSubmenu === item.label ? "rotate-180" : ""
+                          }`}
+                        />
+                      )}
+                    </button>
+                  )}
 
                   {/* Dropdown */}
                   <AnimatePresence>
