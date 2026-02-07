@@ -42,8 +42,6 @@ const AboutHero = () => {
         />
       </motion.div>
 
-      {/* Subtle Gradient Overlay for text readability */}
-      <div className="absolute inset-0 bg-gradient-to-r from-white/60 via-transparent to-transparent" />
 
       {/* Floating Particles */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
