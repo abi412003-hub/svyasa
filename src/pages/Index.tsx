@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Preloader from "@/components/Preloader";
+import PanchaKoshaLoader from "@/components/PanchaKoshaLoader";
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import StatsSection from "@/components/StatsSection";
@@ -16,19 +16,30 @@ import Footer from "@/components/Footer";
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [isContentReady, setIsContentReady] = useState(false);
 
   useEffect(() => {
-    // Simulate loading time for assets
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
-
-    return () => clearTimeout(timer);
+    // Mark content as ready once images are preloaded
+    const preloadImages = async () => {
+      // Give a minimum time for initial render
+      await new Promise(resolve => setTimeout(resolve, 500));
+      setIsContentReady(true);
+    };
+    preloadImages();
   }, []);
+
+  const handleLoaderComplete = () => {
+    setIsLoading(false);
+  };
 
   return (
     <>
-      <Preloader isLoading={isLoading} />
+      {isLoading && (
+        <PanchaKoshaLoader 
+          onComplete={handleLoaderComplete} 
+          isContentReady={isContentReady}
+        />
+      )}
       
       <div className={`min-h-screen transition-opacity duration-500 ${isLoading ? "opacity-0" : "opacity-100"}`}>
         <Header />
