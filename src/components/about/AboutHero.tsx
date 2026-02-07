@@ -52,54 +52,6 @@ const AboutHero = () => {
         ))}
       </div>
 
-      {/* Content - positioned to not overlap with the student image */}
-      <div className="relative h-full container mx-auto px-4 flex items-center">
-        <motion.div
-          initial={{ opacity: 0, x: -40 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="max-w-lg"
-        >
-          <motion.span
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="inline-block px-4 py-1.5 bg-primary/90 text-primary-foreground text-sm font-medium rounded-full mb-4"
-          >
-            NAAC A+ Accredited
-          </motion.span>
-
-          <h1 className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-secondary mb-4">
-            <motion.span
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-              className="block"
-            >
-              S-VYASA Global City Campus
-            </motion.span>
-          </h1>
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.8 }}
-            className="inline-block border-2 border-primary/80 rounded-lg px-6 py-4 mb-6"
-          >
-            <p className="text-lg font-semibold text-secondary">ADMISSIONS OPEN</p>
-            <p className="text-3xl md:text-4xl font-bold text-primary">2026 – 27</p>
-          </motion.div>
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1 }}
-            className="text-secondary/80 max-w-md"
-          >
-            Swami Vivekananda Yoga Anusandhana Samsthana - Deemed to be University
-          </motion.p>
-        </motion.div>
-      </div>
     </section>
   );
 };
