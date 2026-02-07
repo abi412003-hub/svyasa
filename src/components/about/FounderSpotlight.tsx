@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { Play, X } from "lucide-react";
-import founderPortrait from "@/assets/founder-portrait.jpg";
+import founderPortrait from "@/assets/founder-portrait.png";
 
 const FounderSpotlight = () => {
   const ref = useRef(null);
