@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Preloader from "@/components/Preloader";
+import PanchaKoshaLoader from "@/components/PanchaKoshaLoader";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Breadcrumb from "@/components/Breadcrumb";
@@ -15,14 +15,20 @@ import AboutCTA from "@/components/about/AboutCTA";
 
 const About = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [isContentReady, setIsContentReady] = useState(false);
 
   useEffect(() => {
+    // Mark content as ready once initial render completes
     const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1500);
+      setIsContentReady(true);
+    }, 500);
 
     return () => clearTimeout(timer);
   }, []);
+
+  const handleLoaderComplete = () => {
+    setIsLoading(false);
+  };
 
   const breadcrumbItems = [
     { label: "About Us", href: "/about" },
@@ -31,7 +37,12 @@ const About = () => {
 
   return (
     <>
-      <Preloader isLoading={isLoading} />
+      {isLoading && (
+        <PanchaKoshaLoader 
+          onComplete={handleLoaderComplete} 
+          isContentReady={isContentReady}
+        />
+      )}
       
       <div className={`min-h-screen transition-opacity duration-500 ${isLoading ? "opacity-0" : "opacity-100"}`}>
         <Header />
