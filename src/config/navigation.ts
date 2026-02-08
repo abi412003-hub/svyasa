@@ -141,13 +141,12 @@ export const navItems: NavItem[] = [
         ],
       },
       {
-        title: "Allied Healthcare",
+        title: "Allied and Healthcare Professions",
         links: [
-          { label: "Allied Healthcare Overview", href: "/allied-sciences" },
-          { label: "Ph.D - Allied Healthcare", href: "/doctor-of-philosophy-in-allied-sciences" },
+          { label: "Ph.D - Allied and Healthcare Professions", href: "/doctor-of-philosophy-in-allied-sciences" },
           { label: "Bachelor of Physiotherapy", href: "/bachelor-of-physiotherapy" },
           { label: "Bachelor of Occupational Therapy", href: "/bachelor-of-occupational-therapy" },
-          { label: "B.Sc. Clinical Psychology", href: "/bsc-clinical-psychology" },
+          { label: "B.Sc. - Clinical Psychology", href: "/bsc-clinical-psychology" },
         ],
       },
       {
