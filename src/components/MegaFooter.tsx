@@ -76,7 +76,7 @@ const MegaFooter = () => {
               <img 
                 src={svyasaLogo} 
                 alt="S-VYASA University" 
-                className="h-16 w-auto object-contain"
+                className="h-16 w-auto object-contain brightness-0 invert"
               />
             </div>
 
