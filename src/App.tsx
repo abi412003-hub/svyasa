@@ -22,6 +22,7 @@ import NewsEvents from "./pages/NewsEvents";
 import Gallery from "./pages/Gallery";
 import Careers from "./pages/Careers";
 import Exams from "./pages/Exams";
+import Library from "./pages/Library";
 import ComingSoon from "./pages/ComingSoon";
 import NotFound from "./pages/NotFound";
 
@@ -187,6 +188,7 @@ const App = () => (
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/careers" element={<Careers />} />
           <Route path="/exams" element={<Exams />} />
+          <Route path="/library" element={<Library />} />
           
           {/* Catch-all 404 */}
           <Route path="*" element={<NotFound />} />
