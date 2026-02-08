@@ -339,7 +339,22 @@ const MobileMenu = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
                                 {item.columns.map((col) => (
                                   <div key={col.title}>
                                     <h4 className="text-gold text-sm font-semibold mb-2">{col.title}</h4>
-                                    {col.links.slice(0, 5).map((link) => (
+                                    {/* Handle courseGroups */}
+                                    {col.courseGroups && col.courseGroups.slice(0, 5).map((group) => (
+                                      <Link
+                                        key={group.parent.href}
+                                        to={group.parent.href}
+                                        onClick={onClose}
+                                        className="block py-1.5 text-white/70 text-sm"
+                                      >
+                                        {group.parent.label}
+                                      </Link>
+                                    ))}
+                                    {col.courseGroups && col.courseGroups.length > 5 && (
+                                      <span className="text-gold/70 text-xs">+{col.courseGroups.length - 5} more</span>
+                                    )}
+                                    {/* Handle regular links */}
+                                    {col.links && col.links.slice(0, 5).map((link) => (
                                       <Link
                                         key={link.href}
                                         to={link.external ? "#" : link.href}
@@ -349,7 +364,7 @@ const MobileMenu = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
                                         {link.label}
                                       </Link>
                                     ))}
-                                    {col.links.length > 5 && (
+                                    {col.links && col.links.length > 5 && (
                                       <span className="text-gold/70 text-xs">+{col.links.length - 5} more</span>
                                     )}
                                   </div>
