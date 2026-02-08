@@ -79,53 +79,56 @@ const MegaMenuDropdown = ({
 
           <div className="container mx-auto px-4 py-8">
             {hasColumns ? (
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-8 max-h-[70vh] overflow-y-auto">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-6 max-h-[70vh] overflow-y-auto">
                 {item.columns!.map((column, colIndex) => (
                   <motion.div
                     key={column.title}
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: colIndex * 0.05 }}
+                    className="flex flex-col"
                   >
-                    <div className="relative mb-4">
+                    {/* Column header with gold left border */}
+                    <div className="relative mb-3 pb-2 border-b border-border/50">
                       <motion.div
                         className="absolute left-0 top-0 bottom-0 w-0.5 bg-gold"
                         initial={{ height: 0 }}
                         animate={{ height: "100%" }}
                         transition={{ delay: colIndex * 0.05 + 0.1, duration: 0.3 }}
                       />
-                      <h3 className="pl-3 font-heading font-semibold text-sm text-foreground uppercase tracking-wider">
+                      <h3 className="pl-3 font-heading font-semibold text-xs text-foreground uppercase tracking-wider whitespace-nowrap">
                         {column.title}
                       </h3>
                     </div>
-                    <ul className="space-y-2">
+                    {/* Links list with consistent alignment */}
+                    <ul className="space-y-1.5 pl-3">
                       {column.links.map((link, linkIndex) => (
                         <motion.li
                           key={link.href}
                           initial={{ opacity: 0, x: -5 }}
                           animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: colIndex * 0.05 + linkIndex * 0.03 }}
+                          transition={{ delay: colIndex * 0.05 + linkIndex * 0.02 }}
                         >
                           {link.external ? (
                             <a
                               href={link.href}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="group flex items-center gap-2 text-xs text-muted-foreground hover:text-primary transition-colors"
+                              className="group flex items-start gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors leading-tight"
                               onClick={onLinkClick}
                             >
-                              <ChevronRight className="w-3 h-3 opacity-0 -ml-3 group-hover:opacity-100 group-hover:ml-0 transition-all" />
-                              <span>{link.label}</span>
-                              <ExternalLink className="w-3 h-3 opacity-50" />
+                              <ChevronRight className="w-3 h-3 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity mt-0.5" />
+                              <span className="flex-1">{link.label}</span>
+                              <ExternalLink className="w-3 h-3 flex-shrink-0 opacity-50 mt-0.5" />
                             </a>
                           ) : (
                             <Link
                               to={link.href}
-                              className="group flex items-center gap-2 text-xs text-muted-foreground hover:text-primary transition-colors"
+                              className="group flex items-start gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors leading-tight"
                               onClick={onLinkClick}
                             >
-                              <ChevronRight className="w-3 h-3 opacity-0 -ml-3 group-hover:opacity-100 group-hover:ml-0 transition-all" />
-                              <span>{link.label}</span>
+                              <ChevronRight className="w-3 h-3 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity mt-0.5" />
+                              <span className="flex-1">{link.label}</span>
                             </Link>
                           )}
                         </motion.li>
