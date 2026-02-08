@@ -6,9 +6,16 @@ export interface NavLink {
   external?: boolean;
 }
 
+// Course group with parent course and specializations
+export interface CourseGroup {
+  parent: NavLink;
+  specializations?: NavLink[];
+}
+
 export interface NavColumn {
   title: string;
-  links: NavLink[];
+  links?: NavLink[];
+  courseGroups?: CourseGroup[]; // For nested course structure
 }
 
 export interface NavItem {
@@ -52,55 +59,91 @@ export const navItems: NavItem[] = [
     columns: [
       {
         title: "Undergraduate",
-        links: [
-          { label: "BCA", href: "/bca" },
-          { label: "BCA Cybersecurity, Ethical Hacking & Digital Forensics", href: "/bca-cybersecurity-ethical-hacking-digital-forensics" },
-          { label: "BCA Artificial Intelligence, Cloud Computing & DevOps", href: "/bca-artificial-intelligence-cloud-computing-devops" },
-          { label: "BBA", href: "/bba" },
-          { label: "BBA in Sports Management", href: "/bba-in-sports-management" },
-          { label: "BBA Logistics and Aviation", href: "/bba-logistics-and-aviation" },
-          { label: "BBA Business Management, Digital Marketing & Business Analytics", href: "/bba-business-management-digital-marketing-business-analytics" },
-          { label: "BBA Entrepreneurship, Innovation & Business Analytics", href: "/bba-entrepreneurship-innovation-business-analytics" },
-          { label: "BBA Logistics, Supply Chain Management & Port Management", href: "/bba-logistics-supply-chain-management-port-management" },
-          { label: "BCOM", href: "/bcom" },
-          { label: "B. Com International Accounting & Finance integrated with ACCA", href: "/b-com-international-accounting-finance-integrated-with-acca" },
-          { label: "B. TECH.", href: "/btech" },
-          { label: "NIAT Corporate B.tech(CSE)", href: "/niat-corporate-b-tech-in-cse" },
-          { label: "B. Tech. Computer Science and Engineering", href: "/btech-computer-science-and-engineering" },
-          { label: "B. Tech. Computer Science and Information Technology", href: "/btech-computer-science-and-information-technology" },
-          { label: "B. Tech. Computer Science (Software Engineering)", href: "/btech-computer-science-software-engineering" },
-          { label: "B. Tech. Computer Science (Artificial Intelligence & Machine Learning)", href: "/btech-artificial-intelligence-machine-learning" },
-          { label: "B. Tech. Computer Science & Engineering (Data Science)", href: "/btech-computer-science-engineering-data-science" },
-          { label: "B. Tech. Computer Science & Engineering (Cyber Security)", href: "/btech-computer-science-engineering-cyber-security" },
-          { label: "B.SC.", href: "/bsc" },
-          { label: "B.Sc. Computer Science", href: "/bsc-computer-science" },
-          { label: "BPT - Prashanti Kutiram Campus", href: "/bachelor-of-physiotherapy" },
-          { label: "Bachelor of Physiotherapy", href: "/bachelor-of-physiotherapy" },
+        courseGroups: [
+          {
+            parent: { label: "BCA", href: "/bca" },
+            specializations: [
+              { label: "Cybersecurity, Ethical Hacking & Digital Forensics", href: "/bca-cybersecurity-ethical-hacking-digital-forensics" },
+              { label: "Artificial Intelligence, Cloud Computing & DevOps", href: "/bca-artificial-intelligence-cloud-computing-devops" },
+            ],
+          },
+          {
+            parent: { label: "BBA", href: "/bba" },
+            specializations: [
+              { label: "Sports Management", href: "/bba-in-sports-management" },
+              { label: "Logistics and Aviation", href: "/bba-logistics-and-aviation" },
+              { label: "Business Management, Digital Marketing & Business Analytics", href: "/bba-business-management-digital-marketing-business-analytics" },
+              { label: "Entrepreneurship, Innovation & Business Analytics", href: "/bba-entrepreneurship-innovation-business-analytics" },
+              { label: "Logistics, Supply Chain Management & Port Management", href: "/bba-logistics-supply-chain-management-port-management" },
+            ],
+          },
+          {
+            parent: { label: "BCOM", href: "/bcom" },
+            specializations: [
+              { label: "International Accounting & Finance integrated with ACCA", href: "/b-com-international-accounting-finance-integrated-with-acca" },
+            ],
+          },
+          {
+            parent: { label: "B. TECH.", href: "/btech" },
+            specializations: [
+              { label: "NIAT Corporate B.tech(CSE)", href: "/niat-corporate-b-tech-in-cse" },
+              { label: "Computer Science and Engineering", href: "/btech-computer-science-and-engineering" },
+              { label: "Computer Science and Information Technology", href: "/btech-computer-science-and-information-technology" },
+              { label: "Computer Science (Software Engineering)", href: "/btech-computer-science-software-engineering" },
+              { label: "Computer Science (AI & Machine Learning)", href: "/btech-artificial-intelligence-machine-learning" },
+              { label: "Computer Science & Engineering (Data Science)", href: "/btech-computer-science-engineering-data-science" },
+              { label: "Computer Science & Engineering (Cyber Security)", href: "/btech-computer-science-engineering-cyber-security" },
+            ],
+          },
+          {
+            parent: { label: "B.SC.", href: "/bsc" },
+            specializations: [
+              { label: "Computer Science", href: "/bsc-computer-science" },
+            ],
+          },
+          {
+            parent: { label: "BPT - Prashanti Kutiram Campus", href: "/bachelor-of-physiotherapy" },
+            specializations: [
+              { label: "Bachelor of Physiotherapy", href: "/bachelor-of-physiotherapy" },
+            ],
+          },
         ],
       },
       {
         title: "Postgraduate",
-        links: [
-          { label: "MCA", href: "/mca" },
-          { label: "MCA Cloud Computing and DevOps", href: "/mca-cloud-computing-devops" },
-          { label: "MCA Cybersecurity, Ethical Hacking and Cyber Forensics", href: "/mca-cybersecurity-ethical-hacking-cyber-forensics" },
-          { label: "MCA Artificial Intelligence, Machine Learning and Data Science", href: "/mca-artificial-intelligence-machine-learning-data-science" },
-          { label: "MCA Data Science", href: "/mca-data-science" },
-          { label: "MBA", href: "/mba" },
-          { label: "MBA DUAL - Finance, Marketing, HR, Operations, Business Analytics, International Business", href: "/mba-dual-specialisation" },
-          { label: "MBA PRO - Marketing, Finance and Business Analytics", href: "/mba-marketing-finance-business-analytics" },
-          { label: "MBA PRO - Hospital Administration with Medical Tourism", href: "/mba-hospital-administration-with-medical-tourism" },
-          { label: "MBA PRO - Logistics and Supply Chain Management", href: "/mba-logistics-and-supply-chain-management" },
-          { label: "MBA PRO - Digital Business Management and Data Analytics", href: "/mba-digital-business-management-data-analytics" },
-          { label: "MBA PRO - AI and Data Analytics", href: "/mba-pro-ai-data-analytics" },
-          { label: "MBA in Digital Marketing and AI", href: "/mba-digital-marketing-and-ai" },
-          { label: "M.SC.", href: "/msc" },
-          { label: "M.Sc. Cybersecurity, Ethical Hacking and Cyber Forensics", href: "/msc-cybersecurity-ethical-hacking-cyber-forensics" },
-          { label: "M.Sc. Data Science", href: "/msc-data-science" },
-          { label: "M.Sc (Clinical Psychology)", href: "/msc-clinical-psychology" },
-          { label: "M.Sc (Neuro Psychology)", href: "/msc-neuropsychology" },
-          { label: "M.Sc (Counselling Psychology)", href: "/msc-counselling-psychology" },
-          { label: "M.Sc (Health Psychology)", href: "/msc-health-psychology" },
+        courseGroups: [
+          {
+            parent: { label: "MCA", href: "/mca" },
+            specializations: [
+              { label: "Cloud Computing and DevOps", href: "/mca-cloud-computing-devops" },
+              { label: "Cybersecurity, Ethical Hacking and Cyber Forensics", href: "/mca-cybersecurity-ethical-hacking-cyber-forensics" },
+              { label: "AI, Machine Learning and Data Science", href: "/mca-artificial-intelligence-machine-learning-data-science" },
+              { label: "Data Science", href: "/mca-data-science" },
+            ],
+          },
+          {
+            parent: { label: "MBA", href: "/mba" },
+            specializations: [
+              { label: "DUAL - Finance, Marketing, HR, Operations, Business Analytics, International Business", href: "/mba-dual-specialisation" },
+              { label: "PRO - Marketing, Finance and Business Analytics", href: "/mba-marketing-finance-business-analytics" },
+              { label: "PRO - Hospital Administration with Medical Tourism", href: "/mba-hospital-administration-with-medical-tourism" },
+              { label: "PRO - Logistics and Supply Chain Management", href: "/mba-logistics-and-supply-chain-management" },
+              { label: "PRO - Digital Business Management and Data Analytics", href: "/mba-digital-business-management-data-analytics" },
+              { label: "PRO - AI and Data Analytics", href: "/mba-pro-ai-data-analytics" },
+              { label: "Digital Marketing and AI", href: "/mba-digital-marketing-and-ai" },
+            ],
+          },
+          {
+            parent: { label: "M.SC.", href: "/msc" },
+            specializations: [
+              { label: "Cybersecurity, Ethical Hacking and Cyber Forensics", href: "/msc-cybersecurity-ethical-hacking-cyber-forensics" },
+              { label: "Data Science", href: "/msc-data-science" },
+              { label: "Clinical Psychology", href: "/msc-clinical-psychology" },
+              { label: "Neuro Psychology", href: "/msc-neuropsychology" },
+              { label: "Counselling Psychology", href: "/msc-counselling-psychology" },
+              { label: "Health Psychology", href: "/msc-health-psychology" },
+            ],
+          },
         ],
       },
       {

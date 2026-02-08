@@ -4,7 +4,7 @@ import { Menu, X, ChevronDown, ChevronRight, Search, ExternalLink } from "lucide
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "react-router-dom";
 import svyasaLogo from "@/assets/svyasa-logo.svg";
-import { navItems, utilityLinks, NavItem, NavColumn } from "@/config/navigation";
+import { navItems, utilityLinks, NavItem, NavColumn, CourseGroup, NavLink } from "@/config/navigation";
 import SearchOverlay from "./SearchOverlay";
 
 // Utility Bar Component
@@ -37,6 +37,79 @@ const UtilityBar = ({ isVisible }: { isVisible: boolean }) => (
     </div>
   </motion.div>
 );
+
+// Course Group Item with hover specializations
+const CourseGroupItem = ({ 
+  group, 
+  colIndex, 
+  groupIndex,
+  onLinkClick 
+}: { 
+  group: CourseGroup; 
+  colIndex: number; 
+  groupIndex: number;
+  onLinkClick: () => void;
+}) => {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <motion.div
+      className="relative"
+      initial={{ opacity: 0, x: -5 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ delay: colIndex * 0.05 + groupIndex * 0.03 }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Parent course link */}
+      <Link
+        to={group.parent.href}
+        className="group flex items-center gap-1.5 text-xs font-semibold text-foreground hover:text-primary transition-colors py-1"
+        onClick={onLinkClick}
+      >
+        <span>{group.parent.label}</span>
+        {group.specializations && group.specializations.length > 0 && (
+          <ChevronRight 
+            className={`w-3 h-3 flex-shrink-0 transition-transform duration-200 ${isHovered ? 'rotate-90 text-primary' : 'text-muted-foreground'}`} 
+          />
+        )}
+      </Link>
+
+      {/* Specializations dropdown on hover */}
+      <AnimatePresence>
+        {isHovered && group.specializations && group.specializations.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.2 }}
+            className="overflow-hidden ml-3 border-l-2 border-primary/30 pl-2"
+          >
+            <ul className="space-y-1 py-1">
+              {group.specializations.map((spec, specIndex) => (
+                <motion.li
+                  key={spec.href}
+                  initial={{ opacity: 0, x: -5 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: specIndex * 0.03 }}
+                >
+                  <Link
+                    to={spec.href}
+                    className="group flex items-start gap-1 text-[11px] text-muted-foreground hover:text-primary transition-colors leading-tight"
+                    onClick={onLinkClick}
+                  >
+                    <ChevronRight className="w-2.5 h-2.5 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity mt-0.5" />
+                    <span className="flex-1">{spec.label}</span>
+                  </Link>
+                </motion.li>
+              ))}
+            </ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+};
 
 // Mega Menu Dropdown
 const MegaMenuDropdown = ({ 
@@ -100,40 +173,58 @@ const MegaMenuDropdown = ({
                         {column.title}
                       </h3>
                     </div>
-                    {/* Links list with consistent alignment */}
-                    <ul className="space-y-1.5 pl-3">
-                      {column.links.map((link, linkIndex) => (
-                        <motion.li
-                          key={link.href}
-                          initial={{ opacity: 0, x: -5 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: colIndex * 0.05 + linkIndex * 0.02 }}
-                        >
-                          {link.external ? (
-                            <a
-                              href={link.href}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="group flex items-start gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors leading-tight"
-                              onClick={onLinkClick}
-                            >
-                              <ChevronRight className="w-3 h-3 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity mt-0.5" />
-                              <span className="flex-1">{link.label}</span>
-                              <ExternalLink className="w-3 h-3 flex-shrink-0 opacity-50 mt-0.5" />
-                            </a>
-                          ) : (
-                            <Link
-                              to={link.href}
-                              className="group flex items-start gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors leading-tight"
-                              onClick={onLinkClick}
-                            >
-                              <ChevronRight className="w-3 h-3 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity mt-0.5" />
-                              <span className="flex-1">{link.label}</span>
-                            </Link>
-                          )}
-                        </motion.li>
-                      ))}
-                    </ul>
+                    
+                    {/* Course groups with hover specializations */}
+                    {column.courseGroups && (
+                      <div className="space-y-1 pl-3">
+                        {column.courseGroups.map((group, groupIndex) => (
+                          <CourseGroupItem
+                            key={group.parent.href}
+                            group={group}
+                            colIndex={colIndex}
+                            groupIndex={groupIndex}
+                            onLinkClick={onLinkClick}
+                          />
+                        ))}
+                      </div>
+                    )}
+                    
+                    {/* Regular links list */}
+                    {column.links && (
+                      <ul className="space-y-1.5 pl-3">
+                        {column.links.map((link, linkIndex) => (
+                          <motion.li
+                            key={link.href}
+                            initial={{ opacity: 0, x: -5 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: colIndex * 0.05 + linkIndex * 0.02 }}
+                          >
+                            {link.external ? (
+                              <a
+                                href={link.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="group flex items-start gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors leading-tight"
+                                onClick={onLinkClick}
+                              >
+                                <ChevronRight className="w-3 h-3 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity mt-0.5" />
+                                <span className="flex-1">{link.label}</span>
+                                <ExternalLink className="w-3 h-3 flex-shrink-0 opacity-50 mt-0.5" />
+                              </a>
+                            ) : (
+                              <Link
+                                to={link.href}
+                                className="group flex items-start gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors leading-tight"
+                                onClick={onLinkClick}
+                              >
+                                <ChevronRight className="w-3 h-3 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity mt-0.5" />
+                                <span className="flex-1">{link.label}</span>
+                              </Link>
+                            )}
+                          </motion.li>
+                        ))}
+                      </ul>
+                    )}
                   </motion.div>
                 ))}
               </div>
