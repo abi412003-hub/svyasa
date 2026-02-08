@@ -24,6 +24,7 @@ import Careers from "./pages/Careers";
 import Exams from "./pages/Exams";
 import Library from "./pages/Library";
 import DirectorateInternationalAffairs from "./pages/DirectorateInternationalAffairs";
+import IQAC from "./pages/IQAC";
 import ComingSoon from "./pages/ComingSoon";
 import NotFound from "./pages/NotFound";
 
@@ -179,7 +180,7 @@ const App = () => (
           <Route path="/career" element={<ComingSoon />} />
           <Route path="/library" element={<ComingSoon />} />
           <Route path="/exams" element={<ComingSoon />} />
-          <Route path="/iqac" element={<ComingSoon />} />
+          <Route path="/iqac" element={<IQAC />} />
           <Route path="/edtech-partners" element={<ComingSoon />} />
           <Route path="/mandatory-disclosure" element={<ComingSoon />} />
           <Route path="/iic" element={<ComingSoon />} />
