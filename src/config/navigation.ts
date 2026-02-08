@@ -154,22 +154,53 @@ export const navItems: NavItem[] = [
       },
       {
         title: "Yoga Programmes",
-        links: [
-          { label: "Ayurveda Lifestyle Management Course", href: "/ayurveda-lifestyle-management-course" },
-          { label: "Yoga Instructor Course", href: "/yoga-instructor-course" },
-          { label: "B.Sc. - Yoga & Vedic Therapy", href: "/bsc-yoga-vedic-therapy" },
-          { label: "B.Sc. - Yoga Therapy", href: "/bachelor-of-science-in-yoga-therapy" },
-          { label: "M.Sc. - Yoga Therapy", href: "/master-of-science-in-yoga-therapy" },
-          { label: "M.Sc. - Yoga & Vedic Therapy", href: "/master-of-science-yoga-vedic-therapy" },
-          { label: "Bachelor of Naturopathy and Yogic Sciences", href: "/bachelor-of-naturopathy-and-yogic-sciences" },
-          { label: "Doctor of Medicine Yoga", href: "/doctor-of-medicine-yoga" },
-          { label: "PG Diploma in Yoga Therapy", href: "/post-graduate-diploma-in-yoga-therapy" },
-          { label: "PG Diploma Yoga for Doctors", href: "/post-graduate-yoga-diploma-for-doctors" },
-          { label: "Ph.D - Yoga", href: "/phd-yoga" },
-          { label: "Self Management of Excessive Tension", href: "/self-management-of-excessive-tension" },
-          { label: "YIC Online", href: "/yic-online" },
-          { label: "Division Of Yoga and Humanities", href: "/division-of-yoga-and-humanities" },
-          { label: "Non Residential YIC", href: "/non-residential-yic" },
+        courseGroups: [
+          {
+            parent: { label: "Yoga Instructor Courses", href: "/yoga-instructor-course" },
+            specializations: [
+              { label: "YIC Online", href: "/yic-online" },
+              { label: "Non Residential YIC", href: "/non-residential-yic" },
+            ],
+          },
+          {
+            parent: { label: "B.Sc. Yoga", href: "/bsc-yoga-vedic-therapy" },
+            specializations: [
+              { label: "Yoga & Vedic Therapy", href: "/bsc-yoga-vedic-therapy" },
+              { label: "Yoga Therapy", href: "/bachelor-of-science-in-yoga-therapy" },
+            ],
+          },
+          {
+            parent: { label: "M.Sc. Yoga", href: "/master-of-science-in-yoga-therapy" },
+            specializations: [
+              { label: "Yoga Therapy", href: "/master-of-science-in-yoga-therapy" },
+              { label: "Yoga & Vedic Therapy", href: "/master-of-science-yoga-vedic-therapy" },
+            ],
+          },
+          {
+            parent: { label: "PG Diploma", href: "/post-graduate-diploma-in-yoga-therapy" },
+            specializations: [
+              { label: "Yoga Therapy", href: "/post-graduate-diploma-in-yoga-therapy" },
+              { label: "Yoga for Doctors", href: "/post-graduate-yoga-diploma-for-doctors" },
+            ],
+          },
+          {
+            parent: { label: "BNYS", href: "/bachelor-of-naturopathy-and-yogic-sciences" },
+          },
+          {
+            parent: { label: "MD Yoga", href: "/doctor-of-medicine-yoga" },
+          },
+          {
+            parent: { label: "Ph.D - Yoga", href: "/phd-yoga" },
+          },
+          {
+            parent: { label: "SMET", href: "/self-management-of-excessive-tension" },
+          },
+          {
+            parent: { label: "Ayurveda Lifestyle Management", href: "/ayurveda-lifestyle-management-course" },
+          },
+          {
+            parent: { label: "Division Of Yoga and Humanities", href: "/division-of-yoga-and-humanities" },
+          },
         ],
       },
       {
