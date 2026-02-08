@@ -10,6 +10,7 @@ import Society from "./pages/Society";
 import Management from "./pages/Management";
 import Accreditation from "./pages/Accreditation";
 import Publications from "./pages/Publications";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 import ComingSoon from "./pages/ComingSoon";
 import NotFound from "./pages/NotFound";
 
@@ -33,7 +34,7 @@ const App = () => (
           <Route path="/s-vyasa-university" element={<ComingSoon />} />
           <Route path="/accreditation" element={<Accreditation />} />
           <Route path="/publications" element={<Publications />} />
-          <Route path="/privacy-policy" element={<ComingSoon />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/student-welfare-committee" element={<ComingSoon />} />
           
           {/* Admissions & Campus */}
