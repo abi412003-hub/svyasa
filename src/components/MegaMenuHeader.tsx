@@ -41,12 +41,16 @@ const UtilityBar = ({ isVisible }: { isVisible: boolean }) => (
 // Mega Menu Dropdown
 const MegaMenuDropdown = ({ 
   item, 
-  isOpen, 
-  onClose 
+  isOpen,
+  onMouseEnter,
+  onMouseLeave,
+  onLinkClick
 }: { 
   item: NavItem; 
   isOpen: boolean; 
-  onClose: () => void;
+  onMouseEnter: () => void;
+  onMouseLeave: () => void;
+  onLinkClick: () => void;
 }) => {
   const hasColumns = item.columns && item.columns.length > 0;
   const hasLinks = item.links && item.links.length > 0;
@@ -59,8 +63,9 @@ const MegaMenuDropdown = ({
           animate={{ opacity: 1, y: 0, height: "auto" }}
           exit={{ opacity: 0, y: -10, height: 0 }}
           transition={{ duration: 0.3 }}
-          className="absolute top-full left-0 right-0 bg-card shadow-large z-50 overflow-hidden"
-          onMouseLeave={onClose}
+          className="absolute top-full left-0 right-0 bg-card shadow-large z-50"
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
         >
           {/* Mandala watermark */}
           <div className="absolute right-8 top-1/2 -translate-y-1/2 w-64 h-64 opacity-[0.02] pointer-events-none">
@@ -107,7 +112,7 @@ const MegaMenuDropdown = ({
                               target="_blank"
                               rel="noopener noreferrer"
                               className="group flex items-center gap-2 text-xs text-muted-foreground hover:text-primary transition-colors"
-                              onClick={onClose}
+                              onClick={onLinkClick}
                             >
                               <ChevronRight className="w-3 h-3 opacity-0 -ml-3 group-hover:opacity-100 group-hover:ml-0 transition-all" />
                               <span>{link.label}</span>
@@ -117,7 +122,7 @@ const MegaMenuDropdown = ({
                             <Link
                               to={link.href}
                               className="group flex items-center gap-2 text-xs text-muted-foreground hover:text-primary transition-colors"
-                              onClick={onClose}
+                              onClick={onLinkClick}
                             >
                               <ChevronRight className="w-3 h-3 opacity-0 -ml-3 group-hover:opacity-100 group-hover:ml-0 transition-all" />
                               <span>{link.label}</span>
@@ -145,7 +150,7 @@ const MegaMenuDropdown = ({
                           target="_blank"
                           rel="noopener noreferrer"
                           className="group flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors py-1"
-                          onClick={onClose}
+                          onClick={onLinkClick}
                         >
                           <ChevronRight className="w-4 h-4 opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all" />
                           <span>{link.label}</span>
@@ -155,7 +160,7 @@ const MegaMenuDropdown = ({
                         <Link
                           to={link.href}
                           className="group flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors py-1"
-                          onClick={onClose}
+                          onClick={onLinkClick}
                         >
                           <ChevronRight className="w-4 h-4 opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all" />
                           <span>{link.label}</span>
@@ -472,7 +477,9 @@ const MegaMenuHeader = () => {
             key={item.label}
             item={item}
             isOpen={activeDropdown === item.label}
-            onClose={() => setActiveDropdown(null)}
+            onMouseEnter={() => handleMouseEnter(item.label)}
+            onMouseLeave={handleMouseLeave}
+            onLinkClick={() => setActiveDropdown(null)}
           />
         ))}
       </motion.header>
