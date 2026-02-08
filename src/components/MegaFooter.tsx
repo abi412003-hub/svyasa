@@ -17,9 +17,10 @@ import svyasaLogo from "@/assets/svyasa-logo.svg";
 
 const gccPrograms = [
   "BCA", "BBA", "B.Com", "B.Tech", "B.Sc. Computer Science", 
-  "B.Sc. Psychology (Clinical)", "BOT", "MBA", "MCA", 
-  "M.Sc. Computer Science", "M.Sc. Psychology", "Ph.D Computer Science", 
-  "Ph.D CSE", "Ph.D Commerce & Management", "Ph.D Applied Sciences"
+  "B.Sc. Psychology (Clinical)", "Bachelor of Occupational Therapy (BOT)", 
+  "MBA", "MCA", "M.Sc. Computer Science", "M.Sc. Psychology (Clinical)", 
+  "Ph.D Computer Science and Applications", "Ph.D Computer Science and Engineering", 
+  "Ph.D Commerce and Management", "Ph.D Applied Sciences", "Ph.D Allied Sciences", "Ph.D English"
 ];
 
 const prashanthiPrograms = [
