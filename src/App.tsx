@@ -27,6 +27,7 @@ import DirectorateInternationalAffairs from "./pages/DirectorateInternationalAff
 import IQAC from "./pages/IQAC";
 import MandatoryDisclosure from "./pages/MandatoryDisclosure";
 import AIU from "./pages/AIU";
+import IIC from "./pages/IIC";
 import ComingSoon from "./pages/ComingSoon";
 import NotFound from "./pages/NotFound";
 
@@ -185,7 +186,7 @@ const App = () => (
           <Route path="/iqac" element={<IQAC />} />
           <Route path="/edtech-partners" element={<ComingSoon />} />
           <Route path="/mandatory-disclosure" element={<MandatoryDisclosure />} />
-          <Route path="/iic" element={<ComingSoon />} />
+          <Route path="/iic" element={<IIC />} />
           <Route path="/aiu" element={<AIU />} />
           <Route path="/directorate-of-international-affairs" element={<DirectorateInternationalAffairs />} />
           <Route path="/news-events" element={<NewsEvents />} />
