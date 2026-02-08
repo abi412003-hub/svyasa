@@ -15,6 +15,7 @@ import StudentWelfareCommittee from "./pages/StudentWelfareCommittee";
 import PrashantiCampus from "./pages/PrashantiCampus";
 import GlobalCityCampus from "./pages/GlobalCityCampus";
 import FacilityPrashantiCampus from "./pages/FacilityPrashantiCampus";
+import Admissions from "./pages/Admissions";
 import ComingSoon from "./pages/ComingSoon";
 import NotFound from "./pages/NotFound";
 
@@ -42,7 +43,7 @@ const App = () => (
           <Route path="/student-welfare-committee" element={<StudentWelfareCommittee />} />
           
           {/* Admissions & Campus */}
-          <Route path="/admissions" element={<ComingSoon />} />
+          <Route path="/admissions" element={<Admissions />} />
           <Route path="/global-city-campus" element={<GlobalCityCampus />} />
           <Route path="/prashanti-campus" element={<PrashantiCampus />} />
           <Route path="/prashanthi-campus" element={<PrashantiCampus />} />
