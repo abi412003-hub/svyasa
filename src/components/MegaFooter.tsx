@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import svyasaLogo from "@/assets/svyasa-logo-full.svg";
+import svyasaEmblem from "@/assets/svyasa-emblem.png";
 
 const gccPrograms = [
   "BCA", "BBA", "B.Com", "B.Tech", "B.Sc. Computer Science", 
@@ -72,11 +73,16 @@ const MegaFooter = () => {
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.1 }}
           >
-            <div className="mb-6">
+            <div className="mb-6 flex flex-col items-start gap-3">
+              <img 
+                src={svyasaEmblem} 
+                alt="S-VYASA Emblem" 
+                className="h-14 w-14 rounded-full object-contain"
+              />
               <img 
                 src={svyasaLogo} 
                 alt="S-VYASA University" 
-                className="h-16 w-auto object-contain brightness-0 invert"
+                className="h-10 w-auto object-contain brightness-0 invert"
               />
             </div>
 
