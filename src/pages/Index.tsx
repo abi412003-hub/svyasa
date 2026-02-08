@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import PanchaKoshaLoader from "@/components/PanchaKoshaLoader";
-import Header from "@/components/Header";
+import MegaMenuHeader from "@/components/MegaMenuHeader";
+import MegaFooter from "@/components/MegaFooter";
+import FloatingActions from "@/components/FloatingActions";
+import ScrollProgress from "@/components/society/ScrollProgress";
 import HeroSection from "@/components/HeroSection";
 import StatsSection from "@/components/StatsSection";
 import ProgramsSection from "@/components/ProgramsSection";
@@ -12,7 +15,6 @@ import TestimonialsSection from "@/components/TestimonialsSection";
 import EventsSection from "@/components/EventsSection";
 import AffiliationsSection from "@/components/AffiliationsSection";
 import CTASection from "@/components/CTASection";
-import Footer from "@/components/Footer";
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -42,7 +44,8 @@ const Index = () => {
       )}
       
       <div className={`min-h-screen transition-opacity duration-500 ${isLoading ? "opacity-0" : "opacity-100"}`}>
-        <Header />
+        <ScrollProgress />
+        <MegaMenuHeader />
         <main>
           <HeroSection />
           <StatsSection />
@@ -56,7 +59,8 @@ const Index = () => {
           <AffiliationsSection />
           <CTASection />
         </main>
-        <Footer />
+        <MegaFooter />
+        <FloatingActions />
       </div>
     </>
   );
