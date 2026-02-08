@@ -132,12 +132,11 @@ export const navItems: NavItem[] = [
       {
         title: "Ph.D Programmes",
         links: [
-          { label: "Ph.D Programmes Overview", href: "/phd-programs" },
           { label: "Ph.D - Computer Science", href: "/doctor-of-philosophy-in-computer-science" },
-          { label: "Ph.D - CSE", href: "/doctor-of-philosophy-in-computer-science-and-engineering" },
-          { label: "Ph.D - Commerce & Management", href: "/doctor-of-philosophy-in-management-and-commerce" },
+          { label: "Ph.D - Computer Science and Engineering", href: "/doctor-of-philosophy-in-computer-science-and-engineering" },
+          { label: "Ph.D - Commerce and Management", href: "/doctor-of-philosophy-in-management-and-commerce" },
           { label: "Ph.D - Applied Sciences", href: "/doctor-of-philosophy-in-applied-sciences" },
-          { label: "Ph.D - Allied Healthcare", href: "/doctor-of-philosophy-in-allied-sciences" },
+          { label: "Ph.D - Allied and Healthcare Professions", href: "/doctor-of-philosophy-in-allied-sciences" },
           { label: "Ph.D - English", href: "/doctor-of-philosophy-in-english" },
         ],
       },
