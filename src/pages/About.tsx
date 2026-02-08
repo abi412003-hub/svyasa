@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import PanchaKoshaLoader from "@/components/PanchaKoshaLoader";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import MegaMenuHeader from "@/components/MegaMenuHeader";
+import MegaFooter from "@/components/MegaFooter";
+import FloatingActions from "@/components/FloatingActions";
+import ScrollProgress from "@/components/society/ScrollProgress";
 import Breadcrumb from "@/components/Breadcrumb";
 import AboutHero from "@/components/about/AboutHero";
 import AboutIntro from "@/components/about/AboutIntro";
@@ -45,7 +47,8 @@ const About = () => {
       )}
       
       <div className={`min-h-screen transition-opacity duration-500 ${isLoading ? "opacity-0" : "opacity-100"}`}>
-        <Header />
+        <ScrollProgress />
+        <MegaMenuHeader />
         <Breadcrumb items={breadcrumbItems} />
         <main>
           <AboutHero />
@@ -58,7 +61,8 @@ const About = () => {
           <Achievements />
           <AboutCTA />
         </main>
-        <Footer />
+        <MegaFooter />
+        <FloatingActions />
       </div>
     </>
   );
