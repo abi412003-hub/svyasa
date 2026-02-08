@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import About from "./pages/About";
 import Society from "./pages/Society";
 import Management from "./pages/Management";
+import Accreditation from "./pages/Accreditation";
 import ComingSoon from "./pages/ComingSoon";
 import NotFound from "./pages/NotFound";
 
@@ -27,7 +28,7 @@ const App = () => (
           
           {/* About Section */}
           <Route path="/s-vyasa-university" element={<ComingSoon />} />
-          <Route path="/accreditation" element={<ComingSoon />} />
+          <Route path="/accreditation" element={<Accreditation />} />
           <Route path="/publications" element={<ComingSoon />} />
           <Route path="/privacy-policy" element={<ComingSoon />} />
           <Route path="/student-welfare-committee" element={<ComingSoon />} />
