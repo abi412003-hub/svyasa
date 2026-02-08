@@ -21,6 +21,7 @@ import LifeAtSvyasa from "./pages/LifeAtSvyasa";
 import NewsEvents from "./pages/NewsEvents";
 import Gallery from "./pages/Gallery";
 import Careers from "./pages/Careers";
+import Exams from "./pages/Exams";
 import ComingSoon from "./pages/ComingSoon";
 import NotFound from "./pages/NotFound";
 
@@ -185,6 +186,7 @@ const App = () => (
           <Route path="/news-events" element={<NewsEvents />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/careers" element={<Careers />} />
+          <Route path="/exams" element={<Exams />} />
           
           {/* Catch-all 404 */}
           <Route path="*" element={<NotFound />} />
