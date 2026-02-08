@@ -16,6 +16,7 @@ import PrashantiCampus from "./pages/PrashantiCampus";
 import GlobalCityCampus from "./pages/GlobalCityCampus";
 import FacilityPrashantiCampus from "./pages/FacilityPrashantiCampus";
 import Admissions from "./pages/Admissions";
+import ContactUs from "./pages/ContactUs";
 import ComingSoon from "./pages/ComingSoon";
 import NotFound from "./pages/NotFound";
 
@@ -49,7 +50,7 @@ const App = () => (
           <Route path="/prashanthi-campus" element={<PrashantiCampus />} />
           <Route path="/facility-prashanti-campus" element={<FacilityPrashantiCampus />} />
           <Route path="/life-at-svyasa" element={<ComingSoon />} />
-          <Route path="/contact-us" element={<ComingSoon />} />
+          <Route path="/contact-us" element={<ContactUs />} />
           
           {/* Undergraduate Programs */}
           <Route path="/bca" element={<ComingSoon />} />
