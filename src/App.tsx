@@ -12,6 +12,7 @@ import Accreditation from "./pages/Accreditation";
 import Publications from "./pages/Publications";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import StudentWelfareCommittee from "./pages/StudentWelfareCommittee";
+import PrashantiCampus from "./pages/PrashantiCampus";
 import GlobalCityCampus from "./pages/GlobalCityCampus";
 import ComingSoon from "./pages/ComingSoon";
 import NotFound from "./pages/NotFound";
@@ -42,7 +43,8 @@ const App = () => (
           {/* Admissions & Campus */}
           <Route path="/admissions" element={<ComingSoon />} />
           <Route path="/global-city-campus" element={<GlobalCityCampus />} />
-          <Route path="/prashanthi-campus" element={<ComingSoon />} />
+          <Route path="/prashanti-campus" element={<PrashantiCampus />} />
+          <Route path="/prashanthi-campus" element={<PrashantiCampus />} />
           <Route path="/life-at-svyasa" element={<ComingSoon />} />
           <Route path="/contact-us" element={<ComingSoon />} />
           
