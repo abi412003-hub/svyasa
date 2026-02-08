@@ -24,10 +24,12 @@ const gccPrograms = [
 ];
 
 const prashanthiPrograms = [
-  "B.Sc. Yoga Therapy", "B.Sc. Yoga & Vedic Wellness", "BNYS", "BPT",
-  "M.Sc. Yoga Therapy", "M.Sc. Yoga & Vedic Wellness", "MD Yoga",
-  "M.A. Yoga Darshanam", "Ph.D Yoga", "Ph.D Naturopathy",
-  "Aerial Yoga", "YIC", "ANTTC", "SMET", "PDC"
+  "B.Sc. Yoga Therapy", "B.Sc. Yoga & Vedic Wellness", 
+  "Bachelor of Naturopathy and Yogic Sciences (BNYS)", "Bachelor of Physiotherapy (BPT)",
+  "M.Sc. Yoga Therapy", "M.Sc. Yoga & Vedic Wellness", "MD Yoga", "M.A. Yoga Darshanam",
+  "M.Sc. Yoga (Distance Mode)", "Ph.D Yoga", "Ph.D Naturopathy", "Ph.D Dance",
+  "Aerial Yoga", "YIC", "ANTTC", "Ayurveda Lifestyle Management", "SMET",
+  "B.Sc. Yoga (Distance Mode)", "YIC (Distance Mode)", "DYT (Distance Mode)"
 ];
 
 const socialLinks = [
