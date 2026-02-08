@@ -18,6 +18,7 @@ import FacilityPrashantiCampus from "./pages/FacilityPrashantiCampus";
 import Admissions from "./pages/Admissions";
 import ContactUs from "./pages/ContactUs";
 import LifeAtSvyasa from "./pages/LifeAtSvyasa";
+import NewsEvents from "./pages/NewsEvents";
 import ComingSoon from "./pages/ComingSoon";
 import NotFound from "./pages/NotFound";
 
@@ -179,7 +180,7 @@ const App = () => (
           <Route path="/iic" element={<ComingSoon />} />
           <Route path="/aiu" element={<ComingSoon />} />
           <Route path="/directorate-of-international-affairs" element={<ComingSoon />} />
-          <Route path="/news-events" element={<ComingSoon />} />
+          <Route path="/news-events" element={<NewsEvents />} />
           
           {/* Catch-all 404 */}
           <Route path="*" element={<NotFound />} />
