@@ -20,6 +20,7 @@ import ContactUs from "./pages/ContactUs";
 import LifeAtSvyasa from "./pages/LifeAtSvyasa";
 import NewsEvents from "./pages/NewsEvents";
 import Gallery from "./pages/Gallery";
+import Careers from "./pages/Careers";
 import ComingSoon from "./pages/ComingSoon";
 import NotFound from "./pages/NotFound";
 
@@ -183,6 +184,7 @@ const App = () => (
           <Route path="/directorate-of-international-affairs" element={<ComingSoon />} />
           <Route path="/news-events" element={<NewsEvents />} />
           <Route path="/gallery" element={<Gallery />} />
+          <Route path="/careers" element={<Careers />} />
           
           {/* Catch-all 404 */}
           <Route path="*" element={<NotFound />} />
