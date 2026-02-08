@@ -23,6 +23,7 @@ import Gallery from "./pages/Gallery";
 import Careers from "./pages/Careers";
 import Exams from "./pages/Exams";
 import Library from "./pages/Library";
+import DirectorateInternationalAffairs from "./pages/DirectorateInternationalAffairs";
 import ComingSoon from "./pages/ComingSoon";
 import NotFound from "./pages/NotFound";
 
@@ -183,7 +184,7 @@ const App = () => (
           <Route path="/mandatory-disclosure" element={<ComingSoon />} />
           <Route path="/iic" element={<ComingSoon />} />
           <Route path="/aiu" element={<ComingSoon />} />
-          <Route path="/directorate-of-international-affairs" element={<ComingSoon />} />
+          <Route path="/directorate-of-international-affairs" element={<DirectorateInternationalAffairs />} />
           <Route path="/news-events" element={<NewsEvents />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/careers" element={<Careers />} />
