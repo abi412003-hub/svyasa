@@ -11,6 +11,7 @@ import Management from "./pages/Management";
 import Accreditation from "./pages/Accreditation";
 import Publications from "./pages/Publications";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
+import StudentWelfareCommittee from "./pages/StudentWelfareCommittee";
 import ComingSoon from "./pages/ComingSoon";
 import NotFound from "./pages/NotFound";
 
@@ -35,7 +36,7 @@ const App = () => (
           <Route path="/accreditation" element={<Accreditation />} />
           <Route path="/publications" element={<Publications />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-          <Route path="/student-welfare-committee" element={<ComingSoon />} />
+          <Route path="/student-welfare-committee" element={<StudentWelfareCommittee />} />
           
           {/* Admissions & Campus */}
           <Route path="/admissions" element={<ComingSoon />} />
