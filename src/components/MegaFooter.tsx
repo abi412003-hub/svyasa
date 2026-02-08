@@ -13,7 +13,7 @@ import {
   ExternalLink
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import svyasaLogo from "@/assets/svyasa-logo-full.svg";
+import svyasaLogo from "@/assets/svyasa-footer-logo.png";
 
 const gccPrograms = [
   "BCA", "BBA", "B.Com", "B.Tech", "B.Sc. Computer Science", 
@@ -76,7 +76,7 @@ const MegaFooter = () => {
               <img 
                 src={svyasaLogo} 
                 alt="S-VYASA University" 
-                className="h-16 w-auto object-contain brightness-0 invert"
+                className="h-20 w-auto object-contain"
               />
             </div>
 
