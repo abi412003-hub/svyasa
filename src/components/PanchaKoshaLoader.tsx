@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence, useAnimation } from "framer-motion";
 import svyasaLogo from "@/assets/svyasa-logo.svg";
-import vivekanandaSketch from "@/assets/vivekananda-sketch.png";
+import svyasaEmblem from "@/assets/svyasa-emblem.png";
 
 interface PanchaKoshaLoaderProps {
   onComplete: () => void;
@@ -139,8 +139,8 @@ const KoshaRing = ({
   );
 };
 
-// Swami Vivekananda Image Component
-const VivekanandaImage = ({ opacity, glowIntensity }: { opacity: number; glowIntensity: number }) => (
+// S-VYASA Emblem Image Component
+const EmblemImage = ({ opacity, glowIntensity }: { opacity: number; glowIntensity: number }) => (
   <motion.div
     className="absolute flex items-center justify-center z-10"
     initial={{ opacity: 0, scale: 0.8 }}
@@ -163,9 +163,9 @@ const VivekanandaImage = ({ opacity, glowIntensity }: { opacity: number; glowInt
       transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
     />
     <motion.img
-      src={vivekanandaSketch}
-      alt="Swami Vivekananda"
-      className="w-32 h-32 object-contain relative z-10"
+      src={svyasaEmblem}
+      alt="S-VYASA Emblem"
+      className="w-32 h-32 object-contain rounded-full relative z-10"
       animate={{
         scale: [1, 1.03, 1],
       }}
@@ -351,8 +351,8 @@ const PanchaKoshaLoader = ({ onComplete, isContentReady = true }: PanchaKoshaLoa
               />
             ))}
 
-            {/* Swami Vivekananda image */}
-            <VivekanandaImage
+            {/* S-VYASA Emblem image */}
+            <EmblemImage
               opacity={phase >= 1 ? 0.5 + (phase * 0.1) : 0}
               glowIntensity={phase >= 6 ? 1 : phase * 0.15}
             />
