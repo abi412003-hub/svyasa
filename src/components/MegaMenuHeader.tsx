@@ -38,7 +38,7 @@ const UtilityBar = ({ isVisible }: { isVisible: boolean }) => (
   </motion.div>
 );
 
-// Course Group Item with hover specializations
+// Course Group Item - always show specializations, highlight parent course
 const CourseGroupItem = ({ 
   group, 
   colIndex, 
@@ -50,63 +50,46 @@ const CourseGroupItem = ({
   groupIndex: number;
   onLinkClick: () => void;
 }) => {
-  const [isHovered, setIsHovered] = useState(false);
-
   return (
     <motion.div
-      className="relative"
+      className="relative mb-2"
       initial={{ opacity: 0, x: -5 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: colIndex * 0.05 + groupIndex * 0.03 }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Parent course link */}
+      {/* Parent course link - highlighted */}
       <Link
         to={group.parent.href}
-        className="group flex items-center gap-1.5 text-xs font-semibold text-foreground hover:text-primary transition-colors py-1"
+        className="group inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:text-primary-foreground hover:bg-primary px-2 py-1 rounded transition-colors"
         onClick={onLinkClick}
       >
         <span>{group.parent.label}</span>
-        {group.specializations && group.specializations.length > 0 && (
-          <ChevronRight 
-            className={`w-3 h-3 flex-shrink-0 transition-transform duration-200 ${isHovered ? 'rotate-90 text-primary' : 'text-muted-foreground'}`} 
-          />
-        )}
       </Link>
 
-      {/* Specializations dropdown on hover */}
-      <AnimatePresence>
-        {isHovered && group.specializations && group.specializations.length > 0 && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.2 }}
-            className="overflow-hidden ml-3 border-l-2 border-primary/30 pl-2"
-          >
-            <ul className="space-y-1 py-1">
-              {group.specializations.map((spec, specIndex) => (
-                <motion.li
-                  key={spec.href}
-                  initial={{ opacity: 0, x: -5 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: specIndex * 0.03 }}
+      {/* Specializations always visible */}
+      {group.specializations && group.specializations.length > 0 && (
+        <div className="ml-2 mt-1 border-l-2 border-primary/20 pl-2">
+          <ul className="space-y-0.5">
+            {group.specializations.map((spec, specIndex) => (
+              <motion.li
+                key={spec.href}
+                initial={{ opacity: 0, x: -5 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: colIndex * 0.05 + specIndex * 0.02 }}
+              >
+                <Link
+                  to={spec.href}
+                  className="group flex items-start gap-1 text-[10px] text-muted-foreground hover:text-primary transition-colors leading-tight py-0.5"
+                  onClick={onLinkClick}
                 >
-                  <Link
-                    to={spec.href}
-                    className="group flex items-start gap-1 text-[11px] text-muted-foreground hover:text-primary transition-colors leading-tight"
-                    onClick={onLinkClick}
-                  >
-                    <ChevronRight className="w-2.5 h-2.5 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity mt-0.5" />
-                    <span className="flex-1">{spec.label}</span>
-                  </Link>
-                </motion.li>
-              ))}
-            </ul>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                  <ChevronRight className="w-2 h-2 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity mt-0.5" />
+                  <span className="flex-1">{spec.label}</span>
+                </Link>
+              </motion.li>
+            ))}
+          </ul>
+        </div>
+      )}
     </motion.div>
   );
 };
@@ -150,9 +133,9 @@ const MegaMenuDropdown = ({
             </svg>
           </div>
 
-          <div className="container mx-auto px-4 py-8">
+          <div className="container mx-auto px-4 py-6">
             {hasColumns ? (
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-6 max-h-[70vh] overflow-y-auto">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8 max-h-[75vh] overflow-y-auto">
                 {item.columns!.map((column, colIndex) => (
                   <motion.div
                     key={column.title}
