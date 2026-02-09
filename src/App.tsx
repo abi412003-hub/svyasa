@@ -30,6 +30,7 @@ import AIU from "./pages/AIU";
 import IIC from "./pages/IIC";
 import ComingSoon from "./pages/ComingSoon";
 import NotFound from "./pages/NotFound";
+import CategoryLanding from "./pages/CategoryLanding";
 
 const queryClient = new QueryClient();
 
@@ -53,6 +54,9 @@ const App = () => (
           <Route path="/publications" element={<Publications />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/student-welfare-committee" element={<StudentWelfareCommittee />} />
+          
+          {/* Dynamic Course Routes */}
+          <Route path="/programs/:category" element={<CategoryLanding />} />
           
           {/* Admissions & Campus */}
           <Route path="/admissions" element={<Admissions />} />
