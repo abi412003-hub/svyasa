@@ -147,7 +147,7 @@ export const navItems: NavItem[] = [
         ],
       },
       {
-        title: "Allied and Healthcare Professions",
+        title: "Allied and Healthcare Courses",
         links: [
           { label: "Ph.D - Allied and Healthcare Professions", href: "/doctor-of-philosophy-in-allied-sciences" },
           { label: "Bachelor of Physiotherapy", href: "/bachelor-of-physiotherapy" },
