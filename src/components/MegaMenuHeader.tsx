@@ -57,10 +57,10 @@ const CourseGroupItem = ({
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: colIndex * 0.05 + groupIndex * 0.03 }}
     >
-      {/* Parent course link - highlighted with pill style */}
+      {/* Parent course link - simple bold text */}
       <Link
         to={group.parent.href}
-        className="inline-block text-xs font-bold text-white bg-primary px-2.5 py-1 rounded-full hover:bg-primary/80 transition-colors"
+        className="text-xs font-semibold text-foreground hover:text-primary transition-colors"
         onClick={onLinkClick}
       >
         {group.parent.label}
