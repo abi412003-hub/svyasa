@@ -147,9 +147,12 @@ export const navItems: NavItem[] = [
         ],
       },
       {
-        title: "D.Sc., D.Litt",
+        title: "Allied and Healthcare Professions",
         links: [
-          { label: "D.Sc., D.Litt", href: "/dlit" },
+          { label: "Ph.D - Allied and Healthcare Professions", href: "/doctor-of-philosophy-in-allied-sciences" },
+          { label: "Bachelor of Physiotherapy", href: "/bachelor-of-physiotherapy" },
+          { label: "Bachelor of Occupational Therapy", href: "/bachelor-of-occupational-therapy" },
+          { label: "B.Sc. - Clinical Psychology", href: "/bsc-clinical-psychology" },
         ],
       },
       {
@@ -215,12 +218,9 @@ export const navItems: NavItem[] = [
         ],
       },
       {
-        title: "Allied and Healthcare Professions",
+        title: "D.Sc., D.Litt",
         links: [
-          { label: "Ph.D - Allied and Healthcare Professions", href: "/doctor-of-philosophy-in-allied-sciences" },
-          { label: "Bachelor of Physiotherapy", href: "/bachelor-of-physiotherapy" },
-          { label: "Bachelor of Occupational Therapy", href: "/bachelor-of-occupational-therapy" },
-          { label: "B.Sc. - Clinical Psychology", href: "/bsc-clinical-psychology" },
+          { label: "D.Sc., D.Litt", href: "/dlit" },
         ],
       },
       {
