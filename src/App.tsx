@@ -31,6 +31,7 @@ import IIC from "./pages/IIC";
 import ComingSoon from "./pages/ComingSoon";
 import NotFound from "./pages/NotFound";
 import CategoryLanding from "./pages/CategoryLanding";
+import CourseDetail from "./pages/CourseDetail";
 
 const queryClient = new QueryClient();
 
@@ -57,6 +58,7 @@ const App = () => (
           
           {/* Dynamic Course Routes */}
           <Route path="/programs/:category" element={<CategoryLanding />} />
+          <Route path="/courses/:slug" element={<CourseDetail />} />
           
           {/* Admissions & Campus */}
           <Route path="/admissions" element={<Admissions />} />
