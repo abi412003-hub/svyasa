@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ChevronDown, ChevronRight, Search, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -38,7 +38,7 @@ const UtilityBar = ({ isVisible }: { isVisible: boolean }) => (
   </motion.div>
 );
 
-// Course Group Item - always show specializations, highlight parent course
+// Course Group Item - specializations inline, simple hover
 const CourseGroupItem = ({ 
   group, 
   colIndex, 
@@ -46,48 +46,43 @@ const CourseGroupItem = ({
   onLinkClick 
 }: { 
   group: CourseGroup; 
-  colIndex: number; 
+  colIndex: number;
   groupIndex: number;
   onLinkClick: () => void;
 }) => {
   return (
     <motion.div
-      className="relative mb-2"
+      className="mb-3"
       initial={{ opacity: 0, x: -5 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: colIndex * 0.05 + groupIndex * 0.03 }}
     >
-      {/* Parent course link - highlighted */}
+      {/* Parent course link - highlighted with pill style */}
       <Link
         to={group.parent.href}
-        className="group inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:text-primary-foreground hover:bg-primary px-2 py-1 rounded transition-colors"
+        className="inline-block text-xs font-bold text-white bg-primary px-2.5 py-1 rounded-full hover:bg-primary/80 transition-colors"
         onClick={onLinkClick}
       >
-        <span>{group.parent.label}</span>
+        {group.parent.label}
       </Link>
 
-      {/* Specializations always visible */}
+      {/* Specializations inline */}
       {group.specializations && group.specializations.length > 0 && (
-        <div className="ml-2 mt-1 border-l-2 border-primary/20 pl-2">
-          <ul className="space-y-0.5">
-            {group.specializations.map((spec, specIndex) => (
-              <motion.li
-                key={spec.href}
-                initial={{ opacity: 0, x: -5 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: colIndex * 0.05 + specIndex * 0.02 }}
+        <div className="mt-1.5 flex flex-wrap gap-x-1.5 gap-y-1">
+          {group.specializations.map((spec, specIndex) => (
+            <React.Fragment key={spec.href}>
+              <Link
+                to={spec.href}
+                className="text-[10px] text-muted-foreground hover:text-primary hover:underline transition-colors"
+                onClick={onLinkClick}
               >
-                <Link
-                  to={spec.href}
-                  className="group flex items-start gap-1 text-[10px] text-muted-foreground hover:text-primary transition-colors leading-tight py-0.5"
-                  onClick={onLinkClick}
-                >
-                  <ChevronRight className="w-2 h-2 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity mt-0.5" />
-                  <span className="flex-1">{spec.label}</span>
-                </Link>
-              </motion.li>
-            ))}
-          </ul>
+                {spec.label}
+              </Link>
+              {specIndex < group.specializations!.length - 1 && (
+                <span className="text-[10px] text-muted-foreground/50">•</span>
+              )}
+            </React.Fragment>
+          ))}
         </div>
       )}
     </motion.div>
