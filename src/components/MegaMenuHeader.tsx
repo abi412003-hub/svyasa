@@ -66,22 +66,18 @@ const CourseGroupItem = ({
         {group.parent.label}
       </Link>
 
-      {/* Specializations inline */}
+      {/* Specializations - vertical list, no bullets */}
       {group.specializations && group.specializations.length > 0 && (
-        <div className="mt-1.5 flex flex-wrap gap-x-1.5 gap-y-1">
-          {group.specializations.map((spec, specIndex) => (
-            <React.Fragment key={spec.href}>
-              <Link
-                to={spec.href}
-                className="text-[10px] text-muted-foreground hover:text-primary hover:underline transition-colors"
-                onClick={onLinkClick}
-              >
-                {spec.label}
-              </Link>
-              {specIndex < group.specializations!.length - 1 && (
-                <span className="text-[10px] text-muted-foreground/50">•</span>
-              )}
-            </React.Fragment>
+        <div className="mt-1 ml-2 flex flex-col gap-0.5">
+          {group.specializations.map((spec) => (
+            <Link
+              key={spec.href}
+              to={spec.href}
+              className="text-[10px] text-muted-foreground hover:text-primary transition-colors"
+              onClick={onLinkClick}
+            >
+              {spec.label}
+            </Link>
           ))}
         </div>
       )}
