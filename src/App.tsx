@@ -179,10 +179,11 @@ const App = () => (
           <Route path="/cpeb-project-proposal" element={<ComingSoon />} />
           
           {/* Important Links */}
-          <Route path="/gallery" element={<ComingSoon />} />
+          <Route path="/gallery" element={<Gallery />} />
           <Route path="/career" element={<ComingSoon />} />
-          <Route path="/library" element={<ComingSoon />} />
-          <Route path="/exams" element={<ComingSoon />} />
+          <Route path="/careers" element={<Careers />} />
+          <Route path="/library" element={<Library />} />
+          <Route path="/exams" element={<Exams />} />
           <Route path="/iqac" element={<IQAC />} />
           <Route path="/edtech-partners" element={<ComingSoon />} />
           <Route path="/mandatory-disclosure" element={<MandatoryDisclosure />} />
@@ -190,10 +191,6 @@ const App = () => (
           <Route path="/aiu" element={<AIU />} />
           <Route path="/directorate-of-international-affairs" element={<DirectorateInternationalAffairs />} />
           <Route path="/news-events" element={<NewsEvents />} />
-          <Route path="/gallery" element={<Gallery />} />
-          <Route path="/careers" element={<Careers />} />
-          <Route path="/exams" element={<Exams />} />
-          <Route path="/library" element={<Library />} />
           
           {/* Catch-all 404 */}
           <Route path="*" element={<NotFound />} />
