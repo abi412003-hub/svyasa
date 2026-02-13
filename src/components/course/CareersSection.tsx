@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion, useInView } from "framer-motion";
-import { ChevronDown, X } from "lucide-react";
+import { ChevronRight, TrendingUp, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import * as LucideIcons from "lucide-react";
@@ -18,317 +18,175 @@ const getIconComponent = (iconName: string) => {
   return (LucideIcons as any)[formattedName] || LucideIcons.Briefcase;
 };
 
-const getDemandColor = (demand: string) => {
+const getDemandStyles = (demand: string) => {
   switch (demand) {
-    case "high": return "bg-green-500/90 text-white";
-    case "growing": return "bg-accent/90 text-secondary";
-    default: return "bg-white/20 text-white/80";
-  }
-};
-
-const getDemandLabel = (demand: string) => {
-  switch (demand) {
-    case "high": return "High Demand";
-    case "growing": return "Growing";
-    default: return "Stable";
+    case "high":
+      return { bg: "bg-emerald-500/15", text: "text-emerald-400", dot: "bg-emerald-400", label: "High Demand" };
+    case "growing":
+      return { bg: "bg-amber-500/15", text: "text-amber-400", dot: "bg-amber-400", label: "Growing" };
+    default:
+      return { bg: "bg-white/10", text: "text-white/60", dot: "bg-white/40", label: "Stable" };
   }
 };
 
 const CareersSection = ({ course }: CareersSectionProps) => {
   const shouldReduceMotion = useReducedMotion();
   const sectionRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
-  const [selectedCareer, setSelectedCareer] = useState<number | null>(null);
-  const [hoveredCareer, setHoveredCareer] = useState<number | null>(null);
-  const [expandedMobile, setExpandedMobile] = useState<number | null>(null);
+  const isInView = useInView(sectionRef, { once: true, amount: 0.15 });
+  const [expandedCard, setExpandedCard] = useState<number | null>(null);
 
   const careers = course.careers.slice(0, 8);
-  const angleStep = 360 / careers.length;
+
+  const containerVariants = {
+    hidden: {},
+    visible: {
+      transition: { staggerChildren: 0.06, delayChildren: 0.2 },
+    },
+  };
+
+  const cardVariants = {
+    hidden: shouldReduceMotion ? {} : { opacity: 0, y: 24 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] as const },
+    },
+  };
 
   return (
-    <section ref={sectionRef} id="careers" className="py-16 md:py-20 bg-secondary overflow-hidden">
-      <div className="container mx-auto px-4">
+    <section ref={sectionRef} id="careers" className="py-16 md:py-24 bg-secondary relative overflow-hidden">
+      {/* Subtle background texture */}
+      <div className="absolute inset-0 opacity-[0.03]" style={{
+        backgroundImage: "radial-gradient(circle at 1px 1px, white 1px, transparent 0)",
+        backgroundSize: "32px 32px",
+      }} />
+
+      <div className="container mx-auto px-4 relative">
         {/* Section Header */}
         <motion.div
           initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+          className="max-w-2xl mx-auto text-center mb-14"
         >
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <motion.div
-              initial={{ width: 0 }}
-              animate={isInView ? { width: 40 } : {}}
-              transition={{ duration: 0.8 }}
-              className="h-0.5 bg-accent"
-            />
-            <span className="text-accent text-sm uppercase tracking-[3px] font-medium">
-              YOUR FUTURE
-            </span>
-            <motion.div
-              initial={{ width: 0 }}
-              animate={isInView ? { width: 40 } : {}}
-              transition={{ duration: 0.8 }}
-              className="h-0.5 bg-accent"
-            />
-          </div>
-          <h2 className="font-heading text-2xl md:text-3xl font-bold text-white">
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={isInView ? { scaleX: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="w-12 h-1 bg-accent mx-auto mb-6 origin-left rounded-full"
+          />
+          <h2 className="font-heading text-3xl md:text-4xl font-bold text-white mb-4">
             Where This Degree Takes You
           </h2>
+          <p className="text-white/50 text-lg">
+            Career paths our graduates pursue across industries
+          </p>
         </motion.div>
 
-        {/* Desktop: Radial Visualization */}
-        <div className="hidden lg:block relative max-w-3xl mx-auto aspect-square">
-          {/* Ambient glow rings */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={isInView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 1.2, ease: "easeOut" }}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[55%] h-[55%] rounded-full border border-white/[0.06]"
-          />
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={isInView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 1.4, ease: "easeOut", delay: 0.1 }}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[75%] h-[75%] rounded-full border border-white/[0.04]"
-          />
-
-          {/* Connecting Lines */}
-          <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 400">
-            {/* Orbit ring */}
-            <motion.circle
-              cx="200"
-              cy="200"
-              r="140"
-              fill="none"
-              stroke="hsl(var(--primary))"
-              strokeWidth="1"
-              strokeDasharray="3 6"
-              initial={{ opacity: 0 }}
-              animate={isInView ? { opacity: 0.2 } : {}}
-              transition={{ duration: 1, delay: 0.4 }}
-            />
-            {careers.map((_, index) => {
-              const angle = (angleStep * index - 90) * (Math.PI / 180);
-              const endX = 200 + Math.cos(angle) * 140;
-              const endY = 200 + Math.sin(angle) * 140;
-              const isActive = hoveredCareer === index || selectedCareer === index;
-              return (
-                <motion.line
-                  key={index}
-                  x1="200"
-                  y1="200"
-                  x2={endX}
-                  y2={endY}
-                  stroke="hsl(var(--primary))"
-                  strokeWidth={isActive ? 2.5 : 1.5}
-                  strokeDasharray={isActive ? "none" : "4 6"}
-                  initial={{ pathLength: 0, opacity: 0 }}
-                  animate={isInView ? {
-                    pathLength: 1,
-                    opacity: isActive ? 0.9 : 0.35,
-                  } : {}}
-                  transition={{
-                    pathLength: { duration: 0.8, delay: 0.5 + index * 0.1, ease: "easeOut" },
-                    opacity: { duration: 0.3 },
-                  }}
-                />
-              );
-            })}
-          </svg>
-
-          {/* Center Node */}
-          <motion.div
-            initial={shouldReduceMotion ? {} : { scale: 0 }}
-            animate={isInView ? { scale: 1 } : {}}
-            transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.3 }}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10"
-          >
-            {/* Pulsing ring */}
-            <motion.div
-              animate={{ scale: [1, 1.25, 1], opacity: [0.4, 0, 0.4] }}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute inset-0 rounded-full border-2 border-primary"
-            />
-            <div className="w-28 h-28 rounded-full bg-gradient-to-br from-secondary via-secondary to-secondary/80 border-2 border-primary/60 flex items-center justify-center text-white text-center text-sm font-semibold shadow-[0_0_30px_rgba(var(--primary-rgb),0.25)]">
-              {course.shortTitle}
-            </div>
-          </motion.div>
-
-          {/* Career Nodes */}
-          {careers.map((career, index) => {
-            const angle = (angleStep * index - 90) * (Math.PI / 180);
-            const x = 50 + Math.cos(angle) * 35;
-            const y = 50 + Math.sin(angle) * 35;
-            const IconComponent = getIconComponent(career.icon);
-            const isActive = hoveredCareer === index || selectedCareer === index;
-
-            return (
-              <motion.div
-                key={index}
-                initial={shouldReduceMotion ? {} : { scale: 0, opacity: 0 }}
-                animate={isInView ? { scale: 1, opacity: 1 } : {}}
-                transition={{
-                  type: "spring",
-                  stiffness: 260,
-                  damping: 20,
-                  delay: 0.6 + index * 0.08,
-                }}
-                className="absolute cursor-pointer group"
-                style={{ left: `${x}%`, top: `${y}%` }}
-                onClick={() => setSelectedCareer(selectedCareer === index ? null : index)}
-                onMouseEnter={() => setHoveredCareer(index)}
-                onMouseLeave={() => setHoveredCareer(null)}
-              >
-                <div className="relative -translate-x-1/2 -translate-y-1/2">
-                  {/* Hover glow ring */}
-                  <motion.div
-                    animate={isActive ? { scale: 1.35, opacity: 0.5 } : { scale: 1, opacity: 0 }}
-                    transition={{ duration: 0.3, ease: "easeOut" }}
-                    className="absolute inset-0 rounded-full bg-primary/20 blur-sm"
-                  />
-                  <motion.div
-                    animate={isActive ? { scale: 1.12 } : { scale: 1 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                    className={`relative w-16 h-16 rounded-full flex items-center justify-center transition-colors duration-300 border ${
-                      isActive
-                        ? "bg-primary/30 border-primary/60 shadow-[0_0_20px_rgba(var(--primary-rgb),0.3)]"
-                        : "bg-white/8 border-white/15 hover:border-white/30"
-                    }`}
-                  >
-                    <IconComponent className={`w-6 h-6 transition-colors duration-300 ${isActive ? "text-accent" : "text-white/80"}`} />
-                  </motion.div>
-                  <motion.div
-                    animate={isActive ? { y: -2, opacity: 1 } : { y: 0, opacity: 0.85 }}
-                    transition={{ duration: 0.25 }}
-                    className="absolute top-full left-1/2 -translate-x-1/2 mt-2.5 text-center w-28"
-                  >
-                    <p className={`text-xs font-medium leading-tight transition-colors duration-300 ${isActive ? "text-white" : "text-white/75"}`}>
-                      {career.title}
-                    </p>
-                    <span className={`inline-block mt-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-medium backdrop-blur-sm ${getDemandColor(career.demand)}`}>
-                      {getDemandLabel(career.demand)}
-                    </span>
-                  </motion.div>
-                </div>
-              </motion.div>
-            );
-          })}
-
-          {/* Detail Card */}
-          <AnimatePresence>
-            {selectedCareer !== null && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.85, y: 10 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.85, y: 10 }}
-                transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 bg-white rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.3)] p-6 max-w-xs w-72 border border-white/50"
-              >
-                <button
-                  onClick={() => setSelectedCareer(null)}
-                  className="absolute top-3 right-3 w-7 h-7 rounded-full bg-muted flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-colors"
-                >
-                  <X className="w-3.5 h-3.5" />
-                </button>
-                <div className="flex items-center gap-3 mb-3">
-                  {(() => {
-                    const Icon = getIconComponent(careers[selectedCareer].icon);
-                    return (
-                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                        <Icon className="w-5 h-5 text-primary" />
-                      </div>
-                    );
-                  })()}
-                  <h4 className="font-semibold text-foreground">
-                    {careers[selectedCareer].title}
-                  </h4>
-                </div>
-                <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
-                  {careers[selectedCareer].description}
-                </p>
-                <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${getDemandColor(careers[selectedCareer].demand)}`}>
-                  {getDemandLabel(careers[selectedCareer].demand)}
-                </span>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-
-        {/* Mobile: Accordion */}
-        <div className="lg:hidden space-y-3">
-          {careers.map((career, index) => {
-            const IconComponent = getIconComponent(career.icon);
-            const isExpanded = expandedMobile === index;
-
-            return (
-              <motion.div
-                key={index}
-                initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.4, delay: index * 0.08 }}
-                className={`rounded-xl overflow-hidden transition-colors duration-300 border ${
-                  isExpanded ? "bg-white/15 border-white/20" : "bg-white/8 border-transparent"
-                }`}
-              >
-                <button
-                  onClick={() => setExpandedMobile(isExpanded ? null : index)}
-                  className="w-full flex items-center justify-between p-4"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-300 ${
-                      isExpanded ? "bg-primary/30" : "bg-white/10"
-                    }`}>
-                      <IconComponent className={`w-5 h-5 transition-colors duration-300 ${isExpanded ? "text-accent" : "text-white"}`} />
-                    </div>
-                    <span className="text-white font-medium text-left">{career.title}</span>
-                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium ${getDemandColor(career.demand)}`}>
-                      {getDemandLabel(career.demand)}
-                    </span>
-                  </div>
-                  <motion.div
-                    animate={{ rotate: isExpanded ? 180 : 0 }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
-                  >
-                    <ChevronDown className="w-5 h-5 text-white/60" />
-                  </motion.div>
-                </button>
-                <AnimatePresence>
-                  {isExpanded && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.35, ease: "easeInOut" }}
-                      className="overflow-hidden"
-                    >
-                      <p className="text-cream/80 text-sm px-4 pb-4 pl-[4.25rem] leading-relaxed">
-                        {career.description}
-                      </p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.div>
-            );
-          })}
-        </div>
-
-        {/* Bottom Text */}
+        {/* Career Cards Grid */}
         <motion.div
-          initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 1 }}
-          className="text-center mt-12"
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto"
         >
-          <p className="text-cream/80 italic mb-6">
-            Graduates are well-equipped for dynamic and high-impact roles in their field.
-          </p>
+          {careers.map((career, index) => {
+            const IconComponent = getIconComponent(career.icon);
+            const demand = getDemandStyles(career.demand);
+            const isExpanded = expandedCard === index;
+
+            return (
+              <motion.div
+                key={index}
+                variants={cardVariants}
+                onClick={() => setExpandedCard(isExpanded ? null : index)}
+                className="group cursor-pointer"
+              >
+                <div className={`relative h-full rounded-2xl border transition-all duration-300 overflow-hidden ${
+                  isExpanded
+                    ? "bg-white/[0.12] border-white/20 shadow-lg shadow-black/20"
+                    : "bg-white/[0.05] border-white/[0.08] hover:bg-white/[0.09] hover:border-white/15"
+                }`}>
+                  {/* Top accent line */}
+                  <div className={`absolute top-0 left-0 right-0 h-[2px] transition-opacity duration-300 bg-gradient-to-r from-primary via-accent to-primary ${
+                    isExpanded ? "opacity-100" : "opacity-0 group-hover:opacity-50"
+                  }`} />
+
+                  <div className="p-5">
+                    {/* Icon + Demand row */}
+                    <div className="flex items-start justify-between mb-4">
+                      <div className={`w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-300 ${
+                        isExpanded ? "bg-primary/20" : "bg-white/[0.06] group-hover:bg-white/10"
+                      }`}>
+                        <IconComponent className={`w-5 h-5 transition-colors duration-300 ${
+                          isExpanded ? "text-accent" : "text-white/60 group-hover:text-white/80"
+                        }`} />
+                      </div>
+                      <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full ${demand.bg}`}>
+                        <span className={`w-1.5 h-1.5 rounded-full ${demand.dot}`} />
+                        <span className={`text-[10px] font-semibold uppercase tracking-wider ${demand.text}`}>
+                          {demand.label}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Title */}
+                    <h3 className="text-white font-semibold text-[15px] leading-snug mb-1 group-hover:text-white/95 transition-colors">
+                      {career.title}
+                    </h3>
+
+                    {/* Expand indicator */}
+                    <div className={`flex items-center gap-1 mt-3 transition-all duration-300 ${
+                      isExpanded ? "opacity-0 h-0" : "opacity-60"
+                    }`}>
+                      <span className="text-[11px] text-white/40 font-medium">Learn more</span>
+                      <ChevronRight className="w-3 h-3 text-white/40 group-hover:translate-x-0.5 transition-transform" />
+                    </div>
+
+                    {/* Expanded description */}
+                    <AnimatePresence>
+                      {isExpanded && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+                          className="overflow-hidden"
+                        >
+                          <p className="text-white/55 text-sm leading-relaxed mt-3 pt-3 border-t border-white/[0.08]">
+                            {career.description}
+                          </p>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
+        </motion.div>
+
+        {/* Bottom CTA */}
+        <motion.div
+          initial={shouldReduceMotion ? {} : { opacity: 0, y: 16 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, delay: 0.8 }}
+          className="flex flex-col items-center mt-14 gap-5"
+        >
+          <div className="flex items-center gap-2 text-white/40">
+            <TrendingUp className="w-4 h-4" />
+            <p className="text-sm italic">
+              Graduates are well-equipped for dynamic, high-impact roles
+            </p>
+          </div>
           <Button
             asChild
-            variant="outline"
-            className="border-accent text-accent hover:bg-accent hover:text-secondary rounded-xl"
+            className="bg-accent hover:bg-accent/90 text-secondary font-semibold rounded-xl px-6 group"
           >
-            <Link to="/admissions">Explore Placements</Link>
+            <Link to="/admissions" className="flex items-center gap-2">
+              Explore Placements
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+            </Link>
           </Button>
         </motion.div>
       </div>
