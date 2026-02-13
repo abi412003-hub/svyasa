@@ -61,7 +61,7 @@ const AffiliationsSection = () => {
               animate={isInView ? { opacity: 1 } : {}}
               transition={{ delay: (index % affiliations.length) * 0.1 }}
               whileHover={{ scale: 1.1 }}
-              className="shrink-0 w-40 h-20 flex items-center justify-center grayscale hover:grayscale-0 transition-all duration-300 cursor-pointer"
+              className="shrink-0 w-40 h-20 flex items-center justify-center transition-all duration-300 cursor-pointer"
             >
               <div className="w-full h-full bg-card rounded-lg shadow-soft flex items-center justify-center p-4">
                 <img
