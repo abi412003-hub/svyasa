@@ -34,6 +34,17 @@ import CategoryLanding from "./pages/CategoryLanding";
 import CourseDetail from "./pages/CourseDetail";
 import Organogram from "./pages/Organogram";
 import SVyasaUniversity from "./pages/SVyasaUniversity";
+import TrainingLayout from "./components/training/TrainingLayout";
+import TrainingHome from "./pages/training/TrainingHome";
+import TrainingAbout from "./pages/training/TrainingAbout";
+import TrainingCourses from "./pages/training/TrainingCourses";
+import TrainingCategory from "./pages/training/TrainingCategory";
+import TrainingDelivery from "./pages/training/TrainingDelivery";
+import TrainingAdmissions from "./pages/training/TrainingAdmissions";
+import TrainingInstitutions from "./pages/training/TrainingInstitutions";
+import TrainingFaculty from "./pages/training/TrainingFaculty";
+import TrainingFAQs from "./pages/training/TrainingFAQs";
+import TrainingContact from "./pages/training/TrainingContact";
 
 const queryClient = new QueryClient();
 
@@ -200,6 +211,20 @@ const App = () => (
           <Route path="/aiu" element={<AIU />} />
           <Route path="/directorate-of-international-affairs" element={<DirectorateInternationalAffairs />} />
           <Route path="/news-events" element={<NewsEvents />} />
+          
+          {/* Training Portal */}
+          <Route path="/training" element={<TrainingLayout />}>
+            <Route index element={<TrainingHome />} />
+            <Route path="about" element={<TrainingAbout />} />
+            <Route path="courses" element={<TrainingCourses />} />
+            <Route path="courses/:category" element={<TrainingCategory />} />
+            <Route path="delivery" element={<TrainingDelivery />} />
+            <Route path="admissions" element={<TrainingAdmissions />} />
+            <Route path="institutions-psu" element={<TrainingInstitutions />} />
+            <Route path="faculty" element={<TrainingFaculty />} />
+            <Route path="faqs" element={<TrainingFAQs />} />
+            <Route path="contact" element={<TrainingContact />} />
+          </Route>
           
           {/* Catch-all 404 */}
           <Route path="*" element={<NotFound />} />

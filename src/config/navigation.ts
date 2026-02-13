@@ -59,6 +59,7 @@ export const utilityLinks: NavLink[] = [
   { label: "Edtech Partners", href: "/edtech-partners" },
   { label: "Mandatory Disclosure", href: "/mandatory-disclosure" },
   { label: "IIC", href: "/iic" },
+  { label: "Training Programs", href: "/training", external: false },
 ];
 
 // Main navigation items
