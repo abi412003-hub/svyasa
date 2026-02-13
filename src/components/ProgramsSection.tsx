@@ -101,16 +101,17 @@ const ProgramsSection = () => {
         </div>
 
         {/* Programs Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+        <div className="flex overflow-x-auto gap-5 pb-4 scrollbar-hide snap-x snap-mandatory">
           {categories.map((cat, index) => {
             const Icon = iconMap[cat.slug] || BookOpen;
             const gradient = gradientMap[cat.domainTheme] || "from-primary to-saffron-light";
             return (
               <motion.div
                 key={cat.slug}
-                initial={{ opacity: 0, y: 50, scale: 0.9 }}
-                animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
-                transition={{ delay: Math.min(index * 0.08, 0.8), duration: 0.5 }}
+                className="shrink-0 w-[200px] md:w-[220px] snap-start"
+                initial={{ opacity: 0, y: 30 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: Math.min(index * 0.06, 0.6), duration: 0.4 }}
               >
                 <Link to={`/programs/${cat.slug}`}>
                   <motion.div
