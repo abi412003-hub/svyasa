@@ -6,6 +6,7 @@ import FloatingActions from "@/components/FloatingActions";
 import ScrollProgress from "@/components/society/ScrollProgress";
 import HeroSection from "@/components/HeroSection";
 import StatsSection from "@/components/StatsSection";
+import ChancellorsNote from "@/components/ChancellorsNote";
 import ProgramsSection from "@/components/ProgramsSection";
 import WhySection from "@/components/WhySection";
 import AnnouncementsTicker from "@/components/AnnouncementsTicker";
@@ -49,6 +50,7 @@ const Index = () => {
         <main>
           <HeroSection />
           <StatsSection />
+          <ChancellorsNote />
           <ProgramsSection />
           <WhySection />
           <AnnouncementsTicker />
