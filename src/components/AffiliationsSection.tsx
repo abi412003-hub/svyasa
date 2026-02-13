@@ -12,7 +12,7 @@ const affiliations = [
   { name: "NAAC", logo: logoNaac, maxH: "max-h-[64px]" },
   { name: "ICMR", logo: logoIcmr, maxH: "max-h-[48px]" },
   { name: "WHO", logo: logoWho, maxH: "max-h-[48px]" },
-  { name: "UGC", logo: logoUgc, maxH: "max-h-[48px]" },
+  { name: "UGC", logo: logoUgc, maxH: "max-h-[64px]" },
   { name: "AIU", logo: logoAiu, maxH: "max-h-[48px]" },
 ];
 
