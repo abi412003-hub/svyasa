@@ -33,7 +33,7 @@ const PresidentsNote = () => {
             className="text-center mb-14"
           >
             <span className="text-xs uppercase tracking-[0.3em] text-gold font-medium">From the President's Desk</span>
-            <h2 className="font-heading text-4xl md:text-5xl font-bold text-foreground mt-3">President's Note</h2>
+            <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mt-3">President's Note</h2>
             <motion.div
               className="mx-auto mt-4 h-0.5 bg-gold"
               initial={{ width: 0 }}
@@ -98,7 +98,7 @@ const PresidentsNote = () => {
 
                 {/* Name plate */}
                 <motion.div
-                  className="absolute -bottom-5 left-1/2 -translate-x-1/2 z-20 bg-primary text-white px-5 py-2.5 rounded-full shadow-lg text-center whitespace-nowrap"
+                  className="absolute -bottom-5 left-1/2 -translate-x-1/2 z-20 bg-primary text-white px-4 md:px-5 py-2 md:py-2.5 rounded-full shadow-lg text-center max-w-[90vw]"
                   initial={{ opacity: 0, y: 10 }}
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ delay: 0.8 }}

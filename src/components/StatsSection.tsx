@@ -69,7 +69,7 @@ const StatsSection = () => {
               <motion.div
                 whileHover={{ y: -8, scale: 1.02 }}
                 transition={{ type: "spring", stiffness: 300 }}
-                className="bg-card/10 backdrop-blur-sm rounded-2xl p-6 text-center border border-primary-foreground/10 hover:bg-card/20 transition-colors cursor-pointer"
+                className="bg-card/10 backdrop-blur-sm rounded-2xl p-4 md:p-6 text-center border border-primary-foreground/10 hover:bg-card/20 transition-colors cursor-pointer"
               >
                 {/* Icon */}
                 <motion.div
@@ -82,7 +82,7 @@ const StatsSection = () => {
                 </motion.div>
 
                 {/* Number */}
-                <h3 className="font-heading text-3xl md:text-4xl font-bold text-primary-foreground mb-2">
+                <h3 className="font-heading text-2xl sm:text-3xl md:text-4xl font-bold text-primary-foreground mb-2">
                   <CountUpNumber value={stat.value} suffix={stat.suffix} inView={isInView} />
                 </h3>
 

@@ -66,7 +66,7 @@ const ResearchSection = () => {
               initial={{ opacity: 0, y: 50 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.5 }}
-              className="absolute -bottom-6 -right-6 bg-card p-6 rounded-xl shadow-large max-w-[200px]"
+              className="absolute -bottom-6 right-0 md:-right-6 bg-card p-4 md:p-6 rounded-xl shadow-large max-w-[200px]"
             >
               <p className="text-sm text-muted-foreground mb-2">Latest Publication</p>
               <p className="font-heading text-lg font-semibold text-foreground">
@@ -89,7 +89,7 @@ const ResearchSection = () => {
               Research & Innovation
             </motion.span>
 
-            <h2 className="font-heading text-3xl md:text-4xl font-bold text-foreground mb-6">
+            <h2 className="font-heading text-2xl md:text-3xl lg:text-4xl font-bold text-foreground mb-6">
               Pioneering Scientific{" "}
               <span className="text-gradient-saffron">Research in Yoga</span>
             </h2>
@@ -117,7 +117,7 @@ const ResearchSection = () => {
                   >
                     <stat.icon className="w-5 h-5 text-primary" />
                   </motion.div>
-                  <p className="font-heading text-2xl font-bold text-foreground">{stat.value}</p>
+                  <p className="font-heading text-xl md:text-2xl font-bold text-foreground">{stat.value}</p>
                   <p className="text-xs text-muted-foreground">{stat.label}</p>
                 </motion.div>
               ))}
