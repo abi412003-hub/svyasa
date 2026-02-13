@@ -32,6 +32,7 @@ import ComingSoon from "./pages/ComingSoon";
 import NotFound from "./pages/NotFound";
 import CategoryLanding from "./pages/CategoryLanding";
 import CourseDetail from "./pages/CourseDetail";
+import Organogram from "./pages/Organogram";
 
 const queryClient = new QueryClient();
 
@@ -48,6 +49,7 @@ const App = () => (
           <Route path="/about" element={<About />} />
           <Route path="/society" element={<Society />} />
           <Route path="/management" element={<Management />} />
+          <Route path="/organogram" element={<Organogram />} />
           
           {/* About Section */}
           <Route path="/s-vyasa-university" element={<ComingSoon />} />

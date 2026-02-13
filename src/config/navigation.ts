@@ -47,7 +47,7 @@ export const navItems: NavItem[] = [
       { label: "S-Vyasa University", href: "/s-vyasa-university" },
       { label: "S-Vyasa Society", href: "/society" },
       { label: "Management", href: "/management" },
-      { label: "Organogram", href: "/assets/svyasa-organogram.pdf", external: true },
+      { label: "Organogram", href: "/organogram" },
       { label: "Accreditation", href: "/accreditation" },
       { label: "Publications", href: "/publications" },
       { label: "Privacy & Policy", href: "/privacy-policy" },
