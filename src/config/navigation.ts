@@ -18,11 +18,33 @@ export interface NavColumn {
   courseGroups?: CourseGroup[]; // For nested course structure
 }
 
+// Division hierarchy: Division → School → Course
+export interface DivisionCourse {
+  label: string;
+  href: string;
+  external?: boolean;
+  italic?: boolean; // For info text like "Research center..." or "Programs coming soon"
+}
+
+export interface DivisionSchool {
+  name: string;
+  italic?: boolean; // For info text on the school itself
+  courses: DivisionCourse[];
+}
+
+export interface Division {
+  name: string;
+  icon?: string; // e.g. "laptop", "flask"
+  schools?: DivisionSchool[];
+  courses?: DivisionCourse[]; // For divisions without schools (CODE, ANVESANA)
+}
+
 export interface NavItem {
   label: string;
   href?: string;
   columns?: NavColumn[];
   links?: NavLink[];
+  divisions?: Division[];
 }
 
 // Top utility bar links
@@ -237,16 +259,125 @@ export const navItems: NavItem[] = [
     ],
   },
   {
-    label: "Departments",
-    links: [
-      { label: "School of Commerce & Management", href: "/department-of-commerce-and-management" },
-      { label: "School of Engineering & Technology", href: "/department-of-engineering-and-technology" },
-      { label: "School of Computer Science & Applications", href: "/department-of-computer-science-application" },
-      { label: "School of Allied Healthcare Professionals", href: "/department-of-allied-health-care-professionals" },
-      { label: "School of Allied Health Sciences", href: "/department-of-allied-health-science" },
-      { label: "School of Physiotherapy", href: "/department-of-physiotherapy" },
-      { label: "Division of Yoga & Humanities (GCC)", href: "/division-of-yoga-and-humanities-gcc" },
-      { label: "School of Science & Humanities", href: "/department-of-science-and-humanities" },
+    label: "Divisions",
+    divisions: [
+      {
+        name: "Division of Yoga & Spirituality",
+        schools: [
+          {
+            name: "School of Yogic Sciences",
+            courses: [
+              { label: "YIC", href: "/programs/yoga-programmes" },
+              { label: "SMET", href: "/programs/yoga-programmes" },
+              { label: "Ayurveda Lifestyle Management", href: "/programs/yoga-programmes" },
+            ],
+          },
+          {
+            name: "VMAC",
+            italic: true,
+            courses: [
+              { label: "Research center for Vedic technology", href: "#", italic: true },
+            ],
+          },
+        ],
+      },
+      {
+        name: "Division of Yoga & Life Sciences",
+        schools: [
+          {
+            name: "School of Yoga & Naturopathic Medicine",
+            courses: [
+              { label: "B.Sc. Yoga", href: "/programs/yoga-programmes" },
+              { label: "M.Sc. Yoga", href: "/programs/yoga-programmes" },
+              { label: "BNYS", href: "/programs/yoga-programmes" },
+              { label: "MD Yoga", href: "/programs/yoga-programmes" },
+              { label: "PG Diploma Yoga", href: "/programs/yoga-programmes" },
+              { label: "M.A. Yoga", href: "/programs/yoga-programmes" },
+              { label: "Ph.D Yoga", href: "/programs/phd-programmes" },
+            ],
+          },
+          {
+            name: "School of Physiotherapy",
+            courses: [
+              { label: "BPT", href: "/programs/allied-sciences" },
+            ],
+          },
+          {
+            name: "School of Allied & Healthcare Professions",
+            courses: [
+              { label: "BOT", href: "/programs/allied-sciences" },
+              { label: "B.Sc. Clinical Psychology", href: "/programs/bsc" },
+            ],
+          },
+        ],
+      },
+      {
+        name: "Division of Yoga & Physical Sciences",
+        schools: [
+          {
+            name: "School of Engineering",
+            courses: [
+              { label: "B.Tech", href: "/programs/btech" },
+            ],
+          },
+          {
+            name: "School of Computer Sciences",
+            courses: [
+              { label: "BCA", href: "/programs/bca" },
+              { label: "B.Sc. Computer Science", href: "/programs/bsc" },
+              { label: "MCA", href: "/programs/mca" },
+              { label: "M.Sc. (Tech)", href: "/programs/msc" },
+            ],
+          },
+        ],
+      },
+      {
+        name: "Division of Yoga & Management Studies",
+        schools: [
+          {
+            name: "School of Commerce & Management",
+            courses: [
+              { label: "BBA", href: "/programs/bba" },
+              { label: "B.Com", href: "/programs/bcom" },
+              { label: "MBA", href: "/programs/mba" },
+            ],
+          },
+        ],
+      },
+      {
+        name: "Division of Yoga & Humanities",
+        schools: [
+          {
+            name: "School of Performing Arts",
+            italic: true,
+            courses: [
+              { label: "Programs coming soon", href: "#", italic: true },
+            ],
+          },
+          {
+            name: "Psychology & Humanities",
+            courses: [
+              { label: "M.Sc. Psychology", href: "/programs/msc" },
+              { label: "Ph.D English", href: "/programs/phd-programmes" },
+            ],
+          },
+        ],
+      },
+      {
+        name: "CODE — Online & Distance Education",
+        icon: "laptop",
+        courses: [
+          { label: "Distance Learning Portal", href: "https://svyasadde.com/", external: true },
+        ],
+      },
+      {
+        name: "ANVESANA — Research Laboratories",
+        icon: "flask",
+        courses: [
+          { label: "Research at S-VYASA", href: "/research" },
+          { label: "Research Publications", href: "/research-publications" },
+        ],
+      },
     ],
   },
   {
