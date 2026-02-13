@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ChevronDown, ChevronRight, Search, ExternalLink } from "lucide-react";
+import { Menu, X, ChevronDown, ChevronRight, Search, ExternalLink, Laptop, FlaskConical } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "react-router-dom";
 import svyasaLogo from "@/assets/svyasa-logo.svg";
-import { navItems, utilityLinks, NavItem, NavColumn, CourseGroup, NavLink } from "@/config/navigation";
+import { navItems, utilityLinks, NavItem, NavColumn, CourseGroup, NavLink, Division, DivisionSchool } from "@/config/navigation";
 import SearchOverlay from "./SearchOverlay";
 
 // Utility Bar Component
@@ -85,6 +85,253 @@ const CourseGroupItem = ({
   );
 };
 
+// Division Icon helper
+const DivisionIcon = ({ icon }: { icon?: string }) => {
+  if (icon === "laptop") return <Laptop className="w-4 h-4 text-gold" />;
+  if (icon === "flask") return <FlaskConical className="w-4 h-4 text-gold" />;
+  return null;
+};
+
+// Divisions Mega Menu - 3-level hierarchy with hover
+const DivisionsMegaMenu = ({
+  divisions,
+  isOpen,
+  onMouseEnter,
+  onMouseLeave,
+  onLinkClick,
+}: {
+  divisions: Division[];
+  isOpen: boolean;
+  onMouseEnter: () => void;
+  onMouseLeave: () => void;
+  onLinkClick: () => void;
+}) => {
+  const [activeDivision, setActiveDivision] = useState<string | null>(null);
+  const [activeSchool, setActiveSchool] = useState<string | null>(null);
+  const divisionTimeout = useRef<NodeJS.Timeout | null>(null);
+  const schoolTimeout = useRef<NodeJS.Timeout | null>(null);
+
+  const handleDivisionEnter = (name: string) => {
+    if (divisionTimeout.current) clearTimeout(divisionTimeout.current);
+    setActiveDivision(name);
+    setActiveSchool(null);
+  };
+  const handleDivisionLeave = () => {
+    divisionTimeout.current = setTimeout(() => {
+      setActiveDivision(null);
+      setActiveSchool(null);
+    }, 120);
+  };
+  const handleSchoolEnter = (name: string) => {
+    if (schoolTimeout.current) clearTimeout(schoolTimeout.current);
+    if (divisionTimeout.current) clearTimeout(divisionTimeout.current);
+    setActiveSchool(name);
+  };
+  const handleSchoolLeave = () => {
+    schoolTimeout.current = setTimeout(() => {
+      setActiveSchool(null);
+    }, 120);
+  };
+
+  const currentDivision = divisions.find((d) => d.name === activeDivision);
+  const currentSchool = currentDivision?.schools?.find((s) => s.name === activeSchool);
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0, y: -10, height: 0 }}
+          animate={{ opacity: 1, y: 0, height: "auto" }}
+          exit={{ opacity: 0, y: -10, height: 0 }}
+          transition={{ duration: 0.3 }}
+          className="absolute top-full left-0 right-0 bg-card shadow-large z-50"
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
+        >
+          <div className="container mx-auto px-4 py-6">
+            <div className="flex gap-0 min-h-[340px]">
+              {/* Column 1: Divisions */}
+              <div className="w-[280px] flex-shrink-0 border-r border-border/30 pr-3">
+                <h3 className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold mb-3 pl-3">
+                  Divisions
+                </h3>
+                <div className="space-y-0.5">
+                  {divisions.map((div, i) => (
+                    <motion.div
+                      key={div.name}
+                      initial={{ opacity: 0, x: -8 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.03 }}
+                      onMouseEnter={() => handleDivisionEnter(div.name)}
+                      onMouseLeave={handleDivisionLeave}
+                      className={`group flex items-center gap-2 px-3 py-2 rounded-md cursor-pointer transition-all duration-200 ${
+                        activeDivision === div.name
+                          ? "bg-primary/10 text-primary"
+                          : "text-foreground hover:bg-muted/50"
+                      }`}
+                    >
+                      {div.icon && <DivisionIcon icon={div.icon} />}
+                      <span className="text-xs font-medium leading-tight flex-1">{div.name}</span>
+                      {(div.schools || div.courses) && (
+                        <ChevronRight className={`w-3 h-3 flex-shrink-0 transition-transform duration-200 ${
+                          activeDivision === div.name ? "translate-x-0.5 text-primary" : "text-muted-foreground"
+                        }`} />
+                      )}
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Column 2: Schools (or direct courses for CODE/ANVESANA) */}
+              <AnimatePresence mode="wait">
+                {activeDivision && currentDivision && (
+                  <motion.div
+                    key={activeDivision}
+                    initial={{ opacity: 0, x: 10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 10 }}
+                    transition={{ duration: 0.2 }}
+                    className="w-[260px] flex-shrink-0 border-r border-border/30 px-4"
+                    onMouseEnter={() => {
+                      if (divisionTimeout.current) clearTimeout(divisionTimeout.current);
+                    }}
+                    onMouseLeave={handleDivisionLeave}
+                  >
+                    {currentDivision.schools ? (
+                      <>
+                        <h3 className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold mb-3">
+                          Schools
+                        </h3>
+                        <div className="space-y-0.5">
+                          {currentDivision.schools.map((school, i) => (
+                            <div
+                              key={school.name}
+                              onMouseEnter={() => handleSchoolEnter(school.name)}
+                              onMouseLeave={handleSchoolLeave}
+                              className={`group flex items-center gap-2 px-3 py-2 rounded-md cursor-pointer transition-all duration-200 ${
+                                activeSchool === school.name
+                                  ? "bg-primary/10 text-primary"
+                                  : "text-foreground hover:bg-muted/50"
+                              }`}
+                            >
+                              <span className={`text-xs leading-tight flex-1 ${school.italic ? "italic text-muted-foreground" : "font-medium"}`}>
+                                {school.name}
+                              </span>
+                              <ChevronRight className={`w-3 h-3 flex-shrink-0 transition-transform duration-200 ${
+                                activeSchool === school.name ? "translate-x-0.5 text-primary" : "text-muted-foreground"
+                              }`} />
+                            </div>
+                          ))}
+                        </div>
+                      </>
+                    ) : currentDivision.courses ? (
+                      <>
+                        <h3 className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold mb-3">
+                          Links
+                        </h3>
+                        <div className="space-y-1">
+                          {currentDivision.courses.map((course) => (
+                            course.external ? (
+                              <a
+                                key={course.href}
+                                href={course.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="group flex items-center gap-2 px-3 py-2 rounded-md text-xs text-muted-foreground hover:text-primary hover:bg-muted/50 transition-all"
+                                onClick={onLinkClick}
+                              >
+                                <ChevronRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                <span className="flex-1">{course.label}</span>
+                                <ExternalLink className="w-3 h-3 opacity-50" />
+                              </a>
+                            ) : (
+                              <Link
+                                key={course.href}
+                                to={course.href}
+                                className="group flex items-center gap-2 px-3 py-2 rounded-md text-xs text-muted-foreground hover:text-primary hover:bg-muted/50 transition-all"
+                                onClick={onLinkClick}
+                              >
+                                <ChevronRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                <span>{course.label}</span>
+                              </Link>
+                            )
+                          ))}
+                        </div>
+                      </>
+                    ) : null}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Column 3: Courses under selected school */}
+              <AnimatePresence mode="wait">
+                {activeSchool && currentSchool && (
+                  <motion.div
+                    key={activeSchool}
+                    initial={{ opacity: 0, x: 10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 10 }}
+                    transition={{ duration: 0.2 }}
+                    className="flex-1 px-4"
+                    onMouseEnter={() => {
+                      if (schoolTimeout.current) clearTimeout(schoolTimeout.current);
+                      if (divisionTimeout.current) clearTimeout(divisionTimeout.current);
+                    }}
+                    onMouseLeave={handleSchoolLeave}
+                  >
+                    <h3 className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold mb-3">
+                      Programmes
+                    </h3>
+                    <div className="space-y-1">
+                      {currentSchool.courses.map((course) => (
+                        course.italic ? (
+                          <p key={course.label} className="px-3 py-2 text-xs italic text-muted-foreground">
+                            {course.label}
+                          </p>
+                        ) : course.external ? (
+                          <a
+                            key={course.href}
+                            href={course.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group flex items-center gap-2 px-3 py-2 rounded-md text-xs text-muted-foreground hover:text-primary hover:bg-muted/50 transition-all"
+                            onClick={onLinkClick}
+                          >
+                            <ChevronRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                            <span className="flex-1">{course.label}</span>
+                            <ExternalLink className="w-3 h-3 opacity-50" />
+                          </a>
+                        ) : (
+                          <Link
+                            key={course.href + course.label}
+                            to={course.href}
+                            className="group flex items-center gap-2 px-3 py-2 rounded-md text-xs text-muted-foreground hover:text-primary hover:bg-muted/50 transition-all"
+                            onClick={onLinkClick}
+                          >
+                            <ChevronRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                            <span>{course.label}</span>
+                          </Link>
+                        )
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Empty state when no division selected */}
+              {!activeDivision && (
+                <div className="flex-1 flex items-center justify-center text-muted-foreground/40">
+                  <p className="text-sm italic">Hover a division to explore</p>
+                </div>
+              )}
+            </div>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+};
+
 // Mega Menu Dropdown
 const MegaMenuDropdown = ({ 
   item, 
@@ -101,6 +348,20 @@ const MegaMenuDropdown = ({
 }) => {
   const hasColumns = item.columns && item.columns.length > 0;
   const hasLinks = item.links && item.links.length > 0;
+  const hasDivisions = item.divisions && item.divisions.length > 0;
+
+  // Render divisions mega menu separately
+  if (hasDivisions) {
+    return (
+      <DivisionsMegaMenu
+        divisions={item.divisions!}
+        isOpen={isOpen}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+        onLinkClick={onLinkClick}
+      />
+    );
+  }
 
   return (
     <AnimatePresence>
@@ -308,7 +569,66 @@ const MobileMenu = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
                             transition={{ duration: 0.3 }}
                             className="overflow-hidden bg-white/5 rounded-lg mt-2"
                           >
-                            {item.columns ? (
+                            {item.divisions ? (
+                              <div className="p-4 space-y-4">
+                                {item.divisions.map((div) => (
+                                  <div key={div.name}>
+                                    <h4 className="text-gold text-sm font-semibold mb-2">{div.name}</h4>
+                                    {div.schools?.map((school) => (
+                                      <div key={school.name} className="mb-2">
+                                        <p className={`text-white/50 text-xs mb-1 ${school.italic ? "italic" : "font-medium"}`}>{school.name}</p>
+                                        {school.courses.map((course) => (
+                                          course.italic ? (
+                                            <p key={course.label} className="py-1 text-white/40 text-xs italic pl-2">{course.label}</p>
+                                          ) : course.external ? (
+                                            <a
+                                              key={course.href}
+                                              href={course.href}
+                                              target="_blank"
+                                              rel="noopener noreferrer"
+                                              className="block py-1 text-white/70 text-xs pl-2"
+                                            >
+                                              {course.label} ↗
+                                            </a>
+                                          ) : (
+                                            <Link
+                                              key={course.href + course.label}
+                                              to={course.href}
+                                              onClick={onClose}
+                                              className="block py-1 text-white/70 text-xs pl-2"
+                                            >
+                                              {course.label}
+                                            </Link>
+                                          )
+                                        ))}
+                                      </div>
+                                    ))}
+                                    {div.courses?.map((course) => (
+                                      course.external ? (
+                                        <a
+                                          key={course.href}
+                                          href={course.href}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                          className="block py-1.5 text-white/70 text-sm"
+                                        >
+                                          {course.label} ↗
+                                        </a>
+                                      ) : (
+                                        <Link
+                                          key={course.href + course.label}
+                                          to={course.href}
+                                          onClick={onClose}
+                                          className="block py-1.5 text-white/70 text-sm"
+                                        >
+                                          {course.label}
+                                        </Link>
+                                      )
+                                    ))}
+                                  </div>
+                                ))}
+                              </div>
+                            ) : item.columns ? (
                               <div className="p-4 space-y-4">
                                 {item.columns.map((col) => (
                                   <div key={col.title}>
