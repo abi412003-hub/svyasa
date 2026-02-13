@@ -33,6 +33,7 @@ import NotFound from "./pages/NotFound";
 import CategoryLanding from "./pages/CategoryLanding";
 import CourseDetail from "./pages/CourseDetail";
 import Organogram from "./pages/Organogram";
+import SVyasaUniversity from "./pages/SVyasaUniversity";
 
 const queryClient = new QueryClient();
 
@@ -52,7 +53,7 @@ const App = () => (
           <Route path="/organogram" element={<Organogram />} />
           
           {/* About Section */}
-          <Route path="/s-vyasa-university" element={<ComingSoon />} />
+          <Route path="/s-vyasa-university" element={<SVyasaUniversity />} />
           <Route path="/accreditation" element={<Accreditation />} />
           <Route path="/publications" element={<Publications />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
