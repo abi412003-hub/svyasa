@@ -1,13 +1,19 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import logoAyush from "@/assets/logo-ayush.png";
+import logoNaac from "@/assets/logo-naac.png";
+import logoIcmr from "@/assets/logo-icmr.png";
+import logoWho from "@/assets/logo-who.png";
+import logoUgc from "@/assets/logo-ugc.png";
+import logoAiu from "@/assets/logo-aiu.png";
 
 const affiliations = [
-  { name: "UGC", logo: "https://upload.wikimedia.org/wikipedia/en/thumb/8/81/University_Grants_Commission_India_logo.svg/200px-University_Grants_Commission_India_logo.svg.png" },
-  { name: "NAAC", logo: "https://upload.wikimedia.org/wikipedia/en/thumb/6/64/NAAC_LOGO.svg/200px-NAAC_LOGO.svg.png" },
-  { name: "AIU", logo: "https://www.aiu.ac.in/images/aiu-logo.png" },
-  { name: "AYUSH", logo: "https://upload.wikimedia.org/wikipedia/en/thumb/4/4c/Ministry_of_AYUSH.svg/200px-Ministry_of_AYUSH.svg.png" },
-  { name: "ICMR", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/ICMR_Logo.png/200px-ICMR_Logo.png" },
-  { name: "WHO", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/WHO_logo.svg/200px-WHO_logo.svg.png" },
+  { name: "Ministry of Ayush", logo: logoAyush },
+  { name: "NAAC", logo: logoNaac },
+  { name: "ICMR", logo: logoIcmr },
+  { name: "WHO", logo: logoWho },
+  { name: "UGC", logo: logoUgc },
+  { name: "AIU", logo: logoAiu },
 ];
 
 const AffiliationsSection = () => {
@@ -55,10 +61,14 @@ const AffiliationsSection = () => {
               animate={isInView ? { opacity: 1 } : {}}
               transition={{ delay: (index % affiliations.length) * 0.1 }}
               whileHover={{ scale: 1.1 }}
-              className="shrink-0 w-32 h-20 flex items-center justify-center grayscale hover:grayscale-0 transition-all duration-300 cursor-pointer"
+              className="shrink-0 w-36 h-24 flex items-center justify-center grayscale hover:grayscale-0 transition-all duration-300 cursor-pointer"
             >
-              <div className="w-16 h-16 bg-card rounded-lg shadow-soft flex items-center justify-center p-2">
-                <span className="text-xs font-bold text-muted-foreground">{item.name}</span>
+              <div className="w-full h-full bg-card rounded-lg shadow-soft flex items-center justify-center p-3">
+                <img
+                  src={item.logo}
+                  alt={item.name}
+                  className="max-w-full max-h-full object-contain"
+                />
               </div>
             </motion.div>
           ))}
