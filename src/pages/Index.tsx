@@ -52,9 +52,9 @@ const Index = () => {
         <main>
           <HeroSection />
           <StatsSection />
+          <AnnouncementsTicker />
           <ProgramsSection />
           <WhySection />
-          <AnnouncementsTicker />
           <ResearchSection />
           <CampusSection />
           <PresidentsNote />
