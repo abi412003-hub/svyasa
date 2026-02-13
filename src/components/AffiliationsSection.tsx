@@ -8,12 +8,12 @@ import logoUgc from "@/assets/logo-ugc.png";
 import logoAiu from "@/assets/logo-aiu.png";
 
 const affiliations = [
-  { name: "Ministry of Ayush", logo: logoAyush },
-  { name: "NAAC", logo: logoNaac },
-  { name: "ICMR", logo: logoIcmr },
-  { name: "WHO", logo: logoWho },
-  { name: "UGC", logo: logoUgc },
-  { name: "AIU", logo: logoAiu },
+  { name: "Ministry of Ayush", logo: logoAyush, maxH: "max-h-[48px]" },
+  { name: "NAAC", logo: logoNaac, maxH: "max-h-[64px]" },
+  { name: "ICMR", logo: logoIcmr, maxH: "max-h-[48px]" },
+  { name: "WHO", logo: logoWho, maxH: "max-h-[48px]" },
+  { name: "UGC", logo: logoUgc, maxH: "max-h-[48px]" },
+  { name: "AIU", logo: logoAiu, maxH: "max-h-[48px]" },
 ];
 
 const AffiliationsSection = () => {
@@ -67,7 +67,7 @@ const AffiliationsSection = () => {
                 <img
                   src={item.logo}
                   alt={item.name}
-                  className="max-w-[120px] max-h-[48px] object-contain"
+                  className={`max-w-[120px] ${item.maxH} object-contain`}
                 />
               </div>
             </motion.div>
