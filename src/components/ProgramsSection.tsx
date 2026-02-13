@@ -1,33 +1,35 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { ArrowRight, BookOpen, Brain, Heart, Leaf } from "lucide-react";
+import { Link } from "react-router-dom";
+import {
+  ArrowRight, Monitor, Briefcase, Calculator, Cpu, FlaskConical,
+  GraduationCap, TrendingUp, Microscope, Leaf, HeartPulse, BookOpen, Crown
+} from "lucide-react";
+import { categories } from "@/data/courses";
 
-const programs = [
-  {
-    icon: BookOpen,
-    title: "Yoga Science",
-    description: "BSc, MSc, and PhD programs in Yoga Science with research focus",
-    color: "from-primary to-saffron-light",
-  },
-  {
-    icon: Brain,
-    title: "Yoga Therapy",
-    description: "Clinical yoga therapy certification and degree programs",
-    color: "from-navy to-teal",
-  },
-  {
-    icon: Heart,
-    title: "Naturopathy",
-    description: "BNYS degree with integrated yoga and natural healing",
-    color: "from-gold to-saffron-light",
-  },
-  {
-    icon: Leaf,
-    title: "Holistic Health",
-    description: "Wellness management and integrative medicine programs",
-    color: "from-teal to-navy-light",
-  },
-];
+const iconMap: Record<string, React.ElementType> = {
+  bca: Monitor,
+  bba: Briefcase,
+  bcom: Calculator,
+  btech: Cpu,
+  bsc: FlaskConical,
+  mca: GraduationCap,
+  mba: TrendingUp,
+  msc: Microscope,
+  "yoga-programmes": Leaf,
+  "allied-sciences": HeartPulse,
+  "phd-programmes": BookOpen,
+  "dsc-dlitt": Crown,
+};
+
+const gradientMap: Record<string, string> = {
+  tech: "from-primary to-saffron-light",
+  business: "from-gold to-saffron-light",
+  yoga: "from-teal to-navy-light",
+  health: "from-primary to-teal",
+  research: "from-navy to-teal",
+  arts: "from-gold to-primary",
+};
 
 const ProgramsSection = () => {
   const ref = useRef(null);
@@ -72,7 +74,7 @@ const ProgramsSection = () => {
           >
             Academic Excellence
           </motion.span>
-          
+
           <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
             {"Our Programs".split(" ").map((word, i) => (
               <motion.span
@@ -86,64 +88,63 @@ const ProgramsSection = () => {
               </motion.span>
             ))}
           </h2>
-          
+
           <motion.p
             initial={{ opacity: 0 }}
             animate={titleInView ? { opacity: 1 } : {}}
             transition={{ delay: 0.4 }}
             className="text-muted-foreground max-w-2xl mx-auto"
           >
-            Discover our comprehensive range of programs designed to blend traditional yoga wisdom 
+            Discover our comprehensive range of programs designed to blend traditional yoga wisdom
             with contemporary academic rigor.
           </motion.p>
         </div>
 
         {/* Programs Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {programs.map((program, index) => (
-            <motion.div
-              key={program.title}
-              initial={{ opacity: 0, y: 50, scale: 0.9 }}
-              animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
-              transition={{ delay: index * 0.15, duration: 0.5 }}
-            >
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+          {categories.map((cat, index) => {
+            const Icon = iconMap[cat.slug] || BookOpen;
+            const gradient = gradientMap[cat.domainTheme] || "from-primary to-saffron-light";
+            return (
               <motion.div
-                whileHover={{ y: -12, scale: 1.02 }}
-                transition={{ type: "spring", stiffness: 300 }}
-                className="group bg-card rounded-2xl p-6 h-full shadow-soft hover:shadow-large transition-all duration-300 cursor-pointer border border-border"
+                key={cat.slug}
+                initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+                transition={{ delay: Math.min(index * 0.08, 0.8), duration: 0.5 }}
               >
-                {/* Icon with gradient background */}
-                <motion.div
-                  className={`w-14 h-14 rounded-xl bg-gradient-to-br ${program.color} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300`}
-                  whileHover={{ rotate: [0, -10, 10, 0] }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <program.icon className="w-7 h-7 text-primary-foreground" />
-                </motion.div>
-
-                {/* Content */}
-                <h3 className="font-heading text-xl font-semibold text-foreground mb-3 group-hover:text-primary transition-colors">
-                  {program.title}
-                </h3>
-                <p className="text-muted-foreground text-sm mb-5 leading-relaxed">
-                  {program.description}
-                </p>
-
-                {/* Link */}
-                <a
-                  href="#"
-                  className="inline-flex items-center gap-2 text-primary font-medium text-sm group/link"
-                >
-                  <span>View All</span>
-                  <motion.span
-                    className="group-hover/link:translate-x-1 transition-transform"
+                <Link to={`/programs/${cat.slug}`}>
+                  <motion.div
+                    whileHover={{ y: -10, scale: 1.02 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                    className="group bg-card rounded-2xl p-5 h-full shadow-soft hover:shadow-large transition-all duration-300 cursor-pointer border border-border"
                   >
-                    <ArrowRight size={16} />
-                  </motion.span>
-                </a>
+                    <motion.div
+                      className={`w-12 h-12 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}
+                      whileHover={{ rotate: [0, -10, 10, 0] }}
+                      transition={{ duration: 0.5 }}
+                    >
+                      <Icon className="w-6 h-6 text-primary-foreground" />
+                    </motion.div>
+
+                    <h3 className="font-heading text-base lg:text-lg font-semibold text-foreground mb-2 group-hover:text-primary transition-colors leading-tight">
+                      {cat.shortTitle}
+                    </h3>
+                    <p className="text-muted-foreground text-xs mb-3 leading-relaxed line-clamp-2">
+                      {cat.subtitle}
+                    </p>
+                    <span className="text-xs text-muted-foreground/70 mb-3 block">
+                      {cat.programSlugs.length} {cat.programSlugs.length === 1 ? "Program" : "Programs"}
+                    </span>
+
+                    <span className="inline-flex items-center gap-1.5 text-primary font-medium text-sm">
+                      <span>Explore</span>
+                      <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                    </span>
+                  </motion.div>
+                </Link>
               </motion.div>
-            </motion.div>
-          ))}
+            );
+          })}
         </div>
 
         {/* View All Programs Button */}
@@ -153,13 +154,15 @@ const ProgramsSection = () => {
           transition={{ delay: 0.8 }}
           className="text-center mt-12"
         >
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.98 }}
-            className="px-8 py-3 bg-secondary text-secondary-foreground rounded-full font-medium hover:bg-secondary/90 transition-colors"
-          >
-            Explore All Programs
-          </motion.button>
+          <Link to="/admissions">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.98 }}
+              className="px-8 py-3 bg-secondary text-secondary-foreground rounded-full font-medium hover:bg-secondary/90 transition-colors"
+            >
+              Explore All Programs
+            </motion.button>
+          </Link>
         </motion.div>
       </div>
     </section>
