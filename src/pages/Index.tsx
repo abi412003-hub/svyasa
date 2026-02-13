@@ -8,6 +8,7 @@ import HeroSection from "@/components/HeroSection";
 import StatsSection from "@/components/StatsSection";
 import PresidentsNote from "@/components/PresidentsNote";
 import ChancellorsNote from "@/components/ChancellorsNote";
+import ViceChancellorsNote from "@/components/ViceChancellorsNote";
 import ProgramsSection from "@/components/ProgramsSection";
 import WhySection from "@/components/WhySection";
 import AnnouncementsTicker from "@/components/AnnouncementsTicker";
@@ -58,6 +59,7 @@ const Index = () => {
           <CampusSection />
           <PresidentsNote />
           <ChancellorsNote />
+          <ViceChancellorsNote />
           <TestimonialsSection />
           <EventsSection />
           <AffiliationsSection />
