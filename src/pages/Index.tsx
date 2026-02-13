@@ -51,13 +51,13 @@ const Index = () => {
         <main>
           <HeroSection />
           <StatsSection />
-          <PresidentsNote />
-          <ChancellorsNote />
           <ProgramsSection />
           <WhySection />
           <AnnouncementsTicker />
           <ResearchSection />
           <CampusSection />
+          <PresidentsNote />
+          <ChancellorsNote />
           <TestimonialsSection />
           <EventsSection />
           <AffiliationsSection />
