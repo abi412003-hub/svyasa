@@ -84,50 +84,50 @@ export const navItems: NavItem[] = [
         title: "Yoga Programmes",
         courseGroups: [
           {
-            parent: { label: "Yoga Instructor Courses", href: "/yoga-instructor-course" },
+            parent: { label: "Yoga Instructor Courses", href: "/programs/yoga-programmes" },
             specializations: [
-              { label: "YIC Online", href: "/yic-online" },
-              { label: "Non Residential YIC", href: "/non-residential-yic" },
+              { label: "YIC Online", href: "/courses/yoga-instructor-course" },
+              { label: "Non Residential YIC", href: "/courses/non-residential-yic" },
             ],
           },
           {
-            parent: { label: "B.Sc. Yoga", href: "/bsc-yoga-vedic-therapy" },
+            parent: { label: "B.Sc. Yoga", href: "/programs/yoga-programmes" },
             specializations: [
-              { label: "Yoga & Vedic Therapy", href: "/bsc-yoga-vedic-therapy" },
-              { label: "Yoga Therapy", href: "/bachelor-of-science-in-yoga-therapy" },
+              { label: "Yoga & Vedic Therapy", href: "/courses/bsc-yoga-vedic-therapy" },
+              { label: "Yoga Therapy", href: "/courses/bsc-yoga-therapy" },
             ],
           },
           {
-            parent: { label: "M.Sc. Yoga", href: "/master-of-science-in-yoga-therapy" },
+            parent: { label: "M.Sc. Yoga", href: "/programs/yoga-programmes" },
             specializations: [
-              { label: "Yoga Therapy", href: "/master-of-science-in-yoga-therapy" },
-              { label: "Yoga & Vedic Therapy", href: "/master-of-science-yoga-vedic-therapy" },
+              { label: "Yoga Therapy", href: "/courses/msc-yoga-therapy" },
+              { label: "Yoga & Vedic Therapy", href: "/courses/msc-yoga-vedic-therapy" },
             ],
           },
           {
-            parent: { label: "PG Diploma", href: "/post-graduate-diploma-in-yoga-therapy" },
+            parent: { label: "PG Diploma", href: "/programs/yoga-programmes" },
             specializations: [
-              { label: "Yoga Therapy", href: "/post-graduate-diploma-in-yoga-therapy" },
-              { label: "Yoga for Doctors", href: "/post-graduate-yoga-diploma-for-doctors" },
+              { label: "Yoga Therapy", href: "/courses/pg-diploma-yoga-therapy" },
+              { label: "Yoga for Doctors", href: "/courses/pg-diploma-yoga-for-doctors" },
             ],
           },
           {
-            parent: { label: "BNYS", href: "/bachelor-of-naturopathy-and-yogic-sciences" },
+            parent: { label: "BNYS", href: "/courses/bnys" },
           },
           {
-            parent: { label: "MD Yoga", href: "/doctor-of-medicine-yoga" },
+            parent: { label: "MD Yoga", href: "/courses/doctor-of-medicine-yoga" },
           },
           {
-            parent: { label: "Ph.D - Yoga", href: "/phd-yoga" },
+            parent: { label: "Ph.D - Yoga", href: "/courses/phd-yoga" },
           },
           {
-            parent: { label: "SMET", href: "/self-management-of-excessive-tension" },
+            parent: { label: "SMET", href: "/courses/self-management-excessive-tension" },
           },
           {
-            parent: { label: "Ayurveda Lifestyle Management", href: "/ayurveda-lifestyle-management-course" },
+            parent: { label: "Ayurveda Lifestyle Management", href: "/courses/ayurveda-lifestyle-management" },
           },
           {
-            parent: { label: "Division Of Yoga and Humanities", href: "/division-of-yoga-and-humanities" },
+            parent: { label: "Division Of Yoga and Humanities", href: "/courses/division-yoga-humanities" },
           },
         ],
       },
@@ -135,50 +135,50 @@ export const navItems: NavItem[] = [
         title: "Undergraduate",
         courseGroups: [
           {
-            parent: { label: "BCA", href: "/bca" },
+            parent: { label: "BCA", href: "/programs/bca" },
             specializations: [
-              { label: "Cybersecurity, Ethical Hacking & Digital Forensics", href: "/bca-cybersecurity-ethical-hacking-digital-forensics" },
-              { label: "Artificial Intelligence, Cloud Computing & DevOps", href: "/bca-artificial-intelligence-cloud-computing-devops" },
+              { label: "Cybersecurity, Ethical Hacking & Digital Forensics", href: "/courses/bca-cybersecurity-ethical-hacking-digital-forensics" },
+              { label: "Artificial Intelligence, Cloud Computing & DevOps", href: "/courses/bca-artificial-intelligence-cloud-computing-devops" },
             ],
           },
           {
-            parent: { label: "BBA", href: "/bba" },
+            parent: { label: "BBA", href: "/programs/bba" },
             specializations: [
-              { label: "Sports Management", href: "/bba-in-sports-management" },
-              { label: "Logistics and Aviation", href: "/bba-logistics-and-aviation" },
-              { label: "Business Management, Digital Marketing & Business Analytics", href: "/bba-business-management-digital-marketing-business-analytics" },
-              { label: "Entrepreneurship, Innovation & Business Analytics", href: "/bba-entrepreneurship-innovation-business-analytics" },
-              { label: "Logistics, Supply Chain Management & Port Management", href: "/bba-logistics-supply-chain-management-port-management" },
+              { label: "Sports Management", href: "/courses/bba-in-sports-management" },
+              { label: "Logistics and Aviation", href: "/courses/bba-logistics-and-aviation" },
+              { label: "Business Management, Digital Marketing & Business Analytics", href: "/courses/bba-business-management-digital-marketing-business-analytics" },
+              { label: "Entrepreneurship, Innovation & Business Analytics", href: "/courses/bba-entrepreneurship-innovation-business-analytics" },
+              { label: "Logistics, Supply Chain Management & Port Management", href: "/courses/bba-logistics-supply-chain-management-port-management" },
             ],
           },
           {
-            parent: { label: "BCOM", href: "/bcom" },
+            parent: { label: "BCOM", href: "/programs/bcom" },
             specializations: [
-              { label: "International Accounting & Finance integrated with ACCA", href: "/b-com-international-accounting-finance-integrated-with-acca" },
+              { label: "International Accounting & Finance integrated with ACCA", href: "/courses/bcom-international-accounting-finance-acca" },
             ],
           },
           {
-            parent: { label: "B. TECH.", href: "/btech" },
+            parent: { label: "B. TECH.", href: "/programs/btech" },
             specializations: [
-              { label: "NIAT Corporate B.tech(CSE)", href: "/niat-corporate-b-tech-in-cse" },
-              { label: "Computer Science and Engineering", href: "/btech-computer-science-and-engineering" },
-              { label: "Computer Science and Information Technology", href: "/btech-computer-science-and-information-technology" },
-              { label: "Computer Science (Software Engineering)", href: "/btech-computer-science-software-engineering" },
-              { label: "Computer Science (AI & Machine Learning)", href: "/btech-artificial-intelligence-machine-learning" },
-              { label: "Computer Science & Engineering (Data Science)", href: "/btech-computer-science-engineering-data-science" },
-              { label: "Computer Science & Engineering (Cyber Security)", href: "/btech-computer-science-engineering-cyber-security" },
+              { label: "NIAT Corporate B.tech(CSE)", href: "/courses/niat-corporate-btech-cse" },
+              { label: "Computer Science and Engineering", href: "/courses/btech-computer-science-engineering" },
+              { label: "Computer Science and Information Technology", href: "/courses/btech-computer-science-information-technology" },
+              { label: "Computer Science (Software Engineering)", href: "/courses/btech-computer-science-software-engineering" },
+              { label: "Computer Science (AI & Machine Learning)", href: "/courses/btech-artificial-intelligence-machine-learning" },
+              { label: "Computer Science & Engineering (Data Science)", href: "/courses/btech-computer-science-engineering-data-science" },
+              { label: "Computer Science & Engineering (Cyber Security)", href: "/courses/btech-computer-science-engineering-cyber-security" },
             ],
           },
           {
-            parent: { label: "B.SC.", href: "/bsc" },
+            parent: { label: "B.SC.", href: "/programs/bsc" },
             specializations: [
-              { label: "Computer Science", href: "/bsc-computer-science" },
+              { label: "Computer Science", href: "/courses/bsc-computer-science" },
             ],
           },
           {
-            parent: { label: "BPT - Prashanti Kutiram Campus", href: "/bachelor-of-physiotherapy" },
+            parent: { label: "BPT - Prashanti Kutiram Campus", href: "/courses/bachelor-of-physiotherapy" },
             specializations: [
-              { label: "Bachelor of Physiotherapy", href: "/bachelor-of-physiotherapy" },
+              { label: "Bachelor of Physiotherapy", href: "/courses/bachelor-of-physiotherapy" },
             ],
           },
         ],
@@ -187,35 +187,35 @@ export const navItems: NavItem[] = [
         title: "Postgraduate",
         courseGroups: [
           {
-            parent: { label: "MCA", href: "/mca" },
+            parent: { label: "MCA", href: "/programs/mca" },
             specializations: [
-              { label: "Cloud Computing and DevOps", href: "/mca-cloud-computing-devops" },
-              { label: "Cybersecurity, Ethical Hacking and Cyber Forensics", href: "/mca-cybersecurity-ethical-hacking-cyber-forensics" },
-              { label: "AI, Machine Learning and Data Science", href: "/mca-artificial-intelligence-machine-learning-data-science" },
-              { label: "Data Science", href: "/mca-data-science" },
+              { label: "Cloud Computing and DevOps", href: "/courses/mca-cloud-computing-devops" },
+              { label: "Cybersecurity, Ethical Hacking and Cyber Forensics", href: "/courses/mca-cybersecurity-ethical-hacking-cyber-forensics" },
+              { label: "AI, Machine Learning and Data Science", href: "/courses/mca-artificial-intelligence-machine-learning-data-science" },
+              { label: "Data Science", href: "/courses/mca-data-science" },
             ],
           },
           {
-            parent: { label: "MBA", href: "/mba" },
+            parent: { label: "MBA", href: "/programs/mba" },
             specializations: [
-              { label: "DUAL - Finance, Marketing, HR, Operations, Business Analytics, International Business", href: "/mba-dual-specialisation" },
-              { label: "PRO - Marketing, Finance and Business Analytics", href: "/mba-marketing-finance-business-analytics" },
-              { label: "PRO - Hospital Administration with Medical Tourism", href: "/mba-hospital-administration-with-medical-tourism" },
-              { label: "PRO - Logistics and Supply Chain Management", href: "/mba-logistics-and-supply-chain-management" },
-              { label: "PRO - Digital Business Management and Data Analytics", href: "/mba-digital-business-management-data-analytics" },
-              { label: "PRO - AI and Data Analytics", href: "/mba-pro-ai-data-analytics" },
-              { label: "Digital Marketing and AI", href: "/mba-digital-marketing-and-ai" },
+              { label: "DUAL - Finance, Marketing, HR, Operations, Business Analytics, International Business", href: "/courses/mba-dual-specialisation" },
+              { label: "PRO - Marketing, Finance and Business Analytics", href: "/courses/mba-marketing-finance-business-analytics" },
+              { label: "PRO - Hospital Administration with Medical Tourism", href: "/courses/mba-hospital-administration-medical-tourism" },
+              { label: "PRO - Logistics and Supply Chain Management", href: "/courses/mba-logistics-supply-chain-management" },
+              { label: "PRO - Digital Business Management and Data Analytics", href: "/courses/mba-digital-business-management-data-analytics" },
+              { label: "PRO - AI and Data Analytics", href: "/courses/mba-pro-ai-data-analytics" },
+              { label: "Digital Marketing and AI", href: "/courses/mba-digital-marketing-ai" },
             ],
           },
           {
-            parent: { label: "M.SC.", href: "/msc" },
+            parent: { label: "M.SC.", href: "/programs/msc" },
             specializations: [
-              { label: "Cybersecurity, Ethical Hacking and Cyber Forensics", href: "/msc-cybersecurity-ethical-hacking-cyber-forensics" },
-              { label: "Data Science", href: "/msc-data-science" },
-              { label: "Clinical Psychology", href: "/msc-clinical-psychology" },
-              { label: "Neuro Psychology", href: "/msc-neuropsychology" },
-              { label: "Counselling Psychology", href: "/msc-counselling-psychology" },
-              { label: "Health Psychology", href: "/msc-health-psychology" },
+              { label: "Cybersecurity, Ethical Hacking and Cyber Forensics", href: "/courses/msc-cybersecurity-ethical-hacking-cyber-forensics" },
+              { label: "Data Science", href: "/courses/msc-data-science" },
+              { label: "Clinical Psychology", href: "/courses/msc-clinical-psychology" },
+              { label: "Neuro Psychology", href: "/courses/msc-neuropsychology" },
+              { label: "Counselling Psychology", href: "/courses/msc-counselling-psychology" },
+              { label: "Health Psychology", href: "/courses/msc-health-psychology" },
             ],
           },
         ],
@@ -223,27 +223,27 @@ export const navItems: NavItem[] = [
       {
         title: "Allied and Healthcare Courses",
         links: [
-          { label: "Ph.D - Allied and Healthcare Professions", href: "/doctor-of-philosophy-in-allied-sciences" },
-          { label: "Bachelor of Physiotherapy", href: "/bachelor-of-physiotherapy" },
-          { label: "Bachelor of Occupational Therapy", href: "/bachelor-of-occupational-therapy" },
-          { label: "B.Sc. - Clinical Psychology", href: "/bsc-clinical-psychology" },
+          { label: "Ph.D - Allied and Healthcare Professions", href: "/courses/phd-allied-sciences" },
+          { label: "Bachelor of Physiotherapy", href: "/courses/bachelor-of-physiotherapy" },
+          { label: "Bachelor of Occupational Therapy", href: "/courses/bachelor-of-occupational-therapy" },
+          { label: "B.Sc. - Clinical Psychology", href: "/courses/bsc-clinical-psychology" },
         ],
       },
       {
         title: "Ph.D Programmes",
         links: [
-          { label: "Ph.D - Computer Science", href: "/doctor-of-philosophy-in-computer-science" },
-          { label: "Ph.D - Computer Science and Engineering", href: "/doctor-of-philosophy-in-computer-science-and-engineering" },
-          { label: "Ph.D - Commerce and Management", href: "/doctor-of-philosophy-in-management-and-commerce" },
-          { label: "Ph.D - Applied Sciences", href: "/doctor-of-philosophy-in-applied-sciences" },
-          { label: "Ph.D - Allied and Healthcare Professions", href: "/doctor-of-philosophy-in-allied-sciences" },
-          { label: "Ph.D - English", href: "/doctor-of-philosophy-in-english" },
+          { label: "Ph.D - Computer Science", href: "/courses/phd-computer-science" },
+          { label: "Ph.D - Computer Science and Engineering", href: "/courses/phd-computer-science-engineering" },
+          { label: "Ph.D - Commerce and Management", href: "/courses/phd-commerce-management" },
+          { label: "Ph.D - Applied Sciences", href: "/courses/phd-applied-sciences" },
+          { label: "Ph.D - Allied and Healthcare Professions", href: "/courses/phd-allied-sciences" },
+          { label: "Ph.D - English", href: "/courses/phd-english" },
         ],
       },
       {
         title: "D.Sc., D.Litt",
         links: [
-          { label: "D.Sc., D.Litt", href: "/dlit" },
+          { label: "D.Sc., D.Litt", href: "/courses/dsc-dlitt" },
         ],
       },
       {
@@ -268,9 +268,9 @@ export const navItems: NavItem[] = [
           {
             name: "School of Yogic Sciences",
             courses: [
-              { label: "YIC", href: "/programs/yoga-programmes" },
-              { label: "SMET", href: "/programs/yoga-programmes" },
-              { label: "Ayurveda Lifestyle Management", href: "/programs/yoga-programmes" },
+              { label: "YIC", href: "/courses/yoga-instructor-course" },
+              { label: "SMET", href: "/courses/self-management-excessive-tension" },
+              { label: "Ayurveda Lifestyle Management", href: "/courses/ayurveda-lifestyle-management" },
             ],
           },
           {
@@ -288,26 +288,26 @@ export const navItems: NavItem[] = [
           {
             name: "School of Yoga & Naturopathic Medicine",
             courses: [
-              { label: "B.Sc. Yoga", href: "/programs/yoga-programmes" },
-              { label: "M.Sc. Yoga", href: "/programs/yoga-programmes" },
-              { label: "BNYS", href: "/programs/yoga-programmes" },
-              { label: "MD Yoga", href: "/programs/yoga-programmes" },
-              { label: "PG Diploma Yoga", href: "/programs/yoga-programmes" },
-              { label: "M.A. Yoga", href: "/programs/yoga-programmes" },
-              { label: "Ph.D Yoga", href: "/programs/phd-programmes" },
+              { label: "B.Sc. Yoga", href: "/courses/bsc-yoga-vedic-therapy" },
+              { label: "M.Sc. Yoga", href: "/courses/msc-yoga-therapy" },
+              { label: "BNYS", href: "/courses/bnys" },
+              { label: "MD Yoga", href: "/courses/doctor-of-medicine-yoga" },
+              { label: "PG Diploma Yoga", href: "/courses/pg-diploma-yoga-therapy" },
+              { label: "M.A. Yoga", href: "/courses/master-of-arts-yoga-darshanam" },
+              { label: "Ph.D Yoga", href: "/courses/phd-yoga" },
             ],
           },
           {
             name: "School of Physiotherapy",
             courses: [
-              { label: "BPT", href: "/programs/allied-sciences" },
+              { label: "BPT", href: "/courses/bachelor-of-physiotherapy" },
             ],
           },
           {
             name: "School of Allied & Healthcare Professions",
             courses: [
-              { label: "BOT", href: "/programs/allied-sciences" },
-              { label: "B.Sc. Clinical Psychology", href: "/programs/bsc" },
+              { label: "BOT", href: "/courses/bachelor-of-occupational-therapy" },
+              { label: "B.Sc. Clinical Psychology", href: "/courses/bsc-clinical-psychology" },
             ],
           },
         ],
@@ -358,8 +358,8 @@ export const navItems: NavItem[] = [
           {
             name: "Psychology & Humanities",
             courses: [
-              { label: "M.Sc. Psychology", href: "/programs/msc" },
-              { label: "Ph.D English", href: "/programs/phd-programmes" },
+              { label: "M.Sc. Psychology", href: "/courses/msc-clinical-psychology" },
+              { label: "Ph.D English", href: "/courses/phd-english" },
             ],
           },
         ],
