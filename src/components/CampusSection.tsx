@@ -111,7 +111,7 @@ const CampusSection = () => {
                 src={image.src}
                 alt={image.label}
                 className={`w-full object-cover ${
-                  index === 0 ? "h-full min-h-[400px]" : "h-48 md:h-56"
+                  index === 0 ? "h-full min-h-[200px] md:min-h-[400px]" : "h-36 md:h-56"
                 }`}
                 whileHover={{ scale: 1.1 }}
                 transition={{ duration: 0.5 }}
