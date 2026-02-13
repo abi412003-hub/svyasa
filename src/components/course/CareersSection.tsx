@@ -125,18 +125,20 @@ const CareersSection = ({ course }: CareersSectionProps) => {
                 initial={shouldReduceMotion ? {} : { scale: 0, opacity: 0 }}
                 animate={isInView ? { scale: 1, opacity: 1 } : {}}
                 transition={{ type: "spring", delay: 0.6 + index * 0.12 }}
-                className="absolute -translate-x-1/2 -translate-y-1/2 cursor-pointer group"
+                className="absolute cursor-pointer group"
                 style={{ left: `${x}%`, top: `${y}%` }}
                 onClick={() => setSelectedCareer(selectedCareer === index ? null : index)}
               >
-                <div className="w-16 h-16 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 flex items-center justify-center transition-all group-hover:scale-110">
-                  <IconComponent className="w-6 h-6 text-white" />
-                </div>
-                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 text-center w-24">
-                  <p className="text-white text-xs font-medium leading-tight">{career.title}</p>
-                  <span className={`inline-block mt-1 px-2 py-0.5 rounded-full text-[10px] ${getDemandColor(career.demand)}`}>
-                    {getDemandLabel(career.demand)}
-                  </span>
+                <div className="relative -translate-x-1/2 -translate-y-1/2">
+                  <div className="w-16 h-16 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 flex items-center justify-center transition-all group-hover:scale-110">
+                    <IconComponent className="w-6 h-6 text-white" />
+                  </div>
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 text-center w-28">
+                    <p className="text-white text-xs font-medium leading-tight">{career.title}</p>
+                    <span className={`inline-block mt-1 px-2 py-0.5 rounded-full text-[10px] ${getDemandColor(career.demand)}`}>
+                      {getDemandLabel(career.demand)}
+                    </span>
+                  </div>
                 </div>
               </motion.div>
             );
