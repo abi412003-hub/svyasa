@@ -5,12 +5,12 @@ import { X, ChevronDown, ChevronUp } from "lucide-react";
 const B = "https://spkbypslhjqvnvnujpwd.supabase.co/storage/v1/object/public/site-images";
 
 const initialImages = [
-  { src: `${B}/city-campus/library/1771447107660-cryl5zdmnyq.jpeg`, label: "Library" },
-  { src: `${B}/prashanti/cultural/1771447411756-dpw9nmpgzw8.jpeg`, label: "Cultural Events" },
-  { src: `${B}/city-campus/classrooms/1771447061621-ecmwy720a3m.jpeg`, label: "Classrooms" },
-  { src: `${B}/city-campus/library/1771447109252-ada64v6p35p.jpeg`, label: "Library" },
-  { src: `${B}/prashanti/cultural/1771447413246-yt2wejztpi.jpeg`, label: "Cultural Activities" },
-  { src: `${B}/city-campus/classrooms/1771447063120-92qw8ltuz3e.jpeg`, label: "Classrooms" },
+  { src: `${B}/city-campus/classrooms/1771447064167-ymjqv679y3b.jpeg`, label: "Classrooms" },
+  { src: `${B}/city-campus/campus/1771447306710-gxwxuemokp.jpg`, label: "City Campus" },
+  { src: `${B}/city-campus/campus/1771447262662-ucmnqd1dmzo.jpg`, label: "City Campus" },
+  { src: `${B}/city-campus/campus/1771446940756-97b4ydl62w6.jpeg`, label: "City Campus" },
+  { src: `${B}/city-campus/campus/1771446939536-2k07nk6hljh.jpeg`, label: "City Campus" },
+  { src: `${B}/city-campus/campus/1771447169725-pduqhy9txm.jpeg`, label: "City Campus" },
 ];
 
 const extraImages = [
