@@ -49,6 +49,7 @@ import ImageManager from "./pages/ImageManager";
 import ResearchLayout from "./components/research/ResearchLayout";
 import ResearchAbout from "./pages/research/ResearchAbout";
 import ResearchComingSoon from "./pages/research/ResearchComingSoon";
+import OngoingProjects from "./pages/research/OngoingProjects";
 
 // Alias for brevity in routes
 const ResearchCS = ({ title }: { title: string }) => <ResearchComingSoon title={title} />;
@@ -199,7 +200,7 @@ const App = () => (
             <Route index element={<ResearchAbout />} />
             <Route path="facility" element={<ResearchCS title="Research Facility" />} />
             <Route path="faculty" element={<ResearchCS title="Research Faculty" />} />
-            <Route path="ongoing-projects" element={<ResearchCS title="Ongoing Projects" />} />
+            <Route path="ongoing-projects" element={<OngoingProjects />} />
             <Route path="completed-projects" element={<ResearchCS title="Completed Projects" />} />
             <Route path="adopt-project" element={<ResearchCS title="Adopt a Research Project" />} />
             <Route path="publications" element={<ResearchCS title="Research Publications" />} />
