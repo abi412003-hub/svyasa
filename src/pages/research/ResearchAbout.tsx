@@ -4,6 +4,8 @@ import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { useCountUp } from "@/hooks/useCountUp";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
+import Layout from "@/components/layout/Layout";
+import ResearchSubNav from "@/components/research/ResearchSubNav";
 
 /* ──────────────────────────────────────────────────────────
    Shared animation variants
@@ -666,7 +668,8 @@ function CTASection() {
 ────────────────────────────────────────────────────────── */
 export default function ResearchAbout() {
   return (
-    <div>
+    <Layout>
+      <ResearchSubNav />
       <HeroSection />
       <IntroSection />
       <HomeostasisSection />
@@ -676,6 +679,6 @@ export default function ResearchAbout() {
       <InternationalSection />
       <NationalSection />
       <CTASection />
-    </div>
+    </Layout>
   );
 }

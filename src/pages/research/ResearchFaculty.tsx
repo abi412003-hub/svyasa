@@ -2,6 +2,8 @@ import { motion, useInView, Variants, AnimatePresence } from "framer-motion";
 import { ChevronDown, X, Award, BookOpen, FlaskConical, Star, User } from "lucide-react";
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import Layout from "@/components/layout/Layout";
+import ResearchSubNav from "@/components/research/ResearchSubNav";
 import { facultyData, type FacultyProfile } from "./facultyData";
 
 /* ── Variants ── */
@@ -244,7 +246,8 @@ export default function ResearchFaculty() {
   const sec3In = useInView(sec3Ref, { once: true, margin: "-80px" });
 
   return (
-    <div>
+    <Layout>
+      <ResearchSubNav />
       {/* Hero */}
       <section
         className="relative flex flex-col items-center justify-center h-[45vh] sm:h-[38vh] overflow-hidden"
@@ -411,6 +414,6 @@ export default function ResearchFaculty() {
 
       {/* Modal */}
       {selected && <FacultyModal member={selected} onClose={() => setSelected(null)} />}
-    </div>
+    </Layout>
   );
 }
