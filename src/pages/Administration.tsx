@@ -22,198 +22,363 @@ export interface AdminProfile {
   expertise?: string;
 }
 
-// ─── PHOTO POOLS ──────────────────────────────────────────────────────────────
-const MALE_PHOTOS = [
-  "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=400&fit=crop",
-  "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop",
-  "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
-  "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&h=400&fit=crop",
-  "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=400&fit=crop",
-  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop",
-  "https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6?w=400&h=400&fit=crop",
-  "https://images.unsplash.com/photo-1548449112-96a38a643324?w=400&h=400&fit=crop",
-  "https://images.unsplash.com/photo-1580518324671-c2f0833a3af3?w=400&h=400&fit=crop",
-];
-const FEMALE_PHOTOS = [
-  "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop",
-  "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=400&fit=crop",
-  "https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?w=400&h=400&fit=crop",
-  "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop",
+// ─── EC CATEGORY GROUPS ───────────────────────────────────────────────────────
+export interface ECMember {
+  id: string;
+  name: string;
+  designation: string;
+  description: string;
+  qualifications: string;
+  photo?: string;
+  initials?: string;
+  gender: "male" | "female";
+  achievements?: string[];
+  expertise?: string;
+}
+
+export interface ECCategory {
+  id: string;
+  label: string;
+  members: ECMember[];
+}
+
+const ecCategories: ECCategory[] = [
+  {
+    id: "university-leadership",
+    label: "University Leadership",
+    members: [
+      {
+        id: "ec-nagendra",
+        name: "Dr. H R Nagendra",
+        designation: "President, S-VYASA Society",
+        description: "Padma Shri awardee and ex-NASA scientist who dedicated his life to Yoga research and education, leading S-VYASA's mission of integrating ancient yogic wisdom with modern science.",
+        qualifications: "PhD (Mechanical Engineering), IISc Bangalore; Post-Doctoral Fellow, University of British Columbia; Research Associate, NASA Marshall Space Flight Centre",
+        photo: "/ec-members/hr-nagendra.jpg",
+        gender: "male",
+        achievements: [
+          "Post-Doctoral Research Fellow, University of British Columbia, Canada (1970)",
+          "Research Associate, NASA Marshall Space Flight Centre, USA (1971)",
+          "Consultant, Engineering Science Laboratory, Harvard University, USA (1972)",
+          "Padma Shri Award recipient (2016) for contribution to Yoga",
+          "Founder and President of Vivekananda Yoga Anusandhana Samsthana",
+          "Chairman of Task Force of AYUSH, Govt. of India",
+        ],
+        expertise: "Yoga research, integrative medicine, leadership in higher education, energy research",
+      },
+      {
+        id: "ec-subrahmanyam",
+        name: "Prof. K. Subrahmanyam",
+        designation: "Member",
+        description: "Distinguished academic member of the Executive Council contributing expertise in academic governance, curriculum frameworks, and higher education leadership.",
+        qualifications: "PhD; Professor with extensive experience in higher education governance and administration",
+        photo: "/ec-members/k-subrahmanyam.jpg",
+        gender: "male",
+        expertise: "Higher education governance, academic policy, curriculum frameworks",
+      },
+      {
+        id: "ec-manjunath",
+        name: "Dr. Manjunath N. K",
+        designation: "Chairperson, Vice Chancellor",
+        description: "Has delivered lectures on evidence-based Yoga therapy at Harvard Medical School, Monash University, Royal College of Medicine, and Shanghai University of Sports. Editor, International Journal of Yoga.",
+        qualifications: "BNYS, PhD, D.Sc.; Editor, International Journal of Yoga (IJOY); Founding Director, Vivekananda Yoga University, California",
+        photo: "/ec-members/manjunath-nk.jpg",
+        gender: "male",
+        achievements: [
+          "Delivered lectures at Harvard Medical School and Monash University",
+          "Editor of International Journal of Yoga (IJOY)",
+          "Member of Scientific Advisory Committee, DST (SATYAM program)",
+          "Member of Research Committee, Integrative Medicine, NITI Aayog",
+          "Founding Director, Boston Center of Excellence, Boston, USA",
+          "Vice-President of Asian Yoga Therapy Association, Singapore",
+        ],
+        expertise: "Yoga therapy, clinical trials, integrative medicine, university governance",
+      },
+      {
+        id: "ec-ramakrishna",
+        name: "Dr. B. R. Ramakrishna",
+        designation: "Pro-Chancellor",
+        description: "Experienced academic leader serving as Pro-Chancellor of S-VYASA University, overseeing institutional strategy, governance compliance, and long-term development initiatives.",
+        qualifications: "PhD; Senior academic administrator with decades of experience in university leadership and governance",
+        photo: "/ec-members/br-ramakrishna.jpg",
+        gender: "male",
+        expertise: "University leadership, institutional strategy, governance, policy development",
+      },
+      {
+        id: "ec-sivasankara",
+        name: "Prof. Siva Sankara Sai",
+        designation: "Pro-Vice Chancellor",
+        description: "Seasoned academic administrator supporting the Vice Chancellor in all academic and administrative matters, leading interdisciplinary research and international collaborations.",
+        qualifications: "PhD; Professor with extensive academic and administrative experience in higher education institutions",
+        photo: "/ec-members/siva-sankara-sai.jpg",
+        gender: "male",
+        expertise: "Academic administration, curriculum design, international collaborations, faculty development",
+      },
+      {
+        id: "ec-jayaraman",
+        name: "Prof. Jayaraman",
+        designation: "Dean of Academics",
+        description: "Oversees the School of Yogic Sciences and VMAC-VTR, guiding programs that integrate classical yoga philosophy with modern pedagogical approaches. Leads academic planning and curriculum development.",
+        qualifications: "PhD (Yoga Philosophy); MSc (Yoga); Vedanta scholar with 25+ years academic experience",
+        photo: "/ec-members/jayaraman.jpg",
+        gender: "male",
+        achievements: [
+          "Authored 5 books on Yoga philosophy",
+          "Designed the landmark BSc YVT curriculum",
+          "Led academic quality assurance for NAAC accreditation",
+        ],
+        expertise: "Yoga philosophy, Vedanta, classical yoga texts, spiritual education, academic governance",
+      },
+    ],
+  },
+  {
+    id: "eminent-academicians",
+    label: "Eminent Academicians Nominated by the Chancellor",
+    members: [
+      {
+        id: "ec-ramachandra-bhat",
+        name: "Dr. Ramachandra G Bhat",
+        designation: "Director at VMTR",
+        description: "Eminent academician and Director at VMTR (Vivekananda Memorial Therapeutic Research), contributing expertise in yoga therapy research and evidence-based clinical practices.",
+        qualifications: "PhD; Director, Vivekananda Memorial Therapeutic Research; Extensive research publications in yoga therapy",
+        photo: "/ec-members/ramachandra-bhat.jpg",
+        gender: "male",
+        expertise: "Yoga therapy research, evidence-based practice, therapeutic applications of yoga",
+      },
+      {
+        id: "ec-nagarathna",
+        name: "Dr. Nagarathna",
+        designation: "Member",
+        description: "Distinguished yoga researcher and clinician contributing her expertise in integrative medicine and yoga therapy to the Executive Council's academic and research governance.",
+        qualifications: "MBBS, MD; Senior Physician and Researcher specializing in integrative medicine and yoga therapy",
+        photo: "/ec-members/nagarathna.jpg",
+        gender: "female",
+        expertise: "Integrative medicine, yoga therapy, clinical research, evidence-based yoga",
+      },
+    ],
+  },
+  {
+    id: "professor",
+    label: "One Professor",
+    members: [
+      {
+        id: "ec-mn-ramesh",
+        name: "Dr. M N Ramesh",
+        designation: "Director of Anvesana",
+        description: "Professor and Director of Anvesana Research Center, leading cutting-edge research programs that bridge yogic sciences with modern scientific methodologies and clinical applications.",
+        qualifications: "PhD; Professor and Director, Anvesana Research Center; Research publications in yoga and life sciences",
+        photo: "/ec-members/mn-ramesh.jpg",
+        gender: "male",
+        expertise: "Research direction, yoga-science integration, Anvesana research programs, academic research governance",
+      },
+    ],
+  },
+  {
+    id: "associate-professor",
+    label: "One Associate Professor",
+    members: [
+      {
+        id: "ec-bharathi-dhevi",
+        name: "Dr. Bharathi Dhevi V. R.",
+        designation: "Associate Professor",
+        description: "Associate Professor representing the faculty's academic interests and expertise in the Executive Council, contributing insights on teaching-learning quality and research standards.",
+        qualifications: "PhD; Associate Professor at S-VYASA University with expertise in yoga sciences and academic research",
+        photo: "/ec-members/bharathi-dhevi.jpg",
+        gender: "female",
+        expertise: "Yoga sciences, academic research, teaching-learning quality, faculty representation",
+      },
+    ],
+  },
+  {
+    id: "assistant-professor",
+    label: "One Assistant Professor",
+    members: [
+      {
+        id: "ec-soubhagyalaxmi",
+        name: "Dr. Soubhagyalaxmi Mohanty",
+        designation: "Assistant Professor",
+        description: "Assistant Professor bringing the perspective of early-career faculty to the Executive Council, contributing to policies that nurture research, teaching excellence, and academic welfare.",
+        qualifications: "PhD; Assistant Professor at S-VYASA University; Research in yoga therapy and integrative health",
+        photo: "/ec-members/soubhagyalaxmi.jpg",
+        gender: "female",
+        expertise: "Yoga therapy, integrative health, academic welfare, early-career faculty development",
+      },
+    ],
+  },
+  {
+    id: "ugc-nominee",
+    label: "UGC Nominee",
+    members: [
+      {
+        id: "ec-bv-sridhara",
+        name: "Dr. B. V. Sridhara Swamy",
+        designation: "UGC Nominee",
+        description: "University Grants Commission representative providing regulatory guidance and ensuring S-VYASA's compliance with UGC norms, standards, and quality benchmarks for higher education.",
+        qualifications: "PhD; Senior UGC Nominee with extensive knowledge of higher education regulation, quality standards, and university governance frameworks",
+        photo: "/ec-members/bv-sridhara-swamy.jpg",
+        gender: "male",
+        expertise: "Higher education policy, UGC regulations, quality assurance, institutional compliance",
+      },
+    ],
+  },
+  {
+    id: "sponsoring-society",
+    label: "Nominees of the Sponsoring Society",
+    members: [
+      {
+        id: "ec-subhadra-dhevi",
+        name: "Smt. Subhadra Dhevi",
+        designation: "Member",
+        description: "Nominee of the S-VYASA sponsoring society, representing the founding trust's vision and values in all Executive Council deliberations and institutional decisions.",
+        qualifications: "Nominee of the Sponsoring Society; Contributing to institutional governance aligned with S-VYASA's founding mission",
+        initials: "SD",
+        gender: "female",
+        expertise: "Institutional governance, society representation, mission alignment",
+      },
+      {
+        id: "ec-dayananda",
+        name: "Dr. Dayananda Swamy",
+        designation: "Chancellor",
+        description: "Chancellor of S-VYASA Deemed to be University, providing visionary leadership and spiritual guidance to the institution, upholding the legacy of Swami Vivekananda's teachings.",
+        qualifications: "PhD; Chancellor, S-VYASA Deemed to be University; Spiritual leader and academic visionary",
+        photo: "/ec-members/dayananda-swamy.jpg",
+        gender: "male",
+        achievements: [
+          "Chancellor, S-VYASA Deemed to be University",
+          "Spiritual head of the Vivekananda Yoga lineage",
+          "Guiding institutional vision aligned with Swami Vivekananda's philosophy",
+        ],
+        expertise: "University leadership, spiritual guidance, institutional vision, Vedanta philosophy",
+      },
+      {
+        id: "ec-natesh-babu",
+        name: "Dr. Natesh Babu",
+        designation: "Member",
+        description: "Nominee of the sponsoring society and key member of the Executive Council, contributing expertise in distance education and institutional management to governance decisions.",
+        qualifications: "PhD (Yoga & Education); MEd; Certified e-Learning Designer; 15+ years in distance education management",
+        photo: "/ec-members/natesh-babu.jpg",
+        gender: "male",
+        achievements: [
+          "Launched online yoga programs reaching 50+ countries",
+          "Developed SCODE's LMS platform serving 5000+ students",
+        ],
+        expertise: "Distance education, e-learning, instructional design, program delivery at scale",
+      },
+    ],
+  },
+  {
+    id: "ex-officio",
+    label: "Ex-Officio Members & Officers",
+    members: [
+      {
+        id: "ec-sony-kumari",
+        name: "Prof. Sony Kumari",
+        designation: "Ex-Officio Secretary, Registrar",
+        description: "Chief administrative officer serving as Ex-Officio Secretary to the Executive Council, responsible for all academic records, regulatory filings, student services, and statutory reporting.",
+        qualifications: "PhD; Professor and Registrar, S-VYASA University; Extensive experience in university administration and statutory compliance",
+        photo: "/ec-members/sony-kumari.png",
+        gender: "female",
+        achievements: [
+          "Led transition to fully digital academic record management",
+          "Coordinated NAAC peer team visits and documentation",
+          "Oversees statutory reporting to UGC, NAAC, and state authorities",
+        ],
+        expertise: "University administration, legal compliance, academic records, statutory reporting",
+      },
+      {
+        id: "ec-vasudev",
+        name: "Dr. Vasudev Vaidya",
+        designation: "Deputy Registrar",
+        description: "Assists the Registrar in day-to-day administrative operations, employee relations, departmental coordination, and official correspondence management across all university departments.",
+        qualifications: "PhD; Deputy Registrar, S-VYASA University; Extensive experience in academic administration and institutional coordination",
+        photo: "/ec-members/vasudev-vaidya.png",
+        gender: "male",
+        expertise: "Administrative operations, HR coordination, official correspondence, departmental management",
+      },
+      {
+        id: "ec-dhananjaya",
+        name: "Mr. Dhananjaya",
+        designation: "Joint Director, F&A",
+        description: "Joint Director of Finance and Accounts, overseeing financial planning, budgeting, and fiscal governance ensuring transparent and efficient resource allocation across S-VYASA University.",
+        qualifications: "MCom; CA; Joint Director, Finance & Accounts, S-VYASA University; Expert in institutional financial management",
+        photo: "/ec-members/dhananjaya.jpg",
+        gender: "male",
+        expertise: "Financial planning, budget management, fiscal governance, institutional compliance",
+      },
+      {
+        id: "ec-anish-antony",
+        name: "Shri. Anish Antony",
+        designation: "Executive Director, SCC",
+        description: "Executive Director of the S-VYASA City Campus (SCC), overseeing all campus operations, strategic development, and academic programs at the Global City Campus location.",
+        qualifications: "MBA; Executive Director, S-VYASA City Campus; Expert in campus administration and strategic management",
+        photo: "/ec-members/anish-antony.jpg",
+        gender: "male",
+        expertise: "Campus administration, strategic management, operations, institutional development",
+      },
+      {
+        id: "ec-amit-singh",
+        name: "Dr. Amit Singh",
+        designation: "Director, VASHI",
+        description: "Director of VASHI (Vivekananda Advanced Studies and Health Integration), leading advanced research programs and health integration initiatives under S-VYASA's academic framework.",
+        qualifications: "PhD; Director, VASHI; Research expertise in integrative health and advanced yoga studies",
+        photo: "/ec-members/amit-singh.jpg",
+        gender: "male",
+        expertise: "Integrative health, advanced yoga studies, research direction, health integration programs",
+      },
+      {
+        id: "ec-sridhar-s",
+        name: "Dr. Sridhar S",
+        designation: "Director Academics, SCC",
+        description: "Director of Academics at S-VYASA City Campus, overseeing curriculum delivery, faculty coordination, and academic quality assurance for all programs at the City Campus.",
+        qualifications: "PhD; Director Academics, S-VYASA City Campus; Expertise in academic governance and curriculum management",
+        photo: "/ec-members/sridhar-s.jpg",
+        gender: "male",
+        expertise: "Academic governance, curriculum management, faculty coordination, quality assurance",
+      },
+      {
+        id: "ec-gaurav-sinha",
+        name: "Dr. Gaurav Sinha",
+        designation: "Controller of Examinations",
+        description: "Oversees all aspects of examination planning, administration, evaluation, and result declaration ensuring fairness, transparency, and adherence to academic standards at S-VYASA University.",
+        qualifications: "PhD; Controller of Examinations, S-VYASA University; Expert in examination systems, digital assessment, and academic evaluation",
+        photo: "/ec-members/gaurav-sinha.jpg",
+        gender: "male",
+        achievements: [
+          "Implemented online examination portal for 3000+ students",
+          "Introduced biometric-based attendance and examination security",
+          "Ensured fair and transparent evaluation across all programs",
+        ],
+        expertise: "Examination systems, digital assessment, academic evaluation, anti-malpractice",
+      },
+    ],
+  },
 ];
 
-// ─── ADMINISTRATION DATA ───────────────────────────────────────────────────────
+// ─── ADMINISTRATION DATA (non-EC sections) ────────────────────────────────────
 const adminData: AdminProfile[] = [
-  // ── Executive Council ──
-  {
-    id: "ec-nagendra",
-    name: "Dr. H. R. Nagendra",
-    designation: "Chancellor & Executive Council Chair",
-    description: "Padma Shri awardee and ex-NASA scientist who left a stellar career in the West to dedicate his life to Yoga research and education, leading S-VYASA's mission of integrating ancient yogic wisdom with modern science.",
-    qualifications: "PhD (Mechanical Engineering), IISc Bangalore; Post-Doctoral Fellow, University of British Columbia; Research Associate, NASA Marshall Space Flight Centre",
-    photo: MALE_PHOTOS[0],
-    gender: "male",
-    section: "ec",
-    achievements: [
-      "Post-Doctoral Research Fellow, University of British Columbia, Canada (1970)",
-      "Post-Doctoral Research Associate, NASA Marshall Space Flight Centre, USA (1971)",
-      "Consultant, Engineering Science Laboratory, Harvard University, USA (1972)",
-      "Padma Shri Award recipient (2016) for contribution to Yoga",
-      "Founder and President of Vivekananda Yoga Anusandhana Samsthana",
-      "Chairman of Task force of AYUSH, Govt. of India",
-    ],
-    expertise: "Yoga research, integrative medicine, leadership in higher education, energy research",
-  },
-  {
-    id: "ec-vc",
-    name: "Dr. N. K. Manjunath",
-    designation: "Vice Chancellor",
-    description: "Has delivered lectures on evidence-based Yoga therapy at Harvard Medical School, Monash University, Royal College of Medicine, and Shanghai University of Sports. Editor, International Journal of Yoga.",
-    qualifications: "BNYS, PhD, D.Sc.; Editor, International Journal of Yoga (IJOY); Founding Director, Vivekananda Yoga University, California",
-    photo: MALE_PHOTOS[1],
-    gender: "male",
-    section: "ec",
-    achievements: [
-      "Delivered lectures at Harvard Medical School and Monash University",
-      "Editor of International Journal of Yoga (IJOY)",
-      "Member of Scientific Advisory Committee, DST (SATYAM program)",
-      "Member of Research Committee, Integrative Medicine, NITI Aayog",
-      "Founding Director, Boston Center of Excellence, Boston, USA",
-      "Vice-President of Asian Yoga Therapy Association, Singapore",
-    ],
-    expertise: "Yoga therapy, clinical trials, integrative medicine, university governance",
-  },
-  {
-    id: "ec-provc",
-    name: "Prof. M. K. Shridhar",
-    designation: "Pro-Vice Chancellor",
-    description: "Seasoned academic administrator with decades of experience in higher education management, curriculum planning, and institutional development at S-VYASA.",
-    qualifications: "PhD (Yoga & Education); Senior Academic Administrator with 25+ years of experience",
-    photo: MALE_PHOTOS[2],
-    gender: "male",
-    section: "ec",
-    expertise: "Academic administration, curriculum design, institutional governance, faculty development",
-    achievements: [
-      "Instrumental in NAAC accreditation processes",
-      "Led international academic collaboration programs",
-      "Designed interdisciplinary yoga-science curriculum frameworks",
-    ],
-  },
-  {
-    id: "ec-cfo",
-    name: "Dr. H. R. Dayananda",
-    designation: "Chief Finance Officer",
-    description: "Oversees the financial planning, budgeting, and fiscal governance of S-VYASA University, ensuring transparent and efficient resource allocation aligned with institutional goals.",
-    qualifications: "PhD (Management); CA Intermediate; MBA (Finance); 20+ years in institutional financial management",
-    photo: MALE_PHOTOS[3],
-    gender: "male",
-    section: "ec",
-    expertise: "Financial planning, budget management, fiscal governance, institutional compliance",
-    achievements: [
-      "Led successful FCRA compliance for international research grants",
-      "Implemented university-wide ERP financial systems",
-      "Managed funding portfolios exceeding ₹20 crore",
-    ],
-  },
-  {
-    id: "ec-ugc",
-    name: "Shri. Rajendra Kumar",
-    designation: "UGC Nominee",
-    description: "Senior UGC representative providing regulatory guidance and ensuring S-VYASA's compliance with University Grants Commission norms, standards, and quality benchmarks.",
-    qualifications: "IAS (Retd.); MSc, LLB; Former Deputy Secretary, Ministry of Education",
-    photo: MALE_PHOTOS[4],
-    gender: "male",
-    section: "ec",
-    expertise: "Higher education policy, regulatory compliance, UGC norms, government liaison",
-  },
-  {
-    id: "ec-govt",
-    name: "Dr. Ananya Sharma",
-    designation: "Government Nominee (MHRD)",
-    description: "Ministry of Education representative bringing policy perspective and national education framework alignment to the Executive Council's strategic decisions.",
-    qualifications: "PhD (Education Policy); MSc; Former Director, Higher Education, Ministry of Education",
-    photo: FEMALE_PHOTOS[0],
-    gender: "female",
-    section: "ec",
-    expertise: "Education policy, national accreditation frameworks, institutional assessment",
-  },
-  {
-    id: "ec-extern-yoga",
-    name: "Prof. Suresh Rao",
-    designation: "External Expert – Yoga Sciences",
-    description: "Distinguished yoga researcher and academician contributing independent expertise in yogic science research methodologies and curriculum assessment to the Executive Council.",
-    qualifications: "PhD (Yoga Sciences); Post-Doctoral Fellow, Karolinska Institute; Former Professor, SVYASA",
-    photo: MALE_PHOTOS[5],
-    gender: "male",
-    section: "ec",
-    expertise: "Yoga science research, RCT methodology, evidence-based yoga therapy",
-  },
-  {
-    id: "ec-extern-edu",
-    name: "Dr. Kavitha Murthy",
-    designation: "External Expert – Education Policy",
-    description: "Nationally recognized education policy expert advising on accreditation, quality assurance frameworks, and best practices in Indian higher education.",
-    qualifications: "PhD (Higher Education); MEd; NAAC assessor; Adjunct Faculty, NIEPA",
-    photo: FEMALE_PHOTOS[1],
-    gender: "female",
-    section: "ec",
-    expertise: "Higher education quality, NAAC/NABL assessment, education governance",
-  },
-  {
-    id: "ec-industry",
-    name: "Shri. Venkatesh Iyer",
-    designation: "Industry Representative",
-    description: "Senior industry leader bridging academia and corporate sectors, providing real-world insights into employability, industry-academia partnerships, and entrepreneurship.",
-    qualifications: "MBA (IIM Ahmedabad); B.Tech (IIT Bombay); Managing Director, Wellness Innovation Pvt. Ltd.",
-    photo: MALE_PHOTOS[6],
-    gender: "male",
-    section: "ec",
-    expertise: "Corporate governance, wellness industry, industry-academia collaboration, entrepreneurship",
-  },
-  {
-    id: "ec-faculty",
-    name: "Dr. Priya Nair",
-    designation: "Faculty Representative",
-    description: "Elected faculty representative voicing academic staff perspectives in governance, research policy, and institutional development at the Executive Council level.",
-    qualifications: "PhD (Yogic Sciences); MSc Yoga Therapy; Associate Professor, School of Yogic Sciences",
-    photo: FEMALE_PHOTOS[2],
-    gender: "female",
-    section: "ec",
-    expertise: "Yoga therapy, clinical research, faculty welfare, academic policy",
-  },
-  {
-    id: "ec-community",
-    name: "Shri. Arun Hegde",
-    designation: "Community Representative",
-    description: "Community stakeholder representative ensuring the university's programs and governance remain connected to societal needs, local communities, and public accountability.",
-    qualifications: "MSc; Social Entrepreneur; Trustee, Bangalore Education Trust",
-    photo: MALE_PHOTOS[7],
-    gender: "male",
-    section: "ec",
-    expertise: "Community development, social entrepreneurship, public accountability",
-  },
   // ── Registrar Row ──
   {
     id: "registrar",
-    name: "Dr. Shiv Kumar",
+    name: "Prof. Sony Kumari",
     designation: "Registrar",
-    description: "Chief administrative officer responsible for all academic records, regulatory filings, student services, and statutory reporting to UGC, NAAC, and state authorities.",
-    qualifications: "PhD (Public Administration); LLB; 18+ years in university administration",
-    photo: MALE_PHOTOS[8],
-    gender: "male",
+    description: "Chief administrative officer serving as Ex-Officio Secretary, responsible for all academic records, regulatory filings, student services, and statutory reporting to UGC, NAAC, and state authorities.",
+    qualifications: "PhD; Professor and Registrar, S-VYASA University; Extensive experience in university administration and statutory compliance",
+    photo: "/ec-members/sony-kumari.png",
+    gender: "female",
     section: "registrar-row",
     expertise: "University administration, legal compliance, academic records, statutory reporting",
     achievements: [
       "Led transition to fully digital academic record management",
       "Coordinated NAAC peer team visits and documentation",
+      "Oversees statutory reporting to UGC, NAAC, and state authorities",
     ],
   },
   {
     id: "coe",
-    name: "Dr. Prakash Bhat",
+    name: "Dr. Gaurav Sinha",
     designation: "Controller of Examinations (COE)",
     description: "Oversees all aspects of examination planning, administration, evaluation, and result declaration ensuring fairness, transparency, and adherence to academic standards.",
-    qualifications: "PhD (Education); MEd; MCA; 15+ years in examination administration",
-    photo: MALE_PHOTOS[0],
+    qualifications: "PhD; Controller of Examinations, S-VYASA University; Expert in examination systems, digital assessment, and academic evaluation",
+    photo: "/ec-members/gaurav-sinha.jpg",
     gender: "male",
     section: "registrar-row",
     expertise: "Examination systems, digital assessment, academic evaluation, anti-malpractice",
@@ -224,52 +389,52 @@ const adminData: AdminProfile[] = [
   },
   {
     id: "deputy-registrar",
-    name: "Shri. Suresh Kamath",
+    name: "Dr. Vasudev Vaidya",
     designation: "Deputy Registrar",
     description: "Assists the Registrar in day-to-day administrative operations, employee relations, departmental coordination, and official correspondence management.",
-    qualifications: "MA (Public Administration); MBA; 12 years in higher education administration",
-    photo: MALE_PHOTOS[1],
+    qualifications: "PhD; Deputy Registrar, S-VYASA University; Extensive experience in academic administration and institutional coordination",
+    photo: "/ec-members/vasudev-vaidya.png",
     gender: "male",
     section: "registrar-row",
-    expertise: "Administrative operations, HR coordination, official correspondence",
+    expertise: "Administrative operations, HR coordination, official correspondence, departmental management",
   },
   {
     id: "admin-officer",
-    name: "Shri. Mohan Das",
-    designation: "Administrative Officer",
-    description: "Manages campus operations, facilities oversight, vendor management, and day-to-day administrative support across all departments of the university.",
-    qualifications: "MBA (Operations); BE; 10 years campus administration experience",
-    photo: MALE_PHOTOS[2],
+    name: "Shri. Anish Antony",
+    designation: "Executive Director, SCC",
+    description: "Executive Director of the S-VYASA City Campus (SCC), overseeing all campus operations, strategic development, and academic programs at the Global City Campus location.",
+    qualifications: "MBA; Executive Director, S-VYASA City Campus; Expert in campus administration and strategic management",
+    photo: "/ec-members/anish-antony.jpg",
     gender: "male",
     section: "registrar-row",
-    expertise: "Campus operations, facility management, vendor coordination",
+    expertise: "Campus administration, strategic management, operations, institutional development",
   },
   {
     id: "liaison",
-    name: "Shri. Ravi Shankar",
-    designation: "Liaison Officer",
-    description: "Coordinates communication and official liaison between the university and external government bodies, regulatory authorities, and partner institutions.",
-    qualifications: "MA; Diploma in Public Relations; 8 years in institutional liaison roles",
-    photo: MALE_PHOTOS[3],
+    name: "Mr. Dhananjaya",
+    designation: "Joint Director, F&A",
+    description: "Joint Director of Finance and Accounts, overseeing financial planning, budgeting, and fiscal governance ensuring transparent and efficient resource allocation.",
+    qualifications: "MCom; CA; Joint Director, Finance & Accounts, S-VYASA University; Expert in institutional financial management",
+    photo: "/ec-members/dhananjaya.jpg",
     gender: "male",
     section: "registrar-row",
-    expertise: "Government relations, regulatory liaison, inter-institutional communication",
+    expertise: "Financial planning, budget management, fiscal governance, institutional compliance",
   },
   // ── Deans ──
   {
     id: "dean-academics",
-    name: "Dr. Ramesh",
+    name: "Prof. Jayaraman",
     designation: "Dean of Academics",
     description: "Leads academic planning, curriculum development, faculty development programs, and quality assurance of teaching-learning processes across all schools and departments.",
-    qualifications: "PhD (Biochemistry), Jacobs University, Bremen, Germany; MSc; Max Planck Fellowship (2002); UGC Research Award (2016)",
-    photo: MALE_PHOTOS[4],
+    qualifications: "PhD (Yoga Philosophy); MSc (Yoga); Vedanta scholar with 25+ years academic experience",
+    photo: "/ec-members/jayaraman.jpg",
     gender: "male",
     section: "deans",
-    expertise: "Academic governance, molecular biology, yoga-genomics interface, curriculum development",
+    expertise: "Academic governance, yoga philosophy, Vedanta, curriculum development",
     achievements: [
-      "Max Planck Fellowship, 2002",
-      "UGC Research Award, 2016",
-      "Pioneer in molecular understanding of yoga's genomic effects",
+      "Authored 5 books on Yoga philosophy",
+      "Designed the landmark BSc YVT curriculum",
+      "Led academic quality assurance for NAAC accreditation",
     ],
   },
   {
@@ -278,7 +443,7 @@ const adminData: AdminProfile[] = [
     designation: "Dean of Physical Sciences",
     description: "Heads the Division of Yoga & Physical Sciences, overseeing PhD programs and research in biophysics, energy research, and the scientific study of yogic practices.",
     qualifications: "PhD (Physics); Post-Doctoral Fellow, IIT Delhi; Professor with 20+ years research experience",
-    photo: MALE_PHOTOS[5],
+    photo: `https://ui-avatars.com/api/?name=Narayan+Behra&background=1e3a5f&color=fff&size=400&bold=true`,
     gender: "male",
     section: "deans",
     expertise: "Biophysics, energy research, scientific measurement of yoga, PhD program leadership",
@@ -289,18 +454,14 @@ const adminData: AdminProfile[] = [
   },
   {
     id: "dean-yoga-spiritual",
-    name: "Prof. Jayaraman",
-    designation: "Dean of Yoga & Spirituality",
-    description: "Oversees the School of Yogic Sciences and VMAC-VTR, guiding programs that integrate classical yoga philosophy with modern pedagogical approaches.",
-    qualifications: "PhD (Yoga Philosophy); MSc (Yoga); Vedanta scholar with 25+ years academic experience",
-    photo: MALE_PHOTOS[6],
+    name: "Prof. Siva Sankara Sai",
+    designation: "Pro-Vice Chancellor",
+    description: "Seasoned academic administrator supporting the Vice Chancellor in all academic and administrative matters, leading interdisciplinary research and international collaborations.",
+    qualifications: "PhD; Professor with extensive academic and administrative experience in higher education institutions",
+    photo: "/ec-members/siva-sankara-sai.jpg",
     gender: "male",
     section: "deans",
-    expertise: "Yoga philosophy, Vedanta, classical yoga texts, spiritual education, contemplative science",
-    achievements: [
-      "Authored 5 books on Yoga philosophy",
-      "Designed the landmark BSc YVT curriculum",
-    ],
+    expertise: "Academic administration, curriculum design, international collaborations, faculty development",
   },
   {
     id: "code-director",
@@ -308,7 +469,7 @@ const adminData: AdminProfile[] = [
     designation: "CODE Director",
     description: "Directs the School of Open and Distance Education (SCODE), managing online and distance learning programs that extend S-VYASA's yoga education to learners worldwide.",
     qualifications: "PhD (Yoga & Education); MEd; Certified e-Learning Designer; 15+ years in distance education",
-    photo: MALE_PHOTOS[7],
+    photo: "/ec-members/natesh-babu.jpg",
     gender: "male",
     section: "deans",
     expertise: "Distance education, e-learning, instructional design, program delivery at scale",
@@ -323,7 +484,7 @@ const adminData: AdminProfile[] = [
     designation: "Director of Yoga & Humanities",
     description: "Directs the Division of Yoga & Humanities, overseeing PhD programs, Yoga Instructor Courses (YIC), and research in the philosophical and cultural dimensions of yoga.",
     qualifications: "PhD (Sanskrit & Yoga); MA (Sanskrit); Vedic scholar and yoga historian with 20+ years experience",
-    photo: MALE_PHOTOS[8],
+    photo: `https://ui-avatars.com/api/?name=Muralidhar+Kanchi&background=1e3a5f&color=fff&size=400&bold=true`,
     gender: "male",
     section: "deans",
     expertise: "Sanskrit, yoga history, Vedic philosophy, YIC curriculum, humanities research",
@@ -332,14 +493,47 @@ const adminData: AdminProfile[] = [
       "Translated 10 classical yoga texts into English",
     ],
   },
-  // ── Hostels & Admin ──
+  {
+    id: "dir-sridhar",
+    name: "Dr. Sridhar S",
+    designation: "Director Academics, SCC",
+    description: "Director of Academics at S-VYASA City Campus, overseeing curriculum delivery, faculty coordination, and academic quality assurance for all programs at the City Campus.",
+    qualifications: "PhD; Director Academics, S-VYASA City Campus; Expertise in academic governance and curriculum management",
+    photo: "/ec-members/sridhar-s.jpg",
+    gender: "male",
+    section: "deans",
+    expertise: "Academic governance, curriculum management, faculty coordination, quality assurance",
+  },
+  {
+    id: "dir-amit",
+    name: "Dr. Amit Singh",
+    designation: "Director, VASHI",
+    description: "Director of VASHI (Vivekananda Advanced Studies and Health Integration), leading advanced research programs and health integration initiatives under S-VYASA's academic framework.",
+    qualifications: "PhD; Director, VASHI; Research expertise in integrative health and advanced yoga studies",
+    photo: "/ec-members/amit-singh.jpg",
+    gender: "male",
+    section: "deans",
+    expertise: "Integrative health, advanced yoga studies, research direction, health integration programs",
+  },
+  {
+    id: "dir-ramesh",
+    name: "Dr. M N Ramesh",
+    designation: "Director of Anvesana",
+    description: "Professor and Director of Anvesana Research Center, leading cutting-edge research programs that bridge yogic sciences with modern scientific methodologies.",
+    qualifications: "PhD; Professor and Director, Anvesana Research Center; Research publications in yoga and life sciences",
+    photo: "/ec-members/mn-ramesh.jpg",
+    gender: "male",
+    section: "deans",
+    expertise: "Research direction, yoga-science integration, Anvesana research programs",
+  },
+  // ── Campus Administration ──
   {
     id: "hostel-girls",
     name: "Dr. Savitha Rao",
     designation: "Girls Hostel Warden",
     description: "Ensures a safe, supportive, and holistic living environment for female students, integrating yogic lifestyle principles into daily hostel routines.",
     qualifications: "PhD (Yoga); MSc; Trained counsellor; 12 years in student welfare",
-    photo: FEMALE_PHOTOS[3],
+    photo: `https://ui-avatars.com/api/?name=Savitha+Rao&background=7c3d12&color=fff&size=400&bold=true`,
     gender: "female",
     section: "admin",
     expertise: "Student welfare, counselling, hostel administration, yoga lifestyle integration",
@@ -350,7 +544,7 @@ const adminData: AdminProfile[] = [
     designation: "Boys Hostel Warden",
     description: "Manages the boys' residential facilities, fostering a disciplined, yogic lifestyle environment that supports students' academic and personal growth.",
     qualifications: "MSc Yoga; Certified Yoga Teacher; 10 years in student services",
-    photo: MALE_PHOTOS[0],
+    photo: `https://ui-avatars.com/api/?name=Ganesh+Kumar&background=1e3a5f&color=fff&size=400&bold=true`,
     gender: "male",
     section: "admin",
     expertise: "Student services, residential management, yogic lifestyle facilitation",
@@ -361,7 +555,7 @@ const adminData: AdminProfile[] = [
     designation: "Head, Human Resources",
     description: "Oversees faculty and staff recruitment, appraisals, welfare, and HR policies aligned with the university's mission and statutory employment requirements.",
     qualifications: "MBA (HR); PG Diploma in Labour Laws; SHRM Certified; 14 years HR experience",
-    photo: MALE_PHOTOS[1],
+    photo: `https://ui-avatars.com/api/?name=Pradeep+Shenoy&background=1e3a5f&color=fff&size=400&bold=true`,
     gender: "male",
     section: "admin",
     expertise: "HR management, talent acquisition, employee welfare, labour compliance",
@@ -372,7 +566,7 @@ const adminData: AdminProfile[] = [
     designation: "Campus Maintenance Officer",
     description: "Responsible for the upkeep, renovation, and sustainable maintenance of all campus facilities across S-VYASA's Bengaluru and Prashanti campuses.",
     qualifications: "BE (Civil Engineering); Diploma in Facilities Management; 16 years campus maintenance",
-    photo: MALE_PHOTOS[2],
+    photo: `https://ui-avatars.com/api/?name=Vinay+Hebbar&background=1e3a5f&color=fff&size=400&bold=true`,
     gender: "male",
     section: "admin",
     expertise: "Civil maintenance, sustainable campus management, green building practices",
@@ -430,7 +624,7 @@ const stagger: Variants = {
 };
 
 // ─── AVATAR ───────────────────────────────────────────────────────────────────
-function AdminAvatar({ photo, name, size = "lg" }: { photo?: string; name: string; size?: "sm" | "md" | "lg" | "xl" | "2xl" }) {
+function AdminAvatar({ photo, name, initials, size = "lg" }: { photo?: string; name: string; initials?: string; size?: "sm" | "md" | "lg" | "xl" | "2xl" }) {
   const [err, setErr] = useState(false);
   const cls = {
     sm: "w-10 h-10",
@@ -439,7 +633,7 @@ function AdminAvatar({ photo, name, size = "lg" }: { photo?: string; name: strin
     xl: "w-28 h-28",
     "2xl": "w-36 h-36",
   }[size];
-  const fallback = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=92400e&color=fff&size=200&bold=true`;
+  const fallback = `https://ui-avatars.com/api/?name=${encodeURIComponent(initials || name)}&background=92400e&color=fff&size=200&bold=true`;
   return (
     <img
       src={!photo || err ? fallback : photo}
@@ -452,7 +646,7 @@ function AdminAvatar({ photo, name, size = "lg" }: { photo?: string; name: strin
 }
 
 // ─── MEMBER CARD ──────────────────────────────────────────────────────────────
-function MemberCard({ member, onClick, featured = false }: { member: AdminProfile; onClick: () => void; featured?: boolean }) {
+function MemberCard({ member, onClick, featured = false }: { member: AnyMember; onClick: () => void; featured?: boolean }) {
   if (featured) {
     return (
       <motion.div
@@ -515,7 +709,8 @@ function MemberCard({ member, onClick, featured = false }: { member: AdminProfil
 }
 
 // ─── PROFILE DRAWER ───────────────────────────────────────────────────────────
-function ProfileDrawer({ member, onClose }: { member: AdminProfile; onClose: () => void }) {
+type AnyMember = AdminProfile | ECMember;
+function ProfileDrawer({ member, onClose }: { member: AnyMember; onClose: () => void }) {
   return (
     <AnimatePresence>
       <motion.div
@@ -553,9 +748,11 @@ function ProfileDrawer({ member, onClose }: { member: AdminProfile; onClose: () 
               </div>
               <div className="pt-1">
                 <p className="text-amber-300 text-[10px] font-bold uppercase tracking-widest mb-1">
-                  {member.section === "ec" ? "Executive Council" :
-                   member.section === "deans" ? "Dean / Director" :
-                   member.section === "registrar-row" ? "Administration" : "Campus Administration"}
+                  {'section' in member
+                    ? (member.section === "ec" ? "Executive Council" :
+                       member.section === "deans" ? "Dean / Director" :
+                       member.section === "registrar-row" ? "Administration" : "Campus Administration")
+                    : "Executive Council"}
                 </p>
                 <h2 className="text-white font-['Playfair_Display',serif] text-xl font-bold leading-snug mb-1">
                   {member.name}
@@ -641,7 +838,7 @@ function SectionBlock({
   title: string;
   icon: React.ElementType;
   description: string;
-  onSelect: (m: AdminProfile) => void;
+  onSelect: (m: AnyMember) => void;
   featured?: boolean;
 }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -708,6 +905,110 @@ function SectionBlock({
 }
 
 // ─── ORGANOGRAM (PDF-based) ────────────────────────────────────────────────────
+// ─── EC MEMBER CARD ───────────────────────────────────────────────────────────
+function ECMemberCard({ member, onClick }: { member: ECMember; onClick: () => void }) {
+  const [imgErr, setImgErr] = useState(false);
+  const fallback = `https://ui-avatars.com/api/?name=${encodeURIComponent(member.initials || member.name)}&background=92400e&color=fff&size=400&bold=true`;
+  return (
+    <motion.div
+      variants={fadeUp}
+      whileHover={{ y: -6, boxShadow: "0 20px 40px -12px hsla(35,92%,33%,0.20)" }}
+      onClick={onClick}
+      className="group cursor-pointer bg-white border border-border rounded-2xl overflow-hidden hover:border-[hsl(var(--saffron))]/60 transition-all duration-300 flex flex-col"
+    >
+      <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-amber-50 to-orange-100">
+        <img
+          src={!member.photo || imgErr ? fallback : member.photo}
+          alt={member.name}
+          className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+          onError={() => setImgErr(true)}
+          loading="lazy"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+      </div>
+      <div className="p-4 flex-1 flex flex-col">
+        <h3 className="font-['Playfair_Display',serif] text-base text-[hsl(var(--navy))] font-bold leading-tight mb-1">
+          {member.name}
+        </h3>
+        <p className="text-[hsl(var(--saffron))] text-xs font-semibold mb-2 leading-snug">{member.designation}</p>
+        <p className="text-[hsl(var(--muted-foreground))] text-xs leading-relaxed line-clamp-2 flex-1">{member.description}</p>
+        <button className="mt-3 text-xs font-semibold text-[hsl(var(--teal))] hover:text-[hsl(var(--saffron))] transition-colors self-start">
+          View Profile →
+        </button>
+      </div>
+    </motion.div>
+  );
+}
+
+// ─── EC CATEGORIES SECTION ────────────────────────────────────────────────────
+function ECCategoriesSection({ onSelect }: { onSelect: (m: ECMember) => void }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const totalMembers = ecCategories.reduce((acc, cat) => acc + cat.members.length, 0);
+
+  return (
+    <motion.div
+      ref={ref}
+      initial="hidden"
+      animate={inView ? "visible" : "hidden"}
+      variants={stagger}
+      className="space-y-12"
+    >
+      {/* Section header */}
+      <motion.div variants={fadeUp} className="flex flex-col sm:flex-row sm:items-end gap-4">
+        <div className="flex-1">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-8 h-[3px] bg-[hsl(var(--saffron))]" />
+            <span className="text-[hsl(var(--teal))] text-xs font-bold uppercase tracking-widest">Section 01</span>
+          </div>
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-10 h-10 rounded-xl bg-[hsl(var(--navy))]/8 flex items-center justify-center">
+              <ShieldCheck size={20} className="text-[hsl(var(--navy))]" />
+            </div>
+            <h2 className="font-['Playfair_Display',serif] text-2xl md:text-3xl text-[hsl(var(--navy))] font-bold">
+              Executive Council Members
+            </h2>
+          </div>
+          <p className="text-[hsl(var(--muted-foreground))] text-sm max-w-xl">
+            The principal governing body of S-VYASA Deemed to be University, comprising {totalMembers} distinguished members across categories.
+          </p>
+        </div>
+        <span className="inline-flex items-center bg-[hsl(var(--cream))] text-[hsl(var(--navy))] text-sm font-semibold px-3 py-1.5 rounded-full border border-border self-start sm:self-auto">
+          {totalMembers} Members
+        </span>
+      </motion.div>
+
+      {/* Categories */}
+      {ecCategories.map((cat) => (
+        <motion.div key={cat.id} variants={fadeUp} className="space-y-4">
+          {/* Category header */}
+          <div className="flex items-center gap-3">
+            <div className="h-[2px] w-6 bg-[hsl(var(--saffron))]/60 rounded-full" />
+            <h3 className="text-[hsl(var(--navy))] text-sm font-bold uppercase tracking-wider">
+              {cat.label}
+            </h3>
+            <span className="text-[hsl(var(--muted-foreground))] text-xs bg-[hsl(var(--cream))] border border-border px-2 py-0.5 rounded-full">
+              {cat.members.length}
+            </span>
+            <div className="flex-1 h-[1px] bg-border" />
+          </div>
+
+          {/* Members grid */}
+          <div className={`grid gap-4 ${
+            cat.members.length === 1 ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" :
+            cat.members.length === 2 ? "grid-cols-1 sm:grid-cols-2" :
+            "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+          }`}>
+            {cat.members.map((m) => (
+              <ECMemberCard key={m.id} member={m} onClick={() => onSelect(m)} />
+            ))}
+          </div>
+        </motion.div>
+      ))}
+    </motion.div>
+  );
+}
+
 function OrgNode({ title, subtitle, level = "mid", onClick }: {
   title: string; subtitle?: string; level?: "top" | "mid" | "leaf"; onClick?: () => void;
 }) {
@@ -810,7 +1111,7 @@ function Organogram() {
 
 // ─── PAGE ──────────────────────────────────────────────────────────────────────
 export default function Administration() {
-  const [selected, setSelected] = useState<AdminProfile | null>(null);
+  const [selected, setSelected] = useState<AnyMember | null>(null);
 
   return (
     <Layout>
@@ -913,18 +1214,21 @@ export default function Administration() {
 
       {/* ── All sections ── */}
       <div className="py-16 max-w-7xl mx-auto px-6 lg:px-10 space-y-20">
-        {sections.map((sec, i) => (
+        {/* EC Categories section first */}
+        <ECCategoriesSection onSelect={setSelected} />
+        <div className="border-t border-dashed border-border" />
+        {sections.filter(sec => sec.id !== "ec").map((sec, i, arr) => (
           <React.Fragment key={sec.id}>
             <SectionBlock
               sectionId={sec.id}
-              label={sec.label}
+              label={`Section 0${i + 2}`}
               title={sec.title}
               icon={sec.icon}
               description={sec.description}
               onSelect={setSelected}
-              featured={sec.id === "ec"}
+              featured={false}
             />
-            {i < sections.length - 1 && <div className="border-t border-dashed border-border" />}
+            {i < arr.length - 1 && <div className="border-t border-dashed border-border" />}
           </React.Fragment>
         ))}
       </div>
