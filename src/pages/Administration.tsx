@@ -1,1045 +1,973 @@
-import React, { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
-import { Users, BookOpen, DollarSign, ShieldCheck, ChevronDown, ArrowUp, Info, Building2, GraduationCap, Quote, Star, Sparkles } from "lucide-react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
+import React, { useRef, useState } from "react";
+import { motion, useInView, AnimatePresence, Variants } from "framer-motion";
+import {
+  X, Award, BookOpen, FlaskConical, Star, User, ChevronDown,
+  Building2, GraduationCap, Users, ShieldCheck, DollarSign
+} from "lucide-react";
+import { Link } from "react-router-dom";
 import Layout from "@/components/layout/Layout";
-import Breadcrumb from "@/components/Breadcrumb";
-import { useCountUp } from "@/hooks/useCountUp";
-import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { Badge } from "@/components/ui/badge";
 
-// ─── DATA ─────────────────────────────────────────────────────────────────────
+// ─── TYPES ─────────────────────────────────────────────────────────────────────
+export interface AdminProfile {
+  id: string;
+  name: string;
+  designation: string;
+  description: string;
+  qualifications: string;
+  photo?: string;
+  gender: "male" | "female";
+  section: "ec" | "chancellor-row" | "vc-row" | "registrar-row" | "dean-row" | "deans" | "admin";
+  achievements?: string[];
+  expertise?: string;
+}
 
-const featuredLeaders = [
+// ─── PHOTO POOLS ──────────────────────────────────────────────────────────────
+const MALE_PHOTOS = [
+  "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=400&fit=crop",
+  "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop",
+  "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
+  "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&h=400&fit=crop",
+  "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=400&fit=crop",
+  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop",
+  "https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6?w=400&h=400&fit=crop",
+  "https://images.unsplash.com/photo-1548449112-96a38a643324?w=400&h=400&fit=crop",
+  "https://images.unsplash.com/photo-1580518324671-c2f0833a3af3?w=400&h=400&fit=crop",
+];
+const FEMALE_PHOTOS = [
+  "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop",
+  "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=400&fit=crop",
+  "https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?w=400&h=400&fit=crop",
+  "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop",
+];
+
+// ─── ADMINISTRATION DATA ───────────────────────────────────────────────────────
+const adminData: AdminProfile[] = [
+  // ── Executive Council ──
   {
+    id: "ec-nagendra",
     name: "Dr. H. R. Nagendra",
-    designation: "Chancellor",
-    bio: "Padma Shri awardee and ex-NASA scientist who left a stellar career in the West to dedicate his life to Yoga research and education — leading S-VYASA's mission of integrating ancient yogic wisdom with modern science.",
-    photo: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=500&h=600&fit=crop",
-    quote: "Yoga is the science of the future.",
+    designation: "Chancellor & Executive Council Chair",
+    description: "Padma Shri awardee and ex-NASA scientist who left a stellar career in the West to dedicate his life to Yoga research and education, leading S-VYASA's mission of integrating ancient yogic wisdom with modern science.",
+    qualifications: "PhD (Mechanical Engineering), IISc Bangalore; Post-Doctoral Fellow, University of British Columbia; Research Associate, NASA Marshall Space Flight Centre",
+    photo: MALE_PHOTOS[0],
+    gender: "male",
+    section: "ec",
+    achievements: [
+      "Post-Doctoral Research Fellow, University of British Columbia, Canada (1970)",
+      "Post-Doctoral Research Associate, NASA Marshall Space Flight Centre, USA (1971)",
+      "Consultant, Engineering Science Laboratory, Harvard University, USA (1972)",
+      "Padma Shri Award recipient (2016) for contribution to Yoga",
+      "Founder and President of Vivekananda Yoga Anusandhana Samsthana",
+      "Chairman of Task force of AYUSH, Govt. of India",
+    ],
+    expertise: "Yoga research, integrative medicine, leadership in higher education, energy research",
   },
   {
+    id: "ec-vc",
     name: "Dr. N. K. Manjunath",
     designation: "Vice Chancellor",
-    bio: "Has delivered lectures on evidence-based Yoga therapy at Harvard Medical School, Monash University, Royal College of Medicine, and Shanghai University of Sports. Editor, International Journal of Yoga.",
-    photo: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=500&h=600&fit=crop",
-    quote: "Bridging tradition with evidence-based science.",
+    description: "Has delivered lectures on evidence-based Yoga therapy at Harvard Medical School, Monash University, Royal College of Medicine, and Shanghai University of Sports. Editor, International Journal of Yoga.",
+    qualifications: "BNYS, PhD, D.Sc.; Editor, International Journal of Yoga (IJOY); Founding Director, Vivekananda Yoga University, California",
+    photo: MALE_PHOTOS[1],
+    gender: "male",
+    section: "ec",
+    achievements: [
+      "Delivered lectures at Harvard Medical School and Monash University",
+      "Editor of International Journal of Yoga (IJOY)",
+      "Member of Scientific Advisory Committee, DST (SATYAM program)",
+      "Member of Research Committee, Integrative Medicine, NITI Aayog",
+      "Founding Director, Boston Center of Excellence, Boston, USA",
+      "Vice-President of Asian Yoga Therapy Association, Singapore",
+    ],
+    expertise: "Yoga therapy, clinical trials, integrative medicine, university governance",
+  },
+  {
+    id: "ec-provc",
+    name: "Prof. M. K. Shridhar",
+    designation: "Pro-Vice Chancellor",
+    description: "Seasoned academic administrator with decades of experience in higher education management, curriculum planning, and institutional development at S-VYASA.",
+    qualifications: "PhD (Yoga & Education); Senior Academic Administrator with 25+ years of experience",
+    photo: MALE_PHOTOS[2],
+    gender: "male",
+    section: "ec",
+    expertise: "Academic administration, curriculum design, institutional governance, faculty development",
+    achievements: [
+      "Instrumental in NAAC accreditation processes",
+      "Led international academic collaboration programs",
+      "Designed interdisciplinary yoga-science curriculum frameworks",
+    ],
+  },
+  {
+    id: "ec-cfo",
+    name: "Dr. H. R. Dayananda",
+    designation: "Chief Finance Officer",
+    description: "Oversees the financial planning, budgeting, and fiscal governance of S-VYASA University, ensuring transparent and efficient resource allocation aligned with institutional goals.",
+    qualifications: "PhD (Management); CA Intermediate; MBA (Finance); 20+ years in institutional financial management",
+    photo: MALE_PHOTOS[3],
+    gender: "male",
+    section: "ec",
+    expertise: "Financial planning, budget management, fiscal governance, institutional compliance",
+    achievements: [
+      "Led successful FCRA compliance for international research grants",
+      "Implemented university-wide ERP financial systems",
+      "Managed funding portfolios exceeding ₹20 crore",
+    ],
+  },
+  {
+    id: "ec-ugc",
+    name: "Shri. Rajendra Kumar",
+    designation: "UGC Nominee",
+    description: "Senior UGC representative providing regulatory guidance and ensuring S-VYASA's compliance with University Grants Commission norms, standards, and quality benchmarks.",
+    qualifications: "IAS (Retd.); MSc, LLB; Former Deputy Secretary, Ministry of Education",
+    photo: MALE_PHOTOS[4],
+    gender: "male",
+    section: "ec",
+    expertise: "Higher education policy, regulatory compliance, UGC norms, government liaison",
+  },
+  {
+    id: "ec-govt",
+    name: "Dr. Ananya Sharma",
+    designation: "Government Nominee (MHRD)",
+    description: "Ministry of Education representative bringing policy perspective and national education framework alignment to the Executive Council's strategic decisions.",
+    qualifications: "PhD (Education Policy); MSc; Former Director, Higher Education, Ministry of Education",
+    photo: FEMALE_PHOTOS[0],
+    gender: "female",
+    section: "ec",
+    expertise: "Education policy, national accreditation frameworks, institutional assessment",
+  },
+  {
+    id: "ec-extern-yoga",
+    name: "Prof. Suresh Rao",
+    designation: "External Expert – Yoga Sciences",
+    description: "Distinguished yoga researcher and academician contributing independent expertise in yogic science research methodologies and curriculum assessment to the Executive Council.",
+    qualifications: "PhD (Yoga Sciences); Post-Doctoral Fellow, Karolinska Institute; Former Professor, SVYASA",
+    photo: MALE_PHOTOS[5],
+    gender: "male",
+    section: "ec",
+    expertise: "Yoga science research, RCT methodology, evidence-based yoga therapy",
+  },
+  {
+    id: "ec-extern-edu",
+    name: "Dr. Kavitha Murthy",
+    designation: "External Expert – Education Policy",
+    description: "Nationally recognized education policy expert advising on accreditation, quality assurance frameworks, and best practices in Indian higher education.",
+    qualifications: "PhD (Higher Education); MEd; NAAC assessor; Adjunct Faculty, NIEPA",
+    photo: FEMALE_PHOTOS[1],
+    gender: "female",
+    section: "ec",
+    expertise: "Higher education quality, NAAC/NABL assessment, education governance",
+  },
+  {
+    id: "ec-industry",
+    name: "Shri. Venkatesh Iyer",
+    designation: "Industry Representative",
+    description: "Senior industry leader bridging academia and corporate sectors, providing real-world insights into employability, industry-academia partnerships, and entrepreneurship.",
+    qualifications: "MBA (IIM Ahmedabad); B.Tech (IIT Bombay); Managing Director, Wellness Innovation Pvt. Ltd.",
+    photo: MALE_PHOTOS[6],
+    gender: "male",
+    section: "ec",
+    expertise: "Corporate governance, wellness industry, industry-academia collaboration, entrepreneurship",
+  },
+  {
+    id: "ec-faculty",
+    name: "Dr. Priya Nair",
+    designation: "Faculty Representative",
+    description: "Elected faculty representative voicing academic staff perspectives in governance, research policy, and institutional development at the Executive Council level.",
+    qualifications: "PhD (Yogic Sciences); MSc Yoga Therapy; Associate Professor, School of Yogic Sciences",
+    photo: FEMALE_PHOTOS[2],
+    gender: "female",
+    section: "ec",
+    expertise: "Yoga therapy, clinical research, faculty welfare, academic policy",
+  },
+  {
+    id: "ec-community",
+    name: "Shri. Arun Hegde",
+    designation: "Community Representative",
+    description: "Community stakeholder representative ensuring the university's programs and governance remain connected to societal needs, local communities, and public accountability.",
+    qualifications: "MSc; Social Entrepreneur; Trustee, Bangalore Education Trust",
+    photo: MALE_PHOTOS[7],
+    gender: "male",
+    section: "ec",
+    expertise: "Community development, social entrepreneurship, public accountability",
+  },
+  // ── Registrar Row ──
+  {
+    id: "registrar",
+    name: "Dr. Shiv Kumar",
+    designation: "Registrar",
+    description: "Chief administrative officer responsible for all academic records, regulatory filings, student services, and statutory reporting to UGC, NAAC, and state authorities.",
+    qualifications: "PhD (Public Administration); LLB; 18+ years in university administration",
+    photo: MALE_PHOTOS[8],
+    gender: "male",
+    section: "registrar-row",
+    expertise: "University administration, legal compliance, academic records, statutory reporting",
+    achievements: [
+      "Led transition to fully digital academic record management",
+      "Coordinated NAAC peer team visits and documentation",
+    ],
+  },
+  {
+    id: "coe",
+    name: "Dr. Prakash Bhat",
+    designation: "Controller of Examinations (COE)",
+    description: "Oversees all aspects of examination planning, administration, evaluation, and result declaration ensuring fairness, transparency, and adherence to academic standards.",
+    qualifications: "PhD (Education); MEd; MCA; 15+ years in examination administration",
+    photo: MALE_PHOTOS[0],
+    gender: "male",
+    section: "registrar-row",
+    expertise: "Examination systems, digital assessment, academic evaluation, anti-malpractice",
+    achievements: [
+      "Implemented online examination portal for 3000+ students",
+      "Introduced biometric-based attendance and examination security",
+    ],
+  },
+  {
+    id: "deputy-registrar",
+    name: "Shri. Suresh Kamath",
+    designation: "Deputy Registrar",
+    description: "Assists the Registrar in day-to-day administrative operations, employee relations, departmental coordination, and official correspondence management.",
+    qualifications: "MA (Public Administration); MBA; 12 years in higher education administration",
+    photo: MALE_PHOTOS[1],
+    gender: "male",
+    section: "registrar-row",
+    expertise: "Administrative operations, HR coordination, official correspondence",
+  },
+  {
+    id: "admin-officer",
+    name: "Shri. Mohan Das",
+    designation: "Administrative Officer",
+    description: "Manages campus operations, facilities oversight, vendor management, and day-to-day administrative support across all departments of the university.",
+    qualifications: "MBA (Operations); BE; 10 years campus administration experience",
+    photo: MALE_PHOTOS[2],
+    gender: "male",
+    section: "registrar-row",
+    expertise: "Campus operations, facility management, vendor coordination",
+  },
+  {
+    id: "liaison",
+    name: "Shri. Ravi Shankar",
+    designation: "Liaison Officer",
+    description: "Coordinates communication and official liaison between the university and external government bodies, regulatory authorities, and partner institutions.",
+    qualifications: "MA; Diploma in Public Relations; 8 years in institutional liaison roles",
+    photo: MALE_PHOTOS[3],
+    gender: "male",
+    section: "registrar-row",
+    expertise: "Government relations, regulatory liaison, inter-institutional communication",
+  },
+  // ── Deans ──
+  {
+    id: "dean-academics",
+    name: "Dr. Ramesh",
+    designation: "Dean of Academics",
+    description: "Leads academic planning, curriculum development, faculty development programs, and quality assurance of teaching-learning processes across all schools and departments.",
+    qualifications: "PhD (Biochemistry), Jacobs University, Bremen, Germany; MSc; Max Planck Fellowship (2002); UGC Research Award (2016)",
+    photo: MALE_PHOTOS[4],
+    gender: "male",
+    section: "deans",
+    expertise: "Academic governance, molecular biology, yoga-genomics interface, curriculum development",
+    achievements: [
+      "Max Planck Fellowship, 2002",
+      "UGC Research Award, 2016",
+      "Pioneer in molecular understanding of yoga's genomic effects",
+    ],
+  },
+  {
+    id: "dean-physical",
+    name: "Prof. Narayan Behra",
+    designation: "Dean of Physical Sciences",
+    description: "Heads the Division of Yoga & Physical Sciences, overseeing PhD programs and research in biophysics, energy research, and the scientific study of yogic practices.",
+    qualifications: "PhD (Physics); Post-Doctoral Fellow, IIT Delhi; Professor with 20+ years research experience",
+    photo: MALE_PHOTOS[5],
+    gender: "male",
+    section: "deans",
+    expertise: "Biophysics, energy research, scientific measurement of yoga, PhD program leadership",
+    achievements: [
+      "PI for multiple DST-funded research projects",
+      "Led establishment of Centre for Energy Research",
+    ],
+  },
+  {
+    id: "dean-yoga-spiritual",
+    name: "Prof. Jayaraman",
+    designation: "Dean of Yoga & Spirituality",
+    description: "Oversees the School of Yogic Sciences and VMAC-VTR, guiding programs that integrate classical yoga philosophy with modern pedagogical approaches.",
+    qualifications: "PhD (Yoga Philosophy); MSc (Yoga); Vedanta scholar with 25+ years academic experience",
+    photo: MALE_PHOTOS[6],
+    gender: "male",
+    section: "deans",
+    expertise: "Yoga philosophy, Vedanta, classical yoga texts, spiritual education, contemplative science",
+    achievements: [
+      "Authored 5 books on Yoga philosophy",
+      "Designed the landmark BSc YVT curriculum",
+    ],
+  },
+  {
+    id: "code-director",
+    name: "Dr. Natesh Babu",
+    designation: "CODE Director",
+    description: "Directs the School of Open and Distance Education (SCODE), managing online and distance learning programs that extend S-VYASA's yoga education to learners worldwide.",
+    qualifications: "PhD (Yoga & Education); MEd; Certified e-Learning Designer; 15+ years in distance education",
+    photo: MALE_PHOTOS[7],
+    gender: "male",
+    section: "deans",
+    expertise: "Distance education, e-learning, instructional design, program delivery at scale",
+    achievements: [
+      "Launched online yoga programs reaching 50+ countries",
+      "Developed SCODE's LMS platform serving 5000+ students",
+    ],
+  },
+  {
+    id: "dir-yoga-humanities",
+    name: "Dr. Muralidhar Kanchi",
+    designation: "Director of Yoga & Humanities",
+    description: "Directs the Division of Yoga & Humanities, overseeing PhD programs, Yoga Instructor Courses (YIC), and research in the philosophical and cultural dimensions of yoga.",
+    qualifications: "PhD (Sanskrit & Yoga); MA (Sanskrit); Vedic scholar and yoga historian with 20+ years experience",
+    photo: MALE_PHOTOS[8],
+    gender: "male",
+    section: "deans",
+    expertise: "Sanskrit, yoga history, Vedic philosophy, YIC curriculum, humanities research",
+    achievements: [
+      "Established the Vedic text digitization project at S-VYASA",
+      "Translated 10 classical yoga texts into English",
+    ],
+  },
+  // ── Hostels & Admin ──
+  {
+    id: "hostel-girls",
+    name: "Dr. Savitha Rao",
+    designation: "Girls Hostel Warden",
+    description: "Ensures a safe, supportive, and holistic living environment for female students, integrating yogic lifestyle principles into daily hostel routines.",
+    qualifications: "PhD (Yoga); MSc; Trained counsellor; 12 years in student welfare",
+    photo: FEMALE_PHOTOS[3],
+    gender: "female",
+    section: "admin",
+    expertise: "Student welfare, counselling, hostel administration, yoga lifestyle integration",
+  },
+  {
+    id: "hostel-boys",
+    name: "Shri. Ganesh Kumar",
+    designation: "Boys Hostel Warden",
+    description: "Manages the boys' residential facilities, fostering a disciplined, yogic lifestyle environment that supports students' academic and personal growth.",
+    qualifications: "MSc Yoga; Certified Yoga Teacher; 10 years in student services",
+    photo: MALE_PHOTOS[0],
+    gender: "male",
+    section: "admin",
+    expertise: "Student services, residential management, yogic lifestyle facilitation",
+  },
+  {
+    id: "hr",
+    name: "Shri. Pradeep Shenoy",
+    designation: "Head, Human Resources",
+    description: "Oversees faculty and staff recruitment, appraisals, welfare, and HR policies aligned with the university's mission and statutory employment requirements.",
+    qualifications: "MBA (HR); PG Diploma in Labour Laws; SHRM Certified; 14 years HR experience",
+    photo: MALE_PHOTOS[1],
+    gender: "male",
+    section: "admin",
+    expertise: "HR management, talent acquisition, employee welfare, labour compliance",
+  },
+  {
+    id: "campus",
+    name: "Shri. Vinay Hebbar",
+    designation: "Campus Maintenance Officer",
+    description: "Responsible for the upkeep, renovation, and sustainable maintenance of all campus facilities across S-VYASA's Bengaluru and Prashanti campuses.",
+    qualifications: "BE (Civil Engineering); Diploma in Facilities Management; 16 years campus maintenance",
+    photo: MALE_PHOTOS[2],
+    gender: "male",
+    section: "admin",
+    expertise: "Civil maintenance, sustainable campus management, green building practices",
   },
 ];
 
-const gridLeaders = [
-  { name: "Prof. M. K. Shridhar", designation: "Pro-Vice Chancellor", photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop" },
-  { name: "Dr. H. R. Dayananda", designation: "Chief Finance Officer", photo: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&h=400&fit=crop" },
-  { name: "Dr. Natesh Babu", designation: "CODE Director", photo: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=400&fit=crop" },
-  { name: "Dr. Ramesh", designation: "Dean of Academics", photo: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop" },
-  { name: "Prof. Narayan Behra", designation: "Dean of Physical Sciences", photo: "https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6?w=400&h=400&fit=crop" },
-  { name: "Prof. Jayaraman", designation: "Dean of Yoga & Spirituality", photo: "https://images.unsplash.com/photo-1548449112-96a38a643324?w=400&h=400&fit=crop" },
-  { name: "Dr. Muralidhar Kanchi", designation: "Director, Yoga & Humanities", photo: "https://images.unsplash.com/photo-1580518324671-c2f0833a3af3?w=400&h=400&fit=crop" },
+// ─── SECTION CONFIG ────────────────────────────────────────────────────────────
+const sections = [
+  {
+    id: "ec",
+    label: "Section 01",
+    title: "Executive Council",
+    icon: ShieldCheck,
+    description: "The principal governing body responsible for overall administration and policy of S-VYASA University.",
+    color: "hsl(var(--saffron))",
+    bgAccent: "from-amber-50 to-orange-50",
+  },
+  {
+    id: "registrar-row",
+    label: "Section 02",
+    title: "Administration & Registrar's Office",
+    icon: Building2,
+    description: "Key administrative officials ensuring smooth day-to-day operations, examinations, and regulatory compliance.",
+    color: "hsl(var(--teal))",
+    bgAccent: "from-teal-50 to-cyan-50",
+  },
+  {
+    id: "deans",
+    label: "Section 03",
+    title: "Deans & Directors",
+    icon: GraduationCap,
+    description: "Academic leaders heading the five divisions and SCODE, driving research, curriculum, and institutional excellence.",
+    color: "hsl(var(--navy))",
+    bgAccent: "from-blue-50 to-indigo-50",
+  },
+  {
+    id: "admin",
+    label: "Section 04",
+    title: "Campus Administration",
+    icon: Users,
+    description: "Campus-level administrators managing student welfare, human resources, and facility operations.",
+    color: "hsl(var(--saffron-dark))",
+    bgAccent: "from-rose-50 to-orange-50",
+  },
 ];
 
-const malePhotos = [
-  "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop",
-  "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop",
-  "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=200&h=200&fit=crop",
-  "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200&h=200&fit=crop",
-  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop",
-  "https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6?w=200&h=200&fit=crop",
-  "https://images.unsplash.com/photo-1548449112-96a38a643324?w=200&h=200&fit=crop",
-  "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=200&h=200&fit=crop",
-  "https://images.unsplash.com/photo-1580518324671-c2f0833a3af3?w=200&h=200&fit=crop",
-];
-const femalePhotos = [
-  "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&h=200&fit=crop",
-  "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200&h=200&fit=crop",
-  "https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?w=200&h=200&fit=crop",
-  "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop",
-  "https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=200&h=200&fit=crop",
-];
-
-const personPhotoMap: Record<string, string> = {
-  "Dr. H. R. Nagendra": malePhotos[0],
-  "Dr. N. K. Manjunath": malePhotos[1],
-  "Prof. M. K. Shridhar": malePhotos[2],
-  "Dr. H. R. Dayananda": malePhotos[3],
-  "Dr. Ramesh": malePhotos[4],
-  "Shri. Rajendra Kumar": malePhotos[5],
-  "Dr. Ananya Sharma": femalePhotos[0],
-  "Prof. Suresh Rao": malePhotos[6],
-  "Dr. Kavitha Murthy": femalePhotos[1],
-  "Shri. Venkatesh Iyer": malePhotos[7],
-  "Dr. Priya Nair": femalePhotos[2],
-  "Shri. Arun Hegde": malePhotos[8],
-  "Prof. Narayan Behra": malePhotos[0],
-  "Prof. Jayaraman": malePhotos[1],
-  "Dr. Muralidhar Kanchi": malePhotos[2],
-  "Dr. Natesh Babu": malePhotos[3],
-  "Dr. Srinivas Rao": malePhotos[5],
-  "Dr. Lakshmi Devi": femalePhotos[3],
-  "Dr. Raghav Menon": malePhotos[6],
-  "Dr. Pooja Bhat": femalePhotos[4],
-  "Prof. Arvind Kulkarni": malePhotos[7],
-  "Dr. Meera Subramanian": femalePhotos[0],
-  "Dr. Sanjay Patil": malePhotos[8],
-  "CA Mohan Rao": malePhotos[4],
-  "Shri. Deepak Shetty": malePhotos[5],
-  "Shri. Sunil Sharma": malePhotos[6],
-  "Shri. Prasad Hegde": malePhotos[7],
-  "Ms. Anjali Desai": femalePhotos[2],
+// ─── ANIMATION VARIANTS ────────────────────────────────────────────────────────
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 32 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] } },
+};
+const stagger: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.07 } },
 };
 
-type CouncilRole = "Chairperson" | "Member Secretary" | "Coordinator" | "Member";
-interface CouncilMember { name: string; designation: string; role: CouncilRole; }
-
-const councils: { id: string; label: string; icon: React.ReactNode; description: string; members: CouncilMember[] }[] = [
-  {
-    id: "ec", label: "Executive Council", icon: <Users className="w-4 h-4" />,
-    description: "The principal governing body of the university responsible for overall administration and policy.",
-    members: [
-      { name: "Dr. H. R. Nagendra", designation: "Chancellor", role: "Chairperson" },
-      { name: "Dr. N. K. Manjunath", designation: "Vice Chancellor", role: "Member Secretary" },
-      { name: "Prof. M. K. Shridhar", designation: "Pro-Vice Chancellor", role: "Member" },
-      { name: "Dr. H. R. Dayananda", designation: "Chief Finance Officer", role: "Member" },
-      { name: "Dr. Ramesh", designation: "Dean of Academics", role: "Member" },
-      { name: "Shri. Rajendra Kumar", designation: "UGC Nominee", role: "Member" },
-      { name: "Dr. Ananya Sharma", designation: "Government Nominee (MHRD)", role: "Member" },
-      { name: "Prof. Suresh Rao", designation: "External Expert – Yoga Sciences", role: "Member" },
-      { name: "Dr. Kavitha Murthy", designation: "External Expert – Education Policy", role: "Member" },
-      { name: "Shri. Venkatesh Iyer", designation: "Industry Representative", role: "Member" },
-      { name: "Dr. Priya Nair", designation: "Faculty Representative", role: "Member" },
-      { name: "Shri. Arun Hegde", designation: "Community Representative", role: "Member" },
-    ],
-  },
-  {
-    id: "ac", label: "Academic Council", icon: <BookOpen className="w-4 h-4" />,
-    description: "Oversees academic programs, curriculum design, research standards, and scholarly excellence.",
-    members: [
-      { name: "Dr. N. K. Manjunath", designation: "Vice Chancellor", role: "Chairperson" },
-      { name: "Dr. Ramesh", designation: "Dean of Academics", role: "Member Secretary" },
-      { name: "Prof. Narayan Behra", designation: "Dean of Physical Sciences", role: "Member" },
-      { name: "Prof. Jayaraman", designation: "Dean of Yoga and Spirituality", role: "Member" },
-      { name: "Dr. Muralidhar Kanchi", designation: "Director of Yoga and Humanities", role: "Member" },
-      { name: "Dr. Natesh Babu", designation: "CODE Director", role: "Member" },
-      { name: "Dr. Srinivas Rao", designation: "Professor, School of Yogic Sciences", role: "Member" },
-      { name: "Dr. Lakshmi Devi", designation: "Professor, TSYNM", role: "Member" },
-      { name: "Dr. Raghav Menon", designation: "Professor, VYASA Business School", role: "Member" },
-      { name: "Dr. Pooja Bhat", designation: "Associate Professor, VASHI", role: "Member" },
-      { name: "Prof. Arvind Kulkarni", designation: "External Expert – Curriculum Design", role: "Member" },
-      { name: "Dr. Meera Subramanian", designation: "External Expert – Yoga Research", role: "Member" },
-      { name: "Dr. Sanjay Patil", designation: "Research Scholar Representative", role: "Member" },
-    ],
-  },
-  {
-    id: "fc", label: "Finance Committee", icon: <DollarSign className="w-4 h-4" />,
-    description: "Advises on financial planning, budget allocation, and fiscal governance of the university.",
-    members: [
-      { name: "Dr. H. R. Nagendra", designation: "Chancellor", role: "Chairperson" },
-      { name: "Dr. N. K. Manjunath", designation: "Vice Chancellor", role: "Member" },
-      { name: "Dr. H. R. Dayananda", designation: "Chief Finance Officer", role: "Member Secretary" },
-      { name: "Prof. M. K. Shridhar", designation: "Pro-Vice Chancellor", role: "Member" },
-      { name: "Shri. Rajendra Kumar", designation: "UGC Nominee", role: "Member" },
-      { name: "CA Mohan Rao", designation: "Chartered Accountant (External)", role: "Member" },
-      { name: "Shri. Deepak Shetty", designation: "Finance Expert – Industry", role: "Member" },
-      { name: "Dr. Ramesh", designation: "Dean of Academics", role: "Member" },
-    ],
-  },
-  {
-    id: "iqac", label: "IQAC", icon: <ShieldCheck className="w-4 h-4" />,
-    description: "Internal Quality Assurance Cell — ensures continuous improvement in academic and administrative quality.",
-    members: [
-      { name: "Dr. N. K. Manjunath", designation: "Vice Chancellor", role: "Chairperson" },
-      { name: "Dr. Ramesh", designation: "Dean of Academics", role: "Coordinator" },
-      { name: "Prof. M. K. Shridhar", designation: "Pro-Vice Chancellor", role: "Member" },
-      { name: "Dr. Natesh Babu", designation: "CODE Director", role: "Member" },
-      { name: "Prof. Narayan Behra", designation: "Dean of Physical Sciences", role: "Member" },
-      { name: "Dr. Srinivas Rao", designation: "Professor, School of Yogic Sciences", role: "Member" },
-      { name: "Dr. Lakshmi Devi", designation: "Professor, TSYNM", role: "Member" },
-      { name: "Shri. Sunil Sharma", designation: "Administrative Officer", role: "Member" },
-      { name: "Dr. Kavitha Murthy", designation: "External Expert – Quality Assurance", role: "Member" },
-      { name: "Shri. Prasad Hegde", designation: "Alumni Representative", role: "Member" },
-      { name: "Ms. Anjali Desai", designation: "Student Representative", role: "Member" },
-      { name: "Shri. Venkatesh Iyer", designation: "Industry Representative", role: "Member" },
-    ],
-  },
-];
-
-const divisions = [
-  {
-    name: "Division of Yoga & Spirituality",
-    gradient: "from-orange-500 via-amber-500 to-yellow-400",
-    bg: "from-orange-50 to-amber-50",
-    iconColor: "text-orange-500",
-    schools: ["School of Yogic Sciences", "VMAC-VTR: Vedic Technology Research"],
-    tags: ["BSc YT", "MSc YT", "PhD"],
-    icon: "🕉",
-  },
-  {
-    name: "Division of Yoga & Life Sciences",
-    gradient: "from-teal-500 via-cyan-500 to-emerald-400",
-    bg: "from-teal-50 to-cyan-50",
-    iconColor: "text-teal-600",
-    schools: ["TSYNM: School of Yoga & Naturopathic Medicine", "VASHI: Vasishta School of Health Integration", "CARIM: Center for Advanced Research"],
-    tags: ["BNYS", "MD", "BSc YT", "MSc YT", "PhD"],
-    icon: "🌿",
-  },
-  {
-    name: "Division of Yoga & Management Studies",
-    gradient: "from-violet-500 via-purple-500 to-indigo-500",
-    bg: "from-violet-50 to-purple-50",
-    iconColor: "text-violet-600",
-    schools: ["VYASA Business School"],
-    tags: ["MBA", "PhD"],
-    icon: "📊",
-  },
-  {
-    name: "Division of Yoga & Physical Sciences",
-    gradient: "from-blue-500 via-indigo-500 to-sky-500",
-    bg: "from-blue-50 to-indigo-50",
-    iconColor: "text-blue-600",
-    schools: ["Centre for Energy Research"],
-    tags: ["PhD"],
-    icon: "⚡",
-  },
-  {
-    name: "Division of Yoga & Humanities",
-    gradient: "from-rose-500 via-pink-500 to-fuchsia-500",
-    bg: "from-rose-50 to-pink-50",
-    iconColor: "text-rose-500",
-    schools: ["Psychology & Humanities", "School of Performing Arts"],
-    tags: ["PhD", "YIC"],
-    icon: "🎭",
-  },
-];
-
-const stats = [
-  { value: 9, suffix: "+", label: "Leadership Team", icon: "👥" },
-  { value: 4, suffix: "", label: "Governing Bodies", icon: "🏛" },
-  { value: 5, suffix: "", label: "Academic Divisions", icon: "📚" },
-  { value: 45, suffix: "+", label: "Council Members", icon: "🌟" },
-];
-
-// ─── SHARED ───────────────────────────────────────────────────────────────────
-
-const MandalaSVG = () => (
-  <svg viewBox="0 0 200 200" className="w-full h-full" fill="none" stroke="currentColor">
-    {[...Array(12)].map((_, i) => (
-      <ellipse key={i} cx="100" cy="35" rx="10" ry="28" transform={`rotate(${i * 30} 100 100)`} strokeWidth="0.4" />
-    ))}
-    {[25, 40, 55, 70, 85, 95].map((r) => (
-      <circle key={r} cx="100" cy="100" r={r} strokeWidth="0.4" />
-    ))}
-    {[...Array(16)].map((_, i) => (
-      <line key={i} x1="100" y1="5" x2="100" y2="195" strokeWidth="0.25" transform={`rotate(${i * 22.5} 100 100)`} />
-    ))}
-  </svg>
-);
-
-const SectionHeading = ({ title, subtitle, light = false }: { title: string; subtitle: string; light?: boolean }) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true });
+// ─── AVATAR ───────────────────────────────────────────────────────────────────
+function AdminAvatar({ photo, name, size = "lg" }: { photo?: string; name: string; size?: "sm" | "md" | "lg" | "xl" | "2xl" }) {
+  const [err, setErr] = useState(false);
+  const cls = {
+    sm: "w-10 h-10",
+    md: "w-14 h-14",
+    lg: "w-20 h-20",
+    xl: "w-28 h-28",
+    "2xl": "w-36 h-36",
+  }[size];
+  const fallback = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=92400e&color=fff&size=200&bold=true`;
   return (
-    <div ref={ref} className="text-center mb-16 relative">
-      <motion.p
-        className={`text-xs uppercase tracking-[0.3em] font-semibold mb-3 ${light ? "text-white/60" : "text-primary"}`}
-        initial={{ opacity: 0, y: 10 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.5 }}
-      >
-        {subtitle}
-      </motion.p>
-      <h2 className={`font-heading text-4xl md:text-5xl font-bold mb-4 ${light ? "text-white" : "text-foreground"}`}>
-        {title.split(" ").map((word, i) => (
-          <motion.span
-            key={i}
-            className="inline-block mr-2"
-            initial={{ opacity: 0, y: 25 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.1 + i * 0.1, duration: 0.6, ease: "easeOut" }}
-          >
-            {i === 0 ? <span className={light ? "text-white" : "text-foreground"}>{word}</span> : word}
-          </motion.span>
-        ))}
-      </h2>
-      <motion.div
-        className={`mx-auto h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent ${light ? "via-white/50" : "via-primary"}`}
-        initial={{ width: 0 }}
-        animate={isInView ? { width: "120px" } : {}}
-        transition={{ delay: 0.5, duration: 0.7 }}
-      />
-    </div>
+    <img
+      src={!photo || err ? fallback : photo}
+      alt={name}
+      className={`${cls} rounded-2xl object-cover`}
+      onError={() => setErr(true)}
+      loading="lazy"
+    />
   );
-};
+}
 
-// ─── HERO ──────────────────────────────────────────────────────────────────────
-const Hero = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end start"] });
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "35%"]);
-  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
-
-  return (
-    <section ref={containerRef} className="relative h-[88vh] min-h-[600px] overflow-hidden flex items-center justify-center">
-      {/* Multi-layer background */}
-      <motion.div className="absolute inset-0" style={{ y: bgY }}>
-        <div className="absolute inset-0 bg-gradient-to-br from-[hsl(210,52%,15%)] via-[hsl(210,52%,20%)] to-[hsl(25,60%,30%)]" />
-        {/* Mesh gradient overlays */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_20%_50%,hsla(25,84%,50%,0.25),transparent_60%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_80%_20%,hsla(42,65%,55%,0.2),transparent_50%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_80%,hsla(210,52%,30%,0.4),transparent_60%)]" />
-        {/* Grid pattern */}
-        <div className="absolute inset-0 opacity-[0.04]"
-          style={{ backgroundImage: "linear-gradient(white 1px, transparent 1px), linear-gradient(90deg, white 1px, transparent 1px)", backgroundSize: "50px 50px" }} />
-      </motion.div>
-
-      {/* Large rotating mandala left */}
-      <motion.div className="absolute -left-40 top-1/2 -translate-y-1/2 w-[500px] h-[500px] text-white/10 pointer-events-none"
-        animate={{ rotate: 360 }} transition={{ duration: 90, repeat: Infinity, ease: "linear" }}>
-        <MandalaSVG />
-      </motion.div>
-
-      {/* Large rotating mandala right */}
-      <motion.div className="absolute -right-20 -top-20 w-[400px] h-[400px] text-white/8 pointer-events-none"
-        animate={{ rotate: -360 }} transition={{ duration: 70, repeat: Infinity, ease: "linear" }}>
-        <MandalaSVG />
-      </motion.div>
-
-      {/* Floating particles */}
-      {[...Array(12)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute rounded-full bg-white/10"
-          style={{ width: 4 + (i % 4) * 3, height: 4 + (i % 4) * 3, left: `${10 + i * 7}%`, top: `${20 + (i * 13) % 60}%` }}
-          animate={{ y: [-12, 12, -12], opacity: [0.3, 0.7, 0.3] }}
-          transition={{ duration: 4 + i * 0.5, repeat: Infinity, ease: "easeInOut", delay: i * 0.3 }}
-        />
-      ))}
-
-      {/* Center content */}
-      <motion.div className="relative z-10 text-center px-4 max-w-5xl mx-auto" style={{ y: textY, opacity }}>
-        {/* Pill label */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="inline-flex items-center gap-2 mb-8"
-        >
-          <div className="h-px w-12 bg-gradient-to-r from-transparent to-white/40" />
-          <span className="text-white/60 uppercase tracking-[0.4em] text-xs font-medium">S-VYASA University</span>
-          <div className="h-px w-12 bg-gradient-to-l from-transparent to-white/40" />
-        </motion.div>
-
-        {/* Main title with gradient text */}
-        <motion.h1
-          className="font-heading font-bold leading-[0.9] mb-6"
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <span className="block text-6xl md:text-8xl lg:text-9xl text-white">Admin</span>
-          <span className="block text-6xl md:text-8xl lg:text-9xl bg-gradient-to-r from-amber-300 via-orange-300 to-amber-400 bg-clip-text text-transparent">
-            istration
-          </span>
-        </motion.h1>
-
-        {/* Divider line */}
-        <motion.div
-          className="mx-auto h-px w-0 bg-gradient-to-r from-transparent via-white/40 to-transparent mb-6"
-          animate={{ width: "200px" }}
-          transition={{ duration: 1, delay: 0.7 }}
-        />
-
-        <motion.p
-          className="text-lg md:text-xl text-white/60 max-w-xl mx-auto mb-10 font-light tracking-wide"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
-        >
-          Governance · Leadership · Organizational Structure
-        </motion.p>
-
-        {/* Quick stats strip */}
-        <motion.div
-          className="inline-flex items-center gap-6 bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl px-8 py-4"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.8 }}
-        >
-          {[["9+", "Leaders"], ["4", "Bodies"], ["5", "Divisions"]].map(([num, lbl]) => (
-            <div key={lbl} className="text-center">
-              <div className="font-heading text-2xl font-bold text-white">{num}</div>
-              <div className="text-white/50 text-xs uppercase tracking-wider">{lbl}</div>
-            </div>
-          ))}
-        </motion.div>
-      </motion.div>
-
-      {/* Scroll indicator */}
+// ─── MEMBER CARD ──────────────────────────────────────────────────────────────
+function MemberCard({ member, onClick, featured = false }: { member: AdminProfile; onClick: () => void; featured?: boolean }) {
+  if (featured) {
+    return (
       <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.2 }}
+        variants={fadeUp}
+        whileHover={{ y: -6, boxShadow: "0 24px 48px -12px hsla(35,92%,33%,0.18)" }}
+        onClick={onClick}
+        className="group cursor-pointer bg-white border border-border rounded-2xl overflow-hidden hover:border-[hsl(var(--saffron))]/60 transition-all duration-300"
       >
-        <span className="text-white/30 text-xs uppercase tracking-widest">Scroll</span>
-        <motion.div
-          className="w-5 h-8 border border-white/20 rounded-full flex items-start justify-center p-1"
-          animate={{ opacity: [0.5, 1, 0.5] }} transition={{ duration: 2, repeat: Infinity }}
-        >
-          <motion.div
-            className="w-1 h-1.5 bg-white/60 rounded-full"
-            animate={{ y: [0, 12, 0] }} transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-          />
-        </motion.div>
-      </motion.div>
-    </section>
-  );
-};
-
-// ─── LEADERSHIP ───────────────────────────────────────────────────────────────
-const FeaturedLeaderCard = ({ leader, index }: { leader: typeof featuredLeaders[0]; index: number }) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 50 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.8, delay: index * 0.2, ease: [0.16, 1, 0.3, 1] }}
-      className="group relative h-full"
-    >
-      <motion.div
-        className="relative bg-card rounded-3xl overflow-hidden shadow-large border border-border h-full"
-        whileHover={{ y: -8, boxShadow: "0 40px 80px -20px hsla(25, 84%, 50%, 0.35)" }}
-        transition={{ duration: 0.4, ease: "easeOut" }}
-      >
-        {/* Top gradient strip */}
-        <div className="h-1.5 bg-gradient-to-r from-primary via-accent to-primary" />
-
-        {/* Background shimmer on hover */}
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/0 to-primary/0 group-hover:from-primary/3 group-hover:to-accent/3 transition-all duration-500 pointer-events-none" />
-
-        <div className="p-8 flex flex-col sm:flex-row gap-7 items-start">
-          {/* Photo column */}
-          <div className="relative flex-shrink-0 mx-auto sm:mx-0">
-            <div className="relative w-48 h-52 sm:w-44 sm:h-48 rounded-2xl overflow-hidden shadow-xl">
-              <motion.img
-                src={leader.photo}
-                alt={leader.name}
-                className="w-full h-full object-cover object-top"
-                whileHover={{ scale: 1.06 }}
-                transition={{ duration: 0.5 }}
-                loading="lazy"
-              />
-              {/* Gradient overlay on photo */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-            </div>
-            {/* Glowing border ring */}
-            <div className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-primary/30 to-accent/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10 blur-sm" />
-            {/* Designation badge */}
-            <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap bg-primary text-white text-xs font-semibold px-3 py-1 rounded-full shadow-lg">
-              {leader.designation}
-            </div>
-          </div>
-
-          {/* Info column */}
-          <div className="flex-1 pt-2">
-            <h3 className="font-heading text-2xl md:text-3xl font-bold text-foreground mb-2 mt-4 sm:mt-0">{leader.name}</h3>
-            <div className="w-12 h-0.5 bg-gradient-to-r from-primary to-accent mb-4" />
-            <p className="text-muted-foreground leading-relaxed text-sm mb-5">{leader.bio}</p>
-            {/* Quote */}
-            <div className="flex items-start gap-3 bg-muted/60 rounded-xl p-4 border border-border/60">
-              <Quote className="w-5 h-5 text-primary/50 flex-shrink-0 mt-0.5" />
-              <p className="text-sm text-muted-foreground italic">{leader.quote}</p>
-            </div>
-          </div>
-        </div>
-      </motion.div>
-    </motion.div>
-  );
-};
-
-const GridLeaderCard = ({ leader, index }: { leader: typeof gridLeaders[0]; index: number }) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-60px" });
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 35, scale: 0.96 }}
-      animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
-      transition={{ duration: 0.6, delay: index * 0.07, ease: "easeOut" }}
-      className="group"
-    >
-      <motion.div
-        className="relative bg-card rounded-2xl overflow-hidden shadow-medium border border-border h-full"
-        whileHover={{ y: -6, boxShadow: "0 25px 50px -10px hsla(25, 84%, 50%, 0.25)" }}
-        transition={{ duration: 0.35 }}
-      >
-        {/* Photo area */}
-        <div className="relative h-56 overflow-hidden">
-          <motion.img
-            src={leader.photo}
-            alt={leader.name}
-            className="w-full h-full object-cover object-top"
-            whileHover={{ scale: 1.07 }}
-            transition={{ duration: 0.5 }}
+        <div className="relative h-48 sm:h-56 overflow-hidden bg-gradient-to-br from-amber-50 to-orange-100">
+          <img
+            src={member.photo || `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=92400e&color=fff&size=400&bold=true`}
+            alt={member.name}
+            className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
             loading="lazy"
           />
-          {/* Gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-          {/* Name over photo on hover */}
-          <div className="absolute bottom-0 left-0 right-0 p-4">
-            <div className="translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
-              <div className="w-8 h-0.5 bg-accent mb-2" />
-            </div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+          <div className="absolute bottom-4 left-4 right-4">
+            <span className="inline-block bg-[hsl(var(--saffron))] text-white text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full mb-2">
+              {member.designation}
+            </span>
           </div>
-          {/* Top gradient bar */}
-          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary/70 to-accent/70" />
         </div>
-
-        {/* Info area */}
         <div className="p-5">
-          <p className="text-[10px] uppercase tracking-[0.2em] text-primary font-bold mb-1">{leader.designation}</p>
-          <h3 className="font-heading text-lg font-bold text-foreground">{leader.name}</h3>
-          <motion.div
-            className="h-0.5 bg-gradient-to-r from-primary to-transparent mt-2"
-            initial={{ width: 0 }}
-            whileHover={{ width: "100%" }}
-            transition={{ duration: 0.4 }}
-          />
+          <h3 className="font-['Playfair_Display',serif] text-lg text-[hsl(var(--navy))] font-bold leading-tight mb-1">
+            {member.name}
+          </h3>
+          <p className="text-[hsl(var(--muted-foreground))] text-sm leading-relaxed line-clamp-3 mb-4">
+            {member.description}
+          </p>
+          <button className="text-xs font-semibold text-[hsl(var(--saffron))] border border-[hsl(var(--saffron))]/40 px-4 py-1.5 rounded-full group-hover:bg-[hsl(var(--saffron))] group-hover:text-white transition-all duration-200">
+            View Profile →
+          </button>
         </div>
       </motion.div>
-    </motion.div>
-  );
-};
+    );
+  }
 
-const LeadershipSection = () => (
-  <section className="py-28 bg-background relative overflow-hidden">
-    {/* Subtle bg decoration */}
-    <div className="absolute top-0 right-0 w-96 h-96 bg-primary/3 rounded-full blur-3xl pointer-events-none" />
-    <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl pointer-events-none" />
-
-    <div className="container mx-auto px-4 relative z-10">
-      <SectionHeading title="University Leadership" subtitle="Visionary Minds at the Helm" />
-
-      {/* Featured 2-col */}
-      <div className="grid md:grid-cols-2 gap-7 mb-12 max-w-5xl mx-auto">
-        {featuredLeaders.map((l, i) => <FeaturedLeaderCard key={l.name} leader={l} index={i} />)}
-      </div>
-
-      {/* Section divider */}
-      <div className="flex items-center gap-4 max-w-6xl mx-auto mb-10">
-        <div className="flex-1 h-px bg-border" />
-        <span className="text-xs uppercase tracking-widest text-muted-foreground font-medium px-4">Academic Leadership</span>
-        <div className="flex-1 h-px bg-border" />
-      </div>
-
-      {/* Grid */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 max-w-6xl mx-auto">
-        {gridLeaders.map((l, i) => <GridLeaderCard key={l.name} leader={l} index={i} />)}
-      </div>
-    </div>
-  </section>
-);
-
-// ─── STATS BAR ────────────────────────────────────────────────────────────────
-const StatCounter = ({ value, suffix, label, icon, index }: { value: number; suffix: string; label: string; icon: string; index: number }) => {
-  const [ref, visible] = useScrollReveal(0.2);
-  const count = useCountUp(value, 1800, visible);
   return (
     <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 20 }}
-      animate={visible ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
-      className="relative text-center group"
+      variants={fadeUp}
+      whileHover={{ y: -4, boxShadow: "0 16px 32px -8px hsla(210,52%,23%,0.12)" }}
+      onClick={onClick}
+      className="group cursor-pointer bg-white border border-border rounded-xl p-5 hover:border-[hsl(var(--teal))]/50 transition-all duration-200 flex gap-4 items-start"
     >
-      {/* Vertical divider except last */}
-      <div className="absolute right-0 top-1/4 bottom-1/4 w-px bg-white/10 hidden md:block last:hidden" />
-      <div className="text-3xl mb-3">{icon}</div>
-      <div className="font-heading text-5xl md:text-6xl font-bold text-white mb-1 tabular-nums">
-        {count}<span className="text-amber-300">{suffix}</span>
-      </div>
-      <div className="text-white/55 text-xs uppercase tracking-[0.25em]">{label}</div>
-    </motion.div>
-  );
-};
-
-const StatsBar = () => (
-  <section className="relative py-20 overflow-hidden">
-    {/* Rich gradient background */}
-    <div className="absolute inset-0 bg-gradient-to-r from-secondary via-[hsl(20,50%,25%)] to-primary" />
-    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,hsla(42,65%,55%,0.15),transparent_70%)]" />
-    {/* Animated dots */}
-    <div className="absolute inset-0 opacity-10"
-      style={{ backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)", backgroundSize: "35px 35px" }} />
-    {/* Diagonal stripe overlay */}
-    <div className="absolute inset-0 opacity-5"
-      style={{ backgroundImage: "repeating-linear-gradient(-45deg, white, white 1px, transparent 1px, transparent 20px)" }} />
-
-    <div className="container mx-auto px-4 relative z-10">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-4">
-        {stats.map((s, i) => <StatCounter key={s.label} {...s} index={i} />)}
-      </div>
-    </div>
-  </section>
-);
-
-// ─── ORGANOGRAM ───────────────────────────────────────────────────────────────
-interface OrgNode { label: string; level: "top" | "mid" | "low"; children?: OrgNode[]; }
-
-const orgData: OrgNode = {
-  label: "Executive Council (EC)", level: "top",
-  children: [
-    {
-      label: "Chancellor", level: "top",
-      children: [
-        { label: "Academic Council", level: "mid" },
-        { label: "Finance Committee", level: "mid" },
-        { label: "IQAC", level: "mid" },
-      ],
-    },
-    {
-      label: "Vice Chancellor", level: "top",
-      children: [
-        {
-          label: "Pro-Vice Chancellor", level: "mid",
-          children: [
-            {
-              label: "Registrar", level: "mid",
-              children: [
-                { label: "Deans", level: "low" },
-                { label: "Deputy Registrar", level: "low" },
-                { label: "Admin Officer", level: "low" },
-                { label: "Liaison Officer", level: "low" },
-              ],
-            },
-            { label: "Controller of Exams", level: "mid" },
-          ],
-        },
-        { label: "Chief Finance Officer", level: "mid" },
-      ],
-    },
-  ],
-};
-
-const OrgNodeCard = ({ node, depth = 0 }: { node: OrgNode; depth?: number }) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-20px" });
-
-  const styles = {
-    top: "bg-gradient-to-br from-primary to-primary/80 text-white border-primary/30 shadow-lg shadow-primary/20",
-    mid: "bg-gradient-to-br from-primary/15 to-accent/10 text-foreground border-primary/30",
-    low: "bg-card/80 backdrop-blur-sm text-foreground border-border border-l-2 border-l-primary/50",
-  };
-
-  return (
-    <div className="flex flex-col items-center">
-      <motion.div
-        ref={ref}
-        initial={{ opacity: 0, scale: 0.8, y: 10 }}
-        animate={isInView ? { opacity: 1, scale: 1, y: 0 } : {}}
-        transition={{ duration: 0.5, delay: depth * 0.08, ease: "backOut" }}
-        className={`rounded-xl px-4 py-3 text-center border text-xs font-semibold min-w-[140px] max-w-[180px] cursor-default select-none transition-all duration-300 ${styles[node.level]}`}
-        whileHover={{ scale: 1.07, boxShadow: "0 10px 30px -5px hsla(25, 84%, 50%, 0.4)" }}
-      >
-        {node.label}
-      </motion.div>
-
-      {node.children && node.children.length > 0 && (
-        <div className="flex flex-col items-center">
-          <motion.div
-            className="w-px bg-gradient-to-b from-primary/40 to-primary/20"
-            initial={{ height: 0 }}
-            animate={isInView ? { height: 20 } : {}}
-            transition={{ duration: 0.4, delay: depth * 0.08 + 0.2 }}
-          />
-          {node.children.length > 1 ? (
-            <div className="relative flex gap-3 md:gap-5">
-              <motion.div
-                className="absolute top-0 left-4 right-4 h-px bg-gradient-to-r from-primary/20 via-primary/40 to-primary/20"
-                initial={{ scaleX: 0 }}
-                animate={isInView ? { scaleX: 1 } : {}}
-                transition={{ duration: 0.5, delay: depth * 0.08 + 0.3 }}
-              />
-              {node.children.map((child, i) => (
-                <div key={i} className="flex flex-col items-center">
-                  <motion.div
-                    className="w-px bg-gradient-to-b from-primary/30 to-primary/10"
-                    initial={{ height: 0 }}
-                    animate={isInView ? { height: 16 } : {}}
-                    transition={{ duration: 0.3, delay: depth * 0.08 + 0.4 + i * 0.05 }}
-                  />
-                  <OrgNodeCard node={child} depth={depth + 1} />
-                </div>
-              ))}
-            </div>
-          ) : (
-            <OrgNodeCard node={node.children[0]} depth={depth + 1} />
-          )}
-        </div>
-      )}
-    </div>
-  );
-};
-
-const OrganogramSection = () => {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-60px" });
-  return (
-    <section className="py-28 relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-muted/60 via-background to-muted/30" />
-      <div className="absolute inset-0 opacity-[0.025]"
-        style={{ backgroundImage: "linear-gradient(white 1px, transparent 1px), linear-gradient(90deg, white 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
-
-      <div className="container mx-auto px-4 relative z-10">
-        <SectionHeading title="University Organogram" subtitle="Organizational Hierarchy" />
-
-        {/* Legend */}
-        <motion.div
-          className="flex flex-wrap justify-center gap-4 mb-10"
-          initial={{ opacity: 0 }} animate={isInView ? { opacity: 1 } : {}} transition={{ delay: 0.3 }}
-        >
-          {[
-            { color: "bg-primary", label: "Executive Level" },
-            { color: "bg-primary/15 border border-primary/30", label: "Administrative Level" },
-            { color: "bg-card border border-border border-l-2 border-l-primary/50", label: "Operational Level" },
-          ].map((l) => (
-            <div key={l.label} className="flex items-center gap-2 text-xs text-muted-foreground">
-              <div className={`w-3 h-3 rounded ${l.color}`} />
-              {l.label}
-            </div>
-          ))}
-        </motion.div>
-
-        <motion.div
-          ref={ref}
-          className="overflow-x-auto pb-8"
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.6 }}
-        >
-          <div className="min-w-[720px] flex justify-center py-4">
-            <OrgNodeCard node={orgData} depth={0} />
-          </div>
-        </motion.div>
-      </div>
-    </section>
-  );
-};
-
-// ─── COUNCILS ─────────────────────────────────────────────────────────────────
-const roleBadge = (role: CouncilRole) => {
-  if (role === "Chairperson") return (
-    <span className="inline-flex items-center gap-1 bg-primary text-white text-[10px] font-bold px-2.5 py-1 rounded-full">
-      <Star className="w-2.5 h-2.5" /> Chairperson
-    </span>
-  );
-  if (role === "Member Secretary") return (
-    <span className="text-[10px] font-semibold px-2.5 py-1 rounded-full border border-primary text-primary">
-      Sec.
-    </span>
-  );
-  if (role === "Coordinator") return (
-    <span className="text-[10px] font-semibold px-2.5 py-1 rounded-full border border-accent text-foreground bg-accent/10">
-      Coord.
-    </span>
-  );
-  return (
-    <span className="text-[10px] font-medium px-2.5 py-1 rounded-full bg-muted text-muted-foreground">
-      Member
-    </span>
-  );
-};
-
-const MemberCard = ({ member, index }: { member: CouncilMember; index: number }) => {
-  const photo = personPhotoMap[member.name] ?? malePhotos[index % malePhotos.length];
-  const isSpecial = member.role === "Chairperson" || member.role === "Member Secretary";
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 18 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, delay: index * 0.04 }}
-      className={`flex items-center gap-4 p-4 rounded-2xl border transition-all duration-300 group cursor-default
-        ${isSpecial
-          ? "bg-gradient-to-r from-primary/5 to-accent/5 border-primary/20 hover:border-primary/40 hover:shadow-md"
-          : "bg-card border-border hover:border-primary/20 hover:shadow-soft"}`}
-    >
-      <div className={`relative flex-shrink-0 ${isSpecial ? "ring-2 ring-primary/30 ring-offset-2" : ""} rounded-full`}>
-        <img
-          src={photo} alt={member.name}
-          className="w-12 h-12 rounded-full object-cover"
-          loading="lazy"
-        />
-        {isSpecial && (
-          <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-primary rounded-full flex items-center justify-center">
-            <Star className="w-2 h-2 text-white" />
-          </div>
-        )}
+      <div className="shrink-0 rounded-xl overflow-hidden border-2 border-[hsl(var(--cream))] group-hover:border-[hsl(var(--saffron))]/40 transition-colors">
+        <AdminAvatar photo={member.photo} name={member.name} size="lg" />
       </div>
       <div className="flex-1 min-w-0">
-        <p className={`font-semibold text-sm truncate ${isSpecial ? "text-foreground" : "text-foreground/90"}`}>{member.name}</p>
-        <p className="text-xs text-muted-foreground truncate mt-0.5">{member.designation}</p>
+        <h3 className="font-['Playfair_Display',serif] font-bold text-[hsl(var(--navy))] text-base leading-tight mb-0.5">
+          {member.name}
+        </h3>
+        <p className="text-[hsl(var(--teal))] text-xs font-medium mb-2">{member.designation}</p>
+        <p className="text-[hsl(var(--muted-foreground))] text-xs leading-relaxed line-clamp-2">
+          {member.description}
+        </p>
       </div>
-      <div className="flex-shrink-0">{roleBadge(member.role)}</div>
+      <span className="text-[hsl(var(--muted-foreground))] group-hover:text-[hsl(var(--saffron))] transition-colors text-lg shrink-0 mt-1">›</span>
     </motion.div>
   );
-};
+}
 
-const CouncilsSection = () => {
-  const [activeTab, setActiveTab] = useState("ec");
-  const activeCouncil = councils.find(c => c.id === activeTab)!;
-
+// ─── PROFILE DRAWER ───────────────────────────────────────────────────────────
+function ProfileDrawer({ member, onClose }: { member: AdminProfile; onClose: () => void }) {
   return (
-    <section className="py-28 bg-background relative overflow-hidden">
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="container mx-auto px-4 relative z-10">
-        <SectionHeading title="Councils & Committees" subtitle="Governance Bodies" />
-
-        <div className="max-w-5xl mx-auto">
-          {/* Custom tab bar */}
-          <div className="overflow-x-auto pb-2 mb-8">
-            <div className="inline-flex gap-2 p-2 bg-muted/80 backdrop-blur-sm rounded-2xl border border-border min-w-max">
-              {councils.map((c) => (
-                <button
-                  key={c.id}
-                  onClick={() => setActiveTab(c.id)}
-                  className={`relative flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-medium transition-all duration-300 ${
-                    activeTab === c.id
-                      ? "bg-primary text-white shadow-lg shadow-primary/25"
-                      : "text-muted-foreground hover:text-foreground hover:bg-background/80"
-                  }`}
-                >
-                  {c.icon}
-                  <span className="hidden sm:inline">{c.label}</span>
-                  <span className="sm:hidden">{c.label.split(" ")[0]}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Content */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeTab}
-              initial={{ opacity: 0, y: 16, filter: "blur(4px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              exit={{ opacity: 0, y: -12, filter: "blur(4px)" }}
-              transition={{ duration: 0.35, ease: "easeOut" }}
+    <AnimatePresence>
+      <motion.div
+        key="backdrop"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 bg-black/60 z-50 flex items-center justify-end"
+        onClick={onClose}
+      >
+        <motion.aside
+          key="drawer"
+          initial={{ x: "100%" }}
+          animate={{ x: 0 }}
+          exit={{ x: "100%" }}
+          transition={{ type: "spring", damping: 30, stiffness: 300 }}
+          className="relative bg-white h-full w-full max-w-xl overflow-y-auto shadow-2xl"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Drawer Header */}
+          <div
+            className="sticky top-0 z-10 px-8 pt-8 pb-6"
+            style={{ background: "linear-gradient(160deg, hsl(35 92% 18%), hsl(25 80% 28%))" }}
+          >
+            <button
+              onClick={onClose}
+              className="absolute top-5 right-5 text-white/60 hover:text-white transition-colors p-1"
+              aria-label="Close"
             >
-              {/* Description card */}
-              <div className="relative bg-gradient-to-br from-primary/8 via-background to-accent/5 border border-primary/15 rounded-2xl p-6 mb-6 overflow-hidden">
-                <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-primary to-accent rounded-l-2xl" />
-                <div className="flex items-start gap-3 pl-2">
-                  <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center flex-shrink-0 text-primary">
-                    {activeCouncil.icon}
-                  </div>
+              <X size={22} />
+            </button>
+            <div className="flex items-start gap-5">
+              <div className="rounded-2xl overflow-hidden border-2 border-white/30 shrink-0">
+                <AdminAvatar photo={member.photo} name={member.name} size="xl" />
+              </div>
+              <div className="pt-1">
+                <p className="text-amber-300 text-[10px] font-bold uppercase tracking-widest mb-1">
+                  {member.section === "ec" ? "Executive Council" :
+                   member.section === "deans" ? "Dean / Director" :
+                   member.section === "registrar-row" ? "Administration" : "Campus Administration"}
+                </p>
+                <h2 className="text-white font-['Playfair_Display',serif] text-xl font-bold leading-snug mb-1">
+                  {member.name}
+                </h2>
+                <p className="text-white/70 text-sm">{member.designation}</p>
+              </div>
+            </div>
+            {member.qualifications && (
+              <div className="mt-5 bg-white/10 border border-white/20 rounded-xl px-4 py-3">
+                <div className="flex items-start gap-2">
+                  <GraduationCap size={15} className="text-amber-300 mt-0.5 shrink-0" />
                   <div>
-                    <h3 className="font-heading text-lg font-bold text-foreground mb-1">{activeCouncil.label}</h3>
-                    <p className="text-muted-foreground text-sm leading-relaxed">{activeCouncil.description}</p>
+                    <p className="text-amber-300 text-[10px] font-bold uppercase tracking-wider mb-1">Qualifications</p>
+                    <p className="text-white/85 text-sm leading-relaxed">{member.qualifications}</p>
                   </div>
                 </div>
               </div>
+            )}
+          </div>
 
-              <div className="grid sm:grid-cols-2 gap-3">
-                {activeCouncil.members.map((m, i) => (
-                  <MemberCard key={m.name + i} member={m} index={i} />
-                ))}
+          {/* Drawer Body */}
+          <div className="px-8 py-8 space-y-8">
+            {/* Description */}
+            <div>
+              <p className="text-[hsl(var(--foreground))] text-base leading-relaxed">{member.description}</p>
+            </div>
+
+            {member.achievements && member.achievements.length > 0 && (
+              <div>
+                <div className="flex items-center gap-2 mb-4">
+                  <Award className="text-[hsl(var(--saffron))]" size={18} />
+                  <h3 className="font-semibold text-[hsl(var(--navy))] text-base">Key Achievements</h3>
+                </div>
+                <ul className="space-y-2.5">
+                  {member.achievements.map((a, i) => (
+                    <li key={i} className="flex items-start gap-2.5 text-sm text-[hsl(var(--muted-foreground))] leading-relaxed">
+                      <span className="mt-2 w-1.5 h-1.5 rounded-full bg-[hsl(var(--saffron))] shrink-0" />
+                      {a}
+                    </li>
+                  ))}
+                </ul>
               </div>
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      </div>
-    </section>
-  );
-};
+            )}
 
-// ─── DIVISIONS ────────────────────────────────────────────────────────────────
-const DivisionCard = ({ div, index }: { div: typeof divisions[0]; index: number }) => {
+            {member.expertise && (
+              <div>
+                <div className="flex items-center gap-2 mb-3">
+                  <FlaskConical className="text-[hsl(var(--teal))]" size={18} />
+                  <h3 className="font-semibold text-[hsl(var(--navy))] text-base">Area of Expertise</h3>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {member.expertise.split(",").map((e, i) => (
+                    <span
+                      key={i}
+                      className="inline-flex items-center bg-[hsl(var(--cream))] text-[hsl(var(--navy))] text-xs font-medium px-3 py-1.5 rounded-full border border-border"
+                    >
+                      {e.trim()}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {!member.achievements && !member.expertise && (
+              <div className="text-center py-12 text-[hsl(var(--muted-foreground))]">
+                <User className="mx-auto mb-3 opacity-30" size={40} />
+                <p className="text-sm">Full profile details coming soon.</p>
+              </div>
+            )}
+          </div>
+        </motion.aside>
+      </motion.div>
+    </AnimatePresence>
+  );
+}
+
+// ─── SECTION BLOCK ────────────────────────────────────────────────────────────
+function SectionBlock({
+  sectionId, label, title, icon: Icon, description, onSelect, featured = false,
+}: {
+  sectionId: string;
+  label: string;
+  title: string;
+  icon: React.ElementType;
+  description: string;
+  onSelect: (m: AdminProfile) => void;
+  featured?: boolean;
+}) {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-60px" });
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const members = adminData.filter((m) => m.section === sectionId);
 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 35, scale: 0.95 }}
-      animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
-      transition={{ duration: 0.6, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-      className="group"
+      initial="hidden"
+      animate={inView ? "visible" : "hidden"}
+      variants={stagger}
+      className="space-y-8"
     >
-      <motion.div
-        className="relative bg-card rounded-3xl overflow-hidden shadow-medium border border-border h-full"
-        whileHover={{ y: -6, boxShadow: "0 30px 60px -15px hsla(25, 84%, 50%, 0.2)" }}
-        transition={{ duration: 0.35 }}
-      >
-        {/* Gradient top band */}
-        <div className={`h-2 bg-gradient-to-r ${div.gradient}`} />
-
-        {/* Icon area */}
-        <div className="px-6 pt-6 pb-2">
-          <div className={`inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br ${div.gradient} text-3xl shadow-lg mb-4`}>
-            {div.icon}
+      {/* Section header */}
+      <motion.div variants={fadeUp} className="flex flex-col sm:flex-row sm:items-end gap-4">
+        <div className="flex-1">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-8 h-[3px] bg-[hsl(var(--saffron))]" />
+            <span className="text-[hsl(var(--teal))] text-xs font-bold uppercase tracking-widest">{label}</span>
           </div>
-          <h3 className="font-heading text-base font-bold text-foreground leading-snug mb-4">{div.name}</h3>
-
-          {/* Schools */}
-          <ul className="space-y-2.5 mb-5">
-            {div.schools.map((s) => (
-              <li key={s} className="flex items-start gap-2.5 text-sm text-muted-foreground">
-                <div className={`w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0 bg-gradient-to-br ${div.gradient}`} />
-                <span className="leading-tight">{s}</span>
-              </li>
-            ))}
-          </ul>
-
-          {/* Tags */}
-          <div className="flex flex-wrap gap-1.5 pb-6">
-            {div.tags.map((t) => (
-              <span key={t} className={`text-[10px] px-2.5 py-1 rounded-full font-bold bg-gradient-to-r ${div.gradient} text-white shadow-sm`}>
-                {t}
-              </span>
-            ))}
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-10 h-10 rounded-xl bg-[hsl(var(--navy))]/8 flex items-center justify-center">
+              <Icon size={20} className="text-[hsl(var(--navy))]" />
+            </div>
+            <h2 className="font-['Playfair_Display',serif] text-2xl md:text-3xl text-[hsl(var(--navy))] font-bold">
+              {title}
+            </h2>
           </div>
+          <p className="text-[hsl(var(--muted-foreground))] text-sm max-w-xl">{description}</p>
         </div>
-
-        {/* Hover shine */}
-        <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400 pointer-events-none" />
+        <span className="inline-flex items-center bg-[hsl(var(--cream))] text-[hsl(var(--navy))] text-sm font-semibold px-3 py-1.5 rounded-full border border-border self-start sm:self-auto">
+          {members.length} {members.length === 1 ? "Member" : "Members"}
+        </span>
       </motion.div>
+
+      {/* Cards grid */}
+      {featured ? (
+        <>
+          {/* Top 2 featured large */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            {members.slice(0, 2).map((m) => (
+              <MemberCard key={m.id} member={m} onClick={() => onSelect(m)} featured />
+            ))}
+          </div>
+          {/* Rest as standard */}
+          {members.length > 2 && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {members.slice(2).map((m) => (
+                <MemberCard key={m.id} member={m} onClick={() => onSelect(m)} />
+              ))}
+            </div>
+          )}
+        </>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {members.map((m) => (
+            <MemberCard key={m.id} member={m} onClick={() => onSelect(m)} />
+          ))}
+        </div>
+      )}
     </motion.div>
   );
-};
+}
 
-const DivisionsSection = () => {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-60px" });
+// ─── ORGANOGRAM (PDF-based) ────────────────────────────────────────────────────
+function OrgNode({ title, subtitle, level = "mid", onClick }: {
+  title: string; subtitle?: string; level?: "top" | "mid" | "leaf"; onClick?: () => void;
+}) {
+  const styles = {
+    top: "bg-[hsl(var(--navy))] text-white border-[hsl(var(--navy))]",
+    mid: "bg-[hsl(var(--saffron))]/10 text-[hsl(var(--navy))] border-[hsl(var(--saffron))]/50",
+    leaf: "bg-white text-[hsl(var(--navy))] border-[hsl(var(--teal))]/40 border-l-4 border-l-[hsl(var(--teal))]",
+  }[level];
 
   return (
-    <section className="py-28 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-muted/40 via-background to-muted/20" />
-      <div className="absolute top-0 left-0 w-80 h-80 bg-primary/3 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 right-0 w-80 h-80 bg-accent/5 rounded-full blur-3xl" />
-
-      <div className="container mx-auto px-4 relative z-10">
-        <SectionHeading title="Academic Divisions" subtitle="Schools, Centers & Institutes" />
-
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mb-8">
-          {divisions.map((d, i) => <DivisionCard key={d.name} div={d} index={i} />)}
-        </div>
-
-        {/* SCODE banner */}
-        <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, delay: 0.6 }}
-          className="max-w-6xl mx-auto"
-        >
-          <div className="relative bg-gradient-to-r from-secondary/90 via-secondary to-primary/70 rounded-3xl p-6 md:p-8 overflow-hidden text-white">
-            <div className="absolute inset-0 opacity-10"
-              style={{ backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)", backgroundSize: "20px 20px" }} />
-            <div className="relative z-10 flex flex-col md:flex-row items-center gap-4 md:gap-6">
-              <div className="flex-shrink-0 w-14 h-14 rounded-2xl bg-white/15 border border-white/20 flex items-center justify-center text-2xl shadow-lg">
-                🎓
-              </div>
-              <div className="text-center md:text-left">
-                <p className="text-xs uppercase tracking-widest text-white/60 mb-1">Spanning All Divisions</p>
-                <h4 className="font-heading text-xl font-bold text-white mb-1">SCODE — School of Open & Distance Education</h4>
-                <p className="text-white/60 text-sm">Enables flexible learning pathways across all academic programs and divisions of the university</p>
-              </div>
-              <div className="flex-shrink-0 ml-auto hidden md:flex items-center gap-2 bg-white/10 border border-white/15 rounded-xl px-4 py-2">
-                <Sparkles className="w-4 h-4 text-amber-300" />
-                <span className="text-white/80 text-sm font-medium">All Divisions</span>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-      </div>
-    </section>
+    <motion.div
+      whileHover={{ scale: 1.04, boxShadow: "0 8px 24px -4px hsla(35,92%,33%,0.2)" }}
+      onClick={onClick}
+      className={`relative rounded-xl border px-4 py-3 text-center shadow-sm cursor-default transition-all duration-200 ${styles} ${onClick ? "cursor-pointer" : ""}`}
+    >
+      <p className={`font-semibold text-sm leading-tight ${level === "top" ? "text-white" : "text-[hsl(var(--navy))]"}`}>{title}</p>
+      {subtitle && <p className={`text-[11px] mt-0.5 ${level === "top" ? "text-white/70" : "text-[hsl(var(--muted-foreground))]"}`}>{subtitle}</p>}
+    </motion.div>
   );
-};
+}
 
-// ─── CTA ──────────────────────────────────────────────────────────────────────
-const CTASection = () => {
+function OrgLine({ dir = "v" }: { dir?: "v" | "h" }) {
+  return dir === "v"
+    ? <div className="mx-auto w-[2px] h-6 bg-[hsl(var(--saffron))]/40" />
+    : <div className="w-full h-[2px] bg-[hsl(var(--saffron))]/40 my-0" />;
+}
+
+function Organogram() {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+
   return (
-    <section className="py-24 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-secondary via-secondary/95 to-primary/70" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,hsla(42,65%,55%,0.2),transparent_65%)]" />
-      <motion.div
-        className="absolute inset-0 opacity-8"
-        animate={{ rotate: [0, 360] }} transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 40 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.7 }}
+      className="overflow-x-auto pb-6"
+    >
+      <div className="min-w-[700px] space-y-0">
+        {/* Row 1: EC */}
+        <div className="flex justify-center">
+          <div className="w-56"><OrgNode title="Executive Council (EC)" level="top" /></div>
+        </div>
+        <OrgLine />
+        {/* Row 2: Chancellor + side bodies */}
+        <div className="grid grid-cols-5 gap-3 items-start">
+          <div className="space-y-2">
+            <OrgNode title="Academic Council" level="leaf" />
+            <OrgNode title="Finance Committee" level="leaf" />
+          </div>
+          <div className="flex justify-center items-center h-full">
+            <OrgLine dir="h" />
+          </div>
+          <div>
+            <OrgNode title="Chancellor" subtitle="Dr. H. R. Nagendra" level="top" />
+          </div>
+          <div className="flex justify-center items-center h-full">
+            <OrgLine dir="h" />
+          </div>
+          <div className="space-y-2">
+            <OrgNode title="IQAC" level="leaf" />
+          </div>
+        </div>
+        <OrgLine />
+        {/* Row 3: VC */}
+        <div className="flex justify-center">
+          <div className="w-56"><OrgNode title="Vice Chancellor" subtitle="Dr. N. K. Manjunath" level="top" /></div>
+        </div>
+        <OrgLine />
+        {/* Row 4: Pro-VC + CFO */}
+        <div className="flex justify-center gap-6">
+          <div className="w-52"><OrgNode title="Pro-Vice Chancellor" subtitle="Prof. M. K. Shridhar" level="mid" /></div>
+          <div className="w-52"><OrgNode title="Chief Finance Officer" subtitle="Dr. H. R. Dayananda" level="mid" /></div>
+        </div>
+        <OrgLine />
+        {/* Row 5: Registrar + COE */}
+        <div className="flex justify-center gap-6">
+          <div className="w-52"><OrgNode title="Registrar" level="mid" /></div>
+          <div className="w-52"><OrgNode title="Controller of Examinations" level="mid" /></div>
+        </div>
+        <OrgLine />
+        {/* Row 6: Deans etc */}
+        <div className="flex justify-center gap-3 flex-wrap">
+          {["Deans", "Deputy Registrar", "Administrative Officer", "Liaison Officer"].map((t) => (
+            <div key={t} className="w-44"><OrgNode title={t} level="leaf" /></div>
+          ))}
+        </div>
+        <OrgLine />
+        {/* Row 7: Bottom nodes */}
+        <div className="flex justify-center gap-3 flex-wrap">
+          {["Principal of Schools", "Directors of Centres", "Girls & Boys Hostels", "Human Resource Dept", "Campus Maintenance"].map((t) => (
+            <div key={t} className="w-44"><OrgNode title={t} level="leaf" /></div>
+          ))}
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+// ─── PAGE ──────────────────────────────────────────────────────────────────────
+export default function Administration() {
+  const [selected, setSelected] = useState<AdminProfile | null>(null);
+
+  return (
+    <Layout>
+      {/* ── Hero ── */}
+      <section
+        className="relative flex flex-col items-center justify-center min-h-[44vh] overflow-hidden"
+        style={{ background: "linear-gradient(160deg, hsl(35 92% 16%) 0%, hsl(25 80% 24%) 55%, hsl(15 75% 28%) 100%)" }}
       >
-        <div className="w-full h-full text-white/5">
-          <MandalaSVG />
+        <div className="absolute inset-0 bg-black/40" />
+        {/* breadcrumb */}
+        <div className="absolute top-6 left-6 md:left-10 flex items-center gap-2 text-white/60 text-xs z-10">
+          <Link to="/" className="hover:text-white transition-colors">Home</Link>
+          <span>/</span>
+          <span className="text-white/40">Administration</span>
         </div>
-      </motion.div>
-
-      <div ref={ref} className="container mx-auto px-4 relative z-10 text-center">
+        <div className="relative z-10 text-center px-6 py-16">
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-amber-300 text-sm font-bold uppercase tracking-widest mb-3"
+          >
+            S-VYASA Deemed to be University
+          </motion.p>
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="font-['Playfair_Display',serif] text-4xl md:text-6xl lg:text-7xl text-white font-bold mb-4 leading-tight"
+          >
+            Administration
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="text-white/70 text-lg max-w-xl mx-auto mb-6"
+          >
+            Governance, Leadership & Organizational Structure
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, scaleX: 0 }}
+            animate={{ opacity: 1, scaleX: 1 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+            className="mx-auto h-[2px] w-16 bg-amber-400"
+          />
+        </div>
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
+          animate={{ y: [0, 8, 0] }}
+          transition={{ repeat: Infinity, duration: 1.8 }}
+          className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/40"
         >
-          <p className="text-white/50 uppercase tracking-widest text-xs mb-4">Join Our Community</p>
-          <h2 className="font-heading text-4xl md:text-5xl font-bold text-white mb-4">Be Part of Our Story</h2>
-          <p className="text-white/60 max-w-xl mx-auto mb-10 text-base">
-            Shape your future with S-VYASA's unique blend of yogic wisdom and modern education.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="/admissions" className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-white font-semibold px-8 py-4 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-primary/30 hover:-translate-y-0.5">
-              <GraduationCap className="w-5 h-5" /> Explore Admissions
-            </a>
-            <a href="/contact-us" className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white font-semibold px-8 py-4 rounded-xl border border-white/20 transition-all duration-300 hover:-translate-y-0.5">
-              Contact Us
-            </a>
-          </div>
+          <ChevronDown size={24} />
         </motion.div>
+      </section>
+
+      {/* ── Stats bar ── */}
+      <div className="bg-[hsl(var(--navy))] py-5">
+        <div className="max-w-7xl mx-auto px-6 lg:px-10 flex flex-wrap gap-8 items-center justify-center sm:justify-start">
+          {[
+            { n: adminData.filter(m => m.section === "ec").length, label: "Executive Council" },
+            { n: adminData.filter(m => m.section === "deans").length, label: "Deans & Directors" },
+            { n: adminData.filter(m => m.section === "registrar-row").length, label: "Admin Officers" },
+            { n: adminData.length, label: "Total Members" },
+          ].map((s) => (
+            <div key={s.label} className="text-center sm:text-left">
+              <p className="text-[hsl(var(--saffron))] font-['DM_Mono',monospace] text-2xl font-bold">{s.n}</p>
+              <p className="text-white/60 text-xs">{s.label}</p>
+            </div>
+          ))}
+        </div>
       </div>
-    </section>
-  );
-};
 
-// ─── BACK TO TOP ──────────────────────────────────────────────────────────────
-const BackToTop = () => {
-  const [visible, setVisible] = useState(false);
-  useEffect(() => {
-    const fn = () => setVisible(window.scrollY > 600);
-    window.addEventListener("scroll", fn);
-    return () => window.removeEventListener("scroll", fn);
-  }, []);
-  return (
-    <AnimatePresence>
-      {visible && (
-        <motion.button
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.8 }}
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="fixed bottom-24 right-6 z-50 w-12 h-12 rounded-full bg-gradient-to-br from-primary to-primary/80 text-white shadow-large flex items-center justify-center hover:shadow-xl hover:shadow-primary/30 transition-shadow"
-          whileHover={{ scale: 1.12, y: -2 }}
-          whileTap={{ scale: 0.95 }}
+      {/* ── Organogram ── */}
+      <section className="py-16 bg-[hsl(var(--cream))]/40">
+        <div className="max-w-7xl mx-auto px-6 lg:px-10">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="mb-10"
+          >
+            <div className="flex items-center gap-3 mb-2">
+              <div className="w-8 h-[3px] bg-[hsl(var(--saffron))]" />
+              <span className="text-[hsl(var(--teal))] text-xs font-bold uppercase tracking-widest">Organogram</span>
+            </div>
+            <h2 className="font-['Playfair_Display',serif] text-2xl md:text-3xl text-[hsl(var(--navy))] font-bold mb-2">
+              University Organizational Chart
+            </h2>
+            <p className="text-[hsl(var(--muted-foreground))] text-sm max-w-xl">
+              As per Mandatory Disclosure — Swami Vivekananda Yoga Anusandhana Samsthana (S-VYASA)
+            </p>
+          </motion.div>
+          <div className="bg-white rounded-2xl border border-border p-6 shadow-sm">
+            <Organogram />
+          </div>
+        </div>
+      </section>
+
+      {/* ── All sections ── */}
+      <div className="py-16 max-w-7xl mx-auto px-6 lg:px-10 space-y-20">
+        {sections.map((sec, i) => (
+          <React.Fragment key={sec.id}>
+            <SectionBlock
+              sectionId={sec.id}
+              label={sec.label}
+              title={sec.title}
+              icon={sec.icon}
+              description={sec.description}
+              onSelect={setSelected}
+              featured={sec.id === "ec"}
+            />
+            {i < sections.length - 1 && <div className="border-t border-dashed border-border" />}
+          </React.Fragment>
+        ))}
+      </div>
+
+      {/* ── CTA ── */}
+      <section
+        className="py-20 text-center"
+        style={{ background: "linear-gradient(160deg, hsl(35 92% 16%) 0%, hsl(25 80% 24%) 60%, hsl(15 75% 28%) 100%)" }}
+      >
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={stagger}
+          className="max-w-2xl mx-auto px-6"
         >
-          <ArrowUp className="w-5 h-5" />
-        </motion.button>
-      )}
-    </AnimatePresence>
+          <motion.h2 variants={fadeUp} className="font-['Playfair_Display',serif] text-3xl md:text-4xl text-white font-bold mb-4">
+            Be Part of Our Story
+          </motion.h2>
+          <motion.p variants={fadeUp} className="text-white/75 text-lg mb-8">
+            Join a vibrant community of scholars, seekers, and change-makers at S-VYASA University.
+          </motion.p>
+          <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              to="/admissions"
+              className="inline-flex items-center justify-center gap-2 bg-[hsl(var(--saffron))] text-white font-semibold px-7 py-3.5 rounded-lg hover:bg-[hsl(var(--saffron-dark))] transition-colors"
+            >
+              Apply for Admissions →
+            </Link>
+            <Link
+              to="/contact"
+              className="inline-flex items-center justify-center gap-2 bg-white/10 border border-white/30 text-white font-semibold px-7 py-3.5 rounded-lg hover:bg-white/20 transition-colors"
+            >
+              Contact Us
+            </Link>
+          </motion.div>
+        </motion.div>
+      </section>
+
+      {/* ── Profile Drawer ── */}
+      <AnimatePresence>
+        {selected && <ProfileDrawer member={selected} onClose={() => setSelected(null)} />}
+      </AnimatePresence>
+    </Layout>
   );
-};
-
-// ─── PAGE ─────────────────────────────────────────────────────────────────────
-const Administration = () => (
-  <Layout>
-    <Breadcrumb items={[{ label: "About Us", href: "/about" }, { label: "Administration" }]} />
-    <Hero />
-    <LeadershipSection />
-    <StatsBar />
-    <OrganogramSection />
-    <CouncilsSection />
-    <DivisionsSection />
-    <CTASection />
-    <BackToTop />
-  </Layout>
-);
-
-export default Administration;
+}
