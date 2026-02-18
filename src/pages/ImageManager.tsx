@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Upload, Copy, Trash2, FolderOpen, Image, Check, X, Loader2, ExternalLink } from "lucide-react";
+import { Upload, Copy, Trash2, FolderOpen, Image, Check, X, Loader2, ExternalLink, AlertTriangle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface UploadedImage {
@@ -27,6 +27,8 @@ export default function ImageManager() {
   const [copiedUrl, setCopiedUrl] = useState<string | null>(null);
   const [dragOver, setDragOver] = useState(false);
   const [uploadProgress, setUploadProgress] = useState<Record<string, "uploading" | "done" | "error">>({});
+  const [deletingAll, setDeletingAll] = useState(false);
+  const [confirmDeleteAll, setConfirmDeleteAll] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
@@ -117,6 +119,21 @@ export default function ImageManager() {
       setImages((prev) => prev.filter((i) => i.path !== img.path));
       toast({ title: "Deleted", description: img.name });
     }
+  };
+
+  const deleteAllImages = async () => {
+    if (images.length === 0) return;
+    setDeletingAll(true);
+    setConfirmDeleteAll(false);
+    const paths = images.map((img) => img.path);
+    const { error } = await supabase.storage.from(BUCKET).remove(paths);
+    if (error) {
+      toast({ title: "Delete all failed", description: error.message, variant: "destructive" });
+    } else {
+      setImages([]);
+      toast({ title: "All images deleted", description: `${paths.length} image(s) removed from ${folder}/` });
+    }
+    setDeletingAll(false);
   };
 
   const formatSize = (bytes: number) => {
@@ -223,8 +240,34 @@ export default function ImageManager() {
                   {folder.charAt(0).toUpperCase() + folder.slice(1).replace("-", " ")}
                   <span className="ml-2 text-xs font-normal text-muted-foreground">({images.length} images)</span>
                 </h2>
-                {images.length === 0 && !loading && (
-                  <p className="text-xs text-muted-foreground">Select a folder and upload images to see them here</p>
+                {images.length > 0 && !loading && (
+                  confirmDeleteAll ? (
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs text-destructive font-medium flex items-center gap-1">
+                        <AlertTriangle className="w-3.5 h-3.5" /> Delete all {images.length} images?
+                      </span>
+                      <button
+                        onClick={deleteAllImages}
+                        disabled={deletingAll}
+                        className="px-3 py-1 text-xs bg-destructive text-destructive-foreground rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
+                      >
+                        {deletingAll ? <Loader2 className="w-3 h-3 animate-spin" /> : "Yes, delete all"}
+                      </button>
+                      <button
+                        onClick={() => setConfirmDeleteAll(false)}
+                        className="px-3 py-1 text-xs bg-muted text-muted-foreground rounded-lg hover:bg-muted/70 transition-colors"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => setConfirmDeleteAll(true)}
+                      className="flex items-center gap-1.5 px-3 py-1.5 text-xs text-destructive border border-destructive/30 rounded-lg hover:bg-destructive/10 transition-colors"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" /> Delete All
+                    </button>
+                  )
                 )}
               </div>
 
@@ -262,7 +305,7 @@ export default function ImageManager() {
                           </a>
                           <button
                             onClick={() => deleteImage(img)}
-                            className="w-7 h-7 rounded-lg bg-red-500/80 hover:bg-red-600 flex items-center justify-center transition-colors"
+                            className="w-7 h-7 rounded-lg bg-destructive/80 hover:bg-destructive flex items-center justify-center transition-colors"
                             title="Delete"
                           >
                             <Trash2 className="w-3.5 h-3.5 text-white" />
