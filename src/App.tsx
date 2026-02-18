@@ -51,6 +51,7 @@ import ResearchAbout from "./pages/research/ResearchAbout";
 import ResearchComingSoon from "./pages/research/ResearchComingSoon";
 import OngoingProjects from "./pages/research/OngoingProjects";
 import ResearchFacility from "./pages/research/ResearchFacility";
+import ResearchFaculty from "./pages/research/ResearchFaculty";
 
 // Alias for brevity in routes
 const ResearchCS = ({ title }: { title: string }) => <ResearchComingSoon title={title} />;
@@ -200,7 +201,7 @@ const App = () => (
           <Route path="/research" element={<ResearchLayout />}>
             <Route index element={<ResearchAbout />} />
             <Route path="facility" element={<ResearchFacility />} />
-            <Route path="faculty" element={<ResearchCS title="Research Faculty" />} />
+            <Route path="faculty" element={<ResearchFaculty />} />
             <Route path="ongoing-projects" element={<OngoingProjects />} />
             <Route path="completed-projects" element={<ResearchCS title="Completed Projects" />} />
             <Route path="adopt-project" element={<ResearchCS title="Adopt a Research Project" />} />
