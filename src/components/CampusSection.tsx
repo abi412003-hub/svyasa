@@ -121,7 +121,7 @@ const CampusSection = () => {
               transition={{ delay: index * 0.1, duration: 0.6 }}
               className={`relative overflow-hidden rounded-2xl cursor-pointer group ${
                 index === 0 ? "md:row-span-2" : ""
-              }`}
+              } ${index === initialImages.length - 1 ? "md:col-span-2" : ""}`}
               onClick={() => setSelectedImage(image)}
             >
               <motion.img
@@ -129,7 +129,7 @@ const CampusSection = () => {
                 alt={image.label}
                 className={`w-full object-cover ${
                   index === 0 ? "h-full min-h-[200px] md:min-h-[400px]" : "h-36 md:h-56"
-                }`}
+                } ${index === initialImages.length - 1 ? "md:h-56" : ""}`}
                 whileHover={{ scale: 1.1 }}
                 transition={{ duration: 0.5 }}
               />
