@@ -210,15 +210,6 @@ const App = () => (
           <Route path="/research/publications" element={<ResearchPublications />} />
           <Route path="/research/lab-events" element={<LabEvents />} />
           <Route path="/research/cpeb" element={<ResearchCS title="CPEB Project Proposal" />} />
-          {/* Legacy research routes → redirect to new structure */}
-          <Route path="/research-facility" element={<ComingSoon />} />
-          <Route path="/research-faculty" element={<ComingSoon />} />
-          <Route path="/research-ongoing-projects" element={<ComingSoon />} />
-          <Route path="/research-completed-projects" element={<ComingSoon />} />
-          <Route path="/adopt-research-project" element={<ComingSoon />} />
-          <Route path="/research-publications" element={<ComingSoon />} />
-          <Route path="/research-lab-events" element={<ComingSoon />} />
-          <Route path="/cpeb-project-proposal" element={<ComingSoon />} />
           
           {/* Important Links */}
           <Route path="/gallery" element={<Gallery />} />
