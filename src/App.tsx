@@ -53,6 +53,7 @@ import OngoingProjects from "./pages/research/OngoingProjects";
 import ResearchFacility from "./pages/research/ResearchFacility";
 import ResearchFaculty from "./pages/research/ResearchFaculty";
 import CompletedProjects from "./pages/research/CompletedProjects";
+import AdoptProject from "./pages/research/AdoptProject";
 
 // Alias for brevity in routes
 const ResearchCS = ({ title }: { title: string }) => <ResearchComingSoon title={title} />;
@@ -205,7 +206,7 @@ const App = () => (
             <Route path="faculty" element={<ResearchFaculty />} />
             <Route path="ongoing-projects" element={<OngoingProjects />} />
             <Route path="completed-projects" element={<CompletedProjects />} />
-            <Route path="adopt-project" element={<ResearchCS title="Adopt a Research Project" />} />
+            <Route path="adopt-project" element={<AdoptProject />} />
             <Route path="publications" element={<ResearchCS title="Research Publications" />} />
             <Route path="lab-events" element={<ResearchCS title="Lab Events" />} />
             <Route path="cpeb" element={<ResearchCS title="CPEB Project Proposal" />} />
