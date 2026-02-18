@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import About from "./pages/About";
 import Society from "./pages/Society";
 import Management from "./pages/Management";
+import Administration from "./pages/Administration";
 import Accreditation from "./pages/Accreditation";
 import Publications from "./pages/Publications";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
@@ -74,6 +75,7 @@ const App = () => (
           <Route path="/about" element={<About />} />
           <Route path="/society" element={<Society />} />
           <Route path="/management" element={<Management />} />
+          <Route path="/administration" element={<Administration />} />
           <Route path="/organogram" element={<Organogram />} />
           
           {/* About Section */}
