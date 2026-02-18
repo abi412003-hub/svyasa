@@ -54,6 +54,7 @@ const Index = () => {
           <StatsSection />
           <AnnouncementsTicker />
           <ProgramsSection />
+          <EventsSection />
           <WhySection />
           <ResearchSection />
           <CampusSection />
@@ -61,7 +62,6 @@ const Index = () => {
           <ChancellorsNote />
           <ViceChancellorsNote />
           <TestimonialsSection />
-          <EventsSection />
           <AffiliationsSection />
           <CTASection />
         </main>
