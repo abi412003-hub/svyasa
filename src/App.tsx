@@ -54,6 +54,7 @@ import ResearchFacility from "./pages/research/ResearchFacility";
 import ResearchFaculty from "./pages/research/ResearchFaculty";
 import CompletedProjects from "./pages/research/CompletedProjects";
 import ResearchPublications from "./pages/research/ResearchPublications";
+import LabEvents from "./pages/research/LabEvents";
 import AdoptProject from "./pages/research/AdoptProject";
 
 // Alias for brevity in routes
@@ -209,7 +210,7 @@ const App = () => (
             <Route path="completed-projects" element={<CompletedProjects />} />
             <Route path="adopt-project" element={<AdoptProject />} />
             <Route path="publications" element={<ResearchPublications />} />
-            <Route path="lab-events" element={<ResearchCS title="Lab Events" />} />
+            <Route path="lab-events" element={<LabEvents />} />
             <Route path="cpeb" element={<ResearchCS title="CPEB Project Proposal" />} />
           </Route>
           {/* Legacy research routes → redirect to new structure */}
