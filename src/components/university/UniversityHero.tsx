@@ -2,6 +2,14 @@ import { motion } from "framer-motion";
 
 const UniversityHero = () => (
   <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden bg-secondary">
+    {/* Background image */}
+    <div
+      className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+      style={{ backgroundImage: "url('https://spkbypslhjqvnvnujpwd.supabase.co/storage/v1/object/public/site-images/prashanti/prashanti-campus/1771447482333-5rxqdis5qyr.jpg')" }}
+    />
+    {/* Dark overlay */}
+    <div className="absolute inset-0 bg-black/60" />
+
     {/* Animated mandala background */}
     <div className="absolute inset-0 flex items-center justify-center opacity-[0.04]">
       {[...Array(3)].map((_, ring) => (
