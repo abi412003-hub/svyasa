@@ -11,8 +11,8 @@ const slides = [
     subtitle: "A Haven for Holistic Learning",
   },
   {
-    image: "https://images.unsplash.com/photo-1545389336-cf090694435e?w=1920&q=80",
-    mobileImage: "https://images.unsplash.com/photo-1545389336-cf090694435e?w=800&q=80",
+    image: "https://spkbypslhjqvnvnujpwd.supabase.co/storage/v1/object/public/site-images/prashanti/prashanti-campus/1771447477140-tzz2jgl93yn.jpg",
+    mobileImage: "https://spkbypslhjqvnvnujpwd.supabase.co/storage/v1/object/public/site-images/prashanti/prashanti-campus/1771447477140-tzz2jgl93yn.jpg",
     title: "100 Acres of Serenity",
     subtitle: "Where Tradition Meets Modern Science",
   },
