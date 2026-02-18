@@ -9,9 +9,9 @@ const images = [
   { src: campus1, label: "University Library" },
   { src: campus2, label: "Yoga Hall" },
   { src: campus3, label: "Meditation Garden" },
-  { src: "/images/campus/prashanti-campus_campus1.jpg", label: "Main Building" },
-  { src: "/images/campus/prashanti-campus_entrance.jpeg", label: "Lecture Hall" },
-  { src: "/images/campus/p3-admin-exteriors_128.jpg", label: "Sports Complex" },
+  { src: "https://images.unsplash.com/photo-1562774053-701939374585?w=800", label: "Main Building" },
+  { src: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800", label: "Lecture Hall" },
+  { src: "https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?w=800", label: "Sports Complex" },
 ];
 
 const CampusSection = () => {

@@ -11,7 +11,7 @@ const accreditations = [
   },
   {
     name: "KSURF",
-    logo: "/images/campus/p3-admin-exteriors_131.jpg",
+    logo: "https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&q=80",
   },
 ];
 

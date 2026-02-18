@@ -122,7 +122,7 @@ const SWCStats = () => {
       <div
         className="absolute inset-0 bg-cover bg-center opacity-10"
         style={{
-          backgroundImage: `url('/images/campus/students_198.jpg')`,
+          backgroundImage: `url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1920&q=80')`,
         }}
       />
 

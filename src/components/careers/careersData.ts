@@ -18,7 +18,7 @@ export interface CampusInfo {
 
 export const prashantiCampusInfo: CampusInfo = {
   name: "Prashanti Campus",
-  image: "/images/campus/prashanti-campus_prashanti-kutiram.jpg",
+  image: "https://images.unsplash.com/photo-1562774053-701939374585?w=600&q=80",
   heading: "Be a Changemaker With S-VYASA Prashanti Campus",
   pdfUrl: "/img/svyasa PK.pdf",
   pdfLabel: "Know Us Before You Apply",
@@ -26,7 +26,7 @@ export const prashantiCampusInfo: CampusInfo = {
 
 export const globalCityCampusInfo: CampusInfo = {
   name: "Global City Campus",
-  image: "/images/campus/campus_3.jpeg",
+  image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80",
   heading: "Be a Changemaker With S-VYASA Global City Campus",
   pdfUrl: "/img/svyasa CC.pdf",
   pdfLabel: "Know Us Before You Apply",

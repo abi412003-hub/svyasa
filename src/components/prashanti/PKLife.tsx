@@ -114,7 +114,7 @@ const PKLife = () => {
             viewport={{ once: true }}
           >
             <motion.img
-              src="/images/campus/21-day-yoga-day-cele_94.jpg"
+              src="https://images.unsplash.com/photo-1545389336-cf090694435e?w=800&q=80"
               alt="Yoga practice at campus"
               className="w-full h-[350px] object-cover"
               initial={{ scale: 1 }}
@@ -144,7 +144,7 @@ const PKLife = () => {
             viewport={{ once: true }}
           >
             <motion.img
-              src="/images/campus/prashanti-campus_campus1.jpg"
+              src="https://images.unsplash.com/photo-1588286840104-8957b019727f?w=800&q=80"
               alt="Campus meditation"
               className="w-full h-[350px] object-cover"
               initial={{ scale: 1 }}

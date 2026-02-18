@@ -5,22 +5,22 @@ const events = [
   {
     title: "Republic Day",
     isNew: true,
-    image: "/images/campus/republic-day-prashan_145.jpg",
+    image: "https://images.unsplash.com/photo-1532375810709-75b1da00537c?w=200&q=80",
   },
   {
     title: "All India Inter-University Yogasana Championships (Women) 2026",
     isNew: true,
-    image: "/images/campus/21-day-yoga-day-cele_94.jpg",
+    image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=200&q=80",
   },
   {
     title: "Faculty Development Program on Quantum Computing & Cybersecurity",
     isNew: false,
-    image: "/images/campus/seminar-hall_2.jpeg",
+    image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=200&q=80",
   },
   {
     title: "Karnataka Rajyotsava 2025",
     isNew: false,
-    image: "/images/campus/kannada-rajyotsava_132.jpg",
+    image: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=200&q=80",
   },
 ];
 

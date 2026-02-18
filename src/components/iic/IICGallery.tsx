@@ -55,7 +55,7 @@ const IICGallery = () => {
                   alt={image.alt}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   onError={(e) => {
-                    e.currentTarget.src = `/images/campus/unlocking-innovation_225.jpg
+                    e.currentTarget.src = `https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=80&fit=crop`;
                   }}
                 />
               </div>
@@ -121,7 +121,7 @@ const IICGallery = () => {
               className="max-w-full max-h-[85vh] object-contain rounded-lg"
               onClick={(e) => e.stopPropagation()}
               onError={(e) => {
-                e.currentTarget.src = `/images/campus/unlocking-innovation_225.jpg
+                e.currentTarget.src = `https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1200&q=80`;
               }}
             />
 

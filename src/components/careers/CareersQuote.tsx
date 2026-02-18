@@ -21,7 +21,7 @@ const CareersQuote = () => {
       <motion.div
         className="absolute inset-0 bg-cover bg-center"
         style={{
-          backgroundImage: `url('/images/campus/p3-admin-exteriors_134.jpg')`,
+          backgroundImage: `url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1920&q=80')`,
           y,
         }}
       />

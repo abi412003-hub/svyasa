@@ -98,7 +98,7 @@ const JournalHighlights = () => {
       <div
         className="absolute inset-0 bg-cover bg-center opacity-10"
         style={{
-          backgroundImage: `url('/images/campus/prashanti_digital-library.jpg')`,
+          backgroundImage: `url('https://images.unsplash.com/photo-1544027993-37dbfe43562a?w=1920&q=80')`,
         }}
       />
 

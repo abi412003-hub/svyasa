@@ -37,7 +37,7 @@ const GCCHighlights = () => {
         viewport={{ once: true }}
       >
         <img
-          src="/images/campus/campus_2.jpeg"
+          src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&q=80"
           alt="Campus"
           className="w-full h-full object-cover"
         />

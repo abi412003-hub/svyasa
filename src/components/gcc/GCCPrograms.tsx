@@ -177,7 +177,7 @@ const GCCPrograms = () => {
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             >
               <img
-                src="/images/campus/research-lab_research-lab3.jpeg"
+                src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&q=80"
                 alt="Students collaborating"
                 className="rounded-2xl shadow-2xl"
               />

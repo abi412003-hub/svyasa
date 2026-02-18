@@ -17,7 +17,7 @@ const AIUImportance = () => {
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: "url('/images/campus/prashanti-campus_campus1.jpg')",
+            backgroundImage: "url('https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&q=80')",
           }}
         />
       </motion.div>

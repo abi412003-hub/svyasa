@@ -6,25 +6,25 @@ const upcomingEvents = [
     id: 1,
     title: "Republic Day Celebration",
     date: "26 Jan 2025",
-    image: "/images/campus/republic-day-prashan_144.jpg",
+    image: "https://images.unsplash.com/photo-1532375810709-75b1da00537c?w=200&q=80",
   },
   {
     id: 2,
     title: "All India Inter-University Yogasana Championships (Women) 2026",
     date: "Feb 2026",
-    image: "/images/campus/21-day-yoga-day-cele_94.jpg",
+    image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=200&q=80",
   },
   {
     id: 3,
     title: "Faculty Development Program on Quantum Computing & Cybersecurity",
     date: "March 2025",
-    image: "/images/campus/computer-lab_3.jpeg",
+    image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=200&q=80",
   },
   {
     id: 4,
     title: "Karnataka Rajyotsava 2025",
     date: "Nov 2025",
-    image: "/images/campus/kannada-rajyotsava_131.jpg",
+    image: "https://images.unsplash.com/photo-1609234656388-0ff363383899?w=200&q=80",
   },
 ];
 

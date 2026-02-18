@@ -28,13 +28,13 @@ const events = [
 
 const news = [
   {
-    image: "/images/campus/inaugral-event_95.jpg",
+    image: "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=400",
     date: "March 5, 2025",
     title: "S-VYASA Receives National Excellence Award",
     excerpt: "Recognition for outstanding contributions to yoga education and research.",
   },
   {
-    image: "/images/campus/inaugral-event_95.jpg",
+    image: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400",
     date: "February 28, 2025",
     title: "New Partnership with Harvard Medical School",
     excerpt: "Collaborative research on yoga's impact on chronic disease management.",

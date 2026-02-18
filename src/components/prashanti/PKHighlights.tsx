@@ -62,7 +62,7 @@ const PKHighlights = () => {
         style={{ y: bgY }}
       >
         <img
-          src="/images/campus/prashanti-campus_campus1.jpg"
+          src="https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?w=1920&q=80"
           alt="Campus background"
           className="w-full h-[120%] object-cover"
         />

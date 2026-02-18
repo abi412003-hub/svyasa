@@ -29,7 +29,7 @@ const EventsTimeline = () => {
 
   const getImageUrl = (eventId: number, hasImage: boolean) => {
     if (!hasImage) return null;
-    return `/images/campus/inaugral-event_95.jpg
+    return `https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&q=80&sig=event${eventId}`;
   };
 
   const parseDateDisplay = (dateStr: string) => {
