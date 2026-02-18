@@ -46,6 +46,12 @@ import TrainingFaculty from "./pages/training/TrainingFaculty";
 import TrainingFAQs from "./pages/training/TrainingFAQs";
 import TrainingContact from "./pages/training/TrainingContact";
 import ImageManager from "./pages/ImageManager";
+import ResearchLayout from "./components/research/ResearchLayout";
+import ResearchAbout from "./pages/research/ResearchAbout";
+import ResearchComingSoon from "./pages/research/ResearchComingSoon";
+
+// Alias for brevity in routes
+const ResearchCS = ({ title }: { title: string }) => <ResearchComingSoon title={title} />;
 
 const queryClient = new QueryClient();
 
@@ -189,7 +195,18 @@ const App = () => (
           <Route path="/department-of-science-and-humanities" element={<ComingSoon />} />
           
           {/* Research */}
-          <Route path="/research" element={<ComingSoon />} />
+          <Route path="/research" element={<ResearchLayout />}>
+            <Route index element={<ResearchAbout />} />
+            <Route path="facility" element={<ResearchCS title="Research Facility" />} />
+            <Route path="faculty" element={<ResearchCS title="Research Faculty" />} />
+            <Route path="ongoing-projects" element={<ResearchCS title="Ongoing Projects" />} />
+            <Route path="completed-projects" element={<ResearchCS title="Completed Projects" />} />
+            <Route path="adopt-project" element={<ResearchCS title="Adopt a Research Project" />} />
+            <Route path="publications" element={<ResearchCS title="Research Publications" />} />
+            <Route path="lab-events" element={<ResearchCS title="Lab Events" />} />
+            <Route path="cpeb" element={<ResearchCS title="CPEB Project Proposal" />} />
+          </Route>
+          {/* Legacy research routes → redirect to new structure */}
           <Route path="/research-facility" element={<ComingSoon />} />
           <Route path="/research-faculty" element={<ComingSoon />} />
           <Route path="/research-ongoing-projects" element={<ComingSoon />} />
