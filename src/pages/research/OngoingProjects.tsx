@@ -2,6 +2,8 @@ import { motion, useInView, Variants } from "framer-motion";
 import { ChevronDown, FlaskConical, Building2, IndianRupee } from "lucide-react";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
+import Layout from "@/components/layout/Layout";
+import ResearchSubNav from "@/components/research/ResearchSubNav";
 
 /* ── Variants ── */
 const fadeUp: Variants = {
@@ -239,7 +241,8 @@ export default function OngoingProjects() {
   const indInView = useInView(indRef, { once: true, margin: "-60px" });
 
   return (
-    <div>
+    <Layout>
+      <ResearchSubNav />
       {/* Hero Banner */}
       <section
         className="relative flex flex-col items-center justify-center h-[45vh] sm:h-[38vh] overflow-hidden"
@@ -363,6 +366,6 @@ export default function OngoingProjects() {
           </motion.div>
         </motion.div>
       </div>
-    </div>
+    </Layout>
   );
 }

@@ -46,7 +46,6 @@ import TrainingFaculty from "./pages/training/TrainingFaculty";
 import TrainingFAQs from "./pages/training/TrainingFAQs";
 import TrainingContact from "./pages/training/TrainingContact";
 import ImageManager from "./pages/ImageManager";
-import ResearchLayout from "./components/research/ResearchLayout";
 import ResearchAbout from "./pages/research/ResearchAbout";
 import ResearchComingSoon from "./pages/research/ResearchComingSoon";
 import OngoingProjects from "./pages/research/OngoingProjects";
@@ -202,17 +201,15 @@ const App = () => (
           <Route path="/department-of-science-and-humanities" element={<ComingSoon />} />
           
           {/* Research */}
-          <Route path="/research" element={<ResearchLayout />}>
-            <Route index element={<ResearchAbout />} />
-            <Route path="facility" element={<ResearchFacility />} />
-            <Route path="faculty" element={<ResearchFaculty />} />
-            <Route path="ongoing-projects" element={<OngoingProjects />} />
-            <Route path="completed-projects" element={<CompletedProjects />} />
-            <Route path="adopt-project" element={<AdoptProject />} />
-            <Route path="publications" element={<ResearchPublications />} />
-            <Route path="lab-events" element={<LabEvents />} />
-            <Route path="cpeb" element={<ResearchCS title="CPEB Project Proposal" />} />
-          </Route>
+          <Route path="/research" element={<ResearchAbout />} />
+          <Route path="/research/facility" element={<ResearchFacility />} />
+          <Route path="/research/faculty" element={<ResearchFaculty />} />
+          <Route path="/research/ongoing-projects" element={<OngoingProjects />} />
+          <Route path="/research/completed-projects" element={<CompletedProjects />} />
+          <Route path="/research/adopt-project" element={<AdoptProject />} />
+          <Route path="/research/publications" element={<ResearchPublications />} />
+          <Route path="/research/lab-events" element={<LabEvents />} />
+          <Route path="/research/cpeb" element={<ResearchCS title="CPEB Project Proposal" />} />
           {/* Legacy research routes → redirect to new structure */}
           <Route path="/research-facility" element={<ComingSoon />} />
           <Route path="/research-faculty" element={<ComingSoon />} />

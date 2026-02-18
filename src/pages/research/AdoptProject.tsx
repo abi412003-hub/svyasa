@@ -1,4 +1,6 @@
 import { motion, useInView, Variants } from "framer-motion";
+import Layout from "@/components/layout/Layout";
+import ResearchSubNav from "@/components/research/ResearchSubNav";
 import {
   ChevronDown,
   CheckCircle2,
@@ -54,7 +56,8 @@ export default function AdoptProject() {
   const contactInView = useInView(contactRef, { once: true, margin: "-60px" });
 
   return (
-    <div>
+    <Layout>
+      <ResearchSubNav />
       {/* ── Hero Banner ── */}
       <section
         className="relative flex flex-col items-center justify-center h-[45vh] sm:h-[38vh] overflow-hidden"
@@ -473,6 +476,6 @@ export default function AdoptProject() {
           </motion.div>
         </motion.div>
       </section>
-    </div>
+    </Layout>
   );
 }
