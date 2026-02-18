@@ -530,6 +530,20 @@ const MobileMenu = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
             </div>
 
             <nav className="space-y-2">
+              {/* Home link for mobile */}
+              <motion.div
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0 }}
+              >
+                <Link
+                  to="/"
+                  onClick={onClose}
+                  className="block py-3 text-white text-lg border-b border-white/10"
+                >
+                  Home
+                </Link>
+              </motion.div>
               {navItems.map((item, index) => (
                 <motion.div
                   key={item.label}
@@ -788,6 +802,13 @@ const MegaMenuHeader = () => {
 
             {/* Desktop Navigation */}
             <nav className="hidden xl:flex items-center gap-1">
+              {/* Home Button */}
+              <Link
+                to="/"
+                className="px-3 py-2 text-sm text-foreground hover:text-primary transition-colors"
+              >
+                Home
+              </Link>
               {navItems.slice(0, 6).map((item, index) => (
                 <div
                   key={item.label}
