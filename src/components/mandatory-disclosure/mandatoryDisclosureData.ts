@@ -23,33 +23,33 @@ export const disclosureCategories: MDCategory[] = [
       {
         id: "ugc-2002",
         title: "UGC Notification – 2002",
-        pdfUrl: "admin/photo/mandatory_disclosure/1.pdf",
+        pdfUrl: "/pdfs/UGC-Notification-2002.pdf",
       },
       {
         id: "aicte-approval",
         title: "AICTE Letter of Approval",
-        pdfUrl: "admin/photo/mandatory_disclosure/2.pdf",
+        pdfUrl: "/pdfs/AICTE-Letter-of-Approval.pdf",
       },
       {
         id: "aishe-2023-24",
         title: "AISHE Certificate 2023–24",
-        pdfUrl: "admin/photo/mandatory_disclosure/3.pdf",
+        pdfUrl: "/pdfs/AISHE-Certificate-2023-24.pdf",
         isLatest: true,
       },
       {
         id: "aishe-2022-23",
         title: "AISHE Certificate 2022–23",
-        pdfUrl: "admin/photo/mandatory_disclosure/4.pdf",
+        pdfUrl: "/pdfs/AISHE-Certificate-2022-23.pdf",
       },
       {
         id: "aishe-2021-22",
         title: "AISHE Certificate 2021–22",
-        pdfUrl: "admin/photo/mandatory_disclosure/5.pdf",
+        pdfUrl: "/pdfs/AISHE-Certificate-2021-22.pdf",
       },
       {
         id: "aicte-extension",
         title: "AICTE Extension of Approval",
-        pdfUrl: "admin/photo/mandatory_disclosure/6.pdf",
+        pdfUrl: "/pdfs/AICTE-Extension-of-Approval.pdf",
       },
     ],
   },
@@ -61,7 +61,7 @@ export const disclosureCategories: MDCategory[] = [
       {
         id: "naac-status",
         title: "NAAC Status",
-        pdfUrl: "admin/photo/mandatory_disclosure/7.pdf",
+        pdfUrl: "/pdfs/NAAC-Status.pdf",
         isFeatured: true,
         badge: "A+ Accredited",
       },
@@ -80,12 +80,12 @@ export const disclosureCategories: MDCategory[] = [
       {
         id: "ugc-committees",
         title: "UGC Mandated Committees",
-        pdfUrl: "admin/photo/mandatory_disclosure/8.pdf",
+        pdfUrl: "/pdfs/UGC-Mandated-Committees.pdf",
       },
       {
         id: "administration",
         title: "Administration",
-        pdfUrl: "admin/photo/mandatory_disclosure/9.pdf",
+        pdfUrl: "/pdfs/Administration.pdf",
       },
       {
         id: "odl-approval",
@@ -112,7 +112,7 @@ export const disclosureCategories: MDCategory[] = [
       {
         id: "hostel",
         title: "Hostel",
-        pdfUrl: "admin/photo/mandatory_disclosure/13.pdf",
+        pdfUrl: "",
       },
       {
         id: "scholarships",

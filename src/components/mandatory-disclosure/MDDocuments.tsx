@@ -76,18 +76,27 @@ const DocumentCard = ({ doc, index, isInView, baseDelay }: DocumentCardProps) =>
             {doc.title}
           </h3>
 
-          <a
-            href={doc.pdfUrl}
-            download
-            className={`inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 ${
-              doc.isFeatured
-                ? "text-gold bg-gold/5 hover:bg-gold hover:text-white"
-                : "text-primary bg-primary/5 hover:bg-primary hover:text-white"
-            }`}
-          >
-            <Download className="w-4 h-4 group-hover:animate-bounce" />
-            Download PDF
-          </a>
+          {doc.pdfUrl ? (
+            <a
+              href={doc.pdfUrl}
+              download
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 ${
+                doc.isFeatured
+                  ? "text-gold bg-gold/5 hover:bg-gold hover:text-white"
+                  : "text-primary bg-primary/5 hover:bg-primary hover:text-white"
+              }`}
+            >
+              <Download className="w-4 h-4 group-hover:animate-bounce" />
+              Download PDF
+            </a>
+          ) : (
+            <span className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg text-muted-foreground bg-muted cursor-not-allowed">
+              <Download className="w-4 h-4" />
+              Coming Soon
+            </span>
+          )}
         </div>
       </div>
     </motion.div>
