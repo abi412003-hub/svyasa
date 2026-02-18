@@ -1,8 +1,8 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
-  ArrowRight, Monitor, Briefcase, Calculator, Cpu, FlaskConical,
+  ArrowRight, ArrowLeft, Monitor, Briefcase, Calculator, Cpu, FlaskConical,
   GraduationCap, TrendingUp, Microscope, Leaf, HeartPulse, BookOpen, Crown
 } from "lucide-react";
 import { categories } from "@/data/courses";
@@ -22,15 +22,6 @@ const iconMap: Record<string, React.ElementType> = {
   "dsc-dlitt": Crown,
 };
 
-const gradientMap: Record<string, string> = {
-  tech: "from-primary to-saffron-light",
-  business: "from-gold to-saffron-light",
-  yoga: "from-teal to-navy-light",
-  health: "from-primary to-teal",
-  research: "from-navy to-teal",
-  arts: "from-gold to-primary",
-};
-
 const categoryImageMap: Record<string, string> = {
   bca: "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=400&q=80",
   bba: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=400&q=80",
@@ -46,11 +37,31 @@ const categoryImageMap: Record<string, string> = {
   "dsc-dlitt": "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=400&q=80",
 };
 
+const CARD_WIDTH = 260;
+const GAP = 20;
+const SCROLL_AMOUNT = (CARD_WIDTH + GAP) * 3;
+
 const ProgramsSection = () => {
   const ref = useRef(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const titleRef = useRef(null);
   const titleInView = useInView(titleRef, { once: true });
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  const handleScroll = () => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 0);
+    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 4);
+  };
+
+  const scroll = (dir: "left" | "right") => {
+    const el = scrollRef.current;
+    if (!el) return;
+    el.scrollBy({ left: dir === "right" ? SCROLL_AMOUNT : -SCROLL_AMOUNT, behavior: "smooth" });
+  };
 
   return (
     <section ref={ref} className="py-20 bg-muted relative overflow-hidden">
@@ -65,14 +76,8 @@ const ProgramsSection = () => {
           <circle cx="100" cy="100" r="60" fill="none" stroke="currentColor" strokeWidth="0.5" />
           <circle cx="100" cy="100" r="40" fill="none" stroke="currentColor" strokeWidth="0.5" />
           {[...Array(12)].map((_, i) => (
-            <line
-              key={i}
-              x1="100"
-              y1="20"
-              x2="100"
-              y2="100"
-              stroke="currentColor"
-              strokeWidth="0.5"
+            <line key={i} x1="100" y1="20" x2="100" y2="100"
+              stroke="currentColor" strokeWidth="0.5"
               transform={`rotate(${i * 30} 100 100)`}
             />
           ))}
@@ -80,92 +85,109 @@ const ProgramsSection = () => {
       </motion.div>
 
       <div className="container mx-auto px-4 relative">
-        {/* Section Title */}
-        <div ref={titleRef} className="text-center mb-16">
-          <motion.span
-            initial={{ opacity: 0, y: 20 }}
-            animate={titleInView ? { opacity: 1, y: 0 } : {}}
-            className="inline-block text-primary font-medium mb-4"
-          >
-            Academic Excellence
-          </motion.span>
+        {/* Section Title + Scroll Controls */}
+        <div ref={titleRef} className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+          <div>
+            <motion.span
+              initial={{ opacity: 0, y: 20 }}
+              animate={titleInView ? { opacity: 1, y: 0 } : {}}
+              className="inline-block text-primary font-medium mb-3"
+            >
+              Academic Excellence
+            </motion.span>
+            <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-2">
+              {"Our Programs".split(" ").map((word, i) => (
+                <motion.span
+                  key={i}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={titleInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ delay: i * 0.15, duration: 0.5 }}
+                  className="inline-block mr-3"
+                >
+                  {word}
+                </motion.span>
+              ))}
+            </h2>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={titleInView ? { opacity: 1 } : {}}
+              transition={{ delay: 0.4 }}
+              className="text-muted-foreground max-w-xl"
+            >
+              Discover programs blending traditional yoga wisdom with contemporary academic rigor.
+            </motion.p>
+          </div>
 
-          <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-            {"Our Programs".split(" ").map((word, i) => (
-              <motion.span
-                key={i}
-                initial={{ opacity: 0, y: 30 }}
-                animate={titleInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: i * 0.15, duration: 0.5 }}
-                className="inline-block mr-3"
-              >
-                {word}
-              </motion.span>
-            ))}
-          </h2>
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={titleInView ? { opacity: 1 } : {}}
-            transition={{ delay: 0.4 }}
-            className="text-muted-foreground max-w-2xl mx-auto"
-          >
-            Discover our comprehensive range of programs designed to blend traditional yoga wisdom
-            with contemporary academic rigor.
-          </motion.p>
+          {/* Arrow Controls */}
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              onClick={() => scroll("left")}
+              disabled={!canScrollLeft}
+              className="w-10 h-10 rounded-full border border-border bg-card flex items-center justify-center text-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+            >
+              <ArrowLeft size={18} />
+            </button>
+            <button
+              onClick={() => scroll("right")}
+              disabled={!canScrollRight}
+              className="w-10 h-10 rounded-full border border-border bg-card flex items-center justify-center text-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+            >
+              <ArrowRight size={18} />
+            </button>
+          </div>
         </div>
 
-        {/* Programs Grid */}
-        <div className="flex overflow-x-auto gap-5 pb-4 scrollbar-hide snap-x snap-mandatory">
+        {/* Programs Scroll Row */}
+        <div
+          ref={scrollRef}
+          onScroll={handleScroll}
+          className="flex overflow-x-auto gap-5 pb-4 scrollbar-hide snap-x snap-mandatory"
+        >
           {categories.map((cat, index) => {
             const Icon = iconMap[cat.slug] || BookOpen;
-            const gradient = gradientMap[cat.domainTheme] || "from-primary to-saffron-light";
             return (
               <motion.div
                 key={cat.slug}
-                className="shrink-0 w-[200px] md:w-[220px] snap-start"
+                className="shrink-0 w-[260px] snap-start"
                 initial={{ opacity: 0, y: 30 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ delay: Math.min(index * 0.06, 0.6), duration: 0.4 }}
               >
                 <Link to={`/programs/${cat.slug}`}>
-              <motion.div
-                    whileHover={{ y: -10, scale: 1.02 }}
+                  <motion.div
+                    whileHover={{ y: -6, scale: 1.01 }}
                     transition={{ type: "spring", stiffness: 300 }}
                     className="group bg-card rounded-2xl overflow-hidden h-full shadow-soft hover:shadow-large transition-all duration-300 cursor-pointer border border-border flex flex-col"
                   >
-                    {/* Image banner */}
-                    <div className="relative h-32 overflow-hidden shrink-0">
+                    {/* Smaller image strip */}
+                    <div className="relative h-20 overflow-hidden shrink-0">
                       <img
                         src={categoryImageMap[cat.slug] || "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=400&q=80"}
                         alt={cat.shortTitle}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-                      <motion.div
-                        className="absolute bottom-3 left-3 w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
-                        whileHover={{ rotate: [0, -10, 10, 0] }}
-                        transition={{ duration: 0.5 }}
-                      >
-                        <Icon className="w-5 h-5 text-white" />
-                      </motion.div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                      {/* Icon badge */}
+                      <div className="absolute bottom-2 right-2 w-8 h-8 rounded-lg bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                        <Icon className="w-4 h-4 text-white" />
+                      </div>
                     </div>
 
-                    {/* Content */}
-                    <div className="p-4 flex flex-col flex-1">
-                      <h3 className="font-heading text-base font-semibold text-foreground mb-1 group-hover:text-primary transition-colors leading-tight">
+                    {/* Bigger content area */}
+                    <div className="p-5 flex flex-col flex-1">
+                      <h3 className="font-heading text-lg font-bold text-foreground mb-2 group-hover:text-primary transition-colors leading-tight">
                         {cat.shortTitle}
                       </h3>
-                      <p className="text-muted-foreground text-xs mb-3 leading-relaxed line-clamp-2 flex-1">
+                      <p className="text-muted-foreground text-sm mb-4 leading-relaxed flex-1">
                         {cat.subtitle}
                       </p>
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs text-muted-foreground/70">
+                      <div className="flex items-center justify-between pt-3 border-t border-border">
+                        <span className="text-xs font-medium text-muted-foreground bg-muted px-2 py-1 rounded-full">
                           {cat.programSlugs.length} {cat.programSlugs.length === 1 ? "Program" : "Programs"}
                         </span>
-                        <span className="inline-flex items-center gap-1 text-primary font-medium text-xs">
+                        <span className="inline-flex items-center gap-1.5 text-primary font-semibold text-sm group-hover:gap-2.5 transition-all">
                           <span>Explore</span>
-                          <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
+                          <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                         </span>
                       </div>
                     </div>
