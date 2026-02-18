@@ -68,7 +68,7 @@ export const disclosureCategories: MDCategory[] = [
       {
         id: "12b-status",
         title: "12 B Status",
-        pdfUrl: "admin/photo/mandatory_disclosure/14.pdf",
+        pdfUrl: "/pdfs/12-B-Status.pdf",
       },
     ],
   },
@@ -90,12 +90,12 @@ export const disclosureCategories: MDCategory[] = [
       {
         id: "odl-approval",
         title: "ODL Approval",
-        pdfUrl: "admin/photo/mandatory_disclosure/10.pdf",
+        pdfUrl: "/pdfs/ODL-Approval.pdf",
       },
       {
         id: "icc",
         title: "ICC (Internal Complaints Committee)",
-        pdfUrl: "admin/photo/mandatory_disclosure/11.pdf",
+        pdfUrl: "/pdfs/ICC.pdf",
       },
     ],
   },
@@ -107,7 +107,7 @@ export const disclosureCategories: MDCategory[] = [
       {
         id: "abc-nad",
         title: "ABC & NAD",
-        pdfUrl: "admin/photo/mandatory_disclosure/12.pdf",
+        pdfUrl: "/pdfs/ABC-NAD.pdf",
       },
       {
         id: "hostel",
@@ -117,12 +117,12 @@ export const disclosureCategories: MDCategory[] = [
       {
         id: "scholarships",
         title: "Scholarships",
-        pdfUrl: "admin/photo/mandatory_disclosure/15.pdf",
+        pdfUrl: "/pdfs/Scholarships.pdf",
       },
       {
         id: "anti-ragging",
         title: "Anti-Ragging",
-        pdfUrl: "admin/photo/mandatory_disclosure/16.pdf",
+        pdfUrl: "/pdfs/Anti-Ragging.pdf",
       },
     ],
   },
