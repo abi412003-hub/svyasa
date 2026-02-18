@@ -1,17 +1,16 @@
 import { useRef, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
-import campus1 from "@/assets/campus-1.jpg";
-import campus2 from "@/assets/campus-2.jpg";
-import campus3 from "@/assets/campus-3.jpg";
+
+const STORAGE_BASE = "https://spkbypslhjqvnvnujpwd.supabase.co/storage/v1/object/public/site-images";
 
 const images = [
-  { src: campus1, label: "University Library" },
-  { src: campus2, label: "Yoga Hall" },
-  { src: campus3, label: "Meditation Garden" },
-  { src: "https://images.unsplash.com/photo-1562774053-701939374585?w=800", label: "Main Building" },
-  { src: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800", label: "Lecture Hall" },
-  { src: "https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?w=800", label: "Sports Complex" },
+  { src: `${STORAGE_BASE}/campus/1771444968911-9sejaribuev.jpeg`, label: "Campus" },
+  { src: `${STORAGE_BASE}/city-campus/library/1771447107660-cryl5zdmnyq.jpeg`, label: "Library" },
+  { src: `${STORAGE_BASE}/prashanti/cultural/1771447411756-dpw9nmpgzw8.jpeg`, label: "Cultural Events" },
+  { src: `${STORAGE_BASE}/city-campus/classrooms/1771447061621-ecmwy720a3m.jpeg`, label: "Classrooms" },
+  { src: `${STORAGE_BASE}/campus/1771444974633-9z9mel4bpm.jpeg`, label: "Campus Life" },
+  { src: `${STORAGE_BASE}/prashanti/cultural/1771447413246-yt2wejztpi.jpeg`, label: "Cultural Activities" },
 ];
 
 const CampusSection = () => {
