@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
 import { Users, BookOpen, DollarSign, ShieldCheck, ChevronDown, ArrowUp, Info, Building2, GraduationCap } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
