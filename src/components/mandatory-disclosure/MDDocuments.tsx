@@ -1,6 +1,6 @@
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
-import { FileText, Download, Star, Award, Building2, Users } from "lucide-react";
+import { motion, useInView, AnimatePresence } from "framer-motion";
+import { useRef, useState, useCallback } from "react";
+import { FileText, Download, Star, Award, Building2, Users, Eye, X, ExternalLink, AlertCircle } from "lucide-react";
 import { disclosureCategories, MDDocument, MDCategory } from "./mandatoryDisclosureData";
 
 const categoryIcons: Record<string, React.ElementType> = {
@@ -10,14 +10,159 @@ const categoryIcons: Record<string, React.ElementType> = {
   people: Users,
 };
 
+// ── PDF Preview Modal ─────────────────────────────────────────────────────────
+interface PDFModalProps {
+  doc: MDDocument | null;
+  onClose: () => void;
+}
+
+const PDFModal = ({ doc, onClose }: PDFModalProps) => {
+  const [loadError, setLoadError] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  if (!doc) return null;
+
+  return (
+    <AnimatePresence>
+      {doc && (
+        <>
+          {/* Backdrop */}
+          <motion.div
+            key="backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm"
+            onClick={onClose}
+          />
+
+          {/* Modal */}
+          <motion.div
+            key="modal"
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            className="fixed inset-4 md:inset-8 lg:inset-12 z-50 flex flex-col bg-white rounded-2xl shadow-2xl overflow-hidden"
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between px-5 py-4 border-b bg-gradient-to-r from-primary/5 to-transparent flex-shrink-0">
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                  <FileText className="w-5 h-5 text-primary" />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide">Document Preview</p>
+                  <h3 className="font-semibold text-navy truncate">{doc.title}</h3>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 flex-shrink-0 ml-4">
+                <a
+                  href={doc.pdfUrl}
+                  download
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors"
+                >
+                  <Download className="w-4 h-4" />
+                  <span className="hidden sm:inline">Download</span>
+                </a>
+                <a
+                  href={doc.pdfUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-lg bg-muted text-foreground hover:bg-muted/80 transition-colors"
+                  title="Open in new tab"
+                >
+                  <ExternalLink className="w-4 h-4" />
+                </a>
+                <button
+                  onClick={onClose}
+                  className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-muted hover:bg-destructive/10 hover:text-destructive transition-colors"
+                  aria-label="Close preview"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* PDF Viewer */}
+            <div className="relative flex-1 bg-muted/50">
+              {/* Loading spinner */}
+              {isLoading && !loadError && (
+                <div className="absolute inset-0 flex items-center justify-center z-10">
+                  <div className="flex flex-col items-center gap-3">
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                      className="w-10 h-10 border-4 border-primary/20 border-t-primary rounded-full"
+                    />
+                    <p className="text-sm text-muted-foreground">Loading document…</p>
+                  </div>
+                </div>
+              )}
+
+              {/* Error state */}
+              {loadError ? (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="text-center p-8 max-w-sm">
+                    <div className="w-16 h-16 bg-destructive/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <AlertCircle className="w-8 h-8 text-destructive" />
+                    </div>
+                    <h4 className="font-semibold text-navy mb-2">Preview unavailable</h4>
+                    <p className="text-sm text-muted-foreground mb-6">
+                      Your browser couldn't load this PDF inline. You can still open or download it directly.
+                    </p>
+                    <div className="flex gap-3 justify-center">
+                      <a
+                        href={doc.pdfUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors"
+                      >
+                        <ExternalLink className="w-4 h-4" />
+                        Open in new tab
+                      </a>
+                      <a
+                        href={doc.pdfUrl}
+                        download
+                        className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg border border-primary text-primary hover:bg-primary/5 transition-colors"
+                      >
+                        <Download className="w-4 h-4" />
+                        Download
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <iframe
+                  src={`${doc.pdfUrl}#toolbar=1&navpanes=1&scrollbar=1`}
+                  className="w-full h-full border-0"
+                  title={doc.title}
+                  onLoad={() => setIsLoading(false)}
+                  onError={() => { setIsLoading(false); setLoadError(true); }}
+                />
+              )}
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+};
+
+// ── Document Card ─────────────────────────────────────────────────────────────
 interface DocumentCardProps {
   doc: MDDocument;
   index: number;
   isInView: boolean;
   baseDelay: number;
+  onPreview: (doc: MDDocument) => void;
 }
 
-const DocumentCard = ({ doc, index, isInView, baseDelay }: DocumentCardProps) => {
+const DocumentCard = ({ doc, index, isInView, baseDelay, onPreview }: DocumentCardProps) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -77,20 +222,32 @@ const DocumentCard = ({ doc, index, isInView, baseDelay }: DocumentCardProps) =>
           </h3>
 
           {doc.pdfUrl ? (
-            <a
-              href={doc.pdfUrl}
-              download
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 ${
-                doc.isFeatured
-                  ? "text-gold bg-gold/5 hover:bg-gold hover:text-white"
-                  : "text-primary bg-primary/5 hover:bg-primary hover:text-white"
-              }`}
-            >
-              <Download className="w-4 h-4 group-hover:animate-bounce" />
-              Download PDF
-            </a>
+            <div className="flex items-center gap-2 flex-wrap">
+              {/* Preview button */}
+              <button
+                onClick={() => onPreview(doc)}
+                className={`inline-flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-lg transition-all duration-300 ${
+                  doc.isFeatured
+                    ? "text-gold bg-gold/5 hover:bg-gold hover:text-white"
+                    : "text-primary bg-primary/5 hover:bg-primary hover:text-white"
+                }`}
+              >
+                <Eye className="w-4 h-4" />
+                Preview
+              </button>
+
+              {/* Download button */}
+              <a
+                href={doc.pdfUrl}
+                download
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-lg border border-border text-muted-foreground hover:border-primary hover:text-primary transition-all duration-300"
+              >
+                <Download className="w-4 h-4" />
+                Download
+              </a>
+            </div>
           ) : (
             <span className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg text-muted-foreground bg-muted cursor-not-allowed">
               <Download className="w-4 h-4" />
@@ -103,13 +260,15 @@ const DocumentCard = ({ doc, index, isInView, baseDelay }: DocumentCardProps) =>
   );
 };
 
+// ── Category Section ──────────────────────────────────────────────────────────
 interface CategorySectionProps {
   category: MDCategory;
   index: number;
   isInView: boolean;
+  onPreview: (doc: MDDocument) => void;
 }
 
-const CategorySection = ({ category, index, isInView }: CategorySectionProps) => {
+const CategorySection = ({ category, index, isInView, onPreview }: CategorySectionProps) => {
   const Icon = categoryIcons[category.icon] || Award;
   const baseDelay = 0.3 + index * 0.2;
 
@@ -147,6 +306,7 @@ const CategorySection = ({ category, index, isInView }: CategorySectionProps) =>
             index={i}
             isInView={isInView}
             baseDelay={baseDelay + 0.15}
+            onPreview={onPreview}
           />
         ))}
       </div>
@@ -154,34 +314,50 @@ const CategorySection = ({ category, index, isInView }: CategorySectionProps) =>
   );
 };
 
+// ── Main Section ──────────────────────────────────────────────────────────────
 const MDDocuments = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [previewDoc, setPreviewDoc] = useState<MDDocument | null>(null);
+
+  const handlePreview = useCallback((doc: MDDocument) => {
+    setPreviewDoc(doc);
+  }, []);
+
+  const handleClose = useCallback(() => {
+    setPreviewDoc(null);
+  }, []);
 
   return (
-    <section ref={ref} className="py-16 bg-white">
-      <div className="container mx-auto px-4">
-        {/* Main Heading */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          className="text-center mb-12"
-        >
-          <h2 className="text-3xl font-display text-navy mb-3">Disclosure Documents</h2>
-          <div className="w-24 h-1 bg-gold mx-auto rounded-full" />
-        </motion.div>
+    <>
+      <section ref={ref} className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          {/* Main Heading */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            className="text-center mb-12"
+          >
+            <h2 className="text-3xl font-display text-navy mb-3">Disclosure Documents</h2>
+            <div className="w-24 h-1 bg-gold mx-auto rounded-full" />
+          </motion.div>
 
-        {/* Category Sections */}
-        {disclosureCategories.map((category, i) => (
-          <CategorySection
-            key={category.id}
-            category={category}
-            index={i}
-            isInView={isInView}
-          />
-        ))}
-      </div>
-    </section>
+          {/* Category Sections */}
+          {disclosureCategories.map((category, i) => (
+            <CategorySection
+              key={category.id}
+              category={category}
+              index={i}
+              isInView={isInView}
+              onPreview={handlePreview}
+            />
+          ))}
+        </div>
+      </section>
+
+      {/* PDF Preview Modal */}
+      <PDFModal doc={previewDoc} onClose={handleClose} />
+    </>
   );
 };
 
