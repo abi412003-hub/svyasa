@@ -54,7 +54,7 @@ const ResearchSection = () => {
               <motion.img
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.5 }}
-                src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=800"
+                src="/images/campus/research-lab_research-lab3.jpeg"
                 alt="Research Lab"
                 className="w-full h-[400px] object-cover"
               />

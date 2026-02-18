@@ -85,7 +85,7 @@ const GCCLifestyle = () => {
               >
                 <div className="rounded-2xl overflow-hidden shadow-xl">
                   <img
-                    src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=400&q=80"
+                    src="/images/campus/prashanti-campus_campus1.jpg"
                     alt="Campus life"
                     className="w-full aspect-[4/5] object-cover transition-transform duration-500 group-hover:scale-105"
                   />
@@ -103,7 +103,7 @@ const GCCLifestyle = () => {
               >
                 <div className="rounded-2xl overflow-hidden shadow-xl">
                   <img
-                    src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&q=80"
+                    src="/images/campus/research-lab_research-lab3.jpeg"
                     alt="Students collaborating"
                     className="w-full aspect-[4/5] object-cover transition-transform duration-500 group-hover:scale-105"
                   />

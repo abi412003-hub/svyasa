@@ -25,7 +25,7 @@ const YogaWellnessSection = () => {
       <motion.div
         className="absolute inset-0 bg-cover bg-center"
         style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=1920&q=80')`,
+          backgroundImage: `url('/images/campus/prashanti-campus_campus1.jpg')`,
           y: bgY,
         }}
       />
@@ -70,7 +70,7 @@ const YogaWellnessSection = () => {
               <motion.div
                 className="absolute inset-0 bg-cover bg-center"
                 style={{
-                  backgroundImage: `url('https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=600&q=80')`,
+                  backgroundImage: `url('/images/campus/prashanti-campus_campus1.jpg')`,
                 }}
                 animate={{ scale: [1, 1.05, 1] }}
                 transition={{ duration: 10, repeat: Infinity }}
@@ -143,7 +143,7 @@ const YogaWellnessSection = () => {
               <motion.div
                 className="absolute inset-0 bg-cover bg-center"
                 style={{
-                  backgroundImage: `url('https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=600&q=80')`,
+                  backgroundImage: `url('/images/campus/prashanti-campus_campus1.jpg')`,
                 }}
                 animate={{ scale: [1, 1.05, 1] }}
                 transition={{ duration: 10, repeat: Infinity, delay: 2 }}

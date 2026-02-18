@@ -3,9 +3,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Play, X } from "lucide-react";
 
 const accreditations = [
-  { name: "NAAC A+", image: "https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?w=100&q=80" },
-  { name: "UGC", image: "https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?w=100&q=80" },
-  { name: "KSURF 4-Star", image: "https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?w=100&q=80" },
+  { name: "NAAC A+", image: "/images/campus/p3-admin-exteriors_131.jpg" },
+  { name: "UGC", image: "/images/campus/p3-admin-exteriors_131.jpg" },
+  { name: "KSURF 4-Star", image: "/images/campus/p3-admin-exteriors_131.jpg" },
 ];
 
 const GCCVideo = () => {
@@ -25,7 +25,7 @@ const GCCVideo = () => {
           >
             <div className="relative rounded-2xl overflow-hidden shadow-2xl group cursor-pointer" onClick={() => setIsVideoOpen(true)}>
               <img
-                src="https://images.unsplash.com/photo-1562774053-701939374585?w=800&q=80"
+                src="/images/campus/p3-admin-exteriors_128.jpg"
                 alt="S-VYASA University"
                 className="w-full aspect-video object-cover transition-transform duration-700 group-hover:scale-105"
               />

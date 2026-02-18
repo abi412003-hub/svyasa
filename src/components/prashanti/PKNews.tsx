@@ -5,62 +5,62 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 const newsItems = [
   {
-    image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=600&q=80",
+    image: "/images/campus/inaugral-event_93.jpg",
     title: "P3&Admin Interiors",
     animation: "slideUp",
   },
   {
-    image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&q=80",
+    image: "/images/campus/teachers-day_202.jpg",
     title: "AHSCON Day-2",
     animation: "scaleIn",
   },
   {
-    image: "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=600&q=80",
+    image: "/images/campus/phd-inauguration_140.jpg",
     title: "AHSCON Day-1",
     animation: "fadeRotate",
   },
   {
-    image: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=600&q=80",
+    image: "/images/campus/ahscon-day-1_284.jpg",
     title: "Inaugural Event",
     animation: "slideUp",
   },
   {
-    image: "https://images.unsplash.com/photo-1559223607-a43c990c692c?w=600&q=80",
+    image: "/images/campus/inaugral-event_95.jpg",
     title: "Grand Unveiling: S-VYASA Deemed to be University Inauguration",
     animation: "scaleIn",
   },
   {
-    image: "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=600&q=80",
+    image: "/images/campus/inaugral-event_95.jpg",
     title: "A Vision for the Future",
     animation: "fadeRotate",
   },
   {
-    image: "https://images.unsplash.com/photo-1576267423048-15c0040fec78?w=600&q=80",
+    image: "/images/campus/mba-session_110.jpg",
     title: "Anti Drug Awareness",
     animation: "slideUp",
   },
   {
-    image: "https://images.unsplash.com/photo-1594381898411-846e7d193883?w=600&q=80",
+    image: "/images/campus/students_195.jpg",
     title: "Vidyut Jammwal Inspires SVYASA Students",
     animation: "scaleIn",
   },
   {
-    image: "https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=600&q=80",
+    image: "/images/campus/ibm-hackathon_159.jpg",
     title: "Deeksharambh",
     animation: "fadeRotate",
   },
   {
-    image: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=600&q=80",
+    image: "/images/campus/inaugral-event_95.jpg",
     title: "Teachers Day",
     animation: "slideUp",
   },
   {
-    image: "https://images.unsplash.com/photo-1560439514-4e9645039924?w=600&q=80",
+    image: "/images/campus/inaugral-event_95.jpg",
     title: "S-Vyasa Meet 2024",
     animation: "scaleIn",
   },
   {
-    image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=600&q=80",
+    image: "/images/campus/21-day-yoga-day-cele_94.jpg",
     title: "Yoga Day Celebration",
     animation: "fadeRotate",
   },

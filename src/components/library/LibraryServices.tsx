@@ -69,7 +69,7 @@ const LibraryServices = () => {
           <motion.div
             className="absolute inset-0 bg-cover bg-center"
             style={{
-              backgroundImage: `url('https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=1920&q=80')`,
+              backgroundImage: `url('/images/campus/library_5.jpeg')`,
             }}
             animate={{ y: [0, -20, 0] }}
             transition={{ duration: 20, repeat: Infinity, ease: "linear" }}

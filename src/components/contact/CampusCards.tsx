@@ -5,7 +5,7 @@ const CampusCards = () => {
   const campuses = [
     {
       name: "Global City Campus",
-      image: "https://images.unsplash.com/photo-1562774053-701939374585?w=800&q=80",
+      image: "/images/campus/campus_4.jpeg",
       address: "Sattva Global City, Mysore Road, Rajarajeshwari nagar, Bengaluru, Karnataka - 560059, INDIA",
       mobile: ["+91-9070907066", "+91-9070907099"],
       landline: "080-22639998",
@@ -15,7 +15,7 @@ const CampusCards = () => {
     },
     {
       name: "Prashanti Kutiram Campus",
-      image: "https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=800&q=80",
+      image: "/images/campus/prashanti-campus_prashanti-kutiram.jpg",
       address: "Prashanti Kutiram, Vivekananda Road, Kalluballu Post, Jigani, Anekal, Bengaluru – 560105, INDIA",
       mobile: ["+91-8762996815", "+91-7676749929", "+91-8088503565", "+91-7022024777"],
       landline: "080-2263 9968",

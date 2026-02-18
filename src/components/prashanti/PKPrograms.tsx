@@ -77,7 +77,7 @@ const PKPrograms = () => {
             transition={{ duration: 0.8 }}
           >
             <motion.img
-              src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&q=80"
+              src="/images/campus/21-day-yoga-day-cele_94.jpg"
               alt="Yoga at Prashanti Campus"
               className="w-full h-[400px] md:h-[500px] object-cover"
               style={{ scale: imageScale }}

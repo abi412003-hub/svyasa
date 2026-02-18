@@ -3,16 +3,16 @@ import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const newsEvents = [
-  { id: 1, title: "Republic Day Celebration 2025", image: "https://images.unsplash.com/photo-1532375810709-75b1da00537c?w=400&q=80" },
-  { id: 2, title: "26th INCOFYRA Conference", image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&q=80" },
-  { id: 3, title: "Himalaya Yoga Olympiad 2025", image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=80" },
-  { id: 4, title: "KRIDA VILASA Sports Fest", image: "https://images.unsplash.com/photo-1461896836934- voices-1?w=400&q=80" },
-  { id: 5, title: "Gurupooja Utsav", image: "https://images.unsplash.com/photo-1609234656388-0ff363383899?w=400&q=80" },
-  { id: 6, title: "Science Fair 2025", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80" },
-  { id: 7, title: "Hackathon 2025", image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=400&q=80" },
-  { id: 8, title: "Digital Marketing Day", image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&q=80" },
-  { id: 9, title: "Deeksharambh Orientation", image: "https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=400&q=80" },
-  { id: 10, title: "S-Vyasa Meet 2024", image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&q=80" },
+  { id: 1, title: "Republic Day Celebration 2025", image: "/images/campus/republic-day-prashan_143.jpg" },
+  { id: 2, title: "26th INCOFYRA Conference", image: "/images/campus/republic-day-prashan_146.jpg" },
+  { id: 3, title: "Himalaya Yoga Olympiad 2025", image: "/images/campus/republic-day-prashan_146.jpg" },
+  { id: 4, title: "KRIDA VILASA Sports Fest", image: "/images/campus/ahscon-day-1_283.jpg voices-1?w=400&q=80" },
+  { id: 5, title: "Gurupooja Utsav", image: "/images/campus/11th-international-d_101.jpg" },
+  { id: 6, title: "Science Fair 2025", image: "/images/campus/s-vyasa-prashanti-ca_297.jpg" },
+  { id: 7, title: "Hackathon 2025", image: "/images/campus/inaugral-event_92.jpg" },
+  { id: 8, title: "Digital Marketing Day", image: "/images/campus/science-fair_157.jpg" },
+  { id: 9, title: "Deeksharambh Orientation", image: "/images/campus/hackathon-2025_86.jpg" },
+  { id: 10, title: "S-Vyasa Meet 2024", image: "/images/campus/digital-marketing-da_70.jpg" },
 ];
 
 const GCCNews = () => {
