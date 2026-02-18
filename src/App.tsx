@@ -45,6 +45,7 @@ import TrainingInstitutions from "./pages/training/TrainingInstitutions";
 import TrainingFaculty from "./pages/training/TrainingFaculty";
 import TrainingFAQs from "./pages/training/TrainingFAQs";
 import TrainingContact from "./pages/training/TrainingContact";
+import ImageManager from "./pages/ImageManager";
 
 const queryClient = new QueryClient();
 
@@ -226,6 +227,9 @@ const App = () => (
             <Route path="contact" element={<TrainingContact />} />
           </Route>
           
+          {/* Admin Tools */}
+          <Route path="/admin/image-manager" element={<ImageManager />} />
+
           {/* Catch-all 404 */}
           <Route path="*" element={<NotFound />} />
         </Routes>
