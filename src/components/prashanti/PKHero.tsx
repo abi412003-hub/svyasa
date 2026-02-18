@@ -5,8 +5,8 @@ import { Button } from "@/components/ui/button";
 
 const slides = [
   {
-    image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1920&q=80",
-    mobileImage: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800&q=80",
+    image: "https://spkbypslhjqvnvnujpwd.supabase.co/storage/v1/object/public/site-images/prashanti/prashanti-campus/1771447482333-5rxqdis5qyr.jpg",
+    mobileImage: "https://spkbypslhjqvnvnujpwd.supabase.co/storage/v1/object/public/site-images/prashanti/prashanti-campus/1771447482333-5rxqdis5qyr.jpg",
     title: "Prashanti Kutiram",
     subtitle: "A Haven for Holistic Learning",
   },
