@@ -50,6 +50,7 @@ import ResearchLayout from "./components/research/ResearchLayout";
 import ResearchAbout from "./pages/research/ResearchAbout";
 import ResearchComingSoon from "./pages/research/ResearchComingSoon";
 import OngoingProjects from "./pages/research/OngoingProjects";
+import ResearchFacility from "./pages/research/ResearchFacility";
 
 // Alias for brevity in routes
 const ResearchCS = ({ title }: { title: string }) => <ResearchComingSoon title={title} />;
@@ -198,7 +199,7 @@ const App = () => (
           {/* Research */}
           <Route path="/research" element={<ResearchLayout />}>
             <Route index element={<ResearchAbout />} />
-            <Route path="facility" element={<ResearchCS title="Research Facility" />} />
+            <Route path="facility" element={<ResearchFacility />} />
             <Route path="faculty" element={<ResearchCS title="Research Faculty" />} />
             <Route path="ongoing-projects" element={<OngoingProjects />} />
             <Route path="completed-projects" element={<ResearchCS title="Completed Projects" />} />
