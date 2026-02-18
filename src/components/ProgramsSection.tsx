@@ -141,7 +141,7 @@ const ProgramsSection = () => {
                         alt={cat.shortTitle}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                       />
-                      <div className={`absolute inset-0 bg-gradient-to-br ${gradient} opacity-60`} />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                       <motion.div
                         className="absolute bottom-3 left-3 w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
                         whileHover={{ rotate: [0, -10, 10, 0] }}
