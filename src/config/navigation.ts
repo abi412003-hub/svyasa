@@ -435,13 +435,13 @@ export const navItems: NavItem[] = [
       { label: "Training Programs", href: "/training" },
     ],
   },
+  { label: "Guests", href: "/guests" },
   { label: "Admission", href: "/admissions" },
   { label: "Global City Campus", href: "/global-city-campus" },
   { label: "Prashanthi Campus", href: "/prashanthi-campus" },
   { label: "Life@S-Vyasa", href: "/life-at-svyasa" },
   { label: "International Affairs", href: "/directorate-of-international-affairs" },
   { label: "News & Events", href: "/news-events" },
-  { label: "Guests", href: "/guests" },
   { label: "Contact Us", href: "/contact-us" },
 ];
 
