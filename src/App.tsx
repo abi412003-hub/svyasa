@@ -62,6 +62,8 @@ import AdminCourseList from "./pages/admin/AdminCourseList";
 import AdminCourseEditor from "./pages/admin/AdminCourseEditor";
 import AdminCategoryList from "./pages/admin/AdminCategoryList";
 import AdminCategoryEditor from "./pages/admin/AdminCategoryEditor";
+import DivisionPage from "./pages/DivisionPage";
+import SchoolPage from "./pages/SchoolPage";
 
 // Alias for brevity in routes
 const ResearchCS = ({ title }: { title: string }) => <ResearchComingSoon title={title} />;
@@ -82,6 +84,10 @@ const App = () => (
           <Route path="/society" element={<Society />} />
           <Route path="/administration" element={<Administration />} />
           <Route path="/organogram" element={<Organogram />} />
+          
+          {/* Divisions & Schools */}
+          <Route path="/divisions/:slug" element={<DivisionPage />} />
+          <Route path="/divisions/:divisionSlug/schools/:schoolSlug" element={<SchoolPage />} />
           
           {/* About Section */}
           <Route path="/s-vyasa-university" element={<SVyasaUniversity />} />

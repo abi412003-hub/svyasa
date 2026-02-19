@@ -1,76 +1,84 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import Layout from "@/components/layout/Layout";
-import { Building2, GraduationCap, FlaskConical, Globe, BookOpen, Heart, Monitor, Briefcase, Music, Brain } from "lucide-react";
+import { Building2, GraduationCap, FlaskConical, Globe, BookOpen, Heart, Monitor, Briefcase, Brain } from "lucide-react";
 
 const divisions = [
   {
     name: "Division of Yoga Spirituality",
+    slug: "yoga-spirituality",
     icon: Heart,
     color: "from-primary to-primary/80",
     schoolsLabel: "Schools & Centers",
     schools: [
-      { name: "School of Yogic Sciences" },
-      { name: "Varahamihira Advanced Center for Vedic Technology and Research (VMAC)" },
+      { name: "School of Yogic Sciences", slug: "school-of-yogic-sciences" },
+      { name: "Varahamihira Advanced Center for Vedic Technology and Research (VMAC)", slug: "vmac" },
     ],
   },
   {
     name: "Division of Yoga and Life Sciences",
+    slug: "yoga-life-sciences",
     icon: FlaskConical,
     color: "from-primary to-primary/80",
     schoolsLabel: "Schools",
     schools: [
-      { name: "School of Yoga and Naturopathic Medicine" },
-      { name: "School of Physiotherapy" },
-      { name: "School of Allied and Healthcare Profession" },
+      { name: "School of Yoga and Naturopathic Medicine", slug: "school-of-yoga-and-naturopathic-medicine" },
+      { name: "School of Physiotherapy", slug: "school-of-physiotherapy" },
+      { name: "School of Allied and Healthcare Profession", slug: "school-of-allied-and-healthcare" },
     ],
   },
   {
     name: "Division of Yoga & Physical Sciences",
+    slug: "yoga-physical-sciences",
     icon: Monitor,
     color: "from-primary to-primary/80",
     schoolsLabel: "Schools",
     schools: [
-      { name: "School of Engineering" },
-      { name: "School of Computer Sciences" },
+      { name: "School of Engineering", slug: "school-of-engineering" },
+      { name: "School of Computer Sciences", slug: "school-of-computer-sciences" },
     ],
   },
   {
     name: "Division of Yoga & Management Studies",
+    slug: "yoga-management-studies",
     icon: Briefcase,
     color: "from-primary to-primary/80",
     schoolsLabel: "Schools",
     schools: [
-      { name: "School of Commerce and Management" },
+      { name: "School of Commerce and Management", slug: "school-of-commerce-and-management" },
     ],
   },
   {
     name: "Division of Yoga & Humanities",
+    slug: "yoga-humanities",
     icon: BookOpen,
     color: "from-primary to-primary/80",
     schoolsLabel: "Schools",
     schools: [
-      { name: "School of Performing Arts" },
-      { name: "School of Sports Sciences" },
+      { name: "School of Performing Arts", slug: "school-of-performing-arts" },
+      { name: "School of Sports Sciences", slug: "school-of-sports-sciences" },
     ],
   },
   {
     name: "CODE – Center for Online and Distance Education",
+    slug: "code",
     icon: Globe,
     color: "from-blue-700 to-blue-500",
     schoolsLabel: "",
     schools: [
-      { name: "Distance Learning" },
-      { name: "Online Courses" },
-      { name: "Short Programmes" },
+      { name: "Distance Learning", slug: "distance-learning" },
+      { name: "Online Courses", slug: "online-courses" },
+      { name: "Short Programmes", slug: "short-programmes" },
     ],
   },
   {
     name: "ANVESANA – Advanced Research Laboratories",
+    slug: "anvesana",
     icon: Brain,
     color: "from-blue-700 to-blue-500",
     schoolsLabel: "",
     schools: [
-      { name: "Centre for Advanced Research in Integrative Medicine" },
+      { name: "Centre for Advanced Research in Integrative Medicine", slug: "carim" },
     ],
   },
 ];
@@ -177,16 +185,18 @@ const Organogram = () => {
                 <motion.div key={index} variants={itemVariants} className="group">
                   <div className="hidden lg:block w-0.5 h-6 bg-muted-foreground/30 mx-auto" />
                   <div className="relative rounded-2xl overflow-hidden border border-border bg-card hover:shadow-xl hover:shadow-primary/10 transition-all duration-500 hover:-translate-y-1">
-                    <div className={`bg-gradient-to-r ${division.color} p-5`}>
-                      <div className="flex items-start gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-primary-foreground/20 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
-                          <Icon className="w-5 h-5 text-primary-foreground" />
+                    <Link to={`/divisions/${division.slug}`} className="block">
+                      <div className={`bg-gradient-to-r ${division.color} p-5 hover:brightness-110 transition-all`}>
+                        <div className="flex items-start gap-3">
+                          <div className="w-10 h-10 rounded-xl bg-primary-foreground/20 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
+                            <Icon className="w-5 h-5 text-primary-foreground" />
+                          </div>
+                          <h3 className="font-heading text-sm md:text-base font-semibold text-primary-foreground leading-tight">
+                            {division.name}
+                          </h3>
                         </div>
-                        <h3 className="font-heading text-sm md:text-base font-semibold text-primary-foreground leading-tight">
-                          {division.name}
-                        </h3>
                       </div>
-                    </div>
+                    </Link>
                     {division.schools.length > 0 && (
                       <div className="p-4 space-y-2">
                         {division.schoolsLabel && (
@@ -198,7 +208,12 @@ const Organogram = () => {
                         {division.schools.map((school, sIndex) => (
                           <motion.div key={sIndex} whileHover={{ x: 4 }} className="flex items-start gap-2 pl-3 border-l-2 border-accent/40 hover:border-accent transition-colors">
                             <GraduationCap className="w-4 h-4 text-accent mt-0.5 flex-shrink-0" />
-                            <span className="text-sm text-foreground/80 leading-snug">{school.name}</span>
+                            <Link
+                              to={`/divisions/${division.slug}/schools/${school.slug}`}
+                              className="text-sm text-foreground/80 leading-snug hover:text-primary transition-colors"
+                            >
+                              {school.name}
+                            </Link>
                           </motion.div>
                         ))}
                       </div>
@@ -226,16 +241,18 @@ const Organogram = () => {
                 <motion.div key={index} variants={itemVariants} className="group">
                   <div className="hidden lg:block w-0.5 h-6 bg-muted-foreground/30 mx-auto" />
                   <div className="relative rounded-2xl overflow-hidden border border-blue-200 bg-card hover:shadow-xl hover:shadow-blue-500/10 transition-all duration-500 hover:-translate-y-1">
-                    <div className={`bg-gradient-to-r ${division.color} p-5`}>
-                      <div className="flex items-start gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
-                          <Icon className="w-5 h-5 text-white" />
+                    <Link to={`/divisions/${division.slug}`} className="block">
+                      <div className={`bg-gradient-to-r ${division.color} p-5 hover:brightness-110 transition-all`}>
+                        <div className="flex items-start gap-3">
+                          <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
+                            <Icon className="w-5 h-5 text-white" />
+                          </div>
+                          <h3 className="font-heading text-sm md:text-base font-semibold text-white leading-tight">
+                            {division.name}
+                          </h3>
                         </div>
-                        <h3 className="font-heading text-sm md:text-base font-semibold text-white leading-tight">
-                          {division.name}
-                        </h3>
                       </div>
-                    </div>
+                    </Link>
                     {division.schools.length > 0 && (
                       <div className="p-4 space-y-2">
                         {division.schoolsLabel && (
@@ -247,7 +264,12 @@ const Organogram = () => {
                         {division.schools.map((school, sIndex) => (
                           <motion.div key={sIndex} whileHover={{ x: 4 }} className="flex items-start gap-2 pl-3 border-l-2 border-blue-300 hover:border-blue-500 transition-colors">
                             <GraduationCap className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" />
-                            <span className="text-sm text-foreground/80 leading-snug">{school.name}</span>
+                            <Link
+                              to={`/divisions/${division.slug}/schools/${school.slug}`}
+                              className="text-sm text-foreground/80 leading-snug hover:text-blue-600 transition-colors"
+                            >
+                              {school.name}
+                            </Link>
                           </motion.div>
                         ))}
                       </div>
