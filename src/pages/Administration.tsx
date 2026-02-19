@@ -919,9 +919,9 @@ function ECMemberCard({ member, onClick }: { member: ECMember; onClick: () => vo
       variants={fadeUp}
       whileHover={{ y: -6, boxShadow: "0 20px 40px -12px hsla(35,92%,33%,0.20)" }}
       onClick={onClick}
-      className="group cursor-pointer bg-white border border-border rounded-2xl overflow-hidden hover:border-[hsl(var(--saffron))]/60 transition-all duration-300 flex flex-col"
+      className="group cursor-pointer bg-white border border-border rounded-2xl overflow-hidden hover:border-[hsl(var(--saffron))]/60 transition-all duration-300 flex flex-col h-full"
     >
-      <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-amber-50 to-orange-100">
+      <div className="relative h-52 overflow-hidden bg-gradient-to-br from-amber-50 to-orange-100 shrink-0">
         <img
           src={!member.photo || imgErr ? fallback : member.photo}
           alt={member.name}
@@ -999,7 +999,7 @@ function ECCategoriesSection({ onSelect }: { onSelect: (m: ECMember) => void }) 
           </div>
 
           {/* Members grid */}
-          <div className={`grid gap-4 ${
+          <div className={`grid gap-4 items-stretch ${
             cat.members.length === 1 ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" :
             cat.members.length === 2 ? "grid-cols-1 sm:grid-cols-2" :
             "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
