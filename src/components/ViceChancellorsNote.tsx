@@ -98,7 +98,7 @@ const ViceChancellorsNote = () => {
 
                 {/* Name plate */}
                 <motion.div
-                  className="absolute -bottom-5 left-1/2 -translate-x-1/2 z-20 bg-secondary text-white px-4 md:px-5 py-2 md:py-2.5 rounded-full shadow-lg text-center max-w-[90vw]"
+                  className="absolute -bottom-5 left-1/2 -translate-x-1/2 z-20 bg-secondary text-white px-6 md:px-8 py-2 md:py-2.5 rounded-full shadow-lg text-center whitespace-nowrap"
                   initial={{ opacity: 0, y: 10 }}
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ delay: 0.8 }}
