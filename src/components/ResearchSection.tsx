@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { Link } from "react-router-dom";
 import { motion, useInView } from "framer-motion";
 import { ArrowRight, FileText, Users, FlaskConical } from "lucide-react";
 
@@ -124,25 +125,26 @@ const ResearchSection = () => {
             </div>
 
             {/* CTA */}
-            <motion.a
-              href="#"
-              whileHover={{ scale: 1.02 }}
-              className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-navy to-teal text-secondary-foreground rounded-full font-medium group relative overflow-hidden"
-            >
-              <span className="relative z-10">Explore Our Research</span>
-              <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform" />
-              
-              {/* Animated border */}
-              <motion.div
-                className="absolute inset-0 rounded-full"
-                style={{
-                  background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)",
-                  backgroundSize: "200% 100%",
-                }}
-                animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
-                transition={{ duration: 3, repeat: Infinity }}
-              />
-            </motion.a>
+            <Link to="/research/about">
+              <motion.span
+                whileHover={{ scale: 1.02 }}
+                className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-navy to-teal text-secondary-foreground rounded-full font-medium group relative overflow-hidden"
+              >
+                <span className="relative z-10">Explore Our Research</span>
+                <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform" />
+                
+                {/* Animated border */}
+                <motion.div
+                  className="absolute inset-0 rounded-full"
+                  style={{
+                    background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)",
+                    backgroundSize: "200% 100%",
+                  }}
+                  animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                />
+              </motion.span>
+            </Link>
           </motion.div>
         </div>
       </div>
