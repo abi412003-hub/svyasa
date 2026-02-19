@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import swcHeroImage from "@/assets/swc-hero.jpg";
 
 // Warm bokeh particle component
 const WarmBokeh = ({ delay, duration, startX, startY, size }: { 
@@ -58,17 +59,22 @@ const SWCHero = () => {
     <section className="relative h-[55vh] min-h-[380px] flex items-center justify-center overflow-hidden">
       {/* Background with Ken Burns effect */}
       <motion.div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1920&q=80')`,
-        }}
+        className="absolute inset-0 overflow-hidden"
         initial={{ scale: 1 }}
-        animate={{ scale: 1.08 }}
-        transition={{ duration: 15, ease: "linear", repeat: Infinity, repeatType: "reverse" }}
-      />
+        animate={{ scale: 1.06 }}
+        transition={{ duration: 15, ease: "linear" }}
+      >
+        <img
+          src={swcHeroImage}
+          alt="S-VYASA Students"
+          className="w-full h-full object-cover object-center"
+        />
+      </motion.div>
 
-      {/* Dark gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-secondary/90 via-secondary/60 to-secondary/40" />
+      {/* Base dark overlay */}
+      <div className="absolute inset-0 bg-navy/55" />
+      {/* Gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/30 to-navy/40" />
 
       {/* Warm bokeh particles */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -87,7 +93,8 @@ const SWCHero = () => {
       {/* Content */}
       <div className="relative z-10 text-center px-4">
         <motion.h1
-          className="font-heading text-4xl md:text-5xl lg:text-6xl text-white mb-4 text-shadow-lg"
+          className="font-heading text-4xl md:text-5xl lg:text-6xl text-white mb-4"
+          style={{ textShadow: "0 2px 24px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)" }}
           initial={{ opacity: 0, y: 30, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
@@ -95,7 +102,8 @@ const SWCHero = () => {
           Student Welfare Committee
         </motion.h1>
         <motion.p
-          className="text-lg md:text-xl text-white/80 max-w-xl mx-auto"
+          className="text-lg md:text-xl text-white/90 max-w-xl mx-auto"
+          style={{ textShadow: "0 1px 12px rgba(0,0,0,0.8)" }}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
