@@ -6,6 +6,7 @@ import ecRamachandraBhatPhoto from "@/assets/ec-ramachandra-bhat.png";
 import ecSridharaSwamyPhoto from "@/assets/ec-sridhara-swamy.png";
 import ecNateshBabuPhoto from "@/assets/ec-natesh-babu.png";
 import ecSoubhagyalaxmiPhoto from "@/assets/ec-soubhagyalaxmi-mohanty.png";
+import ecMembersGroupPhoto from "@/assets/ec-members-group.jpg";
 import { motion, useInView, AnimatePresence, Variants } from "framer-motion";
 import {
   X, Award, BookOpen, FlaskConical, Star, User, ChevronDown,
@@ -1115,10 +1116,16 @@ export default function Administration() {
     <Layout>
       {/* ── Hero ── */}
       <section
-        className="relative flex flex-col items-center justify-center min-h-[44vh] overflow-hidden"
-        style={{ background: "linear-gradient(160deg, hsl(35 92% 16%) 0%, hsl(25 80% 24%) 55%, hsl(15 75% 28%) 100%)" }}
+        className="relative flex flex-col items-center justify-center min-h-[56vh] overflow-hidden"
       >
-        <div className="absolute inset-0 bg-black/40" />
+        {/* Background photo */}
+        <img
+          src={ecMembersGroupPhoto}
+          alt="S-VYASA Executive Council Members"
+          className="absolute inset-0 w-full h-full object-cover object-center"
+        />
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/30" />
         {/* breadcrumb */}
         <div className="absolute top-6 left-6 md:left-10 flex items-center gap-2 text-white/60 text-xs z-10">
           <Link to="/" className="hover:text-white transition-colors">Home</Link>
