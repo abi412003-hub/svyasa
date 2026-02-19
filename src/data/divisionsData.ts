@@ -1,9 +1,19 @@
+export interface FacultyMember {
+  id: string;
+  name: string;
+  designation: string;
+  qualifications?: string;
+  expertise?: string;
+  photo?: string;
+}
+
 export interface School {
   name: string;
   slug: string;
   description: string;
   programs: string[];
   highlights: string[];
+  faculty?: FacultyMember[];
 }
 
 export interface Division {
@@ -52,6 +62,13 @@ export const divisionsData: Division[] = [
           "International exchange programs and collaborations",
           "Annual yoga symposia and research conferences",
         ],
+        faculty: [
+          { id: "sys-1", name: "Dr. H R Nagendra", designation: "Chancellor & Professor", qualifications: "Ph.D. Yoga", expertise: "Yoga therapy and consciousness studies" },
+          { id: "sys-2", name: "Dr. R Nagarathna", designation: "Pro-Chancellor & HOD", qualifications: "MD Yoga", expertise: "Integrative yoga medicine and lifestyle disorders" },
+          { id: "sys-3", name: "Dr. Prahalada N", designation: "Associate Professor", qualifications: "Ph.D. Yoga", expertise: "Yoga for psychological well-being" },
+          { id: "sys-4", name: "Dr. Suchitra S", designation: "Assistant Professor", qualifications: "M.Sc. Yoga", expertise: "Pranayama and stress management" },
+          { id: "sys-5", name: "Dr. Ranjitha R", designation: "Assistant Professor", qualifications: "Ph.D. Yoga", expertise: "Yoga and endocrinology" },
+        ],
       },
       {
         name: "Varahamihira Advanced Center for Vedic Technology and Research (VMAC)",
@@ -67,6 +84,10 @@ export const divisionsData: Division[] = [
           "Computational studies of Jyotisha and Vastu principles",
           "Collaborative projects with national and international institutions",
           "Publication of peer-reviewed Vedic science research",
+        ],
+        faculty: [
+          { id: "vmac-1", name: "Dr. Subramanya P", designation: "Director, VMAC", qualifications: "Ph.D. Vedic Sciences", expertise: "Jyotisha, Vastu and ancient Indian cosmological sciences" },
+          { id: "vmac-2", name: "Dr. Srinivasa Rao", designation: "Senior Research Fellow", qualifications: "M.Sc. Sanskrit", expertise: "Computational Vedic studies and Ayurvedic philosophy" },
         ],
       },
     ],
@@ -104,6 +125,12 @@ export const divisionsData: Division[] = [
           "Evidence-based curriculum combining modern diagnostics with natural healing",
           "Patient care internships in affiliated hospitals",
         ],
+        faculty: [
+          { id: "ynm-1", name: "Dr. R Nagarathna", designation: "Professor & Head", qualifications: "MD Yoga", expertise: "Integrative yoga medicine and lifestyle disorders" },
+          { id: "ynm-2", name: "Dr. Acharya Balkrishna", designation: "Professor", qualifications: "Ph.D. Naturopathy", expertise: "Naturopathic treatment protocols and Ayurvedic therapies" },
+          { id: "ynm-3", name: "Dr. Venkatesh S", designation: "Associate Professor", qualifications: "BNYS, Ph.D.", expertise: "Hydrotherapy, mud therapy, and yogic management of chronic diseases" },
+          { id: "ynm-4", name: "Dr. Raghavendra Bhat", designation: "Assistant Professor", qualifications: "M.D. Yoga", expertise: "Yoga for diabetes and metabolic disorders" },
+        ],
       },
       {
         name: "School of Physiotherapy",
@@ -120,6 +147,11 @@ export const divisionsData: Division[] = [
           "Specialisations in sports physiotherapy, paediatrics, and neurology",
           "Yoga movement integration in rehabilitation protocols",
           "Clinical internships in premier hospitals across India",
+        ],
+        faculty: [
+          { id: "pt-1", name: "Dr. Manisha Pal", designation: "Professor & Head", qualifications: "MPT, Ph.D.", expertise: "Musculoskeletal rehabilitation and yoga movement therapy" },
+          { id: "pt-2", name: "Dr. Srinath K", designation: "Associate Professor", qualifications: "BPT, MPT", expertise: "Neurological physiotherapy and stroke rehabilitation" },
+          { id: "pt-3", name: "Dr. Deepa R", designation: "Assistant Professor", qualifications: "MPT (Ortho)", expertise: "Sports physiotherapy and injury management" },
         ],
       },
       {
@@ -138,6 +170,11 @@ export const divisionsData: Division[] = [
           "Integration of yoga and mindfulness in clinical psychology practice",
           "Dedicated psychology counselling lab",
           "Community outreach programmes and rural health camps",
+        ],
+        faculty: [
+          { id: "ahp-1", name: "Dr. Bhavana Sharma", designation: "Professor & Head", qualifications: "M.Sc. Clinical Psychology, Ph.D.", expertise: "Yoga-based interventions for anxiety and depression" },
+          { id: "ahp-2", name: "Dr. Prathima R", designation: "Associate Professor", qualifications: "BOT, M.Sc. OT", expertise: "Occupational therapy in paediatric rehabilitation" },
+          { id: "ahp-3", name: "Dr. Meera K", designation: "Assistant Professor", qualifications: "M.Sc. Counselling Psychology", expertise: "Mindfulness and cognitive behavioural therapy" },
         ],
       },
     ],
@@ -176,6 +213,13 @@ export const divisionsData: Division[] = [
           "Corporate mentorship and live project programmes",
           "Annual tech fest and national-level hackathons",
         ],
+        faculty: [
+          { id: "eng-1", name: "Dr. Amit Kumar", designation: "Professor & Head", qualifications: "Ph.D. CSE", expertise: "Artificial Intelligence and Machine Learning" },
+          { id: "eng-2", name: "Dr. Suresh Babu", designation: "Associate Professor", qualifications: "M.Tech, Ph.D.", expertise: "Cybersecurity and network systems" },
+          { id: "eng-3", name: "Dr. Kavitha N", designation: "Associate Professor", qualifications: "M.Tech CSE", expertise: "Data Science and Big Data Analytics" },
+          { id: "eng-4", name: "Prof. Rajan T", designation: "Assistant Professor", qualifications: "M.Tech (AI&ML)", expertise: "Deep learning and computer vision" },
+          { id: "eng-5", name: "Dr. Pavan Kumar", designation: "Assistant Professor", qualifications: "Ph.D. Software Engineering", expertise: "Cloud computing and DevOps" },
+        ],
       },
       {
         name: "School of Computer Sciences",
@@ -196,6 +240,12 @@ export const divisionsData: Division[] = [
           "Google, Microsoft, and AWS-certified training tracks",
           "Entrepreneurship and startup incubation support",
           "High placement rates with leading IT companies",
+        ],
+        faculty: [
+          { id: "cs-1", name: "Dr. Mallikarjun G", designation: "Professor & Head", qualifications: "Ph.D. Computer Science", expertise: "Artificial Intelligence and data science applications" },
+          { id: "cs-2", name: "Dr. Shwetha P", designation: "Associate Professor", qualifications: "M.Tech, Ph.D.", expertise: "Cybersecurity and ethical hacking" },
+          { id: "cs-3", name: "Prof. Anand K", designation: "Assistant Professor", qualifications: "MCA, M.Tech", expertise: "Cloud computing and microservices architecture" },
+          { id: "cs-4", name: "Prof. Pooja S", designation: "Assistant Professor", qualifications: "M.Sc. CS", expertise: "Web technologies and full-stack development" },
         ],
       },
     ],
@@ -236,6 +286,12 @@ export const divisionsData: Division[] = [
           "Dedicated entrepreneurship and innovation cell",
           "International business exchange and study tours",
         ],
+        faculty: [
+          { id: "mgmt-1", name: "Dr. Ramesh Kumar", designation: "Professor & Head", qualifications: "MBA, Ph.D.", expertise: "Strategic management and business analytics" },
+          { id: "mgmt-2", name: "Dr. Sunitha Rao", designation: "Associate Professor", qualifications: "MBA (Finance), Ph.D.", expertise: "Financial management and investment analysis" },
+          { id: "mgmt-3", name: "Dr. Vikram S", designation: "Associate Professor", qualifications: "MBA (Marketing)", expertise: "Digital marketing and consumer behaviour" },
+          { id: "mgmt-4", name: "Prof. Anitha M", designation: "Assistant Professor", qualifications: "M.Com, MBA", expertise: "Accounting, taxation, and financial reporting" },
+        ],
       },
     ],
   },
@@ -271,6 +327,10 @@ export const divisionsData: Division[] = [
           "Collaborations with cultural academies and performing arts institutions",
           "Integration of yoga, breath work, and meditation for artistic mastery",
         ],
+        faculty: [
+          { id: "arts-1", name: "Dr. Padmavathi R", designation: "Head, Performing Arts", qualifications: "Ph.D. Dance", expertise: "Bharatanatyam and classical Indian dance traditions" },
+          { id: "arts-2", name: "Prof. Suresh Kamath", designation: "Faculty, Music", qualifications: "M.A. Music (Carnatic)", expertise: "Carnatic vocal and instrumental music" },
+        ],
       },
       {
         name: "School of Sports Sciences",
@@ -287,6 +347,10 @@ export const divisionsData: Division[] = [
           "Yoga-enhanced athletic training protocols",
           "Collaborations with national sports federations",
           "Annual sports meets and yoga-athletics research symposia",
+        ],
+        faculty: [
+          { id: "sports-1", name: "Dr. Arun Menon", designation: "Professor & Head", qualifications: "Ph.D. Sports Science", expertise: "Sports performance enhancement and yoga-based training" },
+          { id: "sports-2", name: "Dr. Lakshmi Priya", designation: "Assistant Professor", qualifications: "M.Sc. Sports Science", expertise: "Exercise physiology and athletic conditioning" },
         ],
       },
     ],
