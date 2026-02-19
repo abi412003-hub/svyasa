@@ -26,18 +26,18 @@ export const slugToTitle = (slug: string) =>
     .replace(/\bmba\b/gi, "MBA");
 
 export interface StorageNewsItem {
-  folderPath: string; // "news/academic-calendar-ay-2025-26"
-  slug: string;       // "academic-calendar-ay-2025-26"
-  title: string;      // "Academic Calendar AY 2025-26"
-  coverUrl: string | null;
+  folderPath: string;
+  slug: string;
+  title: string;
+  images: string[];   // all image URLs in the folder
   fileCount: number;
 }
 
 export interface StorageEventItem {
-  folderPath: string; // "events/kalavilasa"
+  folderPath: string;
   slug: string;
   title: string;
-  coverUrl: string | null;
+  images: string[];   // all image URLs in the folder
   fileCount: number;
 }
 
@@ -46,26 +46,19 @@ async function listSubfolders(prefix: string): Promise<string[]> {
     limit: 200,
     sortBy: { column: "name", order: "asc" },
   });
-  // Folders appear as items with no metadata (size 0, id null) or as .emptyFolderPlaceholder parent
   return (data || [])
     .filter((f) => f.name && f.name !== ".emptyFolderPlaceholder" && f.id === null)
     .map((f) => f.name);
 }
 
-async function getFirstImage(folderPath: string): Promise<string | null> {
+async function getFolderImages(folderPath: string): Promise<string[]> {
   const { data } = await supabase.storage.from(BUCKET).list(folderPath, {
-    limit: 5,
+    limit: 200,
     sortBy: { column: "created_at", order: "asc" },
   });
-  const file = (data || []).find(
-    (f) => f.name && f.name !== ".emptyFolderPlaceholder" && f.id !== null
-  );
-  return file ? getPublicUrl(`${folderPath}/${file.name}`) : null;
-}
-
-async function getFolderFileCount(folderPath: string): Promise<number> {
-  const { data } = await supabase.storage.from(BUCKET).list(folderPath, { limit: 200 });
-  return (data || []).filter((f) => f.name !== ".emptyFolderPlaceholder" && f.id !== null).length;
+  return (data || [])
+    .filter((f) => f.name && f.name !== ".emptyFolderPlaceholder" && f.id !== null)
+    .map((f) => getPublicUrl(`${folderPath}/${f.name}`));
 }
 
 export function useNewsFromStorage() {
@@ -80,15 +73,11 @@ export function useNewsFromStorage() {
       const results = await Promise.all(
         slugs.map(async (slug) => {
           const folderPath = `news/${slug}`;
-          const [coverUrl, fileCount] = await Promise.all([
-            getFirstImage(folderPath),
-            getFolderFileCount(folderPath),
-          ]);
-          return { folderPath, slug, title: slugToTitle(slug), coverUrl, fileCount };
+          const images = await getFolderImages(folderPath);
+          return { folderPath, slug, title: slugToTitle(slug), images, fileCount: images.length };
         })
       );
       if (!cancelled) {
-        // Sort newest-looking folders first (reverse alphabetical on slug usually works for dated names)
         setItems(results.filter((r) => r.fileCount > 0).reverse());
         setLoading(false);
       }
@@ -111,11 +100,8 @@ export function useEventsFromStorage() {
       const results = await Promise.all(
         slugs.map(async (slug) => {
           const folderPath = `events/${slug}`;
-          const [coverUrl, fileCount] = await Promise.all([
-            getFirstImage(folderPath),
-            getFolderFileCount(folderPath),
-          ]);
-          return { folderPath, slug, title: slugToTitle(slug), coverUrl, fileCount };
+          const images = await getFolderImages(folderPath);
+          return { folderPath, slug, title: slugToTitle(slug), images, fileCount: images.length };
         })
       );
       if (!cancelled) {

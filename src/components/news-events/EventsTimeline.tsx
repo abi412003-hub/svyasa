@@ -1,6 +1,6 @@
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
-import { useState, useMemo, useRef } from "react";
-import { ArrowRight, Loader2, ImageOff } from "lucide-react";
+import { useState, useMemo, useRef, useEffect } from "react";
+import { Loader2, ImageOff } from "lucide-react";
 import { useEventsFromStorage, StorageEventItem } from "@/hooks/useStorageFolderContent";
 
 const EventsTimeline = () => {
@@ -82,6 +82,56 @@ const EventsTimeline = () => {
   );
 };
 
+/** Auto-cycling image slideshow for a card */
+const CardSlideshow = ({ images }: { images: string[] }) => {
+  const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    if (images.length <= 1) return;
+    const id = setInterval(() => {
+      setCurrent((p) => (p + 1) % images.length);
+    }, 2500);
+    return () => clearInterval(id);
+  }, [images.length]);
+
+  if (images.length === 0) {
+    return (
+      <div className="absolute inset-0 flex items-center justify-center">
+        <ImageOff className="w-8 h-8 opacity-20" />
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <AnimatePresence mode="sync">
+        <motion.div
+          key={current}
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url('${images[current]}')` }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.8 }}
+        />
+      </AnimatePresence>
+      {/* Dot indicators */}
+      {images.length > 1 && (
+        <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1 z-10">
+          {images.map((_, i) => (
+            <div
+              key={i}
+              className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+                i === current ? "bg-white scale-125" : "bg-white/50"
+              }`}
+            />
+          ))}
+        </div>
+      )}
+    </>
+  );
+};
+
 const EventCard = ({
   event,
   index,
@@ -112,33 +162,20 @@ const EventCard = ({
     {/* Card */}
     <div className={`ml-12 lg:ml-0 lg:w-5/12 ${isLeft ? "lg:mr-auto lg:pr-12" : "lg:ml-auto lg:pl-12"}`}>
       <div className="group bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-        {/* Image */}
+        {/* Square slideshow */}
         <div className="relative aspect-square overflow-hidden bg-muted">
-          {event.coverUrl ? (
-            <motion.div
-              className="absolute inset-0 bg-cover bg-center"
-              style={{ backgroundImage: `url('${event.coverUrl}')` }}
-              whileHover={{ scale: 1.06 }}
-              transition={{ duration: 0.4 }}
-            />
-          ) : (
-            <div className="absolute inset-0 flex items-center justify-center">
-              <ImageOff className="w-8 h-8 opacity-20" />
-            </div>
-          )}
+          <CardSlideshow images={event.images} />
+          {/* Photo count badge */}
+          <div className="absolute top-3 right-3 px-2 py-0.5 bg-black/50 text-white text-xs font-medium rounded-full z-10">
+            {event.fileCount} photo{event.fileCount !== 1 ? "s" : ""}
+          </div>
         </div>
 
-        {/* Content */}
-        <div className="p-5">
-          <h3 className="font-semibold text-navy line-clamp-2 mb-3 group-hover:text-primary transition-colors">
+        {/* Title */}
+        <div className="p-4">
+          <h3 className="font-semibold text-navy line-clamp-2 group-hover:text-primary transition-colors">
             {event.title}
           </h3>
-          <div className="flex items-center justify-between">
-            <span className="text-sm text-muted-foreground">{event.fileCount} photo{event.fileCount !== 1 ? "s" : ""}</span>
-            <span className="inline-flex items-center gap-1 text-primary text-sm font-medium">
-              View <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </span>
-          </div>
         </div>
       </div>
     </div>
