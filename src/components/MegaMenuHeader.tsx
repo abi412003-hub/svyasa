@@ -826,7 +826,7 @@ const MegaMenuHeader = () => {
               >
                 Home
               </Link>
-              {navItems.slice(0, 6).map((item, index) => (
+              {navItems.slice(0, 7).map((item, index) => (
                 <div
                   key={item.label}
                   className="relative"
