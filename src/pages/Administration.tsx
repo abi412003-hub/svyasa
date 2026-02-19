@@ -47,6 +47,7 @@ export interface ECMember {
   description: string;
   qualifications: string;
   photo?: string;
+  photoPosition?: string;
   initials?: string;
   gender: "male" | "female";
   achievements?: string[];
@@ -329,6 +330,7 @@ const ecCategories: ECCategory[] = [
         description: "Director of VASHI (Vivekananda Advanced Studies and Health Integration), leading advanced research programs and health integration initiatives under S-VYASA's academic framework.",
         qualifications: "PhD; Director, VASHI; Research expertise in integrative health and advanced yoga studies",
         photo: ecAmitSinghPhoto,
+        photoPosition: "object-top",
         gender: "male",
         expertise: "Integrative health, advanced yoga studies, research direction, health integration programs",
       },
@@ -934,7 +936,7 @@ function ECMemberCard({ member, onClick }: { member: ECMember; onClick: () => vo
         <img
           src={!member.photo || imgErr ? fallback : member.photo}
           alt={member.name}
-          className="relative z-10 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+          className={`relative z-10 w-full h-full object-cover ${member.photoPosition ?? "object-center"} group-hover:scale-105 transition-transform duration-500`}
           onError={() => setImgErr(true)}
           loading="lazy"
         />
