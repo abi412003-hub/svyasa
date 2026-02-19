@@ -22,9 +22,9 @@ function avatarUrl(name: string) {
 }
 
 /* ── Faculty Avatar ── */
-function FacultyAvatar({ photo, name, size = "lg" }: { photo?: string; name: string; size?: "sm" | "md" | "lg" | "xl" }) {
+function FacultyAvatar({ photo, name, size = "lg" }: { photo?: string; name: string; size?: "sm" | "md" | "lg" | "xl" | "2xl" }) {
   const [err, setErr] = useState(false);
-  const sizeClass = { sm: "w-12 h-12", md: "w-16 h-16", lg: "w-20 h-20", xl: "w-28 h-28" }[size];
+  const sizeClass = { sm: "w-16 h-16", md: "w-24 h-24", lg: "w-32 h-32", xl: "w-40 h-40", "2xl": "w-48 h-48" }[size];
   const src = (!photo || err) ? avatarUrl(name) : photo;
   return (
     <img
@@ -169,16 +169,16 @@ function LeadershipCard({ member, onClick }: { member: FacultyProfile; onClick: 
       className="bg-white border border-border rounded-2xl overflow-hidden cursor-pointer group transition-all duration-300 hover:border-[hsl(var(--saffron))]"
       onClick={onClick}
     >
-      <div className="pt-8 pb-4 px-6 flex flex-col items-center text-center">
-        <div className="rounded-full overflow-hidden border-4 border-[hsl(var(--cream))] group-hover:border-[hsl(var(--saffron))]/30 transition-colors w-28 h-28 mb-4 shadow-md">
+      <div className="pt-10 pb-6 px-6 flex flex-col items-center text-center">
+        <div className="rounded-full overflow-hidden border-4 border-[hsl(var(--cream))] group-hover:border-[hsl(var(--saffron))]/30 transition-colors w-40 h-40 mb-5 shadow-md">
           <FacultyAvatar photo={member.photo} name={member.name} size="xl" />
         </div>
-        <h3 className="font-['Playfair_Display',serif] text-lg text-[hsl(var(--navy))] font-bold leading-tight mb-1">
+        <h3 className="font-['Playfair_Display',serif] text-xl text-[hsl(var(--navy))] font-bold leading-tight mb-1.5">
           {member.name}
         </h3>
         <p className="text-[hsl(var(--teal))] text-sm font-medium mb-3">{member.designation}</p>
         {member.qualifications && (
-          <p className="text-[hsl(var(--muted-foreground))] text-xs mb-4 leading-snug">{member.qualifications}</p>
+          <p className="text-[hsl(var(--muted-foreground))] text-xs mb-5 leading-snug">{member.qualifications}</p>
         )}
         <button className="text-xs font-semibold text-[hsl(var(--saffron))] border border-[hsl(var(--saffron))]/40 px-4 py-1.5 rounded-full group-hover:bg-[hsl(var(--saffron))] group-hover:text-white transition-all duration-200">
           View Profile →
@@ -194,20 +194,20 @@ function StaffCard({ member, onClick, minimal = false }: { member: FacultyProfil
     <motion.div
       variants={fadeUp}
       whileHover={{ y: -4 }}
-      className="bg-white border border-border rounded-xl p-5 cursor-pointer group transition-all duration-200 hover:border-[hsl(var(--teal))]/50 hover:shadow-md flex items-center gap-4"
+      className="bg-white border border-border rounded-xl p-6 cursor-pointer group transition-all duration-200 hover:border-[hsl(var(--teal))]/50 hover:shadow-md flex items-center gap-5"
       onClick={onClick}
     >
       <div className="rounded-full overflow-hidden border-2 border-border group-hover:border-[hsl(var(--teal))]/40 transition-colors shrink-0">
-        <FacultyAvatar photo={member.photo} name={member.name} size={minimal ? "sm" : "md"} />
+        <FacultyAvatar photo={member.photo} name={member.name} size={minimal ? "md" : "lg"} />
       </div>
       <div className="flex-1 min-w-0">
-        <h3 className="font-semibold text-[hsl(var(--navy))] text-sm leading-tight truncate">{member.name}</h3>
-        <p className="text-[hsl(var(--teal))] text-xs mt-0.5">{member.designation}</p>
+        <h3 className="font-semibold text-[hsl(var(--navy))] text-base leading-tight truncate">{member.name}</h3>
+        <p className="text-[hsl(var(--teal))] text-sm mt-1">{member.designation}</p>
         {!minimal && member.qualifications && (
-          <p className="text-[hsl(var(--muted-foreground))] text-[11px] mt-1 leading-snug line-clamp-1">{member.qualifications}</p>
+          <p className="text-[hsl(var(--muted-foreground))] text-xs mt-1.5 leading-snug line-clamp-1">{member.qualifications}</p>
         )}
       </div>
-      <span className="text-[hsl(var(--muted-foreground))] group-hover:text-[hsl(var(--teal))] transition-colors text-lg leading-none shrink-0">›</span>
+      <span className="text-[hsl(var(--muted-foreground))] group-hover:text-[hsl(var(--teal))] transition-colors text-xl leading-none shrink-0">›</span>
     </motion.div>
   );
 }
@@ -324,7 +324,7 @@ export default function ResearchFaculty() {
           <motion.div variants={fadeUp}>
             <SectionHeading label="Section 01" title="Academic Leadership Board" count={leadership.length} />
           </motion.div>
-          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {leadership.map((m) => (
               <LeadershipCard key={m.id} member={m} onClick={() => setSelected(m)} />
             ))}

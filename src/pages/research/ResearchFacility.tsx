@@ -185,20 +185,20 @@ const labs: LabData[] = [
 /* ── Faculty Card ── */
 function FacultyCard({ member }: { member: FacultyMember }) {
   return (
-    <Link to="/research/faculty" className="flex flex-col items-center text-center group w-24 md:w-28 shrink-0">
-      <div className="w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden border-2 border-border group-hover:border-[hsl(var(--saffron))] transition-colors duration-200 shadow-sm mb-2">
+    <Link to="/research/faculty" className="flex flex-col items-center text-center group w-40 md:w-48 shrink-0">
+      <div className="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-border group-hover:border-[hsl(var(--saffron))] transition-colors duration-200 shadow-md mb-3">
         <img
           src={member.photo}
           alt={member.name}
           className="w-full h-full object-cover"
           onError={(e) => {
             (e.currentTarget as HTMLImageElement).src =
-              `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=1a3d6b&color=fff&size=80`;
+              `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=1a3d6b&color=fff&size=160`;
           }}
         />
       </div>
-      <p className="text-[hsl(var(--navy))] font-semibold text-xs leading-tight mb-0.5">{member.name}</p>
-      <p className="text-[hsl(var(--muted-foreground))] text-[10px] leading-tight">{member.designation}</p>
+      <p className="text-[hsl(var(--navy))] font-semibold text-sm leading-tight mb-1">{member.name}</p>
+      <p className="text-[hsl(var(--muted-foreground))] text-xs leading-tight">{member.designation}</p>
     </Link>
   );
 }
