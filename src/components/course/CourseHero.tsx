@@ -5,6 +5,27 @@ import { Clock, MapPin, ArrowRight, Download, ChevronDown, HelpCircle } from "lu
 import { Button } from "@/components/ui/button";
 import { Course, Category } from "@/data/courses";
 import DomainSVG from "@/components/category/DomainSVG";
+import yogaWellness1 from "@/assets/yoga-wellness-1.jpg";
+import yogaWellness2 from "@/assets/yoga-wellness-2.jpg";
+import yogaWellness3 from "@/assets/yoga-wellness-3.jpg";
+import yogaWellness4 from "@/assets/yoga-wellness-4.jpg";
+import yogaWellness5 from "@/assets/yoga-wellness-5.jpg";
+import yogaWellness6 from "@/assets/yoga-wellness-6.jpg";
+import yogaWellness7 from "@/assets/yoga-wellness-7.jpg";
+import yogaWellness8 from "@/assets/yoga-wellness-8.jpg";
+import yogaWellness9 from "@/assets/yoga-wellness-9.jpg";
+import yogaWellness10 from "@/assets/yoga-wellness-10.jpg";
+
+const YOGA_IMAGES = [
+  yogaWellness1, yogaWellness2, yogaWellness3, yogaWellness4, yogaWellness5,
+  yogaWellness6, yogaWellness7, yogaWellness8, yogaWellness9, yogaWellness10,
+];
+
+/** Picks a consistent image for a given slug using a simple char-code hash */
+const getYogaImageForSlug = (slug: string): string => {
+  const hash = slug.split("").reduce((acc, ch) => acc + ch.charCodeAt(0), 0);
+  return YOGA_IMAGES[hash % YOGA_IMAGES.length];
+};
 
 interface CourseHeroProps {
   course: Course;
@@ -24,6 +45,7 @@ const CourseHero = ({ course, category }: CourseHeroProps) => {
   }, []);
 
   const shortCampus = course.campusType === "gcc" ? "Global City Campus" : "Prashanti Kutiram";
+  const heroBg = course.bannerImage || getYogaImageForSlug(course.slug);
 
   return (
     <section className="relative h-screen min-h-[600px] overflow-hidden">
@@ -36,7 +58,7 @@ const CourseHero = ({ course, category }: CourseHeroProps) => {
       >
         <div
           className="absolute inset-0 bg-cover bg-center scale-110"
-          style={{ backgroundImage: `url(${course.bannerImage})` }}
+          style={{ backgroundImage: `url(${heroBg})` }}
         />
       </motion.div>
 
