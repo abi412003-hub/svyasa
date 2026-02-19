@@ -5,6 +5,7 @@ import ecJayaramanPhoto from "@/assets/ec-jayaraman.jpg";
 import ecRamachandraBhatPhoto from "@/assets/ec-ramachandra-bhat.png";
 import ecSridharaSwamyPhoto from "@/assets/ec-sridhara-swamy.png";
 import ecNateshBabuPhoto from "@/assets/ec-natesh-babu.png";
+import ecSoubhagyalaxmiPhoto from "@/assets/ec-soubhagyalaxmi-mohanty.png";
 import { motion, useInView, AnimatePresence, Variants } from "framer-motion";
 import {
   X, Award, BookOpen, FlaskConical, Star, User, ChevronDown,
@@ -213,6 +214,7 @@ const ecCategories: ECCategory[] = [
         designation: "Assistant Professor",
         description: "Assistant Professor bringing the perspective of early-career faculty to the Executive Council, contributing to policies that nurture research, teaching excellence, and academic welfare.",
         qualifications: "PhD; Assistant Professor at S-VYASA University; Research in yoga therapy and integrative health",
+        photo: ecSoubhagyalaxmiPhoto,
         gender: "female",
         expertise: "Yoga therapy, integrative health, academic welfare, early-career faculty development",
       },
