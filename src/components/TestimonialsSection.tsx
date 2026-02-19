@@ -1,8 +1,16 @@
 import { useRef, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, Award } from "lucide-react";
+import hasmukh from "@/assets/alumni-hasmukh-adhia.jpg";
 
 const alumni = [
+  {
+    name: "Hasmukh Adhia",
+    role: "Former Finance Secretary, Government of India",
+    field: "Public Administration",
+    image: hasmukh,
+    achievement: "PhD from S-VYASA. Served as Finance Secretary of India and played a pivotal role in landmark economic reforms including GST implementation.",
+  },
   {
     name: "Smitha Mallaiah, M.Sc.",
     role: "Sr. Mind-Body Intervention Specialist, MD Anderson Cancer Center, Houston",
