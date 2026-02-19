@@ -113,7 +113,7 @@ const EventCard = ({
     <div className={`ml-12 lg:ml-0 lg:w-5/12 ${isLeft ? "lg:mr-auto lg:pr-12" : "lg:ml-auto lg:pl-12"}`}>
       <div className="group bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
         {/* Image */}
-        <div className="relative h-40 overflow-hidden bg-muted">
+        <div className="relative aspect-square overflow-hidden bg-muted">
           {event.coverUrl ? (
             <motion.div
               className="absolute inset-0 bg-cover bg-center"
