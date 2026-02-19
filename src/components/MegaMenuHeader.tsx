@@ -17,6 +17,9 @@ const UtilityBar = ({ isVisible }: { isVisible: boolean }) => (
   >
     <div className="container mx-auto px-4">
       <div className="flex justify-center items-center gap-6 text-xs">
+        <span className="text-gold font-semibold uppercase tracking-widest text-[10px] pr-3 border-r border-secondary-foreground/20">
+          Quick Links
+        </span>
         {utilityLinks.map((link, index) => (
           <motion.div
             key={link.label}
