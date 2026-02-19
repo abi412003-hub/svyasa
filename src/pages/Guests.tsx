@@ -39,6 +39,11 @@ import imgVirbhadraSingh from "@/assets/guests/guest-virbhadra-singh.jpg";
 import imgSheilaDixit from "@/assets/guests/guest-sheila-dixit.jpg";
 import imgTulsiGabbard from "@/assets/guests/guest-tulsi-gabbard.jpg";
 import imgShripadNaik from "@/assets/guests/guest-shripad-naik.jpg";
+import imgMaheshSharma from "@/assets/guests/guest-mahesh-sharma.jpg";
+import imgRathore from "@/assets/guests/guest-rathore.jpg";
+import imgUtKhader from "@/assets/guests/guest-ut-khader.jpg";
+import imgKrRameshKumar from "@/assets/guests/guest-kr-ramesh-kumar.jpg";
+import imgKsSudarshan from "@/assets/guests/guest-ks-sudarshan.jpg";
 
 interface GuestEntry {
   id: string;
@@ -86,6 +91,11 @@ const guests: GuestEntry[] = [
   { id: "g35", year: "",     caption: "Dr. Deepak Chopra, USA",                                                    image: imgDeepakChopra,      span: "normal" },
   { id: "g36", year: "",     caption: "Shri Jagadish Shettar, Former Chief Minister of Karnataka",                 image: imgJagadishShettar,   span: "normal" },
   { id: "g37", year: "",     caption: "Shri K S Eshwarappa, Former Deputy CM of Karnataka",                        image: imgKsEshwarappa,      span: "wide" },
+  { id: "g38", year: "2016", caption: "Felicitation to Dr. Mahesh Sharma, Union Minister",                         image: imgMaheshSharma,      span: "normal" },
+  { id: "g39", year: "2015", caption: "Col. Rajyavardhan Singh Rathore, Union Sports Minister",                    image: imgRathore,           span: "wide" },
+  { id: "g40", year: "2015", caption: "Shri U T Khader, Food & Public Distribution Minister, GoK",                image: imgUtKhader,          span: "normal" },
+  { id: "g41", year: "2016", caption: "Shri K R Ramesh Kumar, Health & Family Welfare Minister, GoK",             image: imgKrRameshKumar,     span: "normal" },
+  { id: "g42", year: "",     caption: "Shri K S Sudarshan ji, Sarsanghachalak of RSS",                             image: imgKsSudarshan,       span: "normal" },
 ];
 
 // ─── Parallax Hero ────────────────────────────────────────────────────────────
