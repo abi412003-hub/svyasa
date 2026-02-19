@@ -4,6 +4,7 @@ import ecRamakrishnaPhoto from "@/assets/ec-ramakrishna.jpg";
 import ecJayaramanPhoto from "@/assets/ec-jayaraman.jpg";
 import ecRamachandraBhatPhoto from "@/assets/ec-ramachandra-bhat.png";
 import ecSridharaSwamyPhoto from "@/assets/ec-sridhara-swamy.png";
+import ecNateshBabuPhoto from "@/assets/ec-natesh-babu.png";
 import { motion, useInView, AnimatePresence, Variants } from "framer-motion";
 import {
   X, Award, BookOpen, FlaskConical, Star, User, ChevronDown,
@@ -253,6 +254,7 @@ const ecCategories: ECCategory[] = [
         designation: "Member",
         description: "Nominee of the sponsoring society and key member of the Executive Council, contributing expertise in distance education and institutional management to governance decisions.",
         qualifications: "PhD (Yoga & Education); MEd; Certified e-Learning Designer; 15+ years in distance education management",
+        photo: ecNateshBabuPhoto,
         gender: "male",
         achievements: [
           "Launched online yoga programs reaching 50+ countries",
@@ -463,7 +465,7 @@ const adminData: AdminProfile[] = [
     designation: "CODE Director",
     description: "Directs the School of Open and Distance Education (SCODE), managing online and distance learning programs that extend S-VYASA's yoga education to learners worldwide.",
     qualifications: "PhD (Yoga & Education); MEd; Certified e-Learning Designer; 15+ years in distance education",
-    photo: AIIU("1771457389042-nuf49e1py5.JPG"),
+    photo: ecNateshBabuPhoto,
     gender: "male",
     section: "deans",
     expertise: "Distance education, e-learning, instructional design, program delivery at scale",
