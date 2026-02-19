@@ -50,13 +50,13 @@ const divisions = [
   {
     name: "CODE – Center for Online and Distance Education",
     icon: Globe,
-    color: "from-primary to-primary/80",
+    color: "from-blue-700 to-blue-500",
     schools: [],
   },
   {
     name: "ANVESANA – Advanced Research Laboratories",
     icon: Brain,
-    color: "from-primary to-primary/80",
+    color: "from-blue-700 to-blue-500",
     schools: [
       { name: "Centre for Advanced Research in Integrative Medicine" },
     ],
@@ -151,28 +151,20 @@ const Organogram = () => {
           {/* Horizontal connector */}
           <div className="hidden lg:block w-full max-w-6xl mx-auto h-0.5 bg-gradient-to-r from-transparent via-muted-foreground/30 to-transparent mb-0 -mt-4" />
 
-          {/* Division Cards */}
+          {/* Division Cards — Row 1: 5 divisions */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 max-w-7xl mx-auto mb-6"
           >
-            {divisions.map((division, index) => {
+            {divisions.slice(0, 5).map((division, index) => {
               const Icon = division.icon;
               return (
-                <motion.div
-                  key={index}
-                  variants={itemVariants}
-                  className="group"
-                >
-                  {/* Vertical connector */}
+                <motion.div key={index} variants={itemVariants} className="group">
                   <div className="hidden lg:block w-0.5 h-6 bg-muted-foreground/30 mx-auto" />
-
-                  {/* Division Card */}
                   <div className="relative rounded-2xl overflow-hidden border border-border bg-card hover:shadow-xl hover:shadow-primary/10 transition-all duration-500 hover:-translate-y-1">
-                    {/* Header */}
                     <div className={`bg-gradient-to-r ${division.color} p-5`}>
                       <div className="flex items-start gap-3">
                         <div className="w-10 h-10 rounded-xl bg-primary-foreground/20 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
@@ -183,38 +175,69 @@ const Organogram = () => {
                         </h3>
                       </div>
                     </div>
-
-                    {/* Schools */}
                     {division.schools.length > 0 && (
                       <div className="p-4 space-y-2">
-                        {/* Connector dot */}
                         <div className="flex items-center gap-2 mb-3">
                           <div className="w-2 h-2 rounded-full bg-accent" />
-                          <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                            Schools & Centers
-                          </span>
+                          <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Schools & Centers</span>
                         </div>
                         {division.schools.map((school, sIndex) => (
-                          <motion.div
-                            key={sIndex}
-                            whileHover={{ x: 4 }}
-                            className="flex items-start gap-2 pl-3 border-l-2 border-accent/40 hover:border-accent transition-colors"
-                          >
+                          <motion.div key={sIndex} whileHover={{ x: 4 }} className="flex items-start gap-2 pl-3 border-l-2 border-accent/40 hover:border-accent transition-colors">
                             <GraduationCap className="w-4 h-4 text-accent mt-0.5 flex-shrink-0" />
-                            <span className="text-sm text-foreground/80 leading-snug">
-                              {school.name}
-                            </span>
+                            <span className="text-sm text-foreground/80 leading-snug">{school.name}</span>
                           </motion.div>
                         ))}
                       </div>
                     )}
-
                     {division.schools.length === 0 && (
-                      <div className="p-4">
-                        <p className="text-xs text-muted-foreground italic">
-                          Autonomous center
-                        </p>
+                      <div className="p-4"><p className="text-xs text-muted-foreground italic">Autonomous center</p></div>
+                    )}
+                  </div>
+                </motion.div>
+              );
+            })}
+          </motion.div>
+
+          {/* Division Cards — Row 2: CODE + ANVESANA (blue) */}
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto"
+          >
+            {divisions.slice(5).map((division, index) => {
+              const Icon = division.icon;
+              return (
+                <motion.div key={index} variants={itemVariants} className="group">
+                  <div className="hidden lg:block w-0.5 h-6 bg-muted-foreground/30 mx-auto" />
+                  <div className="relative rounded-2xl overflow-hidden border border-blue-200 bg-card hover:shadow-xl hover:shadow-blue-500/10 transition-all duration-500 hover:-translate-y-1">
+                    <div className={`bg-gradient-to-r ${division.color} p-5`}>
+                      <div className="flex items-start gap-3">
+                        <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
+                          <Icon className="w-5 h-5 text-white" />
+                        </div>
+                        <h3 className="font-heading text-sm md:text-base font-semibold text-white leading-tight">
+                          {division.name}
+                        </h3>
                       </div>
+                    </div>
+                    {division.schools.length > 0 && (
+                      <div className="p-4 space-y-2">
+                        <div className="flex items-center gap-2 mb-3">
+                          <div className="w-2 h-2 rounded-full bg-blue-400" />
+                          <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Schools & Centers</span>
+                        </div>
+                        {division.schools.map((school, sIndex) => (
+                          <motion.div key={sIndex} whileHover={{ x: 4 }} className="flex items-start gap-2 pl-3 border-l-2 border-blue-300 hover:border-blue-500 transition-colors">
+                            <GraduationCap className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" />
+                            <span className="text-sm text-foreground/80 leading-snug">{school.name}</span>
+                          </motion.div>
+                        ))}
+                      </div>
+                    )}
+                    {division.schools.length === 0 && (
+                      <div className="p-4"><p className="text-xs text-muted-foreground italic">Autonomous center</p></div>
                     )}
                   </div>
                 </motion.div>
