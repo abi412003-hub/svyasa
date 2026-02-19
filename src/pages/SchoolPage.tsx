@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { ArrowLeft, GraduationCap, Sparkles, Star } from "lucide-react";
 import Layout from "@/components/layout/Layout";
 import { getSchoolBySlug } from "@/data/divisionsData";
+import SchoolFacultySection from "@/components/SchoolFacultySection";
 import { useEffect } from "react";
 
 const SchoolPage = () => {
@@ -117,6 +118,11 @@ const SchoolPage = () => {
           </div>
         </div>
       </section>
+
+      {/* Faculty */}
+      {school.faculty && school.faculty.length > 0 && (
+        <SchoolFacultySection faculty={school.faculty} divisionColor={division.color} />
+      )}
 
       {/* CTA */}
       <section className={`py-16 bg-gradient-to-r ${division.color}`}>
