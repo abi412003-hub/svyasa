@@ -29,6 +29,16 @@ import imgSonalMansingh from "@/assets/guests/guest-sonal-mansingh.jpg";
 import imgMurliManoharJoshi from "@/assets/guests/guest-murli-manohar-joshi.jpg";
 import imgHansrajBharadwaj from "@/assets/guests/guest-hansraj-bharadwaj.jpg";
 import imgKaranSingh from "@/assets/guests/guest-karan-singh.jpg";
+import imgJagadishShettar from "@/assets/guests/guest-jagadish-shettar.jpg";
+import imgDeepakChopra from "@/assets/guests/guest-deepak-chopra.jpg";
+import imgKsEshwarappa from "@/assets/guests/guest-ks-eshwarappa.jpg";
+import imgSiddaramaiah from "@/assets/guests/guest-siddaramaiah.jpg";
+import imgVasundharaRaje from "@/assets/guests/guest-vasundhara-raje.jpg";
+import imgManoharKhattar from "@/assets/guests/guest-manohar-khattar.jpg";
+import imgVirbhadraSingh from "@/assets/guests/guest-virbhadra-singh.jpg";
+import imgSheilaDixit from "@/assets/guests/guest-sheila-dixit.jpg";
+import imgTulsiGabbard from "@/assets/guests/guest-tulsi-gabbard.jpg";
+import imgShripadNaik from "@/assets/guests/guest-shripad-naik.jpg";
 
 interface GuestEntry {
   id: string;
@@ -66,6 +76,16 @@ const guests: GuestEntry[] = [
   { id: "g25", year: "",     caption: "Shri Murli Manohar Joshi, Former Union HRD Minister",                     image: imgMurliManoharJoshi, span: "normal" },
   { id: "g26", year: "",     caption: "Dr. Hansraj Bharadwaj, Hon'ble Governor of Karnataka",                    image: imgHansrajBharadwaj,  span: "wide" },
   { id: "g27", year: "",     caption: "Shri Karan Singh, Leading Parliamentarian",                                image: imgKaranSingh,        span: "normal" },
+  { id: "g28", year: "2017", caption: "Shri Siddaramaiah, Karnataka Chief Minister",                               image: imgSiddaramaiah,      span: "wide" },
+  { id: "g29", year: "2015", caption: "Ms. Vasundhara Raje, Rajasthan Chief Minister",                             image: imgVasundharaRaje,    span: "normal" },
+  { id: "g30", year: "2015", caption: "Shri Manohar Lal Khattar, Haryana Chief Minister",                          image: imgManoharKhattar,    span: "normal" },
+  { id: "g31", year: "2015", caption: "Shri Virbhadra Singh, Himachal Pradesh Chief Minister",                     image: imgVirbhadraSingh,    span: "normal" },
+  { id: "g32", year: "2014", caption: "Ms. Tulsi Gabbard, US Representative, in Prashanti",                        image: imgTulsiGabbard,      span: "wide" },
+  { id: "g33", year: "2014", caption: "Shri Shripad Yesso Naik, Union AYUSH Minister",                             image: imgShripadNaik,       span: "tall" },
+  { id: "g34", year: "2013", caption: "Ms. Sheila Dixit, Delhi Chief Minister",                                    image: imgSheilaDixit,       span: "normal" },
+  { id: "g35", year: "",     caption: "Dr. Deepak Chopra, USA",                                                    image: imgDeepakChopra,      span: "normal" },
+  { id: "g36", year: "",     caption: "Shri Jagadish Shettar, Former Chief Minister of Karnataka",                 image: imgJagadishShettar,   span: "normal" },
+  { id: "g37", year: "",     caption: "Shri K S Eshwarappa, Former Deputy CM of Karnataka",                        image: imgKsEshwarappa,      span: "wide" },
 ];
 
 // ─── Parallax Hero ────────────────────────────────────────────────────────────
