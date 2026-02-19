@@ -10,6 +10,7 @@ import ecMembersGroupPhoto from "@/assets/ec-members-group.jpg";
 import ecSridharSubramanianPhoto from "@/assets/ec-sridhar-subramanian.jpg";
 import ecAmitSinghPhoto from "@/assets/ec-amit-singh.jpg";
 import ecGauravSinhaPhoto from "@/assets/ec-gaurav-sinha.jpg";
+import ecDhananjayaPhoto from "@/assets/ec-dhananjaya.jpg";
 import { motion, useInView, AnimatePresence, Variants } from "framer-motion";
 import {
   X, Award, BookOpen, FlaskConical, Star, User, ChevronDown,
@@ -305,6 +306,7 @@ const ecCategories: ECCategory[] = [
         designation: "Joint Director, F&A",
         description: "Joint Director of Finance and Accounts, overseeing financial planning, budgeting, and fiscal governance ensuring transparent and efficient resource allocation across S-VYASA University.",
         qualifications: "MCom; CA; Joint Director, Finance & Accounts, S-VYASA University; Expert in institutional financial management",
+        photo: ecDhananjayaPhoto,
         gender: "male",
         expertise: "Financial planning, budget management, fiscal governance, institutional compliance",
       },
