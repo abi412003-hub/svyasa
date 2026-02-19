@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import campusImage from "@/assets/campus-1.jpg";
+import campusImage from "@/assets/society-hero.jpg";
 
 // Floating bokeh particle component
 const BokehParticle = ({ delay, size, left }: { delay: number; size: number; left: string }) => (
@@ -33,7 +33,7 @@ const SocietyHero = () => {
   });
 
   const imageScale = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
-  const overlayOpacity = useTransform(scrollYProgress, [0, 0.5], [0.6, 0.8]);
+  const overlayOpacity = useTransform(scrollYProgress, [0, 0.5], [0.75, 0.88]);
 
   return (
     <section ref={containerRef} className="relative h-[70vh] min-h-[500px] overflow-hidden">
@@ -45,16 +45,19 @@ const SocietyHero = () => {
         <motion.img
           src={campusImage}
           alt="S-VYASA Campus"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover object-center"
           initial={{ scale: 1 }}
           animate={{ scale: 1.08 }}
           transition={{ duration: 15, ease: "linear" }}
         />
       </motion.div>
 
-      {/* Dark gradient overlay */}
+      {/* Base dark overlay for legibility */}
+      <div className="absolute inset-0 bg-navy/55" />
+
+      {/* Gradient overlay — stronger at bottom */}
       <motion.div
-        className="absolute inset-0 bg-gradient-to-t from-navy via-navy/50 to-transparent"
+        className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/30 to-navy/40"
         style={{ opacity: overlayOpacity }}
       />
 
@@ -79,7 +82,8 @@ const SocietyHero = () => {
           transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
         >
           <motion.h1
-            className="font-heading text-5xl md:text-6xl lg:text-7xl font-bold text-white text-shadow-lg"
+            className="font-heading text-5xl md:text-6xl lg:text-7xl font-bold text-white"
+            style={{ textShadow: "0 2px 24px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)" }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
@@ -87,7 +91,8 @@ const SocietyHero = () => {
             S-VYASA Society
           </motion.h1>
           <motion.p
-            className="mt-4 text-lg md:text-xl text-white/80 max-w-2xl mx-auto"
+            className="mt-4 text-lg md:text-xl text-white/90 max-w-2xl mx-auto"
+            style={{ textShadow: "0 1px 12px rgba(0,0,0,0.8)" }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.7 }}
