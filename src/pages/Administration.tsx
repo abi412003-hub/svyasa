@@ -11,6 +11,7 @@ import ecSridharSubramanianPhoto from "@/assets/ec-sridhar-subramanian.jpg";
 import ecAmitSinghPhoto from "@/assets/ec-amit-singh.jpg";
 import ecGauravSinhaPhoto from "@/assets/ec-gaurav-sinha.jpg";
 import ecDhananjayaPhoto from "@/assets/ec-dhananjaya.jpg";
+import ecSubhadradeviPhoto from "@/assets/ec-subhadra-devi.jpg";
 import { motion, useInView, AnimatePresence, Variants } from "framer-motion";
 import {
   X, Award, BookOpen, FlaskConical, Star, User, ChevronDown,
@@ -251,6 +252,7 @@ const ecCategories: ECCategory[] = [
         designation: "Member",
         description: "Nominee of the S-VYASA sponsoring society, representing the founding trust's vision and values in all Executive Council deliberations and institutional decisions.",
         qualifications: "Nominee of the Sponsoring Society; Contributing to institutional governance aligned with S-VYASA's founding mission",
+        photo: ecSubhadradeviPhoto,
         initials: "SD",
         gender: "female",
         expertise: "Institutional governance, society representation, mission alignment",
