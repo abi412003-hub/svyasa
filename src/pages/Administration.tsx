@@ -1056,15 +1056,78 @@ function ECCategoriesSection({ onSelect }: { onSelect: (m: ECMember) => void }) 
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
 
-  const [imgErr, setImgErr] = React.useState(false);
+  const [imgErrPresident, setImgErrPresident] = React.useState(false);
+  const [imgErrChancellor, setImgErrChancellor] = React.useState(false);
 
   const allMembers = ecCategories.flatMap((cat) => cat.members);
   const president = allMembers.find((m) => m.id === "ec-nagendra");
-  const rest = allMembers.filter((m) => m.id !== "ec-nagendra");
+  const chancellor = allMembers.find((m) => m.id === "ec-dayananda");
+  const rest = allMembers.filter((m) => m.id !== "ec-nagendra" && m.id !== "ec-dayananda");
 
-  const fallback = president
+  const presidentFallback = president
     ? `https://ui-avatars.com/api/?name=${encodeURIComponent(president.name)}&background=92400e&color=fff&size=800&bold=true`
     : "";
+  const chancellorFallback = chancellor
+    ? `https://ui-avatars.com/api/?name=${encodeURIComponent(chancellor.name)}&background=1e3a5f&color=fff&size=800&bold=true`
+    : "";
+
+  const FeaturedRow = ({
+    member, imgErr, setErr, imageRight = false, roleLabel,
+  }: {
+    member: ECMember; imgErr: boolean; setErr: (v: boolean) => void;
+    imageRight?: boolean; roleLabel: string;
+  }) => {
+    const fallback = `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=92400e&color=fff&size=800&bold=true`;
+    const imgSrc = !member.photo || imgErr ? fallback : member.photo;
+    const imageBlock = (
+      <div className={`relative sm:w-72 lg:w-80 shrink-0 h-72 sm:h-auto overflow-hidden ${imageRight ? "sm:order-2" : ""}`}>
+        <img src={imgSrc} aria-hidden="true" className="absolute inset-0 w-full h-full object-cover object-center scale-110 blur-xl brightness-75" />
+        <img
+          src={imgSrc}
+          alt={member.name}
+          className={`relative z-10 w-full h-full ${member.photoPosition ? `object-cover ${member.photoPosition}` : "object-contain object-center"} group-hover:scale-105 transition-transform duration-500`}
+          onError={() => setErr(true)}
+          loading="lazy"
+        />
+        <div className="absolute inset-0 z-20 bg-gradient-to-r from-transparent to-black/10 sm:block hidden" />
+      </div>
+    );
+    return (
+      <motion.div
+        variants={fadeUp}
+        whileHover={{ boxShadow: "0 24px 48px -12px hsla(35,92%,33%,0.22)" }}
+        onClick={() => onSelect(member)}
+        className="group cursor-pointer bg-white border border-border rounded-2xl overflow-hidden hover:border-[hsl(var(--saffron))]/60 transition-all duration-300 flex flex-col sm:flex-row"
+      >
+        {imageBlock}
+        <div className={`flex-1 p-6 lg:p-8 flex flex-col justify-center ${imageRight ? "sm:order-1" : ""}`}>
+          <p className="text-[hsl(var(--saffron))] text-xs font-bold uppercase tracking-widest mb-2">{roleLabel}</p>
+          <h3 className="font-['Playfair_Display',serif] text-2xl lg:text-3xl text-[hsl(var(--navy))] font-bold leading-tight mb-3">
+            {member.name}
+          </h3>
+          <p className="text-[hsl(var(--muted-foreground))] text-sm leading-relaxed mb-4 line-clamp-4">
+            {member.description}
+          </p>
+          <p className="text-[hsl(var(--navy))]/60 text-xs italic mb-5 leading-relaxed">
+            {member.qualifications}
+          </p>
+          {member.achievements && (
+            <ul className="space-y-1 mb-5">
+              {member.achievements.slice(0, 3).map((a, i) => (
+                <li key={i} className="flex items-start gap-2 text-xs text-[hsl(var(--muted-foreground))]">
+                  <span className="text-[hsl(var(--saffron))] mt-0.5 shrink-0">✦</span>
+                  {a}
+                </li>
+              ))}
+            </ul>
+          )}
+          <button className="self-start text-sm font-semibold text-[hsl(var(--teal))] hover:text-[hsl(var(--saffron))] transition-colors">
+            View Full Profile →
+          </button>
+        </div>
+      </motion.div>
+    );
+  };
 
   return (
     <motion.div
@@ -1074,58 +1137,22 @@ function ECCategoriesSection({ onSelect }: { onSelect: (m: ECMember) => void }) 
       variants={stagger}
       className="space-y-6"
     >
-      {/* Featured row — President */}
       {president && (
-        <motion.div
-          variants={fadeUp}
-          whileHover={{ boxShadow: "0 24px 48px -12px hsla(35,92%,33%,0.22)" }}
-          onClick={() => onSelect(president)}
-          className="group cursor-pointer bg-white border border-border rounded-2xl overflow-hidden hover:border-[hsl(var(--saffron))]/60 transition-all duration-300 flex flex-col sm:flex-row"
-        >
-          {/* Image — left side */}
-          <div className="relative sm:w-72 lg:w-80 shrink-0 h-72 sm:h-auto overflow-hidden">
-            <img
-              src={!president.photo || imgErr ? fallback : president.photo}
-              aria-hidden="true"
-              className="absolute inset-0 w-full h-full object-cover object-center scale-110 blur-xl brightness-75"
-            />
-            <img
-              src={!president.photo || imgErr ? fallback : president.photo}
-              alt={president.name}
-              className={`relative z-10 w-full h-full ${president.photoPosition ? `object-cover ${president.photoPosition}` : "object-contain object-center"} group-hover:scale-105 transition-transform duration-500`}
-              onError={() => setImgErr(true)}
-              loading="lazy"
-            />
-            <div className="absolute inset-0 z-20 bg-gradient-to-r from-transparent to-black/10 sm:block hidden" />
-          </div>
-
-          {/* Details — right side */}
-          <div className="flex-1 p-6 lg:p-8 flex flex-col justify-center">
-            <p className="text-[hsl(var(--saffron))] text-xs font-bold uppercase tracking-widest mb-2">President · S-VYASA Society</p>
-            <h3 className="font-['Playfair_Display',serif] text-2xl lg:text-3xl text-[hsl(var(--navy))] font-bold leading-tight mb-3">
-              {president.name}
-            </h3>
-            <p className="text-[hsl(var(--muted-foreground))] text-sm leading-relaxed mb-4 line-clamp-4">
-              {president.description}
-            </p>
-            <p className="text-[hsl(var(--navy))]/60 text-xs italic mb-5 leading-relaxed">
-              {president.qualifications}
-            </p>
-            {president.achievements && (
-              <ul className="space-y-1 mb-5">
-                {president.achievements.slice(0, 3).map((a, i) => (
-                  <li key={i} className="flex items-start gap-2 text-xs text-[hsl(var(--muted-foreground))]">
-                    <span className="text-[hsl(var(--saffron))] mt-0.5 shrink-0">✦</span>
-                    {a}
-                  </li>
-                ))}
-              </ul>
-            )}
-            <button className="self-start text-sm font-semibold text-[hsl(var(--teal))] hover:text-[hsl(var(--saffron))] transition-colors">
-              View Full Profile →
-            </button>
-          </div>
-        </motion.div>
+        <FeaturedRow
+          member={president}
+          imgErr={imgErrPresident}
+          setErr={setImgErrPresident}
+          roleLabel="President · S-VYASA Society"
+        />
+      )}
+      {chancellor && (
+        <FeaturedRow
+          member={chancellor}
+          imgErr={imgErrChancellor}
+          setErr={setImgErrChancellor}
+          imageRight
+          roleLabel="Chancellor · S-VYASA Deemed University"
+        />
       )}
 
       {/* Rest of the members — 3-column grid */}
