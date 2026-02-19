@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import galleryHeroImage from "@/assets/gallery-hero.jpg";
 
 const GalleryHero = () => {
   const [scale, setScale] = useState(1);
@@ -16,12 +17,14 @@ const GalleryHero = () => {
       <motion.div
         className="absolute inset-0 bg-cover bg-center"
         style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1920&q=80')`,
+          backgroundImage: `url(${galleryHeroImage})`,
+          backgroundPosition: "center 40%",
           scale,
         }}
         transition={{ duration: 0.2 }}
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/60 to-navy/30" />
+      <div className="absolute inset-0 bg-navy/50" />
+      <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/35 to-navy/40" />
 
       {/* Golden bokeh */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -53,7 +56,8 @@ const GalleryHero = () => {
             initial={{ opacity: 0, y: 40, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="text-5xl md:text-7xl lg:text-8xl font-bold text-white font-display text-shadow-lg"
+            className="text-5xl md:text-7xl lg:text-8xl font-bold text-white font-display"
+            style={{ textShadow: "0 2px 24px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)" }}
           >
             Gallery
           </motion.h1>
