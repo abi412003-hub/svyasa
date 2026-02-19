@@ -1122,7 +1122,7 @@ export default function Administration() {
         <img
           src={ecMembersGroupPhoto}
           alt="S-VYASA Executive Council Members"
-          className="absolute inset-0 w-full h-full object-cover object-[center_20%]"
+          className="absolute inset-0 w-full h-full object-cover object-[center_70%]"
         />
         {/* Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/30" />
