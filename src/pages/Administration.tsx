@@ -1009,7 +1009,55 @@ function SectionBlock({
 }
 
 // ─── ORGANOGRAM (PDF-based) ────────────────────────────────────────────────────
-// ─── EC MEMBER CARD ───────────────────────────────────────────────────────────
+// ─── FEATURED MEMBER CARD (big horizontal) ───────────────────────────────────
+function FeaturedMemberCard({ member, onClick, index }: { member: ECMember; onClick: () => void; index: number }) {
+  const [imgErr, setImgErr] = useState(false);
+  const fallback = `https://ui-avatars.com/api/?name=${encodeURIComponent(member.initials || member.name)}&background=92400e&color=fff&size=400&bold=true`;
+  const src = !member.photo || imgErr ? fallback : member.photo;
+  return (
+    <motion.div
+      variants={fadeUp}
+      onClick={onClick}
+      whileHover={{ y: -4 }}
+      className="group cursor-pointer flex flex-col md:flex-row overflow-hidden rounded-2xl border border-border bg-card shadow-md hover:shadow-2xl hover:border-[hsl(var(--saffron))]/40 transition-all duration-300"
+    >
+      <div className="relative md:w-72 lg:w-80 h-72 md:h-auto shrink-0 overflow-hidden">
+        <img src={src} alt="" aria-hidden className="absolute inset-0 w-full h-full object-cover scale-110 blur-2xl brightness-60" onError={() => setImgErr(true)} />
+        <img src={src} alt={member.name} className="relative z-10 w-full h-full object-contain transition-transform duration-500 group-hover:scale-[1.03]" onError={() => setImgErr(true)} />
+        <div className="absolute inset-0 z-20 bg-gradient-to-r from-transparent to-card/20" />
+        <div className="absolute top-4 left-4 z-30 w-8 h-8 rounded-full bg-[hsl(var(--saffron))] flex items-center justify-center">
+          <span className="text-white font-bold text-sm">{index + 1}</span>
+        </div>
+      </div>
+      <div className="flex-1 p-6 md:p-8 flex flex-col justify-center">
+        <span className="inline-block px-3 py-1 bg-[hsl(var(--saffron))]/10 text-[hsl(var(--saffron))] text-xs font-semibold rounded-full border border-[hsl(var(--saffron))]/20 uppercase tracking-widest mb-3 self-start">
+          {member.designation}
+        </span>
+        <h3 className="font-['Playfair_Display',serif] text-2xl md:text-3xl text-[hsl(var(--navy))] font-bold leading-tight mb-3">
+          {member.name}
+        </h3>
+        <p className="text-muted-foreground text-sm md:text-base leading-relaxed mb-4 line-clamp-3">{member.description}</p>
+        {member.qualifications && (
+          <div className="flex items-start gap-2 mb-4">
+            <Award className="w-4 h-4 text-[hsl(var(--teal))] shrink-0 mt-0.5" />
+            <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">{member.qualifications}</p>
+          </div>
+        )}
+        {member.achievements && member.achievements.slice(0, 2).map((a) => (
+          <div key={a} className="flex items-start gap-2 mb-1">
+            <Star className="w-3.5 h-3.5 text-amber-500 shrink-0 mt-0.5" />
+            <span className="text-xs text-muted-foreground leading-snug">{a}</span>
+          </div>
+        ))}
+        <button className="mt-5 self-start inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-[hsl(var(--navy))] to-[hsl(var(--teal))] text-white text-sm font-semibold rounded-full hover:opacity-90 transition-opacity">
+          View Full Profile →
+        </button>
+      </div>
+    </motion.div>
+  );
+}
+
+// ─── REGULAR EC MEMBER CARD ───────────────────────────────────────────────────
 function ECMemberCard({ member, onClick }: { member: ECMember; onClick: () => void }) {
   const [imgErr, setImgErr] = useState(false);
   const fallback = `https://ui-avatars.com/api/?name=${encodeURIComponent(member.initials || member.name)}&background=92400e&color=fff&size=400&bold=true`;
@@ -1021,40 +1069,57 @@ function ECMemberCard({ member, onClick }: { member: ECMember; onClick: () => vo
       className="group cursor-pointer bg-white border border-border rounded-2xl overflow-hidden hover:border-[hsl(var(--saffron))]/60 transition-all duration-300 flex flex-col h-full"
     >
       <div className="relative h-64 overflow-hidden shrink-0">
-        {/* Blurred background — same image, covers the full area */}
-        <img
-          src={!member.photo || imgErr ? fallback : member.photo}
-          aria-hidden="true"
-          className="absolute inset-0 w-full h-full object-cover object-center scale-110 blur-xl brightness-75"
-        />
-        {/* Main image — contained, sharp */}
-        <img
-          src={!member.photo || imgErr ? fallback : member.photo}
-          alt={member.name}
-          className={`relative z-10 w-full h-full ${member.photoPosition ? `object-cover ${member.photoPosition}` : "object-contain object-center"} group-hover:scale-105 transition-transform duration-500`}
-          onError={() => setImgErr(true)}
-          loading="lazy"
-        />
+        <img src={!member.photo || imgErr ? fallback : member.photo} alt="" aria-hidden className="absolute inset-0 w-full h-full object-cover object-center scale-110 blur-xl brightness-75" onError={() => setImgErr(true)} />
+        <img src={!member.photo || imgErr ? fallback : member.photo} alt={member.name} className={`relative z-10 w-full h-full ${member.photoPosition ?? "object-contain"} transition-transform duration-500 group-hover:scale-105`} onError={() => setImgErr(true)} />
         <div className="absolute inset-0 z-20 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
       </div>
       <div className="p-4 flex-1 flex flex-col">
-        <h3 className="font-['Playfair_Display',serif] text-base text-[hsl(var(--navy))] font-bold leading-tight mb-1">
-          {member.name}
-        </h3>
+        <h3 className="font-['Playfair_Display',serif] text-base text-[hsl(var(--navy))] font-bold leading-tight mb-1">{member.name}</h3>
         <p className="text-[hsl(var(--saffron))] text-xs font-semibold mb-2 leading-snug">{member.designation}</p>
         <p className="text-[hsl(var(--muted-foreground))] text-xs leading-relaxed line-clamp-2 flex-1">{member.description}</p>
-        <button className="mt-3 text-xs font-semibold text-[hsl(var(--teal))] hover:text-[hsl(var(--saffron))] transition-colors self-start">
-          View Profile →
-        </button>
+        <button className="mt-3 text-xs font-semibold text-[hsl(var(--teal))] hover:text-[hsl(var(--saffron))] transition-colors self-start">View Profile →</button>
       </div>
     </motion.div>
   );
 }
 
+
 // ─── EC CATEGORIES SECTION ────────────────────────────────────────────────────
 function ECCategoriesSection({ onSelect }: { onSelect: (m: ECMember) => void }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
+  const leadershipMembers = ecCategories[0].members; // first 3 featured
+  const restMembers = ecCategories.slice(1).flatMap((cat) => cat.members);
+
+  return (
+    <motion.div
+      ref={ref}
+      variants={stagger}
+      initial="hidden"
+      animate={inView ? "visible" : "hidden"}
+      className="space-y-6"
+    >
+      {/* Featured top 3 — image left, details right */}
+      <div className="space-y-5">
+        {leadershipMembers.map((m, i) => (
+          <FeaturedMemberCard key={m.id} member={m} onClick={() => onSelect(m)} index={i} />
+        ))}
+      </div>
+      {/* Divider */}
+      <div className="flex items-center gap-4 py-2">
+        <div className="flex-1 h-px bg-border" />
+        <span className="text-xs font-semibold text-muted-foreground uppercase tracking-widest">Executive Council Members</span>
+        <div className="flex-1 h-px bg-border" />
+      </div>
+      {/* Rest in regular grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {restMembers.map((m) => (
+          <ECMemberCard key={m.id} member={m} onClick={() => onSelect(m)} />
+        ))}
+      </div>
+    </motion.div>
+  );
+}
 
   return (
     <motion.div
