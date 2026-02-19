@@ -150,7 +150,7 @@ const CourseHero = ({ course, category }: CourseHeroProps) => {
                   Download Brochure
                 </a>
               ) : (
-                <Link to="/contact-us">
+                <Link to="/contact-us" className="text-blue-500">
                   <HelpCircle className="mr-2 h-4 w-4" />
                   Enquire Now
                 </Link>
