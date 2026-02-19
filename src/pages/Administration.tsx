@@ -921,11 +921,11 @@ function ECMemberCard({ member, onClick }: { member: ECMember; onClick: () => vo
       onClick={onClick}
       className="group cursor-pointer bg-white border border-border rounded-2xl overflow-hidden hover:border-[hsl(var(--saffron))]/60 transition-all duration-300 flex flex-col h-full"
     >
-      <div className="relative h-52 overflow-hidden bg-gradient-to-br from-amber-50 to-orange-100 shrink-0">
+      <div className="relative h-64 overflow-hidden bg-gradient-to-br from-amber-50 to-orange-100 shrink-0">
         <img
           src={!member.photo || imgErr ? fallback : member.photo}
           alt={member.name}
-          className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+          className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
           onError={() => setImgErr(true)}
           loading="lazy"
         />
