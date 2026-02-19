@@ -1056,24 +1056,87 @@ function ECCategoriesSection({ onSelect }: { onSelect: (m: ECMember) => void }) 
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
 
+  const [imgErr, setImgErr] = React.useState(false);
+
+  const allMembers = ecCategories.flatMap((cat) => cat.members);
+  const president = allMembers.find((m) => m.id === "ec-nagendra");
+  const rest = allMembers.filter((m) => m.id !== "ec-nagendra");
+
+  const fallback = president
+    ? `https://ui-avatars.com/api/?name=${encodeURIComponent(president.name)}&background=92400e&color=fff&size=800&bold=true`
+    : "";
+
   return (
     <motion.div
       ref={ref}
       initial="hidden"
       animate={inView ? "visible" : "hidden"}
       variants={stagger}
+      className="space-y-6"
     >
-      {/* Single flat grid — all members flow together */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch">
-        {ecCategories.flatMap((cat) =>
-          cat.members.map((m) => (
-            <ECMemberCard
-              key={m.id}
-              member={m}
-              onClick={() => onSelect(m)}
+      {/* Featured row — President */}
+      {president && (
+        <motion.div
+          variants={fadeUp}
+          whileHover={{ boxShadow: "0 24px 48px -12px hsla(35,92%,33%,0.22)" }}
+          onClick={() => onSelect(president)}
+          className="group cursor-pointer bg-white border border-border rounded-2xl overflow-hidden hover:border-[hsl(var(--saffron))]/60 transition-all duration-300 flex flex-col sm:flex-row"
+        >
+          {/* Image — left side */}
+          <div className="relative sm:w-72 lg:w-80 shrink-0 h-72 sm:h-auto overflow-hidden">
+            <img
+              src={!president.photo || imgErr ? fallback : president.photo}
+              aria-hidden="true"
+              className="absolute inset-0 w-full h-full object-cover object-center scale-110 blur-xl brightness-75"
             />
-          ))
-        )}
+            <img
+              src={!president.photo || imgErr ? fallback : president.photo}
+              alt={president.name}
+              className={`relative z-10 w-full h-full ${president.photoPosition ? `object-cover ${president.photoPosition}` : "object-contain object-center"} group-hover:scale-105 transition-transform duration-500`}
+              onError={() => setImgErr(true)}
+              loading="lazy"
+            />
+            <div className="absolute inset-0 z-20 bg-gradient-to-r from-transparent to-black/10 sm:block hidden" />
+          </div>
+
+          {/* Details — right side */}
+          <div className="flex-1 p-6 lg:p-8 flex flex-col justify-center">
+            <p className="text-[hsl(var(--saffron))] text-xs font-bold uppercase tracking-widest mb-2">President · S-VYASA Society</p>
+            <h3 className="font-['Playfair_Display',serif] text-2xl lg:text-3xl text-[hsl(var(--navy))] font-bold leading-tight mb-3">
+              {president.name}
+            </h3>
+            <p className="text-[hsl(var(--muted-foreground))] text-sm leading-relaxed mb-4 line-clamp-4">
+              {president.description}
+            </p>
+            <p className="text-[hsl(var(--navy))]/60 text-xs italic mb-5 leading-relaxed">
+              {president.qualifications}
+            </p>
+            {president.achievements && (
+              <ul className="space-y-1 mb-5">
+                {president.achievements.slice(0, 3).map((a, i) => (
+                  <li key={i} className="flex items-start gap-2 text-xs text-[hsl(var(--muted-foreground))]">
+                    <span className="text-[hsl(var(--saffron))] mt-0.5 shrink-0">✦</span>
+                    {a}
+                  </li>
+                ))}
+              </ul>
+            )}
+            <button className="self-start text-sm font-semibold text-[hsl(var(--teal))] hover:text-[hsl(var(--saffron))] transition-colors">
+              View Full Profile →
+            </button>
+          </div>
+        </motion.div>
+      )}
+
+      {/* Rest of the members — 3-column grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch">
+        {rest.map((m) => (
+          <ECMemberCard
+            key={m.id}
+            member={m}
+            onClick={() => onSelect(m)}
+          />
+        ))}
       </div>
     </motion.div>
   );
