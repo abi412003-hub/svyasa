@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import Layout from "@/components/layout/Layout";
+import guestsHero from "@/assets/guests-hero.jpg";
 
 import imgPadmaShri from "@/assets/guests/guest-padma-shri.jpg";
 import imgGlobalPeace from "@/assets/guests/guest-global-peace.jpg";
@@ -102,65 +103,52 @@ const guests: GuestEntry[] = [
 const Hero = () => {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], [0, 120]);
+  const y = useTransform(scrollYProgress, [0, 1], [0, 200]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
   return (
-    <section ref={ref} className="relative min-h-[60vh] flex items-center justify-center overflow-hidden"
-      style={{ background: "hsl(var(--primary)/0.05)" }}>
-
-      {[
-        { size: 700, top: "-25%", left: "-15%", delay: 0, dur: 12 },
-        { size: 450, bottom: "-10%", right: "-8%", delay: 3, dur: 10 },
-        { size: 280, top: "35%", left: "55%", delay: 6, dur: 14 },
-      ].map((o, i) => (
-        <motion.div key={i} className="absolute rounded-full pointer-events-none"
-          style={{
-            width: o.size, height: o.size,
-            top: (o as any).top, bottom: (o as any).bottom,
-            left: (o as any).left, right: (o as any).right,
-            background: "radial-gradient(circle, hsl(var(--primary)/0.14) 0%, transparent 70%)",
-          }}
-          animate={{ scale: [1, 1.12, 1], x: [0, 18, 0], y: [0, -14, 0] }}
-          transition={{ duration: o.dur, delay: o.delay, repeat: Infinity, ease: "easeInOut" }}
+    <section ref={ref} className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
+      {/* Ken Burns background image */}
+      <motion.div className="absolute inset-0" style={{ y, scale }}>
+        <img
+          src={guestsHero}
+          alt="Distinguished Guests at S-VYASA"
+          className="w-full h-full object-cover object-center"
         />
-      ))}
+      </motion.div>
 
-      {[15, 35, 55, 72, 88].map((top, i) => (
-        <motion.div key={i} className="absolute h-px w-full pointer-events-none"
-          style={{ top: `${top}%`, background: `linear-gradient(90deg, transparent, hsl(var(--primary)/${0.06 + i * 0.01}), transparent)` }}
-          animate={{ x: ["-100%", "100%"] }}
-          transition={{ duration: 18 + i * 4, repeat: Infinity, ease: "linear", delay: i * 2.5 }}
-        />
-      ))}
+      {/* Navy overlay */}
+      <div className="absolute inset-0" style={{ background: "hsla(210, 52%, 23%, 0.62)" }} />
 
-      <motion.div style={{ y, opacity }} className="relative z-10 text-center px-6">
-        <motion.p initial={{ opacity: 0, letterSpacing: "0.5em" }} animate={{ opacity: 1, letterSpacing: "0.3em" }}
-          transition={{ duration: 1.4 }} className="uppercase text-xs font-semibold tracking-[0.3em] mb-6"
-          style={{ color: "hsl(var(--primary))" }}>
+      {/* Text content */}
+      <motion.div style={{ opacity }} className="relative z-10 text-center px-6">
+        <motion.p
+          initial={{ opacity: 0, letterSpacing: "0.5em" }} animate={{ opacity: 1, letterSpacing: "0.3em" }}
+          transition={{ duration: 1.4 }}
+          className="uppercase text-xs font-semibold tracking-[0.3em] mb-6 text-white/80">
           Distinguished Visitors
         </motion.p>
-        <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }}
+        <motion.h1
+          initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
-          className="text-7xl md:text-9xl font-bold leading-none tracking-tight text-foreground">
-          Our<br />
-          <motion.span initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.9, delay: 0.5 }} className="italic"
-            style={{ color: "hsl(var(--primary))" }}>
-            Guests
-          </motion.span>
+          className="text-6xl md:text-8xl font-bold leading-none tracking-tight text-white"
+          style={{ textShadow: "0 4px 24px rgba(0,0,0,0.45)" }}>
+          Our{" "}
+          <span className="italic" style={{ color: "hsl(var(--primary))" }}>Guests</span>
         </motion.h1>
-        <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+        <motion.p
+          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.7 }}
-          className="text-muted-foreground text-lg mt-6 max-w-md mx-auto leading-relaxed">
+          className="text-white/80 text-lg mt-6 max-w-md mx-auto leading-relaxed"
+          style={{ textShadow: "0 2px 8px rgba(0,0,0,0.4)" }}>
           Luminaries, leaders, and visionaries who have graced S-VYASA with their presence.
         </motion.p>
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.4 }}
           className="mt-14 flex flex-col items-center">
           <motion.div animate={{ scaleY: [1, 1.6, 1], opacity: [0.6, 1, 0.6] }}
             transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-            className="w-px h-12 origin-top"
-            style={{ background: "linear-gradient(to bottom, hsl(var(--primary)), transparent)" }} />
+            className="w-px h-12 origin-top bg-white/60" />
         </motion.div>
       </motion.div>
     </section>
