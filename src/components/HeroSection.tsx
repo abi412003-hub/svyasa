@@ -47,42 +47,31 @@ const slides = [
 const HeroSection = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [slideIndex, setSlideIndex] = useState(0);
-  const prevTimeRef = useRef(0);
+  const hasShownSecond = useRef(false);
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
     const handleTimeUpdate = () => {
-      const currentTime = video.currentTime;
-      // Detect loop: current time jumped backward (video restarted)
-      if (prevTimeRef.current > currentTime + 1) {
+      const t = video.currentTime;
+
+      // At or past 24s → show second slide (once per loop)
+      if (t >= 24 && !hasShownSecond.current) {
+        hasShownSecond.current = true;
+        setSlideIndex(1);
+      }
+
+      // Video looped back to near beginning → reset to first slide
+      if (t < 1 && hasShownSecond.current) {
+        hasShownSecond.current = false;
         setSlideIndex(0);
       }
-      prevTimeRef.current = currentTime;
     };
-
-    // Switch to second slide after 24 seconds
-    const switchTimer = setTimeout(() => {
-      setSlideIndex(1);
-    }, 24000);
 
     video.addEventListener("timeupdate", handleTimeUpdate);
-
-    return () => {
-      clearTimeout(switchTimer);
-      video.removeEventListener("timeupdate", handleTimeUpdate);
-    };
+    return () => video.removeEventListener("timeupdate", handleTimeUpdate);
   }, []);
-
-  // When slideIndex resets to 0 (video looped), restart the 24s timer
-  useEffect(() => {
-    if (slideIndex !== 0) return;
-    const switchTimer = setTimeout(() => {
-      setSlideIndex(1);
-    }, 24000);
-    return () => clearTimeout(switchTimer);
-  }, [slideIndex]);
 
   const current = slides[slideIndex];
 
