@@ -69,7 +69,6 @@ export const navItems: NavItem[] = [
     links: [
       { label: "S-Vyasa University", href: "/s-vyasa-university" },
       { label: "S-Vyasa Society", href: "/society" },
-      { label: "Management", href: "/management" },
       { label: "Administration", href: "/administration" },
       { label: "Organogram", href: "/organogram" },
       { label: "Accreditation", href: "/accreditation" },
