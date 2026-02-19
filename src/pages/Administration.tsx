@@ -999,11 +999,7 @@ function ECCategoriesSection({ onSelect }: { onSelect: (m: ECMember) => void }) 
           </div>
 
           {/* Members grid */}
-          <div className={`grid gap-4 items-stretch ${
-            cat.members.length === 1 ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" :
-            cat.members.length === 2 ? "grid-cols-1 sm:grid-cols-2" :
-            "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
-          }`}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch">
             {cat.members.map((m) => (
               <ECMemberCard key={m.id} member={m} onClick={() => onSelect(m)} />
             ))}
