@@ -1082,7 +1082,7 @@ function ECCategoriesSection({ onSelect }: { onSelect: (m: ECMember) => void }) 
     const fallback = `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=92400e&color=fff&size=800&bold=true`;
     const imgSrc = !member.photo || imgErr ? fallback : member.photo;
     const imageBlock = (
-      <div className={`relative sm:w-72 lg:w-80 shrink-0 h-72 sm:h-auto overflow-hidden ${imageRight ? "sm:order-2" : ""}`}>
+      <div className={`relative sm:w-96 lg:w-[420px] shrink-0 h-96 sm:h-auto overflow-hidden min-h-[400px] ${imageRight ? "sm:order-2" : ""}`}>
         <img src={imgSrc} aria-hidden="true" className="absolute inset-0 w-full h-full object-cover object-center scale-110 blur-xl brightness-75" />
         <img
           src={imgSrc}
