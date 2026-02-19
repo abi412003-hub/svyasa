@@ -1,6 +1,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Phone, Mail, Calendar } from "lucide-react";
+import examsHallImage from "@/assets/exams-hall.jpg";
 
 const ExamsQuickHelp = () => {
   const ref = useRef(null);
@@ -31,8 +32,13 @@ const ExamsQuickHelp = () => {
   ];
 
   return (
-    <section ref={ref} className="py-12 bg-navy">
-      <div className="container mx-auto px-4">
+    <section ref={ref} className="relative py-12 overflow-hidden">
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: `url(${examsHallImage})`, backgroundPosition: "center 40%" }}
+      />
+      <div className="absolute inset-0 bg-navy/85" />
+      <div className="container mx-auto px-4 relative z-10">
         <div className="grid md:grid-cols-3 gap-6">
           {helpItems.map((item, index) => (
             <motion.a
