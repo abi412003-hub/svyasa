@@ -76,7 +76,7 @@ const HeroSection = () => {
   const current = slides[slideIndex];
 
   return (
-    <section className="relative h-[90vh] min-h-[600px] overflow-hidden">
+    <section className="relative h-screen min-h-[500px] md:h-[90vh] md:min-h-[600px] overflow-hidden">
       {/* Background Video */}
       <div className="absolute inset-0">
         <video
@@ -100,8 +100,8 @@ const HeroSection = () => {
       </div>
 
       {/* Content */}
-      <div className="relative h-full container mx-auto px-4 flex items-center">
-        <div className="max-w-3xl">
+      <div className="relative h-full container mx-auto px-4 flex items-end md:items-center pb-16 md:pb-0">
+        <div className="max-w-3xl w-full">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -112,12 +112,12 @@ const HeroSection = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="flex gap-3 mb-6"
+              className="flex flex-wrap gap-2 mb-4 md:mb-6"
             >
-              <span className="px-4 py-1.5 bg-gold/20 backdrop-blur-sm text-gold-light text-sm font-medium rounded-full border border-gold/30">
+              <span className="px-3 py-1 md:px-4 md:py-1.5 bg-gold/20 backdrop-blur-sm text-gold-light text-xs md:text-sm font-medium rounded-full border border-gold/30">
                 NAAC 'A' Grade
               </span>
-              <span className="px-4 py-1.5 bg-gold/20 backdrop-blur-sm text-gold-light text-sm font-medium rounded-full border border-gold/30">
+              <span className="px-3 py-1 md:px-4 md:py-1.5 bg-gold/20 backdrop-blur-sm text-gold-light text-xs md:text-sm font-medium rounded-full border border-gold/30">
                 UGC Recognized
               </span>
             </motion.div>
@@ -131,10 +131,10 @@ const HeroSection = () => {
                 exit={{ opacity: 0, y: -16 }}
                 transition={{ duration: 0.9, ease: "easeInOut" }}
               >
-                <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-4 text-shadow-lg leading-tight">
+                <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-3 md:mb-4 text-shadow-lg leading-tight">
                   {current.title}
                 </h1>
-                <p className="text-lg md:text-xl text-primary-foreground/90 mb-8 text-shadow">
+                <p className="text-base md:text-lg lg:text-xl text-primary-foreground/90 mb-6 md:mb-8 text-shadow">
                   {current.subtitle}
                 </p>
               </motion.div>
@@ -149,14 +149,14 @@ const HeroSection = () => {
             >
               <Button
                 size="lg"
-                className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-glow-saffron hover:scale-105 transition-all duration-300 text-lg px-8"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-glow-saffron hover:scale-105 transition-all duration-300 text-sm md:text-lg px-5 md:px-8"
               >
                 Explore Programs
               </Button>
               <Button
                 size="lg"
                 variant="outline"
-                className="bg-transparent border-2 border-primary-foreground/50 text-primary-foreground hover:bg-primary-foreground/10 hover:border-primary-foreground transition-all duration-300 text-lg px-8"
+                className="bg-transparent border-2 border-primary-foreground/50 text-primary-foreground hover:bg-primary-foreground/10 hover:border-primary-foreground transition-all duration-300 text-sm md:text-lg px-5 md:px-8"
               >
                 Virtual Tour
               </Button>

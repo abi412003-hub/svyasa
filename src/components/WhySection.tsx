@@ -40,7 +40,7 @@ const WhySection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section ref={ref} className="py-20 bg-background relative overflow-hidden">
+    <section ref={ref} className="py-12 md:py-20 bg-background relative overflow-hidden">
       {/* Background Pattern */}
       <motion.div
         className="absolute inset-0 opacity-[0.02]"
@@ -62,7 +62,7 @@ const WhySection = () => {
 
       <div className="container mx-auto px-4 relative">
         {/* Section Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-10 md:mb-16">
           <motion.span
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -75,7 +75,7 @@ const WhySection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.1 }}
-            className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4"
+            className="font-heading text-2xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4"
           >
             The S-VYASA <span className="text-gradient-saffron">Advantage</span>
           </motion.h2>
@@ -92,7 +92,7 @@ const WhySection = () => {
         </div>
 
         {/* Features Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
           {features.map((feature, index) => (
             <motion.div
               key={feature.title}
@@ -105,7 +105,7 @@ const WhySection = () => {
             >
               <motion.div
                 whileHover={{ scale: 1.02 }}
-                className="group flex gap-5 p-6 rounded-2xl hover:bg-muted/50 transition-all duration-300 cursor-pointer"
+                className="group flex gap-4 p-4 md:p-6 rounded-2xl hover:bg-muted/50 transition-all duration-300 cursor-pointer"
               >
                 {/* Icon */}
                 <motion.div

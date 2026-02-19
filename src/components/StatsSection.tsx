@@ -47,7 +47,7 @@ const StatsSection = () => {
   return (
     <section
       ref={ref}
-      className="relative py-16 overflow-hidden"
+      className="relative py-10 md:py-16 overflow-hidden"
     >
       {/* Animated Gradient Background */}
       <motion.div
@@ -69,20 +69,20 @@ const StatsSection = () => {
               <motion.div
                 whileHover={{ y: -8, scale: 1.02 }}
                 transition={{ type: "spring", stiffness: 300 }}
-                className="bg-card/10 backdrop-blur-sm rounded-2xl p-4 md:p-6 text-center border border-primary-foreground/10 hover:bg-card/20 transition-colors cursor-pointer"
+                className="bg-card/10 backdrop-blur-sm rounded-2xl p-3 md:p-6 text-center border border-primary-foreground/10 hover:bg-card/20 transition-colors cursor-pointer"
               >
                 {/* Icon */}
                 <motion.div
                   initial={{ scale: 0, rotate: -180 }}
                   animate={isInView ? { scale: 1, rotate: 0 } : {}}
                   transition={{ delay: index * 0.15 + 0.3, type: "spring", stiffness: 200 }}
-                  className="inline-flex items-center justify-center w-14 h-14 bg-primary-foreground/10 rounded-full mb-4"
+                  className="inline-flex items-center justify-center w-10 h-10 md:w-14 md:h-14 bg-primary-foreground/10 rounded-full mb-3 md:mb-4"
                 >
-                  <stat.icon className="w-7 h-7 text-primary-foreground" />
+                  <stat.icon className="w-5 h-5 md:w-7 md:h-7 text-primary-foreground" />
                 </motion.div>
 
                 {/* Number */}
-                <h3 className="font-heading text-2xl sm:text-3xl md:text-4xl font-bold text-primary-foreground mb-2">
+                <h3 className="font-heading text-xl sm:text-2xl md:text-4xl font-bold text-primary-foreground mb-1 md:mb-2">
                   <CountUpNumber value={stat.value} suffix={stat.suffix} inView={isInView} />
                 </h3>
 

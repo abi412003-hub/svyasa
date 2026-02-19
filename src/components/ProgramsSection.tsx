@@ -64,7 +64,7 @@ const ProgramsSection = () => {
   };
 
   return (
-    <section ref={ref} className="py-20 bg-muted relative overflow-hidden">
+    <section ref={ref} className="py-12 md:py-20 bg-muted relative overflow-hidden">
       {/* Background Mandala */}
       <motion.div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] opacity-[0.03]"

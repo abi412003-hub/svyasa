@@ -8,7 +8,7 @@ const CTASection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section ref={ref} className="py-20 relative overflow-hidden">
+    <section ref={ref} className="py-14 md:py-20 relative overflow-hidden">
       {/* Animated Gradient Background */}
       <motion.div
         className="absolute inset-0 bg-gradient-to-r from-primary via-saffron-light to-gold"
@@ -79,7 +79,7 @@ const CTASection = () => {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={isInView ? { opacity: 1, scale: 1 } : {}}
             transition={{ delay: 0.1 }}
-            className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-primary-foreground mb-6 text-shadow-lg"
+            className="font-heading text-2xl md:text-4xl lg:text-5xl font-bold text-primary-foreground mb-4 md:mb-6 text-shadow-lg"
           >
             Begin Your Journey of{" "}
             <span className="underline decoration-wavy decoration-primary-foreground/50">
@@ -91,7 +91,7 @@ const CTASection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.2 }}
-            className="text-lg text-primary-foreground/90 mb-10"
+            className="text-base md:text-lg text-primary-foreground/90 mb-8 md:mb-10"
           >
             Join thousands of students who have discovered their purpose 
             through the ancient wisdom of yoga combined with modern education.
@@ -109,7 +109,7 @@ const CTASection = () => {
             >
               <Button
                 size="lg"
-                className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 shadow-large hover:shadow-glow-gold text-lg px-8 group"
+                className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 shadow-large hover:shadow-glow-gold text-base md:text-lg px-6 md:px-8 group"
               >
                 Apply Now
                 <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
@@ -123,7 +123,7 @@ const CTASection = () => {
               <Button
                 size="lg"
                 variant="outline"
-                className="bg-transparent border-2 border-primary-foreground text-primary-foreground hover:bg-primary-foreground/10 text-lg px-8"
+                className="bg-transparent border-2 border-primary-foreground text-primary-foreground hover:bg-primary-foreground/10 text-base md:text-lg px-6 md:px-8"
               >
                 Download Brochure
               </Button>
@@ -135,7 +135,7 @@ const CTASection = () => {
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
             transition={{ delay: 0.5 }}
-            className="flex flex-wrap justify-center gap-6 mt-10 text-primary-foreground/70 text-sm"
+            className="flex flex-col sm:flex-row flex-wrap justify-center gap-2 sm:gap-6 mt-8 md:mt-10 text-primary-foreground/70 text-sm"
           >
             <span>✓ 100% Placement Assistance</span>
             <span>✓ Scholarships Available</span>

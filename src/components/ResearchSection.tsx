@@ -14,7 +14,7 @@ const ResearchSection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section ref={ref} className="py-20 bg-muted relative overflow-hidden">
+    <section ref={ref} className="py-12 md:py-20 bg-muted relative overflow-hidden">
       {/* Particle Network Background */}
       <div className="absolute inset-0 overflow-hidden opacity-20">
         {[...Array(20)].map((_, i) => (
@@ -39,7 +39,7 @@ const ResearchSection = () => {
       </div>
 
       <div className="container mx-auto px-4 relative">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
           {/* Image Side */}
           <motion.div
             initial={{ opacity: 0, x: -100 }}
