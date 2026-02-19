@@ -923,15 +923,22 @@ function ECMemberCard({ member, onClick }: { member: ECMember; onClick: () => vo
       onClick={onClick}
       className="group cursor-pointer bg-white border border-border rounded-2xl overflow-hidden hover:border-[hsl(var(--saffron))]/60 transition-all duration-300 flex flex-col h-full"
     >
-      <div className="relative h-64 overflow-hidden bg-gradient-to-br from-amber-50 to-orange-100 shrink-0">
+      <div className="relative h-64 overflow-hidden shrink-0">
+        {/* Blurred background — same image, covers the full area */}
+        <img
+          src={!member.photo || imgErr ? fallback : member.photo}
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover object-center scale-110 blur-xl brightness-75"
+        />
+        {/* Main image — contained, sharp */}
         <img
           src={!member.photo || imgErr ? fallback : member.photo}
           alt={member.name}
-          className="w-full h-full object-contain object-center group-hover:scale-105 transition-transform duration-500"
+          className="relative z-10 w-full h-full object-contain object-center group-hover:scale-105 transition-transform duration-500"
           onError={() => setImgErr(true)}
           loading="lazy"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+        <div className="absolute inset-0 z-20 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
       </div>
       <div className="p-4 flex-1 flex flex-col">
         <h3 className="font-['Playfair_Display',serif] text-base text-[hsl(var(--navy))] font-bold leading-tight mb-1">
