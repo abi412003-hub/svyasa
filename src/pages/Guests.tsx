@@ -178,26 +178,19 @@ const GuestCard = ({ guest, index }: { guest: GuestEntry; index: number }) => {
     { x: -80, y: 30 }, { x: 80, y: 30 },
   ];
   const entrance = entrances[index % entrances.length];
-  const aspectClass =
-    guest.span === "tall"  ? "aspect-[3/5]"  :
-    guest.span === "wide"  ? "aspect-[16/9]" : "aspect-[4/3]";
-
   return (
     <motion.div ref={ref}
       initial={{ opacity: 0, x: entrance.x, y: entrance.y, scale: 0.88 }}
       animate={isInView ? { opacity: 1, x: 0, y: 0, scale: 1 } : {}}
       transition={{ duration: 0.85, delay: (index % 4) * 0.1, ease: [0.22, 1, 0.36, 1] }}
-      className={`group relative overflow-hidden rounded-2xl shadow-xl cursor-pointer
-        ${guest.span === "wide" ? "col-span-2" : ""}
-        ${guest.span === "tall" ? "row-span-2" : ""}
-      `}
+      className="group relative overflow-hidden rounded-2xl shadow-xl cursor-pointer"
     >
       <motion.div whileHover={{ scale: 1.02 }}
         transition={{ type: "spring", stiffness: 250, damping: 22 }}
         className="w-full h-full">
-        <div className={`relative overflow-hidden ${aspectClass}`}>
+        <div className="relative overflow-hidden">
           <motion.img src={guest.image} alt={guest.caption}
-            className="w-full h-full object-cover"
+            className="w-full h-auto block"
             whileHover={{ scale: 1.1 }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           />
@@ -248,7 +241,7 @@ export default function Guests() {
             <h2 className="text-3xl md:text-4xl font-bold text-foreground">Captured in Time</h2>
           </motion.div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5 auto-rows-auto">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
             {guests.map((guest, i) => (
               <GuestCard key={guest.id} guest={guest} index={i} />
             ))}
