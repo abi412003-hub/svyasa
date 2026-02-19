@@ -3,6 +3,7 @@ import chancellorDayanandaPhoto from "@/assets/chancellor-dayananda-swamy.jpg";
 import ecRamakrishnaPhoto from "@/assets/ec-ramakrishna.jpg";
 import ecJayaramanPhoto from "@/assets/ec-jayaraman.jpg";
 import ecRamachandraBhatPhoto from "@/assets/ec-ramachandra-bhat.png";
+import ecSridharaSwamyPhoto from "@/assets/ec-sridhara-swamy.png";
 import { motion, useInView, AnimatePresence, Variants } from "framer-motion";
 import {
   X, Award, BookOpen, FlaskConical, Star, User, ChevronDown,
@@ -226,6 +227,7 @@ const ecCategories: ECCategory[] = [
         designation: "UGC Nominee",
         description: "University Grants Commission representative providing regulatory guidance and ensuring S-VYASA's compliance with UGC norms, standards, and quality benchmarks for higher education.",
         qualifications: "PhD; Senior UGC Nominee with extensive knowledge of higher education regulation, quality standards, and university governance frameworks",
+        photo: ecSridharaSwamyPhoto,
         gender: "male",
         expertise: "Higher education policy, UGC regulations, quality assurance, institutional compliance",
       },
