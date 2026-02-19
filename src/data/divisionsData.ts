@@ -144,7 +144,8 @@ export const divisionsData: Division[] = [
           { id: "ynm-1316", name: "Dr. Monicaasun M R", designation: "Faculty", qualifications: "BNYS, Ph.D.", expertise: "Naturopathic and Yogic Sciences", photo: "/faculty/ssynm/1316-dr-monicaasun-m-r.jpg" },
           { id: "ynm-1325", name: "Dr. C T Sushmitha", designation: "Faculty", qualifications: "BNYS, Ph.D.", expertise: "Yoga and Naturopathic Medicine", photo: "/faculty/ssynm/1325-dr-ct-sushmitha.jpg" },
           { id: "ynm-1326", name: "Dr. Shishira R", designation: "Faculty", qualifications: "BNYS, Ph.D.", expertise: "Naturopathic and Yogic Sciences", photo: "/faculty/ssynm/1326-dr-shishira-r.jpg" },
-          { id: "ynm-1328", name: "Dr. Pallavi V", designation: "Faculty", qualifications: "BNYS, Ph.D.", expertise: "Yoga and Naturopathic Medicine" },
+          { id: "ynm-1328", name: "Dr. Pallavi V", designation: "Faculty", qualifications: "BNYS, Ph.D.", expertise: "Yoga and Naturopathic Medicine", photo: "/faculty/ssynm/1328-dr-pallavi-v.jpg" },
+          { id: "ynm-1329", name: "Dr. Prajwal Rao K R", designation: "Faculty", qualifications: "BNYS, Ph.D.", expertise: "Naturopathic and Yogic Sciences", photo: "/faculty/ssynm/1329-dr-prajwal-rao-kr.jpg" },
         ],
       },
       {
