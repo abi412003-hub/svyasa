@@ -45,6 +45,7 @@ const CourseHero = ({ course, category }: CourseHeroProps) => {
   }, []);
 
   const shortCampus = course.campusType === "gcc" ? "Global City Campus" : "Prashanti Kutiram";
+  const heroBg = course.bannerImage || getYogaImageForSlug(course.slug);
 
   return (
     <section className="relative h-screen min-h-[600px] overflow-hidden">
