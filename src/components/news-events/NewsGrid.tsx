@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Search, Loader2, ImageOff } from "lucide-react";
 import { useNewsFromStorage, StorageNewsItem } from "@/hooks/useStorageFolderContent";
 
@@ -126,6 +126,55 @@ const NewsGrid = () => {
   );
 };
 
+/** Auto-cycling image slideshow (shared pattern with EventsTimeline) */
+const CardSlideshow = ({ images }: { images: string[] }) => {
+  const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    if (images.length <= 1) return;
+    const id = setInterval(() => {
+      setCurrent((p) => (p + 1) % images.length);
+    }, 2500);
+    return () => clearInterval(id);
+  }, [images.length]);
+
+  if (images.length === 0) {
+    return (
+      <div className="absolute inset-0 flex items-center justify-center">
+        <ImageOff className="w-8 h-8 opacity-20" />
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <AnimatePresence mode="sync">
+        <motion.div
+          key={current}
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url('${images[current]}')` }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.8 }}
+        />
+      </AnimatePresence>
+      {images.length > 1 && (
+        <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1 z-10">
+          {images.map((_, i) => (
+            <div
+              key={i}
+              className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+                i === current ? "bg-white scale-125" : "bg-white/50"
+              }`}
+            />
+          ))}
+        </div>
+      )}
+    </>
+  );
+};
+
 const NewsCard = ({ item, index }: { item: StorageNewsItem; index: number }) => (
   <motion.div
     layout
@@ -135,20 +184,9 @@ const NewsCard = ({ item, index }: { item: StorageNewsItem; index: number }) => 
     transition={{ delay: (index % 12) * 0.06, duration: 0.4 }}
   >
     <div className="group bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 cursor-default">
-      <div className="relative h-48 overflow-hidden bg-muted">
-        {item.images[0] ? (
-          <motion.div
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url('${item.images[0]}')` }}
-            whileHover={{ scale: 1.08 }}
-            transition={{ duration: 0.4 }}
-          />
-        ) : (
-          <div className="absolute inset-0 flex items-center justify-center">
-            <ImageOff className="w-10 h-10 opacity-20" />
-          </div>
-        )}
-        <div className="absolute top-3 right-3 px-3 py-1 bg-primary text-white text-xs font-medium rounded-full">
+      <div className="relative aspect-square overflow-hidden bg-muted">
+        <CardSlideshow images={item.images} />
+        <div className="absolute top-3 right-3 px-2 py-0.5 bg-black/50 text-white text-xs font-medium rounded-full z-10">
           {item.fileCount} photo{item.fileCount !== 1 ? "s" : ""}
         </div>
       </div>
