@@ -3,6 +3,9 @@ import { useState, useMemo, useRef } from "react";
 import { ArrowRight, Calendar } from "lucide-react";
 import { Link } from "react-router-dom";
 import { eventsData, eventCategories, EventItem } from "./newsEventsData";
+import { useStorageImages } from "@/hooks/useStorageImages";
+
+const FALLBACK = "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&q=80";
 
 const EventsTimeline = () => {
   const [activeCategory, setActiveCategory] = useState("all");
@@ -20,16 +23,27 @@ const EventsTimeline = () => {
     return eventsData.filter((e) => e.category === activeCategory);
   }, [activeCategory]);
 
+  // Collect all unique folder paths for events
+  const folderPaths = useMemo(
+    () => [...new Set(eventsData.filter((e) => e.folderSlug).map((e) => `events/${e.folderSlug}`))],
+    []
+  );
+  const { imageMap } = useStorageImages(folderPaths);
+
+  const getImageUrl = (event: EventItem): string | null => {
+    if (!event.hasImage) return null;
+    if (event.folderSlug) {
+      const url = imageMap[`events/${event.folderSlug}`];
+      if (url) return url;
+    }
+    return FALLBACK;
+  };
+
   const isRecent = (dateStr: string) => {
     const eventDate = new Date(dateStr.split(" ").reverse().join(" "));
     const threeMonthsAgo = new Date();
     threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
     return eventDate >= threeMonthsAgo;
-  };
-
-  const getImageUrl = (eventId: number, hasImage: boolean) => {
-    if (!hasImage) return null;
-    return `https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&q=80&sig=event${eventId}`;
   };
 
   const parseDateDisplay = (dateStr: string) => {
@@ -91,7 +105,7 @@ const EventsTimeline = () => {
                 index={index}
                 isLeft={index % 2 === 0}
                 isRecent={isRecent(event.date)}
-                getImageUrl={getImageUrl}
+                imageUrl={getImageUrl(event)}
                 parseDateDisplay={parseDateDisplay}
               />
             ))}
@@ -117,18 +131,17 @@ const EventCard = ({
   index,
   isLeft,
   isRecent,
-  getImageUrl,
+  imageUrl,
   parseDateDisplay,
 }: {
   event: EventItem;
   index: number;
   isLeft: boolean;
   isRecent: boolean;
-  getImageUrl: (id: number, hasImage: boolean) => string | null;
+  imageUrl: string | null;
   parseDateDisplay: (date: string) => { day: string; monthYear: string };
 }) => {
   const dateDisplay = parseDateDisplay(event.date);
-  const imageUrl = getImageUrl(event.id, event.hasImage);
 
   return (
     <motion.div

@@ -3,6 +3,9 @@ import { useState, useMemo } from "react";
 import { ArrowRight, Search, Calendar, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { newsData, NewsItem } from "./newsEventsData";
+import { useStorageImages } from "@/hooks/useStorageImages";
+
+const FALLBACK = "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=600&q=80";
 
 const NewsGrid = () => {
   const [visibleCount, setVisibleCount] = useState(12);
@@ -27,15 +30,26 @@ const NewsGrid = () => {
   const featuredNews = filteredNews.find((n) => n.featured);
   const regularNews = visibleNews.filter((n) => !n.featured);
 
+  // Collect all unique folder paths for news items
+  const folderPaths = useMemo(
+    () => [...new Set(newsData.filter((n) => n.folderSlug).map((n) => `news/${n.folderSlug}`))],
+    []
+  );
+  const { imageMap } = useStorageImages(folderPaths);
+
+  const getImageUrl = (news: NewsItem) => {
+    if (news.folderSlug) {
+      const url = imageMap[`news/${news.folderSlug}`];
+      if (url) return url;
+    }
+    return FALLBACK;
+  };
+
   const handleLoadMore = async () => {
     setIsLoading(true);
     await new Promise((resolve) => setTimeout(resolve, 500));
     setVisibleCount((prev) => prev + 12);
     setIsLoading(false);
-  };
-
-  const getImageUrl = (newsId: number) => {
-    return `https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=600&q=80&sig=${newsId}`;
   };
 
   return (
@@ -84,7 +98,7 @@ const NewsGrid = () => {
             <div className="relative h-[300px] md:h-[400px] rounded-2xl overflow-hidden shadow-xl">
               <motion.div
                 className="absolute inset-0 bg-cover bg-center"
-                style={{ backgroundImage: `url('${getImageUrl(featuredNews.id)}')` }}
+                style={{ backgroundImage: `url('${getImageUrl(featuredNews)}')` }}
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.4 }}
               />
@@ -114,7 +128,7 @@ const NewsGrid = () => {
       <motion.div layout className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         <AnimatePresence mode="popLayout">
           {regularNews.map((news, index) => (
-            <NewsCard key={news.id} news={news} index={index} getImageUrl={getImageUrl} />
+            <NewsCard key={news.id} news={news} index={index} imageUrl={getImageUrl(news)} />
           ))}
         </AnimatePresence>
       </motion.div>
@@ -161,11 +175,11 @@ const NewsGrid = () => {
 const NewsCard = ({
   news,
   index,
-  getImageUrl,
+  imageUrl,
 }: {
   news: NewsItem;
   index: number;
-  getImageUrl: (id: number) => string;
+  imageUrl: string;
 }) => {
   return (
     <motion.div
@@ -183,7 +197,7 @@ const NewsCard = ({
         <div className="relative h-48 overflow-hidden">
           <motion.div
             className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url('${getImageUrl(news.id)}')` }}
+            style={{ backgroundImage: `url('${imageUrl}')` }}
             whileHover={{ scale: 1.08 }}
             transition={{ duration: 0.4 }}
           />
