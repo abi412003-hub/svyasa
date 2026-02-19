@@ -77,39 +77,50 @@ const Organogram = () => {
   return (
     <Layout>
       {/* Hero */}
-      <section className="relative py-24 md:py-32 bg-gradient-to-br from-primary via-primary/90 to-accent overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          {[...Array(6)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute rounded-full border border-primary-foreground/20"
-              style={{
-                width: 200 + i * 120,
-                height: 200 + i * 120,
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-              }}
-              animate={{ rotate: 360 }}
-              transition={{ duration: 30 + i * 10, repeat: Infinity, ease: "linear" }}
-            />
-          ))}
-        </div>
-        <div className="container mx-auto px-4 relative text-center">
+      <section className="relative h-[70vh] min-h-[500px] overflow-hidden">
+        {/* Background Image */}
+        <motion.img
+          src="https://spkbypslhjqvnvnujpwd.supabase.co/storage/v1/object/public/site-images/city-campus/campus/1771447208564-dglvlnveuq.jpg"
+          alt="S-VYASA Campus"
+          className="absolute inset-0 w-full h-full object-cover"
+          initial={{ scale: 1 }}
+          animate={{ scale: 1.06 }}
+          transition={{ duration: 14, ease: "linear" }}
+        />
+        {/* Dark gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/50 to-transparent" />
+        {/* Content */}
+        <div className="absolute inset-0 flex items-center justify-center">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            className="text-center px-4"
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
           >
-            <span className="inline-block px-4 py-1.5 bg-gold/20 backdrop-blur-sm text-gold-light text-sm font-medium rounded-full border border-gold/30 mb-6">
+            <motion.span
+              className="inline-block px-4 py-1.5 bg-gold/20 backdrop-blur-sm text-gold-light text-sm font-medium rounded-full border border-gold/30 mb-6"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+            >
               University Structure
-            </span>
-            <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-4">
+            </motion.span>
+            <motion.h1
+              className="font-heading text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+            >
               Organogram
-            </h1>
-            <p className="text-primary-foreground/80 text-lg md:text-xl max-w-2xl mx-auto">
+            </motion.h1>
+            <motion.p
+              className="text-white/80 text-lg md:text-xl max-w-2xl mx-auto"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.8 }}
+            >
               The academic and administrative structure of S-VYASA Deemed to be University
-            </p>
+            </motion.p>
           </motion.div>
         </div>
       </section>
