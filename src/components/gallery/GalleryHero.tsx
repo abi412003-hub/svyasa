@@ -26,30 +26,6 @@ const GalleryHero = () => {
       <div className="absolute inset-0 bg-navy/50" />
       <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/35 to-navy/40" />
 
-      {/* Golden bokeh */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(25)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-2 h-2 rounded-full bg-gold/40"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [0, -30, 0],
-              opacity: [0.3, 0.8, 0.3],
-              scale: [1, 1.5, 1],
-            }}
-            transition={{
-              duration: 3 + Math.random() * 2,
-              repeat: Infinity,
-              delay: Math.random() * 2,
-            }}
-          />
-        ))}
-      </div>
-
       <div className="absolute inset-0 flex items-center justify-center">
         <div className="container mx-auto px-4 text-center">
           <motion.h1
