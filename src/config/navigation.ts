@@ -421,15 +421,18 @@ export const navItems: NavItem[] = [
   {
     label: "Important Links",
     links: [
+      { label: "Events", href: "/news-events" },
       { label: "Gallery", href: "/gallery" },
       { label: "Careers", href: "/career" },
       { label: "Library", href: "/library" },
       { label: "Exam", href: "/exams" },
       { label: "IQAC", href: "/iqac" },
+      { label: "International Affairs", href: "/directorate-of-international-affairs" },
       { label: "Edtech Partners", href: "/edtech-partners" },
       { label: "Mandatory Disclosure", href: "/mandatory-disclosure" },
       { label: "IIC", href: "/iic" },
       { label: "AIU", href: "/aiu" },
+      { label: "Training Programs", href: "/training" },
     ],
   },
   { label: "Admission", href: "/admissions" },
