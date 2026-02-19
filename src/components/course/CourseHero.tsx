@@ -58,7 +58,7 @@ const CourseHero = ({ course, category }: CourseHeroProps) => {
       >
         <div
           className="absolute inset-0 bg-cover bg-center scale-110"
-          style={{ backgroundImage: `url(${course.bannerImage})` }}
+          style={{ backgroundImage: `url(${heroBg})` }}
         />
       </motion.div>
 
