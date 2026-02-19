@@ -45,6 +45,7 @@ const divisions = [
     color: "from-primary to-primary/80",
     schools: [
       { name: "School of Performing Arts" },
+      { name: "School of Sports Sciences" },
     ],
   },
   {
