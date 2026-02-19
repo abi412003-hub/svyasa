@@ -1212,21 +1212,6 @@ export default function Administration() {
       <div className="py-16 max-w-7xl mx-auto px-6 lg:px-10 space-y-20">
         {/* EC Categories section first */}
         <ECCategoriesSection onSelect={setSelected} />
-        <div className="border-t border-dashed border-border" />
-        {sections.filter(sec => sec.id !== "ec").map((sec, i, arr) => (
-          <React.Fragment key={sec.id}>
-            <SectionBlock
-              sectionId={sec.id}
-              label={`Section 0${i + 2}`}
-              title={sec.title}
-              icon={sec.icon}
-              description={sec.description}
-              onSelect={setSelected}
-              featured={false}
-            />
-            {i < arr.length - 1 && <div className="border-t border-dashed border-border" />}
-          </React.Fragment>
-        ))}
       </div>
 
       {/* ── CTA ── */}
