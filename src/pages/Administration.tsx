@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import chancellorDayanandaPhoto from "@/assets/chancellor-dayananda-swamy.jpg";
 import { motion, useInView, AnimatePresence, Variants } from "framer-motion";
 import {
   X, Award, BookOpen, FlaskConical, Star, User, ChevronDown,
@@ -240,6 +241,7 @@ const ecCategories: ECCategory[] = [
         designation: "Chancellor",
         description: "Chancellor of S-VYASA Deemed to be University, providing visionary leadership and spiritual guidance to the institution, upholding the legacy of Swami Vivekananda's teachings.",
         qualifications: "PhD; Chancellor, S-VYASA Deemed to be University; Spiritual leader and academic visionary",
+        photo: chancellorDayanandaPhoto,
         gender: "male",
         achievements: [
           "Chancellor, S-VYASA Deemed to be University",
