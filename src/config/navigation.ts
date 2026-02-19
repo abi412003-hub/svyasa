@@ -28,12 +28,14 @@ export interface DivisionCourse {
 
 export interface DivisionSchool {
   name: string;
+  href?: string;
   italic?: boolean; // For info text on the school itself
   courses: DivisionCourse[];
 }
 
 export interface Division {
   name: string;
+  href?: string;
   icon?: string; // e.g. "laptop", "flask"
   schools?: DivisionSchool[];
   courses?: DivisionCourse[]; // For divisions without schools (CODE, ANVESANA)
@@ -264,9 +266,11 @@ export const navItems: NavItem[] = [
     divisions: [
       {
         name: "Division of Yoga & Spirituality",
+        href: "/divisions/yoga-spirituality",
         schools: [
           {
             name: "School of Yogic Sciences",
+            href: "/divisions/yoga-spirituality/schools/school-of-yogic-sciences",
             courses: [
               { label: "YIC", href: "/courses/yoga-instructor-course" },
               { label: "SMET", href: "/courses/self-management-excessive-tension" },
@@ -275,18 +279,21 @@ export const navItems: NavItem[] = [
           },
           {
             name: "VMAC",
+            href: "/divisions/yoga-spirituality/schools/vmac",
             italic: true,
             courses: [
-              { label: "Research center for Vedic technology", href: "#", italic: true },
+              { label: "Research center for Vedic technology", href: "/divisions/yoga-spirituality/schools/vmac", italic: true },
             ],
           },
         ],
       },
       {
         name: "Division of Yoga & Life Sciences",
+        href: "/divisions/yoga-life-sciences",
         schools: [
           {
             name: "School of Yoga & Naturopathic Medicine",
+            href: "/divisions/yoga-life-sciences/schools/school-of-yoga-and-naturopathic-medicine",
             courses: [
               { label: "B.Sc. Yoga", href: "/courses/bsc-yoga-vedic-therapy" },
               { label: "M.Sc. Yoga", href: "/courses/msc-yoga-therapy" },
@@ -299,12 +306,14 @@ export const navItems: NavItem[] = [
           },
           {
             name: "School of Physiotherapy",
+            href: "/divisions/yoga-life-sciences/schools/school-of-physiotherapy",
             courses: [
               { label: "BPT", href: "/courses/bachelor-of-physiotherapy" },
             ],
           },
           {
             name: "School of Allied & Healthcare Professions",
+            href: "/divisions/yoga-life-sciences/schools/school-of-allied-and-healthcare",
             courses: [
               { label: "BOT", href: "/courses/bachelor-of-occupational-therapy" },
               { label: "B.Sc. Clinical Psychology", href: "/courses/bsc-clinical-psychology" },
@@ -314,15 +323,18 @@ export const navItems: NavItem[] = [
       },
       {
         name: "Division of Yoga & Physical Sciences",
+        href: "/divisions/yoga-physical-sciences",
         schools: [
           {
             name: "School of Engineering",
+            href: "/divisions/yoga-physical-sciences/schools/school-of-engineering",
             courses: [
               { label: "B.Tech", href: "/programs/btech" },
             ],
           },
           {
             name: "School of Computer Sciences",
+            href: "/divisions/yoga-physical-sciences/schools/school-of-computer-sciences",
             courses: [
               { label: "BCA", href: "/programs/bca" },
               { label: "B.Sc. Computer Science", href: "/programs/bsc" },
@@ -334,9 +346,11 @@ export const navItems: NavItem[] = [
       },
       {
         name: "Division of Yoga & Management Studies",
+        href: "/divisions/yoga-management-studies",
         schools: [
           {
             name: "School of Commerce & Management",
+            href: "/divisions/yoga-management-studies/schools/school-of-commerce-and-management",
             courses: [
               { label: "BBA", href: "/programs/bba" },
               { label: "B.Com", href: "/programs/bcom" },
@@ -347,16 +361,19 @@ export const navItems: NavItem[] = [
       },
       {
         name: "Division of Yoga & Humanities",
+        href: "/divisions/yoga-humanities",
         schools: [
           {
             name: "School of Performing Arts",
+            href: "/divisions/yoga-humanities/schools/school-of-performing-arts",
             italic: true,
             courses: [
-              { label: "Programs coming soon", href: "#", italic: true },
+              { label: "Programs coming soon", href: "/divisions/yoga-humanities/schools/school-of-performing-arts", italic: true },
             ],
           },
           {
             name: "Psychology & Humanities",
+            href: "/divisions/yoga-humanities/schools/school-of-sports-sciences",
             courses: [
               { label: "M.Sc. Psychology", href: "/courses/msc-clinical-psychology" },
               { label: "Ph.D English", href: "/courses/phd-english" },
@@ -366,17 +383,23 @@ export const navItems: NavItem[] = [
       },
       {
         name: "CODE — Online & Distance Education",
+        href: "/divisions/code",
         icon: "laptop",
         courses: [
           { label: "Distance Learning Portal", href: "https://svyasadde.com/", external: true },
+          { label: "Distance Learning", href: "/divisions/code/schools/distance-learning" },
+          { label: "Online Courses", href: "/divisions/code/schools/online-courses" },
+          { label: "Short Programmes", href: "/divisions/code/schools/short-programmes" },
         ],
       },
       {
         name: "ANVESANA — Research Laboratories",
+        href: "/divisions/anvesana",
         icon: "flask",
         courses: [
           { label: "Research at S-VYASA", href: "/research" },
           { label: "Research Publications", href: "/research/publications" },
+          { label: "CARIM", href: "/divisions/anvesana/schools/carim" },
         ],
       },
     ],

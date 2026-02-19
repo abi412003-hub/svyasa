@@ -171,7 +171,11 @@ const DivisionsMegaMenu = ({
                       }`}
                     >
                       {div.icon && <DivisionIcon icon={div.icon} />}
-                      <span className="text-xs font-medium leading-tight flex-1">{div.name}</span>
+                      {div.href ? (
+                        <Link to={div.href} className="text-xs font-medium leading-tight flex-1 hover:text-primary" onClick={onLinkClick}>{div.name}</Link>
+                      ) : (
+                        <span className="text-xs font-medium leading-tight flex-1">{div.name}</span>
+                      )}
                       {(div.schools || div.courses) && (
                         <ChevronRight className={`w-3 h-3 flex-shrink-0 transition-transform duration-200 ${
                           activeDivision === div.name ? "translate-x-0.5 text-primary" : "text-muted-foreground"
@@ -214,9 +218,19 @@ const DivisionsMegaMenu = ({
                                   : "text-foreground hover:bg-muted/50"
                               }`}
                             >
-                              <span className={`text-xs leading-tight flex-1 ${school.italic ? "italic text-muted-foreground" : "font-medium"}`}>
-                                {school.name}
-                              </span>
+                              {school.href ? (
+                                <Link
+                                  to={school.href}
+                                  className={`text-xs leading-tight flex-1 hover:text-primary ${school.italic ? "italic text-muted-foreground" : "font-medium"}`}
+                                  onClick={onLinkClick}
+                                >
+                                  {school.name}
+                                </Link>
+                              ) : (
+                                <span className={`text-xs leading-tight flex-1 ${school.italic ? "italic text-muted-foreground" : "font-medium"}`}>
+                                  {school.name}
+                                </span>
+                              )}
                               <ChevronRight className={`w-3 h-3 flex-shrink-0 transition-transform duration-200 ${
                                 activeSchool === school.name ? "translate-x-0.5 text-primary" : "text-muted-foreground"
                               }`} />
