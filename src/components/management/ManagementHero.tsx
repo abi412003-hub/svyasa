@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import campusImage from "@/assets/campus-3.jpg";
+import ecMembersGroupImage from "@/assets/ec-members-group.jpg";
 
 const BokehParticle = ({ delay, size, left }: { delay: number; size: number; left: string }) => (
   <motion.div
@@ -22,8 +22,8 @@ const ManagementHero = () => {
     <section ref={containerRef} className="relative h-[70vh] min-h-[500px] overflow-hidden">
       <motion.div className="absolute inset-0" style={{ scale: imageScale }}>
         <motion.img
-          src={campusImage}
-          alt="S-VYASA Campus"
+          src={ecMembersGroupImage}
+          alt="S-VYASA Executive Council Members"
           className="w-full h-full object-cover"
           initial={{ scale: 1 }}
           animate={{ scale: 1.08 }}
