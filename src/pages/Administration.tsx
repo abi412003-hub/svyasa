@@ -1079,157 +1079,266 @@ function ECCategoriesSection({ onSelect }: { onSelect: (m: ECMember) => void }) 
   );
 }
 
-function OrgNode({ title, subtitle, level = "mid", onClick }: {
-  title: string; subtitle?: string; level?: "top" | "mid" | "leaf"; onClick?: () => void;
-}) {
-  const styles = {
-    top: "bg-[hsl(var(--navy))] text-white border-[hsl(var(--navy))]",
-    mid: "bg-[hsl(var(--saffron))]/10 text-[hsl(var(--navy))] border-[hsl(var(--saffron))]/50",
-    leaf: "bg-white text-[hsl(var(--navy))] border-[hsl(var(--teal))]/40 border-l-4 border-l-[hsl(var(--teal))]",
-  }[level];
-
-  return (
-    <motion.div
-      whileHover={{ scale: 1.04, boxShadow: "0 8px 24px -4px hsla(35,92%,33%,0.2)" }}
-      onClick={onClick}
-      className={`relative rounded-xl border px-4 py-3 text-center shadow-sm cursor-default transition-all duration-200 ${styles} ${onClick ? "cursor-pointer" : ""}`}
-    >
-      <p className={`font-semibold text-sm leading-tight ${level === "top" ? "text-white" : "text-[hsl(var(--navy))]"}`}>{title}</p>
-      {subtitle && <p className={`text-[11px] mt-0.5 ${level === "top" ? "text-white/70" : "text-[hsl(var(--muted-foreground))]"}`}>{subtitle}</p>}
-    </motion.div>
-  );
-}
-
-function OrgLine({ dir = "v" }: { dir?: "v" | "h" }) {
-  return dir === "v"
-    ? <div className="mx-auto w-[2px] h-6 bg-[hsl(var(--saffron))]/40" />
-    : <div className="w-full h-[2px] bg-[hsl(var(--saffron))]/40 my-0" />;
-}
+const orgDivisions = [
+  {
+    name: "Division of Yoga Spirituality",
+    icon: "🕉️",
+    color: "from-amber-500 to-orange-500",
+    textColor: "text-amber-700",
+    bg: "bg-amber-50",
+    border: "border-amber-200",
+    schools: ["School of Yogic Sciences", "Varahamihira Advanced Center for Vedic Technology (VMAC)"],
+  },
+  {
+    name: "Division of Yoga & Life Sciences",
+    icon: "🌿",
+    color: "from-emerald-500 to-teal-600",
+    textColor: "text-emerald-700",
+    bg: "bg-emerald-50",
+    border: "border-emerald-200",
+    schools: ["School of Yoga & Naturopathic Medicine", "School of Physiotherapy", "School of Allied & Healthcare"],
+  },
+  {
+    name: "Division of Yoga & Physical Sciences",
+    icon: "⚙️",
+    color: "from-blue-500 to-indigo-600",
+    textColor: "text-blue-700",
+    bg: "bg-blue-50",
+    border: "border-blue-200",
+    schools: ["School of Engineering", "School of Computer Sciences"],
+  },
+  {
+    name: "Division of Yoga & Management",
+    icon: "📊",
+    color: "from-violet-500 to-purple-600",
+    textColor: "text-violet-700",
+    bg: "bg-violet-50",
+    border: "border-violet-200",
+    schools: ["School of Commerce & Management"],
+  },
+  {
+    name: "Division of Yoga & Humanities",
+    icon: "🎭",
+    color: "from-rose-500 to-pink-600",
+    textColor: "text-rose-700",
+    bg: "bg-rose-50",
+    border: "border-rose-200",
+    schools: ["School of Performing Arts"],
+  },
+  {
+    name: "CODE – Online & Distance Education",
+    icon: "🌐",
+    color: "from-cyan-500 to-sky-600",
+    textColor: "text-cyan-700",
+    bg: "bg-cyan-50",
+    border: "border-cyan-200",
+    schools: [],
+  },
+  {
+    name: "ANVESANA – Research Laboratories",
+    icon: "🔬",
+    color: "from-slate-600 to-gray-700",
+    textColor: "text-slate-700",
+    bg: "bg-slate-50",
+    border: "border-slate-200",
+    schools: ["Centre for Advanced Research in Integrative Medicine"],
+  },
+];
 
 function Organogram() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
 
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 40 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.7 }}
-      className="overflow-x-auto pb-6"
-    >
-      <div className="min-w-[700px] space-y-0">
-        {/* Row 1: EC */}
-        <div className="flex justify-center">
-          <div className="w-56"><OrgNode title="Executive Council (EC)" level="top" /></div>
-        </div>
-        <OrgLine />
-        {/* Row 2: Chancellor + side bodies */}
-        <div className="grid grid-cols-5 gap-3 items-start">
-          <div className="space-y-2">
-            <OrgNode title="Academic Council" level="leaf" />
-            <OrgNode title="Finance Committee" level="leaf" />
-          </div>
-          <div className="flex justify-center items-center h-full">
-            <OrgLine dir="h" />
-          </div>
-          <div>
-            <OrgNode title="Chancellor" subtitle="Dr. H R Dayananda Swamy" level="top" />
-          </div>
-          <div className="flex justify-center items-center h-full">
-            <OrgLine dir="h" />
-          </div>
-          <div className="space-y-2">
-            <OrgNode title="IQAC" level="leaf" />
-          </div>
-        </div>
-        <OrgLine />
-        {/* Row 3: VC */}
-        <div className="flex justify-center">
-          <div className="w-56"><OrgNode title="Vice Chancellor" subtitle="Dr. N. K. Manjunath" level="top" /></div>
-        </div>
-        <OrgLine />
-        {/* Row 4: Pro-VC + CFO */}
-        <div className="flex justify-center gap-6">
-          <div className="w-52"><OrgNode title="Pro-Vice Chancellor" subtitle="Prof. M. K. Shridhar" level="mid" /></div>
-          <div className="w-52"><OrgNode title="Chief Finance Officer" subtitle="Dr. H. R. Dayananda" level="mid" /></div>
-        </div>
-        <OrgLine />
-        {/* Row 5: Registrar + COE */}
-        <div className="flex justify-center gap-6">
-          <div className="w-52"><OrgNode title="Registrar" level="mid" /></div>
-          <div className="w-52"><OrgNode title="Controller of Examinations" level="mid" /></div>
-        </div>
-        <OrgLine />
-        {/* Row 6: Deans etc */}
-        <div className="flex justify-center gap-3 flex-wrap">
-          {["Deans", "Deputy Registrar", "Administrative Officer", "Liaison Officer"].map((t) => (
-            <div key={t} className="w-44"><OrgNode title={t} level="leaf" /></div>
-          ))}
-        </div>
-        <OrgLine />
-        {/* Row 7: Bottom nodes */}
-        <div className="flex justify-center gap-3 flex-wrap">
-          {["Principal of Schools", "Directors of Centres", "Girls & Boys Hostels", "Human Resource Dept", "Campus Maintenance"].map((t) => (
-            <div key={t} className="w-44"><OrgNode title={t} level="leaf" /></div>
-          ))}
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
-// ─── COLLAPSIBLE SECTION WRAPPER ───────────────────────────────────────────────
-function CollapsibleSection({
-  title, subtitle, label, defaultOpen = true, children,
-}: {
-  title: string; subtitle?: string; label?: string; defaultOpen?: boolean; children: React.ReactNode;
-}) {
-  const [open, setOpen] = useState(defaultOpen);
-  return (
-    <div>
-      <button
-        onClick={() => setOpen((v) => !v)}
-        className="w-full flex items-center justify-between gap-4 group mb-0"
-        aria-expanded={open}
-      >
-        <div className="flex flex-col items-start">
-          {label && (
-            <div className="flex items-center gap-3 mb-1">
-              <div className="w-8 h-[3px] bg-[hsl(var(--saffron))]" />
-              <span className="text-[hsl(var(--teal))] text-xs font-bold uppercase tracking-widest">{label}</span>
+    <div ref={ref} className="overflow-x-auto">
+      {/* Root node */}
+      <div className="flex flex-col items-center mb-2">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.85 }}
+          animate={inView ? { opacity: 1, scale: 1 } : {}}
+          transition={{ duration: 0.6 }}
+          className="relative"
+        >
+          <div className="flex items-center gap-4 px-10 py-5 bg-gradient-to-r from-[hsl(var(--navy))] to-[hsl(var(--teal))] rounded-2xl shadow-2xl shadow-navy/30 text-white">
+            <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-2xl">
+              🏛️
             </div>
-          )}
-          <h2 className="font-['Playfair_Display',serif] text-2xl md:text-3xl text-[hsl(var(--navy))] font-bold text-left">
-            {title}
-          </h2>
-          {subtitle && (
-            <p className="text-[hsl(var(--muted-foreground))] text-sm max-w-xl text-left mt-1">{subtitle}</p>
-          )}
-        </div>
-        <div className={`shrink-0 w-10 h-10 rounded-xl bg-[hsl(var(--cream))] border border-border flex items-center justify-center transition-all duration-300 group-hover:bg-[hsl(var(--saffron))]/10 group-hover:border-[hsl(var(--saffron))]/40 ${open ? "rotate-180" : ""}`}>
-          <ChevronDown size={18} className="text-[hsl(var(--navy))]" />
-        </div>
-      </button>
-      <AnimatePresence initial={false}>
-        {open && (
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/60 mb-0.5">Deemed to be University</p>
+              <h3 className="font-heading text-xl md:text-2xl font-bold tracking-wide">S-VYASA University</h3>
+            </div>
+          </div>
+          {/* Glow */}
+          <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-navy/20 to-teal/20 blur-xl -z-10" />
+        </motion.div>
+
+        {/* Connector down */}
+        <motion.div
+          initial={{ scaleY: 0 }}
+          animate={inView ? { scaleY: 1 } : {}}
+          transition={{ duration: 0.4, delay: 0.5 }}
+          style={{ transformOrigin: "top" }}
+          className="w-0.5 h-10 bg-gradient-to-b from-[hsl(var(--teal))] to-[hsl(var(--saffron))]/50"
+        />
+      </div>
+
+      {/* Second tier — leadership row */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.5, delay: 0.6 }}
+        className="flex flex-wrap justify-center gap-4 mb-2"
+      >
+        {[
+          { title: "Chancellor", sub: "Dr. H R Dayananda Swamy", color: "from-amber-600 to-orange-500" },
+          { title: "Vice Chancellor", sub: "Dr. Manjunath N. K", color: "from-[hsl(var(--navy))] to-[hsl(var(--teal))]" },
+          { title: "Pro-Chancellor", sub: "Dr. B. R. Ramakrishna", color: "from-slate-600 to-slate-500" },
+        ].map((node, i) => (
           <motion.div
-            key="content"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="overflow-hidden"
+            key={node.title}
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.4, delay: 0.7 + i * 0.1 }}
+            className={`px-6 py-3.5 bg-gradient-to-br ${node.color} rounded-xl text-white text-center shadow-lg min-w-[180px]`}
           >
-            <div className="pt-6">{children}</div>
+            <p className="text-xs font-semibold uppercase tracking-widest text-white/70 mb-0.5">{node.title}</p>
+            <p className="font-heading font-bold text-sm leading-tight">{node.sub}</p>
           </motion.div>
-        )}
-      </AnimatePresence>
+        ))}
+      </motion.div>
+
+      {/* Connector */}
+      <div className="flex flex-col items-center mb-2">
+        <motion.div
+          initial={{ scaleY: 0 }}
+          animate={inView ? { scaleY: 1 } : {}}
+          transition={{ duration: 0.4, delay: 1 }}
+          style={{ transformOrigin: "top" }}
+          className="w-0.5 h-10 bg-gradient-to-b from-[hsl(var(--saffron))]/50 to-[hsl(var(--saffron))]"
+        />
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.3, delay: 1.1 }}
+          className="px-5 py-2 bg-gradient-to-r from-[hsl(var(--saffron))] to-amber-400 rounded-full text-white text-xs font-bold uppercase tracking-[0.15em] shadow-md"
+        >
+          Academic Divisions
+        </motion.div>
+        <motion.div
+          initial={{ scaleY: 0 }}
+          animate={inView ? { scaleY: 1 } : {}}
+          transition={{ duration: 0.4, delay: 1.2 }}
+          style={{ transformOrigin: "top" }}
+          className="w-0.5 h-8 bg-gradient-to-b from-amber-400 to-amber-200"
+        />
+      </div>
+
+      {/* Division cards grid */}
+      <motion.div
+        initial="hidden"
+        animate={inView ? "visible" : "hidden"}
+        variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.08, delayChildren: 1.3 } } }}
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 max-w-6xl mx-auto px-2"
+      >
+        {orgDivisions.map((div) => (
+          <motion.div
+            key={div.name}
+            variants={{ hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0, transition: { duration: 0.45 } } }}
+            whileHover={{ y: -4, transition: { duration: 0.2 } }}
+            className={`rounded-2xl border ${div.border} ${div.bg} overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300`}
+          >
+            {/* Division header */}
+            <div className={`bg-gradient-to-r ${div.color} p-4 flex items-center gap-3`}>
+              <span className="text-2xl">{div.icon}</span>
+              <p className="font-heading font-bold text-white text-sm leading-tight">{div.name}</p>
+            </div>
+            {/* Schools */}
+            {div.schools.length > 0 ? (
+              <ul className="p-4 space-y-2">
+                {div.schools.map((s) => (
+                  <li key={s} className="flex items-start gap-2">
+                    <span className={`mt-1 w-1.5 h-1.5 rounded-full flex-shrink-0 bg-gradient-to-br ${div.color}`} />
+                    <span className={`text-xs font-medium ${div.textColor} leading-snug`}>{s}</span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <div className="p-4">
+                <p className={`text-xs italic ${div.textColor} opacity-70`}>Autonomous centre</p>
+              </div>
+            )}
+          </motion.div>
+        ))}
+      </motion.div>
+
+      {/* Bottom admin strip */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.5, delay: 1.9 }}
+        className="mt-10 flex flex-wrap justify-center gap-3"
+      >
+        {["Registrar", "Deputy Registrar", "Finance & Accounts", "Dean of Academics", "Pro-Vice Chancellor"].map((role) => (
+          <div
+            key={role}
+            className="px-4 py-2 bg-white border border-border rounded-full text-xs font-semibold text-foreground/70 shadow-sm"
+          >
+            {role}
+          </div>
+        ))}
+      </motion.div>
     </div>
   );
 }
 
-// ─── PAGE ──────────────────────────────────────────────────────────────────────
+// ─── COLLAPSIBLE SECTION ──────────────────────────────────────────────────────
+function CollapsibleSection({
+  label, title, subtitle, children, defaultOpen = false,
+}: {
+  label: string; title: string; subtitle?: string; children: React.ReactNode; defaultOpen?: boolean;
+}) {
+  const [open, setOpen] = useState(defaultOpen);
+  const csRef = useRef<HTMLDivElement>(null);
+  const csInView = useInView(csRef, { once: true, margin: "-60px" });
+  return (
+    <motion.div
+      ref={csRef}
+      initial={{ opacity: 0, y: 30 }}
+      animate={csInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6 }}
+      className="border border-border rounded-2xl overflow-hidden bg-card shadow-sm"
+    >
+      <button
+        onClick={() => setOpen((v) => !v)}
+        className="w-full flex items-center justify-between gap-4 px-6 py-5 hover:bg-muted/40 transition-colors"
+      >
+        <div className="text-left">
+          <span className="text-[hsl(var(--teal))] text-xs font-bold uppercase tracking-widest">{label}</span>
+          <h3 className="font-heading text-xl font-bold text-foreground mt-0.5">{title}</h3>
+          {subtitle && <p className="text-muted-foreground text-sm mt-0.5">{subtitle}</p>}
+        </div>
+        <motion.div animate={{ rotate: open ? 180 : 0 }} transition={{ duration: 0.3 }}>
+          <ChevronDown className="w-5 h-5 text-muted-foreground" />
+        </motion.div>
+      </button>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
+            className="overflow-hidden"
+          >
+            <div className="px-6 pb-6">{children}</div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+}
+
+// ─── MAIN PAGE ────────────────────────────────────────────────────────────────
 export default function Administration() {
   const [selected, setSelected] = useState<AnyMember | null>(null);
 
