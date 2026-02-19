@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useMemo } from "react";
-import { ArrowRight, Search, Loader2, ImageOff } from "lucide-react";
+import { Search, Loader2, ImageOff } from "lucide-react";
 import { useNewsFromStorage, StorageNewsItem } from "@/hooks/useStorageFolderContent";
 
 const NewsGrid = () => {
@@ -68,10 +68,10 @@ const NewsGrid = () => {
       {featured && (
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} className="relative group">
           <div className="relative h-[300px] md:h-[400px] rounded-2xl overflow-hidden shadow-xl">
-            {featured.coverUrl ? (
+            {featured.images[0] ? (
               <motion.div
                 className="absolute inset-0 bg-cover bg-center"
-                style={{ backgroundImage: `url('${featured.coverUrl}')` }}
+                style={{ backgroundImage: `url('${featured.images[0]}')` }}
                 whileHover={{ scale: 1.04 }}
                 transition={{ duration: 0.4 }}
               />
@@ -85,7 +85,7 @@ const NewsGrid = () => {
               </span>
               <h2 className="text-2xl md:text-4xl font-display text-white mb-4">{featured.title}</h2>
               <span className="inline-flex items-center gap-2 text-gold font-medium">
-                {featured.fileCount} photo{featured.fileCount !== 1 ? "s" : ""} <ArrowRight className="w-5 h-5" />
+                {featured.fileCount} photo{featured.fileCount !== 1 ? "s" : ""}
               </span>
             </div>
           </div>
@@ -136,10 +136,10 @@ const NewsCard = ({ item, index }: { item: StorageNewsItem; index: number }) => 
   >
     <div className="group bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 cursor-default">
       <div className="relative h-48 overflow-hidden bg-muted">
-        {item.coverUrl ? (
+        {item.images[0] ? (
           <motion.div
             className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url('${item.coverUrl}')` }}
+            style={{ backgroundImage: `url('${item.images[0]}')` }}
             whileHover={{ scale: 1.08 }}
             transition={{ duration: 0.4 }}
           />
@@ -153,12 +153,9 @@ const NewsCard = ({ item, index }: { item: StorageNewsItem; index: number }) => 
         </div>
       </div>
       <div className="p-5">
-        <h3 className="font-semibold text-navy line-clamp-2 mb-2 group-hover:text-primary transition-colors">
+        <h3 className="font-semibold text-navy line-clamp-2 group-hover:text-primary transition-colors">
           {item.title}
         </h3>
-        <span className="inline-flex items-center gap-2 text-primary text-sm font-medium">
-          View Gallery <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-        </span>
       </div>
     </div>
   </motion.div>
