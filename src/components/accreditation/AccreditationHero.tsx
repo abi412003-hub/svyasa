@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import campusImage from "@/assets/campus-1.jpg";
+import campusImage from "@/assets/accreditation-hero.jpg";
 
 // Floating bokeh particle component
 const BokehParticle = ({ delay, size, left }: { delay: number; size: number; left: string }) => (
