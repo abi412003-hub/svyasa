@@ -236,7 +236,7 @@ const ecCategories: ECCategory[] = [
       },
       {
         id: "ec-dayananda",
-        name: "Dr. Dayananda Swamy",
+        name: "Dr. H R Dayananda Swamy",
         designation: "Chancellor",
         description: "Chancellor of S-VYASA Deemed to be University, providing visionary leadership and spiritual guidance to the institution, upholding the legacy of Swami Vivekananda's teachings.",
         qualifications: "PhD; Chancellor, S-VYASA Deemed to be University; Spiritual leader and academic visionary",
@@ -1059,7 +1059,7 @@ function Organogram() {
             <OrgLine dir="h" />
           </div>
           <div>
-            <OrgNode title="Chancellor" subtitle="Dr. H. R. Nagendra" level="top" />
+            <OrgNode title="Chancellor" subtitle="Dr. H R Dayananda Swamy" level="top" />
           </div>
           <div className="flex justify-center items-center h-full">
             <OrgLine dir="h" />
