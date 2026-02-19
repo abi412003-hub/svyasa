@@ -331,6 +331,7 @@ const ecCategories: ECCategory[] = [
         description: "Director of VASHI (Vivekananda Advanced Studies and Health Integration), leading advanced research programs and health integration initiatives under S-VYASA's academic framework.",
         qualifications: "PhD; Director, VASHI; Research expertise in integrative health and advanced yoga studies",
         photo: ecAmitSinghPhoto,
+        photoPosition: "object-top",
         gender: "male",
         expertise: "Integrative health, advanced yoga studies, research direction, health integration programs",
       },
