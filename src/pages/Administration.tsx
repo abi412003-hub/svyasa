@@ -911,7 +911,7 @@ function SectionBlock({
 
 // ─── ORGANOGRAM (PDF-based) ────────────────────────────────────────────────────
 // ─── EC MEMBER CARD ───────────────────────────────────────────────────────────
-function ECMemberCard({ member, onClick }: { member: ECMember; onClick: () => void }) {
+function ECMemberCard({ member, onClick, categoryLabel }: { member: ECMember; onClick: () => void; categoryLabel?: string }) {
   const [imgErr, setImgErr] = useState(false);
   const fallback = `https://ui-avatars.com/api/?name=${encodeURIComponent(member.initials || member.name)}&background=92400e&color=fff&size=400&bold=true`;
   return (
@@ -930,6 +930,13 @@ function ECMemberCard({ member, onClick }: { member: ECMember; onClick: () => vo
           loading="lazy"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+        {categoryLabel && (
+          <div className="absolute top-3 left-3">
+            <span className="bg-black/50 backdrop-blur-sm text-white text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full">
+              {categoryLabel}
+            </span>
+          </div>
+        )}
       </div>
       <div className="p-4 flex-1 flex flex-col">
         <h3 className="font-['Playfair_Display',serif] text-base text-[hsl(var(--navy))] font-bold leading-tight mb-1">
@@ -983,28 +990,18 @@ function ECCategoriesSection({ onSelect }: { onSelect: (m: ECMember) => void }) 
         </span>
       </motion.div>
 
-      {/* Unified grid with category headers */}
+      {/* Single flat grid — all members flow together */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch">
-        {ecCategories.map((cat) => (
-          <React.Fragment key={cat.id}>
-            {/* Full-width category divider */}
-            <motion.div variants={fadeUp} className="col-span-1 sm:col-span-2 lg:col-span-3 flex items-center gap-3 pt-2">
-              <div className="h-[2px] w-6 bg-[hsl(var(--saffron))]/60 rounded-full" />
-              <h3 className="text-[hsl(var(--navy))] text-sm font-bold uppercase tracking-wider">
-                {cat.label}
-              </h3>
-              <span className="text-[hsl(var(--muted-foreground))] text-xs bg-[hsl(var(--cream))] border border-border px-2 py-0.5 rounded-full">
-                {cat.members.length}
-              </span>
-              <div className="flex-1 h-[1px] bg-border" />
-            </motion.div>
-
-            {/* Members flow into the shared grid */}
-            {cat.members.map((m) => (
-              <ECMemberCard key={m.id} member={m} onClick={() => onSelect(m)} />
-            ))}
-          </React.Fragment>
-        ))}
+        {ecCategories.flatMap((cat) =>
+          cat.members.map((m) => (
+            <ECMemberCard
+              key={m.id}
+              member={m}
+              onClick={() => onSelect(m)}
+              categoryLabel={cat.label}
+            />
+          ))
+        )}
       </div>
     </motion.div>
   );
