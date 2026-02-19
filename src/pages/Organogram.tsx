@@ -51,7 +51,11 @@ const divisions = [
     name: "CODE – Center for Online and Distance Education",
     icon: Globe,
     color: "from-blue-700 to-blue-500",
-    schools: [],
+    schools: [
+      { name: "Distance Learning" },
+      { name: "Online Courses" },
+      { name: "Short Programmes" },
+    ],
   },
   {
     name: "ANVESANA – Advanced Research Laboratories",
