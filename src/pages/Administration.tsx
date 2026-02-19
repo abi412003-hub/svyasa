@@ -1152,7 +1152,7 @@ function Organogram() {
         {/* Row 4: Pro-VC + CFO */}
         <div className="flex justify-center gap-6">
           <div className="w-52"><OrgNode title="Pro-Vice Chancellor" level="mid" /></div>
-          <div className="w-52"><OrgNode title="Chief Finance Officer" subtitle="Dr. H. R. Dayananda" level="mid" /></div>
+          <div className="w-52"><OrgNode title="Chief Finance Officer" level="mid" /></div>
         </div>
         <OrgLine />
         {/* Row 5: Registrar + COE */}
