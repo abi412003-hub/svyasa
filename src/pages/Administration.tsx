@@ -9,6 +9,7 @@ import ecSoubhagyalaxmiPhoto from "@/assets/ec-soubhagyalaxmi-mohanty.png";
 import ecMembersGroupPhoto from "@/assets/ec-members-group.jpg";
 import ecSridharSubramanianPhoto from "@/assets/ec-sridhar-subramanian.jpg";
 import ecAmitSinghPhoto from "@/assets/ec-amit-singh.jpg";
+import ecGauravSinhaPhoto from "@/assets/ec-gaurav-sinha.jpg";
 import { motion, useInView, AnimatePresence, Variants } from "framer-motion";
 import {
   X, Award, BookOpen, FlaskConical, Star, User, ChevronDown,
@@ -343,6 +344,7 @@ const ecCategories: ECCategory[] = [
         designation: "Controller of Examinations",
         description: "Oversees all aspects of examination planning, administration, evaluation, and result declaration ensuring fairness, transparency, and adherence to academic standards at S-VYASA University.",
         qualifications: "PhD; Controller of Examinations, S-VYASA University; Expert in examination systems, digital assessment, and academic evaluation",
+        photo: ecGauravSinhaPhoto,
         gender: "male",
         achievements: [
           "Implemented online examination portal for 3000+ students",
