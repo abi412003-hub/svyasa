@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import chancellorDayanandaPhoto from "@/assets/chancellor-dayananda-swamy.jpg";
 import ecRamakrishnaPhoto from "@/assets/ec-ramakrishna.jpg";
+import ecJayaramanPhoto from "@/assets/ec-jayaraman.jpg";
 import { motion, useInView, AnimatePresence, Variants } from "framer-motion";
 import {
   X, Award, BookOpen, FlaskConical, Star, User, ChevronDown,
@@ -130,7 +131,7 @@ const ecCategories: ECCategory[] = [
         designation: "Dean of Academics",
         description: "Oversees the School of Yogic Sciences and VMAC-VTR, guiding programs that integrate classical yoga philosophy with modern pedagogical approaches. Leads academic planning and curriculum development.",
         qualifications: "PhD (Yoga Philosophy); MSc (Yoga); Vedanta scholar with 25+ years academic experience",
-        photo: AIIU("1771457382992-vxamsahwoi.jpeg"),
+        photo: ecJayaramanPhoto,
         gender: "male",
         achievements: [
           "Authored 5 books on Yoga philosophy",
@@ -417,7 +418,7 @@ const adminData: AdminProfile[] = [
     designation: "Dean of Academics",
     description: "Leads academic planning, curriculum development, faculty development programs, and quality assurance of teaching-learning processes across all schools and departments.",
     qualifications: "PhD (Yoga Philosophy); MSc (Yoga); Vedanta scholar with 25+ years academic experience",
-    photo: AIIU("1771457388456-fv7l7qpfs0k.jpeg"),
+    photo: ecJayaramanPhoto,
     gender: "male",
     section: "deans",
     expertise: "Academic governance, yoga philosophy, Vedanta, curriculum development",
