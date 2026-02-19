@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import chancellorDayanandaPhoto from "@/assets/chancellor-dayananda-swamy.jpg";
+import ecRamakrishnaPhoto from "@/assets/ec-ramakrishna.jpg";
 import { motion, useInView, AnimatePresence, Variants } from "framer-motion";
 import {
   X, Award, BookOpen, FlaskConical, Star, User, ChevronDown,
@@ -109,6 +110,7 @@ const ecCategories: ECCategory[] = [
         designation: "Pro-Chancellor",
         description: "Experienced academic leader serving as Pro-Chancellor of S-VYASA University, overseeing institutional strategy, governance compliance, and long-term development initiatives.",
         qualifications: "PhD; Senior academic administrator with decades of experience in university leadership and governance",
+        photo: ecRamakrishnaPhoto,
         gender: "male",
         expertise: "University leadership, institutional strategy, governance, policy development",
       },
