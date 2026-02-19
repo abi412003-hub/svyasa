@@ -1116,13 +1116,13 @@ export default function Administration() {
     <Layout>
       {/* ── Hero ── */}
       <section
-        className="relative flex flex-col items-center justify-center min-h-[56vh] overflow-hidden"
+        className="relative flex flex-col items-center justify-center min-h-[70vh] overflow-hidden"
       >
         {/* Background photo */}
         <img
           src={ecMembersGroupPhoto}
           alt="S-VYASA Executive Council Members"
-          className="absolute inset-0 w-full h-full object-cover object-[center_70%]"
+          className="absolute inset-0 w-full h-full object-cover object-[center_45%]"
         />
         {/* Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/30" />
