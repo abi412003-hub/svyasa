@@ -87,8 +87,9 @@ const Organogram = () => {
           animate={{ scale: 1.06 }}
           transition={{ duration: 14, ease: "linear" }}
         />
-        {/* Dark gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/50 to-transparent" />
+        {/* Dark overlay — solid centre to ensure text legibility */}
+        <div className="absolute inset-0 bg-navy/60" />
+        <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-navy/40" />
         {/* Content */}
         <div className="absolute inset-0 flex items-center justify-center">
           <motion.div
@@ -107,6 +108,7 @@ const Organogram = () => {
             </motion.span>
             <motion.h1
               className="font-heading text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4"
+              style={{ textShadow: "0 2px 20px rgba(0,0,0,0.8)" }}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
@@ -114,7 +116,8 @@ const Organogram = () => {
               Organogram
             </motion.h1>
             <motion.p
-              className="text-white/80 text-lg md:text-xl max-w-2xl mx-auto"
+              className="text-white/85 text-lg md:text-xl max-w-2xl mx-auto"
+              style={{ textShadow: "0 1px 10px rgba(0,0,0,0.7)" }}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.8 }}
