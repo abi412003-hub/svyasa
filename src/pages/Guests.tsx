@@ -1,238 +1,182 @@
 import { useRef } from "react";
-import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion";
+import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import Layout from "@/components/layout/Layout";
 
-interface Guest {
+import imgPadmaShri from "@/assets/guests/guest-padma-shri.jpg";
+import imgGlobalPeace from "@/assets/guests/guest-global-peace.jpg";
+import imgIncofyra from "@/assets/guests/guest-incofyra.jpg";
+import imgYeddyurappa from "@/assets/guests/guest-yeddyurappa.jpg";
+import imgHarshVardhan from "@/assets/guests/guest-harsh-vardhan.jpg";
+import imgMohanBhagwat from "@/assets/guests/guest-mohan-bhagwat.jpg";
+import imgDidiJanki from "@/assets/guests/guest-didi-janki.jpg";
+import imgSadhguru from "@/assets/guests/guest-sadhguru.jpg";
+
+interface GuestEntry {
   id: string;
-  name: string;
-  title: string;
-  organization: string;
-  photo?: string;
+  year: string;
+  caption: string;
+  image: string;
+  span?: "wide" | "tall" | "normal";
 }
 
-const guestsData: Guest[] = [
-  { id: "g1", name: "Dr. Hasmukh Adhia", title: "Former Finance Secretary, Government of India", organization: "Government of India" },
-  { id: "g2", name: "Prof. T. G. Sitharam", title: "Chairman, AICTE", organization: "All India Council for Technical Education" },
-  { id: "g3", name: "Dr. Marty Seligman", title: "Father of Positive Psychology", organization: "University of Pennsylvania, USA" },
-  { id: "g4", name: "H.E. Archbishop of Canterbury", title: "Archbishop", organization: "Church of England, UK" },
-  { id: "g5", name: "Dr. Tedros Adhanom Ghebreyesus", title: "Director-General", organization: "World Health Organization (WHO)" },
-  { id: "g6", name: "Shri. Dharmendra Pradhan", title: "Union Minister of Education", organization: "Ministry of Education, India" },
-  { id: "g7", name: "Prof. Antonio Damasio", title: "Neuroscientist & Author", organization: "University of Southern California, USA" },
-  { id: "g8", name: "Dr. Dean Ornish", title: "Founder & President", organization: "Preventive Medicine Research Institute" },
-  { id: "g9", name: "H.E. Ambassador of Japan", title: "Ambassador to India", organization: "Embassy of Japan" },
-  { id: "g10", name: "Shri. B. S. Yediyurappa", title: "Former Chief Minister of Karnataka", organization: "Government of Karnataka" },
-  { id: "g11", name: "Prof. Loren Cordain", title: "Founder of Paleo Diet Movement", organization: "Colorado State University, USA" },
-  { id: "g12", name: "Dr. Sanjeev Balyan", title: "Union Minister of State", organization: "Ministry of Fisheries, Animal Husbandry & Dairying" },
+const guests: GuestEntry[] = [
+  {
+    id: "g1",
+    year: "2016",
+    caption: "Padma Shri awarded to Dr. H R Nagendra, Head of the Institution",
+    image: imgPadmaShri,
+    span: "wide",
+  },
+  {
+    id: "g2",
+    year: "2016",
+    caption: "Sadguru Jaggi Vasudev during 21st INCOFYRA",
+    image: imgSadhguru,
+    span: "tall",
+  },
+  {
+    id: "g3",
+    year: "2014",
+    caption: "Felicitation to Sarsanghchalak of RSS, Shri Mohanji Bhagwat",
+    image: imgMohanBhagwat,
+    span: "normal",
+  },
+  {
+    id: "g4",
+    year: "2016",
+    caption: "Didi Janki, Spiritual Head of Brahma Kumaris",
+    image: imgDidiJanki,
+    span: "normal",
+  },
+  {
+    id: "g5",
+    year: "2016",
+    caption: "Inaugural Ceremony of 21st INCOFYRA in Prashanti",
+    image: imgIncofyra,
+    span: "wide",
+  },
+  {
+    id: "g6",
+    year: "2015",
+    caption: "Global Peace Award to Dr. H R Nagendra by World Peace Council",
+    image: imgGlobalPeace,
+    span: "normal",
+  },
+  {
+    id: "g7",
+    year: "2007",
+    caption: "Inauguration of Tyaga Men's Hostel by Shri B S Yeddyurappa ji",
+    image: imgYeddyurappa,
+    span: "normal",
+  },
+  {
+    id: "g8",
+    year: "2014",
+    caption: "Inauguration of Anvesana by Dr. Harsh Vardhan ji, Union Minister",
+    image: imgHarshVardhan,
+    span: "wide",
+  },
 ];
 
-// Floating ambient orbs for hero
-const AmbientOrbs = () => (
-  <div className="absolute inset-0 overflow-hidden pointer-events-none">
-    {[
-      { w: 600, h: 600, top: "-20%", left: "-10%", delay: 0 },
-      { w: 400, h: 400, top: "40%", right: "-5%", delay: 2 },
-      { w: 300, h: 300, bottom: "10%", left: "30%", delay: 4 },
-    ].map((orb, i) => (
-      <motion.div
-        key={i}
-        className="absolute rounded-full"
-        style={{
-          width: orb.w,
-          height: orb.h,
-          top: orb.top,
-          left: (orb as any).left,
-          right: (orb as any).right,
-          bottom: (orb as any).bottom,
-          background: "radial-gradient(circle, hsl(var(--primary)/0.18) 0%, transparent 70%)",
-        }}
-        animate={{
-          scale: [1, 1.15, 1],
-          opacity: [0.6, 1, 0.6],
-          x: [0, 20, 0],
-          y: [0, -20, 0],
-        }}
-        transition={{ duration: 8 + i * 2, delay: orb.delay, repeat: Infinity, ease: "easeInOut" }}
-      />
-    ))}
-  </div>
-);
-
-// Individual guest card with scroll-triggered entrance
-const GuestCard = ({ guest, index }: { guest: Guest; index: number }) => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
-
-  // Alternating entrance directions
-  const isEven = index % 2 === 0;
-  const col = index % 3;
-  const xStart = col === 0 ? -60 : col === 2 ? 60 : 0;
-  const yStart = col === 1 ? 60 : 30;
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, x: xStart, y: yStart, scale: 0.92 }}
-      animate={isInView ? { opacity: 1, x: 0, y: 0, scale: 1 } : {}}
-      transition={{ duration: 0.7, delay: (index % 3) * 0.12, ease: [0.25, 0.46, 0.45, 0.94] }}
-      className="group relative"
-    >
-      <motion.div
-        whileHover={{ y: -10, scale: 1.02 }}
-        transition={{ type: "spring", stiffness: 300, damping: 20 }}
-        className="relative overflow-hidden rounded-2xl shadow-lg cursor-pointer"
-      >
-        {/* Photo area */}
-        <div className="relative aspect-[3/4] overflow-hidden bg-gradient-to-br from-[hsl(var(--primary)/0.15)] to-[hsl(var(--primary)/0.05)]">
-          {guest.photo ? (
-            <motion.img
-              src={guest.photo}
-              alt={guest.name}
-              className="w-full h-full object-cover"
-              whileHover={{ scale: 1.08 }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-              onError={(e) => { e.currentTarget.style.display = "none"; }}
-            />
-          ) : (
-            // Elegant placeholder when no photo
-            <div className="w-full h-full flex flex-col items-center justify-center relative">
-              {/* Animated mandala background */}
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-                className="absolute inset-0 flex items-center justify-center opacity-10"
-              >
-                <svg viewBox="0 0 200 200" className="w-3/4 h-3/4 fill-[hsl(var(--primary))]">
-                  {[...Array(8)].map((_, i) => (
-                    <ellipse key={i} cx="100" cy="60" rx="15" ry="45" transform={`rotate(${i * 45} 100 100)`} />
-                  ))}
-                  <circle cx="100" cy="100" r="18" />
-                </svg>
-              </motion.div>
-              {/* Initial letter */}
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={isInView ? { scale: 1 } : {}}
-                transition={{ delay: (index % 3) * 0.12 + 0.3, type: "spring" }}
-                className="relative z-10 w-24 h-24 rounded-full bg-[hsl(var(--primary)/0.12)] border-2 border-[hsl(var(--primary)/0.3)] flex items-center justify-center"
-              >
-                <span className="text-4xl font-bold text-[hsl(var(--primary))]">
-                  {guest.name.charAt(0)}
-                </span>
-              </motion.div>
-            </div>
-          )}
-
-          {/* Gradient overlay — always present, intensifies on hover */}
-          <motion.div
-            className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"
-            initial={{ opacity: 0.6 }}
-            whileHover={{ opacity: 0.9 }}
-            transition={{ duration: 0.3 }}
-          />
-
-          {/* Text overlay at bottom */}
-          <div className="absolute bottom-0 left-0 right-0 p-5 z-10">
-            <motion.div
-              initial={{ y: 8, opacity: 0.8 }}
-              whileHover={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.3 }}
-            >
-              <p className="text-white font-bold text-base leading-tight mb-1 drop-shadow-md">
-                {guest.name}
-              </p>
-              <p className="text-white/75 text-xs leading-snug line-clamp-2">
-                {guest.title}
-              </p>
-            </motion.div>
-
-            {/* Organization — slides up on hover */}
-            <motion.p
-              className="text-[hsl(var(--primary))] text-[11px] font-semibold mt-2 leading-tight"
-              initial={{ opacity: 0, y: 6 }}
-              whileHover={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.25, delay: 0.05 }}
-            >
-              {guest.organization}
-            </motion.p>
-          </div>
-
-          {/* Shimmer on hover */}
-          <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/8 to-transparent -translate-x-full"
-            whileHover={{ translateX: "200%" }}
-            transition={{ duration: 0.7, ease: "easeInOut" }}
-          />
-        </div>
-      </motion.div>
-    </motion.div>
-  );
-};
-
-// Parallax hero section
-const HeroSection = () => {
+// ─── Parallax Hero ────────────────────────────────────────────────────────────
+const Hero = () => {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], [0, 80]);
-  const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+  const y = useTransform(scrollYProgress, [0, 1], [0, 120]);
+  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
   return (
-    <section ref={ref} className="relative min-h-[55vh] flex items-center justify-center overflow-hidden bg-[hsl(var(--primary)/0.06)]">
-      <AmbientOrbs />
+    <section
+      ref={ref}
+      className="relative min-h-[60vh] flex items-center justify-center overflow-hidden"
+      style={{ background: "hsl(var(--primary)/0.05)" }}
+    >
+      {/* Ambient floating circles */}
+      {[
+        { size: 700, top: "-25%", left: "-15%", delay: 0, dur: 12 },
+        { size: 450, bottom: "-10%", right: "-8%", delay: 3, dur: 10 },
+        { size: 280, top: "35%", left: "55%", delay: 6, dur: 14 },
+      ].map((o, i) => (
+        <motion.div
+          key={i}
+          className="absolute rounded-full pointer-events-none"
+          style={{
+            width: o.size,
+            height: o.size,
+            top: (o as any).top,
+            bottom: (o as any).bottom,
+            left: (o as any).left,
+            right: (o as any).right,
+            background: "radial-gradient(circle, hsl(var(--primary)/0.14) 0%, transparent 70%)",
+          }}
+          animate={{ scale: [1, 1.12, 1], x: [0, 18, 0], y: [0, -14, 0] }}
+          transition={{ duration: o.dur, delay: o.delay, repeat: Infinity, ease: "easeInOut" }}
+        />
+      ))}
 
-      {/* Decorative lines */}
-      <div className="absolute inset-0 pointer-events-none">
-        {[...Array(5)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute h-px w-full"
-            style={{ top: `${20 + i * 15}%`, background: `linear-gradient(90deg, transparent, hsl(var(--primary)/${0.04 + i * 0.01}), transparent)` }}
-            animate={{ x: ["-100%", "100%"] }}
-            transition={{ duration: 15 + i * 3, repeat: Infinity, ease: "linear", delay: i * 2 }}
-          />
-        ))}
-      </div>
+      {/* Sweeping horizontal lines */}
+      {[15, 35, 55, 72, 88].map((top, i) => (
+        <motion.div
+          key={i}
+          className="absolute h-px w-full pointer-events-none"
+          style={{ top: `${top}%`, background: `linear-gradient(90deg, transparent, hsl(var(--primary)/${0.06 + i * 0.01}), transparent)` }}
+          animate={{ x: ["-100%", "100%"] }}
+          transition={{ duration: 18 + i * 4, repeat: Infinity, ease: "linear", delay: i * 2.5 }}
+        />
+      ))}
 
-      <motion.div style={{ y, opacity }} className="relative z-10 text-center px-4">
+      {/* Hero text */}
+      <motion.div style={{ y, opacity }} className="relative z-10 text-center px-6">
         <motion.p
-          initial={{ opacity: 0, letterSpacing: "0.4em" }}
-          animate={{ opacity: 1, letterSpacing: "0.25em" }}
-          transition={{ duration: 1.2, ease: "easeOut" }}
-          className="text-[hsl(var(--primary))] uppercase text-xs font-semibold tracking-[0.25em] mb-6"
+          initial={{ opacity: 0, letterSpacing: "0.5em" }}
+          animate={{ opacity: 1, letterSpacing: "0.3em" }}
+          transition={{ duration: 1.4 }}
+          className="uppercase text-xs font-semibold tracking-[0.3em] mb-6"
+          style={{ color: "hsl(var(--primary))" }}
         >
           Distinguished Visitors
         </motion.p>
 
         <motion.h1
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="text-6xl md:text-8xl font-bold text-foreground mb-6 leading-none tracking-tight"
+          transition={{ duration: 1, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
+          className="text-7xl md:text-9xl font-bold leading-none tracking-tight text-foreground"
         >
           Our
           <br />
-          <span className="text-[hsl(var(--primary))] italic">Guests</span>
+          <motion.span
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.9, delay: 0.5 }}
+            className="italic"
+            style={{ color: "hsl(var(--primary))" }}
+          >
+            Guests
+          </motion.span>
         </motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.45 }}
-          className="text-muted-foreground text-lg max-w-xl mx-auto leading-relaxed"
+          transition={{ duration: 0.9, delay: 0.7 }}
+          className="text-muted-foreground text-lg mt-6 max-w-md mx-auto leading-relaxed"
         >
-          Luminaries from across the world who have graced S-VYASA with their presence and wisdom.
+          Luminaries, leaders, and visionaries who have graced S-VYASA with their presence.
         </motion.p>
 
-        {/* Animated scroll indicator */}
+        {/* Scroll pulse */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.2 }}
-          className="mt-12 flex flex-col items-center gap-2"
+          transition={{ delay: 1.4 }}
+          className="mt-14 flex flex-col items-center"
         >
           <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-            className="w-px h-10 bg-gradient-to-b from-[hsl(var(--primary))] to-transparent"
+            animate={{ scaleY: [1, 1.6, 1], opacity: [0.6, 1, 0.6] }}
+            transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+            className="w-px h-12 origin-top"
+            style={{ background: "linear-gradient(to bottom, hsl(var(--primary)), transparent)" }}
           />
         </motion.div>
       </motion.div>
@@ -240,34 +184,139 @@ const HeroSection = () => {
   );
 };
 
-export default function Guests() {
-  const gridRef = useRef(null);
-  const { scrollYProgress } = useScroll({ target: gridRef });
-  const smoothProgress = useSpring(scrollYProgress, { stiffness: 80, damping: 20 });
+// ─── Individual photo card ─────────────────────────────────────────────────────
+const GuestCard = ({ guest, index }: { guest: GuestEntry; index: number }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-60px" });
 
-  // Split into rows of 3 for stagger effect
-  const rows: Guest[][] = [];
-  for (let i = 0; i < guestsData.length; i += 3) {
-    rows.push(guestsData.slice(i, i + 3));
-  }
+  const entrances = [
+    { x: -80, y: 0 },
+    { x: 0, y: 80 },
+    { x: 80, y: 0 },
+    { x: -60, y: 60 },
+    { x: 60, y: 60 },
+    { x: 0, y: -60 },
+    { x: -80, y: 30 },
+    { x: 80, y: 30 },
+  ];
+  const entrance = entrances[index % entrances.length];
 
   return (
-    <Layout>
-      <HeroSection />
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, x: entrance.x, y: entrance.y, scale: 0.88 }}
+      animate={isInView ? { opacity: 1, x: 0, y: 0, scale: 1 } : {}}
+      transition={{ duration: 0.85, delay: (index % 4) * 0.1, ease: [0.22, 1, 0.36, 1] }}
+      className={`group relative overflow-hidden rounded-2xl shadow-xl cursor-pointer
+        ${guest.span === "wide" ? "col-span-2" : ""}
+        ${guest.span === "tall" ? "row-span-2" : ""}
+      `}
+    >
+      <motion.div
+        whileHover={{ scale: 1.02 }}
+        transition={{ type: "spring", stiffness: 250, damping: 22 }}
+        className="w-full h-full"
+      >
+        {/* Image with zoom-on-hover */}
+        <div className={`relative overflow-hidden ${guest.span === "tall" ? "aspect-[3/5]" : guest.span === "wide" ? "aspect-[16/9]" : "aspect-[4/3]"}`}>
+          <motion.img
+            src={guest.image}
+            alt={guest.caption}
+            className="w-full h-full object-cover"
+            whileHover={{ scale: 1.1 }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          />
 
-      {/* Guest Gallery */}
-      <section ref={gridRef} className="py-20 bg-background">
-        <div className="container mx-auto px-4 max-w-6xl">
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-5 md:gap-7">
-            {guestsData.map((guest, i) => (
+          {/* Dark gradient overlay */}
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-black/5"
+            whileHover={{ opacity: 1.15 }}
+            transition={{ duration: 0.4 }}
+          />
+
+          {/* Shimmer sweep */}
+          <motion.div
+            className="absolute inset-0 pointer-events-none"
+            style={{ background: "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.09) 50%, transparent 60%)" }}
+            initial={{ x: "-100%" }}
+            whileHover={{ x: "160%" }}
+            transition={{ duration: 0.75, ease: "easeInOut" }}
+          />
+
+          {/* Year badge — top-left */}
+          <motion.div
+            className="absolute top-4 left-4 z-20"
+            initial={{ opacity: 0, scale: 0.6 }}
+            animate={isInView ? { opacity: 1, scale: 1 } : {}}
+            transition={{ delay: (index % 4) * 0.1 + 0.4, type: "spring" }}
+          >
+            <span
+              className="text-xs font-bold px-3 py-1.5 rounded-full backdrop-blur-md"
+              style={{ background: "hsl(var(--primary)/0.85)", color: "white" }}
+            >
+              {guest.year}
+            </span>
+          </motion.div>
+
+          {/* Caption bottom overlay */}
+          <div className="absolute bottom-0 left-0 right-0 z-10 p-5">
+            <motion.p
+              className="text-white font-semibold text-sm md:text-base leading-snug drop-shadow-lg"
+              initial={{ y: 12, opacity: 0.7 }}
+              whileHover={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.35 }}
+            >
+              {guest.caption}
+            </motion.p>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+};
+
+// ─── Main page ─────────────────────────────────────────────────────────────────
+export default function Guests() {
+  return (
+    <Layout>
+      <Hero />
+
+      {/* Masonry-style photo grid */}
+      <section className="py-16 md:py-24 bg-background">
+        <div className="container mx-auto px-4 max-w-7xl">
+          {/* Section label */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="mb-12 text-center"
+          >
+            <p
+              className="uppercase text-xs font-semibold tracking-[0.25em] mb-3"
+              style={{ color: "hsl(var(--primary))" }}
+            >
+              Moments in History
+            </p>
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground">
+              Captured in Time
+            </h2>
+          </motion.div>
+
+          {/* Responsive masonry grid */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5 auto-rows-auto">
+            {guests.map((guest, i) => (
               <GuestCard key={guest.id} guest={guest} index={i} />
             ))}
           </div>
         </div>
       </section>
 
-      {/* Invite CTA */}
-      <section className="py-20 bg-[hsl(var(--primary)/0.04)] border-t border-[hsl(var(--primary)/0.1)]">
+      {/* CTA */}
+      <section
+        className="py-20 border-t"
+        style={{ background: "hsl(var(--primary)/0.04)", borderColor: "hsl(var(--primary)/0.1)" }}
+      >
         <div className="container mx-auto px-4 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -275,16 +324,24 @@ export default function Guests() {
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
           >
-            <p className="text-[hsl(var(--primary))] uppercase tracking-widest text-xs font-semibold mb-4">Open Invitation</p>
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Invite a Distinguished Guest</h2>
+            <p
+              className="uppercase tracking-widest text-xs font-semibold mb-4"
+              style={{ color: "hsl(var(--primary))" }}
+            >
+              Open Invitation
+            </p>
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              Invite a Distinguished Guest
+            </h2>
             <p className="text-muted-foreground mb-8 max-w-lg mx-auto">
               S-VYASA welcomes scholars, leaders, and dignitaries for lectures, collaborations, and campus visits.
             </p>
             <motion.a
               href="/contact-us"
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 1.06 }}
               whileTap={{ scale: 0.97 }}
-              className="inline-flex items-center gap-2 bg-[hsl(var(--primary))] text-white px-8 py-3.5 rounded-full font-semibold shadow-lg hover:shadow-[hsl(var(--primary)/0.4)] hover:shadow-xl transition-shadow"
+              className="inline-flex items-center gap-2 px-9 py-4 rounded-full font-semibold text-white shadow-xl transition-shadow"
+              style={{ background: "hsl(var(--primary))" }}
             >
               Contact Us
             </motion.a>
