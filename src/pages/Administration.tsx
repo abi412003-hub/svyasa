@@ -86,15 +86,6 @@ const ecCategories: ECCategory[] = [
         expertise: "University leadership, spiritual guidance, institutional vision, Vedanta philosophy",
       },
       {
-        id: "ec-subrahmanyam",
-        name: "Prof. K. Subrahmanyam",
-        designation: "Member",
-        description: "Distinguished academic member of the Executive Council contributing expertise in academic governance, curriculum frameworks, and higher education leadership.",
-        qualifications: "PhD; Professor with extensive experience in higher education governance and administration",
-        gender: "male",
-        expertise: "Higher education governance, academic policy, curriculum frameworks",
-      },
-      {
         id: "ec-manjunath",
         name: "Dr. Manjunath N. K",
         designation: "Chairperson, Vice Chancellor",
