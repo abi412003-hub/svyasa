@@ -56,6 +56,12 @@ import ResearchPublications from "./pages/research/ResearchPublications";
 import LabEvents from "./pages/research/LabEvents";
 import AdoptProject from "./pages/research/AdoptProject";
 import EdtechPartners from "./pages/EdtechPartners";
+import AdminLogin from "./pages/admin/AdminLogin";
+import AdminLayout from "./components/admin/AdminLayout";
+import AdminCourseList from "./pages/admin/AdminCourseList";
+import AdminCourseEditor from "./pages/admin/AdminCourseEditor";
+import AdminCategoryList from "./pages/admin/AdminCategoryList";
+import AdminCategoryEditor from "./pages/admin/AdminCategoryEditor";
 
 // Alias for brevity in routes
 const ResearchCS = ({ title }: { title: string }) => <ResearchComingSoon title={title} />;
@@ -242,7 +248,13 @@ const App = () => (
           
           {/* Admin Tools */}
           <Route path="/admin/image-manager" element={<ImageManager />} />
-
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route path="courses" element={<AdminCourseList />} />
+            <Route path="courses/:id" element={<AdminCourseEditor />} />
+            <Route path="categories" element={<AdminCategoryList />} />
+            <Route path="categories/:id" element={<AdminCategoryEditor />} />
+          </Route>
           {/* Catch-all 404 */}
           <Route path="*" element={<NotFound />} />
         </Routes>

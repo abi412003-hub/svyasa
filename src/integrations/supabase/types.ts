@@ -14,16 +14,171 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      categories: {
+        Row: {
+          banner_image: string | null
+          campus_type: string
+          created_at: string | null
+          domain_theme: string
+          id: string
+          is_published: boolean | null
+          level: string
+          program_slugs: Json | null
+          short_title: string
+          slug: string
+          subtitle: string | null
+          title: string
+          updated_at: string | null
+          why_study: Json | null
+        }
+        Insert: {
+          banner_image?: string | null
+          campus_type?: string
+          created_at?: string | null
+          domain_theme?: string
+          id?: string
+          is_published?: boolean | null
+          level?: string
+          program_slugs?: Json | null
+          short_title: string
+          slug: string
+          subtitle?: string | null
+          title: string
+          updated_at?: string | null
+          why_study?: Json | null
+        }
+        Update: {
+          banner_image?: string | null
+          campus_type?: string
+          created_at?: string | null
+          domain_theme?: string
+          id?: string
+          is_published?: boolean | null
+          level?: string
+          program_slugs?: Json | null
+          short_title?: string
+          slug?: string
+          subtitle?: string | null
+          title?: string
+          updated_at?: string | null
+          why_study?: Json | null
+        }
+        Relationships: []
+      }
+      courses: {
+        Row: {
+          apply_link: string | null
+          banner_image: string | null
+          brochure_link: string | null
+          campus: string
+          campus_type: string
+          careers: Json | null
+          category: string
+          created_at: string | null
+          degree: string
+          domain_theme: string
+          duration: string
+          eligibility: Json | null
+          fee: Json | null
+          highlights: Json | null
+          hook_line: string | null
+          id: string
+          is_published: boolean | null
+          overview: Json | null
+          related_programs: Json | null
+          short_title: string
+          slug: string
+          stat_callout: Json | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          apply_link?: string | null
+          banner_image?: string | null
+          brochure_link?: string | null
+          campus?: string
+          campus_type?: string
+          careers?: Json | null
+          category?: string
+          created_at?: string | null
+          degree?: string
+          domain_theme?: string
+          duration?: string
+          eligibility?: Json | null
+          fee?: Json | null
+          highlights?: Json | null
+          hook_line?: string | null
+          id?: string
+          is_published?: boolean | null
+          overview?: Json | null
+          related_programs?: Json | null
+          short_title: string
+          slug: string
+          stat_callout?: Json | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          apply_link?: string | null
+          banner_image?: string | null
+          brochure_link?: string | null
+          campus?: string
+          campus_type?: string
+          careers?: Json | null
+          category?: string
+          created_at?: string | null
+          degree?: string
+          domain_theme?: string
+          duration?: string
+          eligibility?: Json | null
+          fee?: Json | null
+          highlights?: Json | null
+          hook_line?: string | null
+          id?: string
+          is_published?: boolean | null
+          overview?: Json | null
+          related_programs?: Json | null
+          short_title?: string
+          slug?: string
+          stat_callout?: Json | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "editor"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +305,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "editor"],
+    },
   },
 } as const
