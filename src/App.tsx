@@ -55,6 +55,7 @@ import CompletedProjects from "./pages/research/CompletedProjects";
 import ResearchPublications from "./pages/research/ResearchPublications";
 import LabEvents from "./pages/research/LabEvents";
 import AdoptProject from "./pages/research/AdoptProject";
+import EdtechPartners from "./pages/EdtechPartners";
 
 // Alias for brevity in routes
 const ResearchCS = ({ title }: { title: string }) => <ResearchComingSoon title={title} />;
@@ -218,7 +219,7 @@ const App = () => (
           <Route path="/library" element={<Library />} />
           <Route path="/exams" element={<Exams />} />
           <Route path="/iqac" element={<IQAC />} />
-          <Route path="/edtech-partners" element={<ComingSoon />} />
+          <Route path="/edtech-partners" element={<EdtechPartners />} />
           <Route path="/mandatory-disclosure" element={<MandatoryDisclosure />} />
           <Route path="/iic" element={<IIC />} />
           <Route path="/aiu" element={<AIU />} />
