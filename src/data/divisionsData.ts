@@ -165,9 +165,10 @@ export const divisionsData: Division[] = [
           "Clinical internships in premier hospitals across India",
         ],
         faculty: [
-          { id: "pt-1", name: "Dr. Manisha Pal", designation: "Professor & Head", qualifications: "MPT, Ph.D.", expertise: "Musculoskeletal rehabilitation and yoga movement therapy" },
-          { id: "pt-2", name: "Dr. Srinath K", designation: "Associate Professor", qualifications: "BPT, MPT", expertise: "Neurological physiotherapy and stroke rehabilitation" },
-          { id: "pt-3", name: "Dr. Deepa R", designation: "Assistant Professor", qualifications: "MPT (Ortho)", expertise: "Sports physiotherapy and injury management" },
+          { id: "pt-1266", name: "Mr. Prashanth V Mangalvedhe", designation: "Faculty", qualifications: "BPT, MPT", expertise: "Physiotherapy", photo: "/faculty/ssynm/1266-mr-prashanth-v-mangalvedhe.jpg" },
+          { id: "pt-1274", name: "Miss. Aishwarya Sahu", designation: "Faculty", qualifications: "BPT, MPT", expertise: "Physiotherapy", photo: "/faculty/ssynm/1274-miss-aishwarya-sahu.jpg" },
+          { id: "pt-1319", name: "Mr. T R Praveen Kumar", designation: "Faculty", qualifications: "BPT, MPT", expertise: "Physiotherapy", photo: "/faculty/ssynm/1319-mr-tr-praveen-kumar.jpg" },
+          { id: "pt-1330", name: "Ms. Surabhi Mahendrakumar Gaur", designation: "Faculty", qualifications: "BPT, MPT", expertise: "Physiotherapy", photo: "/faculty/ssynm/1330-ms-surabhi-mahendrakumar-gaur.jpg" },
         ],
       },
       {
