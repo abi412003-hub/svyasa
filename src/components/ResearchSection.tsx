@@ -4,9 +4,9 @@ import { motion, useInView } from "framer-motion";
 import { ArrowRight, FileText, Users, FlaskConical } from "lucide-react";
 
 const researchStats = [
-  { icon: FileText, value: "600+", label: "Publications" },
-  { icon: Users, value: "50+", label: "Research Scholars" },
-  { icon: FlaskConical, value: "15", label: "Research Labs" },
+  { icon: Users, value: "100,000+", label: "Students Passed" },
+  { icon: FileText, value: "962+", label: "Research Papers" },
+  { icon: FlaskConical, value: "24+", label: "Years of Excellence" },
 ];
 
 const ResearchSection = () => {
