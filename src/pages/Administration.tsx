@@ -8,6 +8,7 @@ import ecNateshBabuPhoto from "@/assets/ec-natesh-babu.png";
 import ecSoubhagyalaxmiPhoto from "@/assets/ec-soubhagyalaxmi-mohanty.png";
 import ecMembersGroupPhoto from "@/assets/ec-members-group.jpg";
 import ecSridharSubramanianPhoto from "@/assets/ec-sridhar-subramanian.jpg";
+import ecAmitSinghPhoto from "@/assets/ec-amit-singh.jpg";
 import { motion, useInView, AnimatePresence, Variants } from "framer-motion";
 import {
   X, Award, BookOpen, FlaskConical, Star, User, ChevronDown,
@@ -322,7 +323,7 @@ const ecCategories: ECCategory[] = [
         designation: "Director, VASHI",
         description: "Director of VASHI (Vivekananda Advanced Studies and Health Integration), leading advanced research programs and health integration initiatives under S-VYASA's academic framework.",
         qualifications: "PhD; Director, VASHI; Research expertise in integrative health and advanced yoga studies",
-        photo: AIIU("1771457389042-nuf49e1py5.JPG"),
+        photo: ecAmitSinghPhoto,
         gender: "male",
         expertise: "Integrative health, advanced yoga studies, research direction, health integration programs",
       },
