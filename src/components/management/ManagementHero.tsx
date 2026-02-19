@@ -15,24 +15,21 @@ const BokehParticle = ({ delay, size, left }: { delay: number; size: number; lef
 const ManagementHero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end start"] });
-  const imageScale = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
-  const overlayOpacity = useTransform(scrollYProgress, [0, 0.5], [0.6, 0.8]);
+  const imageScale = useTransform(scrollYProgress, [0, 1], [1, 1.05]);
+  const overlayOpacity = useTransform(scrollYProgress, [0, 0.5], [0.45, 0.65]);
 
   return (
-    <section ref={containerRef} className="relative h-[70vh] min-h-[500px] overflow-hidden">
+    <section ref={containerRef} className="relative h-[75vh] min-h-[560px] overflow-hidden">
       <motion.div className="absolute inset-0" style={{ scale: imageScale }}>
-        <motion.img
+        <img
           src={ecMembersGroupImage}
           alt="S-VYASA Executive Council Members"
-          className="w-full h-full object-cover"
-          initial={{ scale: 1 }}
-          animate={{ scale: 1.08 }}
-          transition={{ duration: 15, ease: "linear" }}
+          className="w-full h-full object-cover object-center"
         />
       </motion.div>
 
       <motion.div
-        className="absolute inset-0 bg-gradient-to-t from-secondary via-secondary/50 to-transparent"
+        className="absolute inset-0 bg-gradient-to-t from-secondary/80 via-secondary/30 to-black/20"
         style={{ opacity: overlayOpacity }}
       />
 
