@@ -983,29 +983,29 @@ function ECCategoriesSection({ onSelect }: { onSelect: (m: ECMember) => void }) 
         </span>
       </motion.div>
 
-      {/* Categories */}
-      {ecCategories.map((cat) => (
-        <motion.div key={cat.id} variants={fadeUp} className="space-y-4">
-          {/* Category header */}
-          <div className="flex items-center gap-3">
-            <div className="h-[2px] w-6 bg-[hsl(var(--saffron))]/60 rounded-full" />
-            <h3 className="text-[hsl(var(--navy))] text-sm font-bold uppercase tracking-wider">
-              {cat.label}
-            </h3>
-            <span className="text-[hsl(var(--muted-foreground))] text-xs bg-[hsl(var(--cream))] border border-border px-2 py-0.5 rounded-full">
-              {cat.members.length}
-            </span>
-            <div className="flex-1 h-[1px] bg-border" />
-          </div>
+      {/* Unified grid with category headers */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch">
+        {ecCategories.map((cat) => (
+          <React.Fragment key={cat.id}>
+            {/* Full-width category divider */}
+            <motion.div variants={fadeUp} className="col-span-1 sm:col-span-2 lg:col-span-3 flex items-center gap-3 pt-2">
+              <div className="h-[2px] w-6 bg-[hsl(var(--saffron))]/60 rounded-full" />
+              <h3 className="text-[hsl(var(--navy))] text-sm font-bold uppercase tracking-wider">
+                {cat.label}
+              </h3>
+              <span className="text-[hsl(var(--muted-foreground))] text-xs bg-[hsl(var(--cream))] border border-border px-2 py-0.5 rounded-full">
+                {cat.members.length}
+              </span>
+              <div className="flex-1 h-[1px] bg-border" />
+            </motion.div>
 
-          {/* Members grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch">
+            {/* Members flow into the shared grid */}
             {cat.members.map((m) => (
               <ECMemberCard key={m.id} member={m} onClick={() => onSelect(m)} />
             ))}
-          </div>
-        </motion.div>
-      ))}
+          </React.Fragment>
+        ))}
+      </div>
     </motion.div>
   );
 }
