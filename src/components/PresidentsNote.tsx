@@ -8,7 +8,7 @@ const PresidentsNote = () => {
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section ref={ref} className="relative py-24 bg-background overflow-hidden">
+    <section ref={ref} className="relative py-14 md:py-24 bg-background overflow-hidden">
       {/* Subtle mandala watermark */}
       <motion.div
         className="absolute left-0 top-1/2 -translate-y-1/2 w-[500px] h-[500px] opacity-[0.03] pointer-events-none"
@@ -33,7 +33,7 @@ const PresidentsNote = () => {
             className="text-center mb-14"
           >
             <span className="text-xs uppercase tracking-[0.3em] text-gold font-medium">From the President's Desk</span>
-            <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mt-3">President's Note</h2>
+            <h2 className="font-heading text-2xl md:text-4xl lg:text-5xl font-bold text-foreground mt-3">President's Note</h2>
             <motion.div
               className="mx-auto mt-4 h-0.5 bg-gold"
               initial={{ width: 0 }}
@@ -42,7 +42,7 @@ const PresidentsNote = () => {
             />
           </motion.div>
 
-          <div className="grid md:grid-cols-5 gap-10 items-center">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-8 md:gap-10 items-center">
             {/* Quote content — 3 cols (left side) */}
             <motion.div
               className="md:col-span-3 order-2 md:order-1"
@@ -52,7 +52,7 @@ const PresidentsNote = () => {
             >
               <Quote className="w-10 h-10 text-gold/30 mb-4 rotate-180" />
 
-              <blockquote className="font-heading text-xl md:text-2xl text-foreground leading-relaxed mb-6">
+              <blockquote className="font-heading text-lg md:text-2xl text-foreground leading-relaxed mb-6">
                 Yoga is not merely a practice — it is the science of holistic living. At S-VYASA, we have dedicated ourselves to bridging the ancient wisdom of our Rishis with the rigour of modern scientific research, creating a model of education that transforms lives.
               </blockquote>
 

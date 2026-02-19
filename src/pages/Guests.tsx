@@ -108,7 +108,7 @@ const Hero = () => {
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
   return (
-    <section ref={ref} className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
+    <section ref={ref} className="relative min-h-[55vh] md:min-h-[70vh] flex items-center justify-center overflow-hidden">
       {/* Ken Burns background image */}
       <motion.div className="absolute inset-0" style={{ y, scale }}>
         <img
@@ -132,7 +132,7 @@ const Hero = () => {
         <motion.h1
           initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
-          className="text-6xl md:text-8xl font-bold leading-none tracking-tight text-white"
+          className="text-4xl sm:text-6xl md:text-8xl font-bold leading-none tracking-tight text-white"
           style={{ textShadow: "0 4px 24px rgba(0,0,0,0.45)" }}>
           Our{" "}
           <span className="italic" style={{ color: "hsl(var(--primary))" }}>Guests</span>
@@ -140,7 +140,7 @@ const Hero = () => {
         <motion.p
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.7 }}
-          className="text-white/80 text-lg mt-6 max-w-md mx-auto leading-relaxed"
+          className="text-white/80 text-sm md:text-lg mt-4 md:mt-6 max-w-md mx-auto leading-relaxed px-4"
           style={{ textShadow: "0 2px 8px rgba(0,0,0,0.4)" }}>
           Luminaries, leaders, and visionaries who have graced S-VYASA with their presence.
         </motion.p>
@@ -188,8 +188,8 @@ const GuestCard = ({ guest, index }: { guest: GuestEntry; index: number }) => {
             initial={{ x: "-100%" }} whileHover={{ x: "160%" }}
             transition={{ duration: 0.75, ease: "easeInOut" }}
           />
-          <div className="absolute bottom-0 left-0 right-0 z-10 p-5">
-            <motion.p className="text-white font-semibold text-sm md:text-base leading-snug drop-shadow-lg"
+          <div className="absolute bottom-0 left-0 right-0 z-10 p-2 md:p-5">
+            <motion.p className="text-white font-semibold text-[10px] sm:text-xs md:text-sm leading-snug drop-shadow-lg"
               initial={{ y: 12, opacity: 0.7 }} whileHover={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.35 }}>
               {guest.caption}
@@ -207,18 +207,18 @@ export default function Guests() {
     <Layout>
       <Hero />
 
-      <section className="py-16 md:py-24 bg-background">
-        <div className="container mx-auto px-4 max-w-7xl">
+      <section className="py-10 md:py-16 bg-background">
+        <div className="container mx-auto px-3 md:px-4 max-w-7xl">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }} transition={{ duration: 0.7 }} className="mb-12 text-center">
+            viewport={{ once: true }} transition={{ duration: 0.7 }} className="mb-8 md:mb-12 text-center">
             <p className="uppercase text-xs font-semibold tracking-[0.25em] mb-3"
               style={{ color: "hsl(var(--primary))" }}>
               Moments in History
             </p>
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground">Captured in Time</h2>
+            <h2 className="text-2xl md:text-4xl font-bold text-foreground">Captured in Time</h2>
           </motion.div>
 
-          <div className="grid grid-cols-2 gap-4 md:gap-5">
+          <div className="grid grid-cols-2 gap-2 md:gap-5">
             {guests.map((guest, i) => (
               <GuestCard key={guest.id} guest={guest} index={i} />
             ))}
@@ -226,21 +226,21 @@ export default function Guests() {
         </div>
       </section>
 
-      <section className="py-20 border-t"
+      <section className="py-12 md:py-20 border-t"
         style={{ background: "hsl(var(--primary)/0.04)", borderColor: "hsl(var(--primary)/0.1)" }}>
         <div className="container mx-auto px-4 text-center">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }} transition={{ duration: 0.7 }}>
             <p className="uppercase tracking-widest text-xs font-semibold mb-4"
               style={{ color: "hsl(var(--primary))" }}>Open Invitation</p>
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+            <h2 className="text-2xl md:text-4xl font-bold text-foreground mb-4">
               Invite a Distinguished Guest
             </h2>
-            <p className="text-muted-foreground mb-8 max-w-lg mx-auto">
+            <p className="text-muted-foreground mb-6 md:mb-8 max-w-lg mx-auto text-sm md:text-base">
               S-VYASA welcomes scholars, leaders, and dignitaries for lectures, collaborations, and campus visits.
             </p>
             <motion.a href="/contact-us" whileHover={{ scale: 1.06 }} whileTap={{ scale: 0.97 }}
-              className="inline-flex items-center gap-2 px-9 py-4 rounded-full font-semibold text-white shadow-xl"
+              className="inline-flex items-center gap-2 px-7 md:px-9 py-3 md:py-4 rounded-full font-semibold text-white shadow-xl text-sm md:text-base"
               style={{ background: "hsl(var(--primary))" }}>
               Contact Us
             </motion.a>
