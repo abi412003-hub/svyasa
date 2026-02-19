@@ -1058,11 +1058,13 @@ function ECCategoriesSection({ onSelect }: { onSelect: (m: ECMember) => void }) 
 
   const [imgErrPresident, setImgErrPresident] = React.useState(false);
   const [imgErrChancellor, setImgErrChancellor] = React.useState(false);
+  const [imgErrVC, setImgErrVC] = React.useState(false);
 
   const allMembers = ecCategories.flatMap((cat) => cat.members);
   const president = allMembers.find((m) => m.id === "ec-nagendra");
   const chancellor = allMembers.find((m) => m.id === "ec-dayananda");
-  const rest = allMembers.filter((m) => m.id !== "ec-nagendra" && m.id !== "ec-dayananda");
+  const vc = allMembers.find((m) => m.id === "ec-manjunath");
+  const rest = allMembers.filter((m) => !["ec-nagendra", "ec-dayananda", "ec-manjunath"].includes(m.id));
 
   const presidentFallback = president
     ? `https://ui-avatars.com/api/?name=${encodeURIComponent(president.name)}&background=92400e&color=fff&size=800&bold=true`
@@ -1152,6 +1154,14 @@ function ECCategoriesSection({ onSelect }: { onSelect: (m: ECMember) => void }) 
           setErr={setImgErrChancellor}
           imageRight
           roleLabel="Chancellor · S-VYASA Deemed University"
+        />
+      )}
+      {vc && (
+        <FeaturedRow
+          member={vc}
+          imgErr={imgErrVC}
+          setErr={setImgErrVC}
+          roleLabel="Vice Chancellor · S-VYASA Deemed University"
         />
       )}
 
