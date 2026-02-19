@@ -74,24 +74,44 @@ const HeroSection = () => {
               </span>
             </motion.div>
 
-            {/* Title */}
+            {/* Title - initial */}
             <motion.h1
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
-              className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-4 text-shadow-lg leading-tight"
+              initial={{ opacity: 1 }}
+              animate={{ opacity: 0 }}
+              transition={{ delay: 24, duration: 1 }}
+              className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-4 text-shadow-lg leading-tight absolute"
             >
               Where Ancient Wisdom Meets Modern Science
             </motion.h1>
 
-            {/* Subtitle */}
+            {/* Title - after 24s */}
+            <motion.h1
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 24, duration: 1 }}
+              className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-4 text-shadow-lg leading-tight"
+            >
+              Education Meets Industry
+            </motion.h1>
+
+            {/* Subtitle - initial */}
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-              className="text-lg md:text-xl text-primary-foreground/90 mb-8 text-shadow"
+              initial={{ opacity: 1 }}
+              animate={{ opacity: 0 }}
+              transition={{ delay: 24, duration: 1 }}
+              className="text-lg md:text-xl text-primary-foreground/90 mb-8 text-shadow absolute"
             >
               India's Premier Yoga University since 2002
+            </motion.p>
+
+            {/* Subtitle - after 24s */}
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 24, duration: 1 }}
+              className="text-lg md:text-xl text-primary-foreground/90 mb-8 text-shadow"
+            >
+              A University Inside a Tech Park
             </motion.p>
 
             {/* CTA Buttons */}
