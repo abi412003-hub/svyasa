@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import contactHeroImage from "@/assets/contact-hero.jpg";
 
 const ContactHero = () => {
   const [scale, setScale] = useState(1);
@@ -18,7 +19,8 @@ const ContactHero = () => {
       <motion.div
         className="absolute inset-0 bg-cover bg-center"
         style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1562774053-701939374585?w=1920&q=80')`,
+          backgroundImage: `url(${contactHeroImage})`,
+          backgroundPosition: "center 40%",
           scale,
         }}
         transition={{ duration: 0.2 }}
@@ -26,30 +28,6 @@ const ContactHero = () => {
 
       {/* Dark gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/60 to-navy/30" />
-
-      {/* Golden bokeh particles */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-2 h-2 rounded-full bg-gold/40"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [0, -30, 0],
-              opacity: [0.3, 0.8, 0.3],
-              scale: [1, 1.5, 1],
-            }}
-            transition={{
-              duration: 3 + Math.random() * 2,
-              repeat: Infinity,
-              delay: Math.random() * 2,
-            }}
-          />
-        ))}
-      </div>
 
       {/* Content */}
       <div className="absolute inset-0 flex items-center justify-center">
