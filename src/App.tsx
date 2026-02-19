@@ -64,6 +64,7 @@ import AdminCategoryList from "./pages/admin/AdminCategoryList";
 import AdminCategoryEditor from "./pages/admin/AdminCategoryEditor";
 import DivisionPage from "./pages/DivisionPage";
 import SchoolPage from "./pages/SchoolPage";
+import Guests from "./pages/Guests";
 
 // Alias for brevity in routes
 const ResearchCS = ({ title }: { title: string }) => <ResearchComingSoon title={title} />;
@@ -237,6 +238,7 @@ const App = () => (
           <Route path="/aiu" element={<AIU />} />
           <Route path="/directorate-of-international-affairs" element={<DirectorateInternationalAffairs />} />
           <Route path="/news-events" element={<NewsEvents />} />
+          <Route path="/guests" element={<Guests />} />
           
           {/* Training Portal */}
           <Route path="/training" element={<TrainingLayout />}>

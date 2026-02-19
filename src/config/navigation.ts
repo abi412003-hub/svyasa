@@ -441,6 +441,7 @@ export const navItems: NavItem[] = [
   { label: "Life@S-Vyasa", href: "/life-at-svyasa" },
   { label: "International Affairs", href: "/directorate-of-international-affairs" },
   { label: "News & Events", href: "/news-events" },
+  { label: "Guests", href: "/guests" },
   { label: "Contact Us", href: "/contact-us" },
 ];
 
