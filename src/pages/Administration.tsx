@@ -961,7 +961,6 @@ function ECMemberCard({ member, onClick }: { member: ECMember; onClick: () => vo
 function ECCategoriesSection({ onSelect }: { onSelect: (m: ECMember) => void }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
-  const totalMembers = ecCategories.reduce((acc, cat) => acc + cat.members.length, 0);
 
   return (
     <motion.div
@@ -969,32 +968,7 @@ function ECCategoriesSection({ onSelect }: { onSelect: (m: ECMember) => void }) 
       initial="hidden"
       animate={inView ? "visible" : "hidden"}
       variants={stagger}
-      className="space-y-12"
     >
-      {/* Section header */}
-      <motion.div variants={fadeUp} className="flex flex-col sm:flex-row sm:items-end gap-4">
-        <div className="flex-1">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-8 h-[3px] bg-[hsl(var(--saffron))]" />
-            <span className="text-[hsl(var(--teal))] text-xs font-bold uppercase tracking-widest">Section 01</span>
-          </div>
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-xl bg-[hsl(var(--navy))]/8 flex items-center justify-center">
-              <ShieldCheck size={20} className="text-[hsl(var(--navy))]" />
-            </div>
-            <h2 className="font-['Playfair_Display',serif] text-2xl md:text-3xl text-[hsl(var(--navy))] font-bold">
-              Executive Council Members
-            </h2>
-          </div>
-          <p className="text-[hsl(var(--muted-foreground))] text-sm max-w-xl">
-            The principal governing body of S-VYASA Deemed to be University, comprising {totalMembers} distinguished members across categories.
-          </p>
-        </div>
-        <span className="inline-flex items-center bg-[hsl(var(--cream))] text-[hsl(var(--navy))] text-sm font-semibold px-3 py-1.5 rounded-full border border-border self-start sm:self-auto">
-          {totalMembers} Members
-        </span>
-      </motion.div>
-
       {/* Single flat grid — all members flow together */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch">
         {ecCategories.flatMap((cat) =>
@@ -1111,6 +1085,56 @@ function Organogram() {
   );
 }
 
+// ─── COLLAPSIBLE SECTION WRAPPER ───────────────────────────────────────────────
+function CollapsibleSection({
+  title, subtitle, label, defaultOpen = true, children,
+}: {
+  title: string; subtitle?: string; label?: string; defaultOpen?: boolean; children: React.ReactNode;
+}) {
+  const [open, setOpen] = useState(defaultOpen);
+  return (
+    <div>
+      <button
+        onClick={() => setOpen((v) => !v)}
+        className="w-full flex items-center justify-between gap-4 group mb-0"
+        aria-expanded={open}
+      >
+        <div className="flex flex-col items-start">
+          {label && (
+            <div className="flex items-center gap-3 mb-1">
+              <div className="w-8 h-[3px] bg-[hsl(var(--saffron))]" />
+              <span className="text-[hsl(var(--teal))] text-xs font-bold uppercase tracking-widest">{label}</span>
+            </div>
+          )}
+          <h2 className="font-['Playfair_Display',serif] text-2xl md:text-3xl text-[hsl(var(--navy))] font-bold text-left">
+            {title}
+          </h2>
+          {subtitle && (
+            <p className="text-[hsl(var(--muted-foreground))] text-sm max-w-xl text-left mt-1">{subtitle}</p>
+          )}
+        </div>
+        <div className={`shrink-0 w-10 h-10 rounded-xl bg-[hsl(var(--cream))] border border-border flex items-center justify-center transition-all duration-300 group-hover:bg-[hsl(var(--saffron))]/10 group-hover:border-[hsl(var(--saffron))]/40 ${open ? "rotate-180" : ""}`}>
+          <ChevronDown size={18} className="text-[hsl(var(--navy))]" />
+        </div>
+      </button>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            key="content"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="overflow-hidden"
+          >
+            <div className="pt-6">{children}</div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 // ─── PAGE ──────────────────────────────────────────────────────────────────────
 export default function Administration() {
   const [selected, setSelected] = useState<AnyMember | null>(null);
@@ -1196,34 +1220,29 @@ export default function Administration() {
       {/* ── Organogram ── */}
       <section className="py-16 bg-[hsl(var(--cream))]/40">
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="mb-10"
+          <CollapsibleSection
+            label="Organogram"
+            title="University Organizational Chart"
+            subtitle="As per Mandatory Disclosure — Swami Vivekananda Yoga Anusandhana Samsthana (S-VYASA)"
+            defaultOpen={true}
           >
-            <div className="flex items-center gap-3 mb-2">
-              <div className="w-8 h-[3px] bg-[hsl(var(--saffron))]" />
-              <span className="text-[hsl(var(--teal))] text-xs font-bold uppercase tracking-widest">Organogram</span>
+            <div className="bg-white rounded-2xl border border-border p-6 shadow-sm">
+              <Organogram />
             </div>
-            <h2 className="font-['Playfair_Display',serif] text-2xl md:text-3xl text-[hsl(var(--navy))] font-bold mb-2">
-              University Organizational Chart
-            </h2>
-            <p className="text-[hsl(var(--muted-foreground))] text-sm max-w-xl">
-              As per Mandatory Disclosure — Swami Vivekananda Yoga Anusandhana Samsthana (S-VYASA)
-            </p>
-          </motion.div>
-          <div className="bg-white rounded-2xl border border-border p-6 shadow-sm">
-            <Organogram />
-          </div>
+          </CollapsibleSection>
         </div>
       </section>
 
-      {/* ── All sections ── */}
-      <div className="py-16 max-w-7xl mx-auto px-6 lg:px-10 space-y-20">
-        {/* EC Categories section first */}
-        <ECCategoriesSection onSelect={setSelected} />
+      {/* ── EC Section ── */}
+      <div className="py-16 max-w-7xl mx-auto px-6 lg:px-10">
+        <CollapsibleSection
+          label="Section 01"
+          title="Executive Council Members"
+          subtitle={`The principal governing body of S-VYASA Deemed to be University, comprising ${ecCategories.reduce((a, c) => a + c.members.length, 0)} distinguished members across categories.`}
+          defaultOpen={true}
+        >
+          <ECCategoriesSection onSelect={setSelected} />
+        </CollapsibleSection>
       </div>
 
       {/* ── CTA ── */}
