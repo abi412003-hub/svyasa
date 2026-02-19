@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import libraryHeroImage from "@/assets/library-shelves.jpg";
 
 const LibraryHero = () => {
   const [scale, setScale] = useState(1);
@@ -16,7 +17,7 @@ const LibraryHero = () => {
       <motion.div
         className="absolute inset-0 bg-cover bg-center"
         style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=1920&q=80')`,
+          backgroundImage: `url(${libraryHeroImage})`,
           scale,
         }}
         transition={{ duration: 0.2 }}

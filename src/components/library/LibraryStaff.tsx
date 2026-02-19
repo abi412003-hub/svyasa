@@ -3,6 +3,9 @@ import { useRef } from "react";
 import { Mail, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { libraryStaff } from "./libraryData";
+import libraryStudents2 from "@/assets/library-students-2.jpg";
+import libraryDesk1 from "@/assets/library-desk-1.jpg";
+import libraryDesk2 from "@/assets/library-desk-2.jpg";
 
 const LibraryStaff = () => {
   const ref = useRef(null);
@@ -102,6 +105,30 @@ const LibraryStaff = () => {
           </motion.div>
         ))}
       </div>
+
+      {/* Photo Gallery Strip */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={isInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ delay: 0.9 }}
+        className="grid grid-cols-3 gap-3 rounded-2xl overflow-hidden"
+      >
+        {[libraryStudents2, libraryDesk1, libraryDesk2].map((img, i) => (
+          <motion.div
+            key={i}
+            className="relative overflow-hidden h-48 group"
+            whileHover={{ scale: 1.02 }}
+            transition={{ duration: 0.4 }}
+          >
+            <img
+              src={img}
+              alt={`Library view ${i + 1}`}
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+            />
+            <div className="absolute inset-0 bg-navy/20 group-hover:bg-navy/10 transition-colors" />
+          </motion.div>
+        ))}
+      </motion.div>
 
       {/* Link to Prashanthi Campus Library */}
       <motion.div

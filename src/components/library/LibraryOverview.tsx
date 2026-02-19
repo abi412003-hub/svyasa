@@ -1,6 +1,9 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 import { BookOpen, Bookmark, Users, Armchair, Clock } from "lucide-react";
+import libraryImg1 from "@/assets/library-students-3.jpg";
+import libraryImg2 from "@/assets/library-overview.jpg";
+import libraryImg3 from "@/assets/library-students-1.jpg";
 import { libraryStats, libraryTimings } from "./libraryData";
 
 const iconMap: Record<string, React.ElementType> = {
@@ -135,11 +138,7 @@ const LibraryOverview = () => {
               className="relative overflow-hidden rounded-xl group"
             >
               <motion.img
-                src={`https://images.unsplash.com/photo-${
-                  n === 1 ? "1507003211169-0a1dd7228f2d" :
-                  n === 2 ? "1481627834876-b7833e8f5570" :
-                  "1524995997946-a1c2e315a42f"
-                }?w=400&q=80`}
+                src={n === 1 ? libraryImg1 : n === 2 ? libraryImg2 : libraryImg3}
                 alt={`Library ${n}`}
                 className="w-full h-40 object-cover transition-transform duration-[10000ms]"
                 whileHover={{ scale: 1.08 }}
