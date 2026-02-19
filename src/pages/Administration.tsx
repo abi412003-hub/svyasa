@@ -71,6 +71,21 @@ const ecCategories: ECCategory[] = [
         expertise: "Yoga research, integrative medicine, leadership in higher education, energy research",
       },
       {
+        id: "ec-dayananda",
+        name: "Dr. H R Dayananda Swamy",
+        designation: "Chancellor",
+        description: "Chancellor of S-VYASA Deemed to be University, providing visionary leadership and spiritual guidance to the institution, upholding the legacy of Swami Vivekananda's teachings.",
+        qualifications: "PhD; Chancellor, S-VYASA Deemed to be University; Spiritual leader and academic visionary",
+        photo: chancellorDayanandaPhoto,
+        gender: "male",
+        achievements: [
+          "Chancellor, S-VYASA Deemed to be University",
+          "Spiritual head of the Vivekananda Yoga lineage",
+          "Guiding institutional vision aligned with Swami Vivekananda's philosophy",
+        ],
+        expertise: "University leadership, spiritual guidance, institutional vision, Vedanta philosophy",
+      },
+      {
         id: "ec-subrahmanyam",
         name: "Prof. K. Subrahmanyam",
         designation: "Member",
@@ -234,21 +249,6 @@ const ecCategories: ECCategory[] = [
         initials: "SD",
         gender: "female",
         expertise: "Institutional governance, society representation, mission alignment",
-      },
-      {
-        id: "ec-dayananda",
-        name: "Dr. H R Dayananda Swamy",
-        designation: "Chancellor",
-        description: "Chancellor of S-VYASA Deemed to be University, providing visionary leadership and spiritual guidance to the institution, upholding the legacy of Swami Vivekananda's teachings.",
-        qualifications: "PhD; Chancellor, S-VYASA Deemed to be University; Spiritual leader and academic visionary",
-        photo: chancellorDayanandaPhoto,
-        gender: "male",
-        achievements: [
-          "Chancellor, S-VYASA Deemed to be University",
-          "Spiritual head of the Vivekananda Yoga lineage",
-          "Guiding institutional vision aligned with Swami Vivekananda's philosophy",
-        ],
-        expertise: "University leadership, spiritual guidance, institutional vision, Vedanta philosophy",
       },
       {
         id: "ec-natesh-babu",
