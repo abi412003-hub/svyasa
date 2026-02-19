@@ -7,6 +7,7 @@ import ecSridharaSwamyPhoto from "@/assets/ec-sridhara-swamy.png";
 import ecNateshBabuPhoto from "@/assets/ec-natesh-babu.png";
 import ecSoubhagyalaxmiPhoto from "@/assets/ec-soubhagyalaxmi-mohanty.png";
 import ecMembersGroupPhoto from "@/assets/ec-members-group.jpg";
+import ecSridharSubramanianPhoto from "@/assets/ec-sridhar-subramanian.jpg";
 import { motion, useInView, AnimatePresence, Variants } from "framer-motion";
 import {
   X, Award, BookOpen, FlaskConical, Star, User, ChevronDown,
@@ -331,7 +332,7 @@ const ecCategories: ECCategory[] = [
         designation: "Director Academics, SCC",
         description: "Director of Academics at S-VYASA City Campus, overseeing curriculum delivery, faculty coordination, and academic quality assurance for all programs at the City Campus.",
         qualifications: "PhD; Director Academics, S-VYASA City Campus; Expertise in academic governance and curriculum management",
-        photo: AIIU("1771457380964-brnujov79da.jpg"),
+        photo: ecSridharSubramanianPhoto,
         gender: "male",
         expertise: "Academic governance, curriculum management, faculty coordination, quality assurance",
       },
