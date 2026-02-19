@@ -18,7 +18,7 @@ const IQACHero = () => {
         className="absolute inset-0 bg-cover bg-center"
         style={{
           backgroundImage: `url(${iqacHeroImage})`,
-          backgroundPosition: "center 30%",
+          backgroundPosition: "center top",
           scale,
         }}
         transition={{ duration: 0.2 }}
