@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import diaHeroWorld from "@/assets/dia-hero-world.jpg";
 
 const DIAHero = () => {
   const [scale, setScale] = useState(1);
@@ -27,7 +28,8 @@ const DIAHero = () => {
       <motion.div
         className="absolute inset-0 bg-cover bg-center"
         style={{
-          backgroundImage: `url('img/banner/management-svyasa1.jpg'), url('https://images.unsplash.com/photo-1526470608268-f674ce90ebd4?w=1920&q=80')`,
+          backgroundImage: `url(${diaHeroWorld})`,
+          backgroundPosition: "center center",
           scale,
         }}
         transition={{ duration: 0.2 }}

@@ -6,7 +6,6 @@ import DIANavigation from "@/components/international-affairs/DIANavigation";
 import DIAContent from "@/components/international-affairs/DIAContent";
 import DIAForm from "@/components/international-affairs/DIAForm";
 import DIAStats from "@/components/international-affairs/DIAStats";
-import DIAExploreLinks from "@/components/international-affairs/DIAExploreLinks";
 import DIABadge from "@/components/international-affairs/DIABadge";
 import DIACTA from "@/components/international-affairs/DIACTA";
 
@@ -47,7 +46,7 @@ const DirectorateInternationalAffairs = () => {
       </section>
 
       <DIAStats />
-      <DIAExploreLinks />
+      
       <DIABadge />
       <DIACTA />
     </Layout>
