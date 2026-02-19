@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import chancellorDayanandaPhoto from "@/assets/chancellor-dayananda-swamy.jpg";
 import ecRamakrishnaPhoto from "@/assets/ec-ramakrishna.jpg";
 import ecJayaramanPhoto from "@/assets/ec-jayaraman.jpg";
+import ecRamachandraBhatPhoto from "@/assets/ec-ramachandra-bhat.png";
 import { motion, useInView, AnimatePresence, Variants } from "framer-motion";
 import {
   X, Award, BookOpen, FlaskConical, Star, User, ChevronDown,
@@ -152,7 +153,7 @@ const ecCategories: ECCategory[] = [
         designation: "Director at VMTR",
         description: "Eminent academician and Director at VMTR (Vivekananda Memorial Therapeutic Research), contributing expertise in yoga therapy research and evidence-based clinical practices.",
         qualifications: "PhD; Director, Vivekananda Memorial Therapeutic Research; Extensive research publications in yoga therapy",
-        photo: AIIU("1771457383493-vkj0xq3ub9.jpeg"),
+        photo: ecRamachandraBhatPhoto,
         gender: "male",
         expertise: "Yoga therapy research, evidence-based practice, therapeutic applications of yoga",
       },
