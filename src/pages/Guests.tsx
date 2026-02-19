@@ -200,17 +200,6 @@ const GuestCard = ({ guest, index }: { guest: GuestEntry; index: number }) => {
             initial={{ x: "-100%" }} whileHover={{ x: "160%" }}
             transition={{ duration: 0.75, ease: "easeInOut" }}
           />
-          {guest.year && (
-            <motion.div className="absolute top-4 left-4 z-20"
-              initial={{ opacity: 0, scale: 0.6 }}
-              animate={isInView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ delay: (index % 4) * 0.1 + 0.4, type: "spring" }}>
-              <span className="text-xs font-bold px-3 py-1.5 rounded-full backdrop-blur-md"
-                style={{ background: "hsl(var(--primary)/0.85)", color: "white" }}>
-                {guest.year}
-              </span>
-            </motion.div>
-          )}
           <div className="absolute bottom-0 left-0 right-0 z-10 p-5">
             <motion.p className="text-white font-semibold text-sm md:text-base leading-snug drop-shadow-lg"
               initial={{ y: 12, opacity: 0.7 }} whileHover={{ y: 0, opacity: 1 }}
@@ -241,7 +230,7 @@ export default function Guests() {
             <h2 className="text-3xl md:text-4xl font-bold text-foreground">Captured in Time</h2>
           </motion.div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
+          <div className="grid grid-cols-2 gap-4 md:gap-5">
             {guests.map((guest, i) => (
               <GuestCard key={guest.id} guest={guest} index={i} />
             ))}
