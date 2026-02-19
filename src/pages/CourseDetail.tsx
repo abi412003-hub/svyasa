@@ -7,7 +7,7 @@ import OverviewSection from "@/components/course/OverviewSection";
 import HighlightsCarousel from "@/components/course/HighlightsCarousel";
 import EligibilitySection from "@/components/course/EligibilitySection";
 import CareersSection from "@/components/course/CareersSection";
-import DifferenceSection from "@/components/course/DifferenceSection";
+
 import TestimonialsSection from "@/components/course/TestimonialsSection";
 import FeeSection from "@/components/course/FeeSection";
 import CourseCTA from "@/components/course/CourseCTA";
@@ -140,9 +140,6 @@ const CourseDetail = () => {
 
       {/* Career Paths */}
       <CareersSection course={course} />
-
-      {/* S-VYASA Difference */}
-      <DifferenceSection />
 
       {/* Testimonials */}
       <TestimonialsSection />
