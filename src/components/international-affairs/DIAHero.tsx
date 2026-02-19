@@ -26,10 +26,10 @@ const DIAHero = () => {
   return (
     <section className="relative h-[50vh] min-h-[400px] overflow-hidden">
       <motion.div
-        className="absolute inset-0 bg-cover bg-center"
+        className="absolute inset-0 bg-cover"
         style={{
           backgroundImage: `url(${diaHeroWorld})`,
-          backgroundPosition: "center center",
+          backgroundPosition: "center 15%",
           scale,
         }}
         transition={{ duration: 0.2 }}
