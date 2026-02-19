@@ -4,32 +4,32 @@ import { ChevronLeft, ChevronRight, Award } from "lucide-react";
 
 const alumni = [
   {
-    name: "Dr. H.R. Nagendra",
-    role: "Chancellor, S-VYASA University",
-    field: "Yoga Science & Research",
-    image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400",
-    achievement: "Pioneer in integrating yoga with modern science; authored 200+ research publications and led global yoga research initiatives.",
-  },
-  {
-    name: "Dr. R. Nagarathna",
-    role: "Dean, Division of Yoga & Life Sciences",
+    name: "Smitha Mallaiah, M.Sc.",
+    role: "Sr. Mind-Body Intervention Specialist, MD Anderson Cancer Center, Houston",
     field: "Yoga Therapy",
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400",
-    achievement: "Internationally acclaimed for clinical yoga therapy research, especially in cancer care and lifestyle disease management.",
+    image: "https://ui-avatars.com/api/?name=Smitha+Mallaiah&background=92400e&color=fff&size=400&bold=true",
+    achievement: "M.Sc. Yoga Therapy from S-VYASA. Established the first yoga therapy clinic at MD Anderson. Program Director, SVYASA Houston.",
   },
   {
-    name: "Dr. Judu Ilavarasu",
-    role: "Professor & Head of Research",
-    field: "Yoga & Psychology",
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400",
-    achievement: "Leading researcher in yoga-based psychological interventions; published extensively in peer-reviewed international journals.",
+    name: "Dr. Vijaya Kavuri, Ph.D.",
+    role: "Asst. Professor, SVYASA & Joint Director of Research, VYASA-LA, California",
+    field: "Yoga Research",
+    image: "https://ui-avatars.com/api/?name=Vijaya+Kavuri&background=1e3a5f&color=fff&size=400&bold=true",
+    achievement: "Ph.D. in Yoga from SVYASA. 10+ years of yoga therapy research in Los Angeles.",
   },
   {
-    name: "Dr. Balaram Pradhan",
-    role: "Associate Professor",
-    field: "Yoga & Neuroscience",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400",
-    achievement: "Recognized for groundbreaking studies on yoga's effect on brain plasticity and mental health across multiple global institutions.",
+    name: "Mr. Prosenjit Mopdar",
+    role: "Professor of Yoga, Atmiya Educational Institutions",
+    field: "Yoga Education",
+    image: "https://ui-avatars.com/api/?name=Prosenjit+Mopdar&background=166534&color=fff&size=400&bold=true",
+    achievement: "M.Sc. Yoga Therapy graduate of S-VYASA.",
+  },
+  {
+    name: "Ms. Priyanka",
+    role: "Yoga Therapist, AIIMS, New Delhi",
+    field: "Clinical Yoga Therapy",
+    image: "https://ui-avatars.com/api/?name=Priyanka&background=7c3aed&color=fff&size=400&bold=true",
+    achievement: "M.Sc. Yoga Therapy graduate of S-VYASA.",
   },
 ];
 
