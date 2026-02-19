@@ -1,3 +1,5 @@
+import presidentNagendraImg from "@/assets/president-nagendra.jpg";
+
 export interface FacultyProfile {
   id: string;
   name: string;
@@ -20,7 +22,7 @@ export const facultyData: FacultyProfile[] = [
     name: "Dr. H R Nagendra",
     designation: "President",
     qualifications: "PhD (Mechanical Engineering), IISc Bangalore",
-    photo: `${BASE}/10/80.jpg`,
+    photo: presidentNagendraImg,
     section: "leadership",
     achievements: [
       "Post-Doctoral Research Fellow, University of British Columbia, Canada (1970)",
@@ -45,7 +47,7 @@ export const facultyData: FacultyProfile[] = [
     name: "Dr. R Nagarathna",
     designation: "Director, Arogyadhama",
     qualifications: "MBBS, MD (Internal Medicine), MRCP, FRCP (Edinburgh)",
-    photo: `${BASE}/10/83.jpg`,
+    photo: `${BASE}/10/86.jpg`,
     section: "leadership",
     achievements: [
       "Chief Consultant at Arogyadhama, SVYASA",
