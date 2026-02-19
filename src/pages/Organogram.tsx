@@ -7,6 +7,7 @@ const divisions = [
     name: "Division of Yoga Spirituality",
     icon: Heart,
     color: "from-primary to-primary/80",
+    schoolsLabel: "Schools & Centers",
     schools: [
       { name: "School of Yogic Sciences" },
       { name: "Varahamihira Advanced Center for Vedic Technology and Research (VMAC)" },
@@ -16,6 +17,7 @@ const divisions = [
     name: "Division of Yoga and Life Sciences",
     icon: FlaskConical,
     color: "from-primary to-primary/80",
+    schoolsLabel: "Schools",
     schools: [
       { name: "School of Yoga and Naturopathic Medicine" },
       { name: "School of Physiotherapy" },
@@ -26,6 +28,7 @@ const divisions = [
     name: "Division of Yoga & Physical Sciences",
     icon: Monitor,
     color: "from-primary to-primary/80",
+    schoolsLabel: "Schools",
     schools: [
       { name: "School of Engineering" },
       { name: "School of Computer Sciences" },
@@ -35,6 +38,7 @@ const divisions = [
     name: "Division of Yoga & Management Studies",
     icon: Briefcase,
     color: "from-primary to-primary/80",
+    schoolsLabel: "Schools",
     schools: [
       { name: "School of Commerce and Management" },
     ],
@@ -43,6 +47,7 @@ const divisions = [
     name: "Division of Yoga & Humanities",
     icon: BookOpen,
     color: "from-primary to-primary/80",
+    schoolsLabel: "Schools",
     schools: [
       { name: "School of Performing Arts" },
       { name: "School of Sports Sciences" },
@@ -52,6 +57,7 @@ const divisions = [
     name: "CODE – Center for Online and Distance Education",
     icon: Globe,
     color: "from-blue-700 to-blue-500",
+    schoolsLabel: "",
     schools: [
       { name: "Distance Learning" },
       { name: "Online Courses" },
@@ -62,6 +68,7 @@ const divisions = [
     name: "ANVESANA – Advanced Research Laboratories",
     icon: Brain,
     color: "from-blue-700 to-blue-500",
+    schoolsLabel: "",
     schools: [
       { name: "Centre for Advanced Research in Integrative Medicine" },
     ],
@@ -182,10 +189,12 @@ const Organogram = () => {
                     </div>
                     {division.schools.length > 0 && (
                       <div className="p-4 space-y-2">
-                        <div className="flex items-center gap-2 mb-3">
-                          <div className="w-2 h-2 rounded-full bg-accent" />
-                          <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Schools & Centers</span>
-                        </div>
+                        {division.schoolsLabel && (
+                          <div className="flex items-center gap-2 mb-3">
+                            <div className="w-2 h-2 rounded-full bg-accent" />
+                            <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{division.schoolsLabel}</span>
+                          </div>
+                        )}
                         {division.schools.map((school, sIndex) => (
                           <motion.div key={sIndex} whileHover={{ x: 4 }} className="flex items-start gap-2 pl-3 border-l-2 border-accent/40 hover:border-accent transition-colors">
                             <GraduationCap className="w-4 h-4 text-accent mt-0.5 flex-shrink-0" />
@@ -229,10 +238,12 @@ const Organogram = () => {
                     </div>
                     {division.schools.length > 0 && (
                       <div className="p-4 space-y-2">
-                        <div className="flex items-center gap-2 mb-3">
-                          <div className="w-2 h-2 rounded-full bg-blue-400" />
-                          <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Schools & Centers</span>
-                        </div>
+                        {division.schoolsLabel && (
+                          <div className="flex items-center gap-2 mb-3">
+                            <div className="w-2 h-2 rounded-full bg-blue-400" />
+                            <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{division.schoolsLabel}</span>
+                          </div>
+                        )}
                         {division.schools.map((school, sIndex) => (
                           <motion.div key={sIndex} whileHover={{ x: 4 }} className="flex items-start gap-2 pl-3 border-l-2 border-blue-300 hover:border-blue-500 transition-colors">
                             <GraduationCap className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" />
