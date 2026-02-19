@@ -1,10 +1,22 @@
 import { useRef, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
-import { X, ChevronDown, ChevronUp } from "lucide-react";
+import { X, ChevronDown, ChevronUp, Leaf, Building2 } from "lucide-react";
 
 const B = "https://spkbypslhjqvnvnujpwd.supabase.co/storage/v1/object/public/site-images";
 
-const initialImages = [
+const prashantiImages = [
+  { src: `${B}/prashanti/cultural/1771447412651-ob42mcgqoh.jpeg`, label: "Cultural Events" },
+  { src: `${B}/prashanti/cultural/1771447413860-mfcklh3heef.jpeg`, label: "Cultural Events" },
+  { src: `${B}/prashanti/cultural/1771447414693-0tfil5ur9d8i.jpeg`, label: "Cultural Events" },
+];
+
+const prashantiExtra = [
+  { src: `${B}/prashanti/cultural/1771447412651-ob42mcgqoh.jpeg`, label: "Yoga Practice" },
+  { src: `${B}/prashanti/cultural/1771447413860-mfcklh3heef.jpeg`, label: "Meditation Hall" },
+  { src: `${B}/prashanti/cultural/1771447414693-0tfil5ur9d8i.jpeg`, label: "Campus Grounds" },
+];
+
+const gccImages = [
   { src: `${B}/city-campus/classrooms/1771447064167-ymjqv679y3b.jpeg`, label: "Classrooms" },
   { src: `${B}/city-campus/campus/1771447306710-gxwxuemokp.jpg`, label: "City Campus" },
   { src: `${B}/city-campus/campus/1771447262662-ucmnqd1dmzo.jpg`, label: "City Campus" },
@@ -13,27 +25,25 @@ const initialImages = [
   { src: `${B}/city-campus/campus/1771447169725-pduqhy9txm.jpeg`, label: "City Campus" },
 ];
 
-const extraImages = [
+const gccExtra = [
   { src: `${B}/city-campus/library/1771447108701-dfjj7yqf3rt.jpeg`, label: "Library" },
   { src: `${B}/city-campus/library/1771447109751-fvyfr4mmlu.jpeg`, label: "Library" },
   { src: `${B}/city-campus/library/1771447110259-5dauyg61hbq.jpeg`, label: "Library" },
   { src: `${B}/city-campus/library/1771447111050-qj2z3wku3xh.jpeg`, label: "Library" },
   { src: `${B}/city-campus/library/1771447111575-f58mmigak8n.jpeg`, label: "Library" },
   { src: `${B}/city-campus/library/1771447112157-19v3ypvb1ua.jpeg`, label: "Library" },
-  { src: `${B}/prashanti/cultural/1771447412651-ob42mcgqoh.jpeg`, label: "Cultural Events" },
-  { src: `${B}/prashanti/cultural/1771447413860-mfcklh3heef.jpeg`, label: "Cultural Events" },
-  { src: `${B}/prashanti/cultural/1771447414693-0tfil5ur9d8i.jpeg`, label: "Cultural Events" },
   { src: `${B}/city-campus/classrooms/1771447062568-1972jsykujp.jpeg`, label: "Classrooms" },
   { src: `${B}/city-campus/classrooms/1771447063619-yvoqf8511h.jpeg`, label: "Classrooms" },
-  { src: `${B}/city-campus/classrooms/1771447064167-ymjqv679y3b.jpeg`, label: "Classrooms" },
   { src: `${B}/city-campus/classrooms/1771447064763-v2gov5u8ekm.jpeg`, label: "Classrooms" },
   { src: `${B}/city-campus/classrooms/1771447065284-6hrm1o8v9pl.jpeg`, label: "Classrooms" },
 ];
 
-const CampusSection = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [selectedImage, setSelectedImage] = useState<(typeof initialImages)[0] | null>(null);
+type Tab = "prashanti" | "gcc";
+
+type ImageItem = { src: string; label: string };
+
+const ImageGrid = ({ images, extra }: { images: ImageItem[]; extra: ImageItem[] }) => {
+  const [selectedImage, setSelectedImage] = useState<ImageItem | null>(null);
   const [showMore, setShowMore] = useState(false);
 
   const getAnimation = (index: number) => {
@@ -49,174 +59,106 @@ const CampusSection = () => {
   };
 
   return (
-    <section ref={ref} className="py-20 bg-background relative overflow-hidden">
-      {/* Lotus SVG Drawing Animation */}
-      <motion.svg
-        className="absolute right-0 top-1/2 -translate-y-1/2 w-[400px] h-[400px] opacity-5"
-        viewBox="0 0 200 200"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="0.5"
-      >
-        <motion.path
-          d="M100 20 C100 20 140 60 140 100 C140 140 100 180 100 180 C100 180 60 140 60 100 C60 60 100 20 100 20"
-          initial={{ pathLength: 0 }}
-          animate={isInView ? { pathLength: 1 } : {}}
-          transition={{ duration: 3, ease: "easeInOut" }}
-        />
-        <motion.circle
-          cx="100"
-          cy="100"
-          r="30"
-          initial={{ pathLength: 0 }}
-          animate={isInView ? { pathLength: 1 } : {}}
-          transition={{ duration: 2, delay: 1 }}
-        />
-      </motion.svg>
-
-      <div className="container mx-auto px-4 relative">
-        {/* Section Title */}
-        <div className="text-center mb-16">
-          <motion.span
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            className="inline-block text-primary font-medium mb-4"
+    <>
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        {images.map((image, index) => (
+          <motion.div
+            key={index}
+            initial={getAnimation(index)}
+            animate={{ opacity: 1, x: 0, y: 0, scale: 1, rotate: 0 }}
+            transition={{ delay: index * 0.1, duration: 0.6 }}
+            className={`relative overflow-hidden rounded-2xl cursor-pointer group ${
+              index === 0 ? "md:row-span-2" : ""
+            } ${index === images.length - 1 ? "md:col-span-2" : ""}`}
+            onClick={() => setSelectedImage(image)}
           >
-            Experience Our Campus
-          </motion.span>
-
-          <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-            {"Campus Life".split("").map((char, i) => (
-              <motion.span
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: i * 0.05 }}
-                className="inline-block"
-                style={{ marginRight: char === " " ? "0.5rem" : "0" }}
-              >
-                {char}
-              </motion.span>
-            ))}
-          </h2>
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : {}}
-            transition={{ delay: 0.6 }}
-            className="text-muted-foreground max-w-2xl mx-auto"
-          >
-            Explore our 100-acre campus featuring world-class facilities designed
-            for holistic learning and personal transformation.
-          </motion.p>
-        </div>
-
-        {/* Initial Image Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          {initialImages.map((image, index) => (
+            <motion.img
+              src={image.src}
+              alt={image.label}
+              className={`w-full object-cover ${
+                index === 0 ? "h-full min-h-[200px] md:min-h-[400px]" : "h-36 md:h-56"
+              } ${index === images.length - 1 ? "md:h-56" : ""}`}
+              whileHover={{ scale: 1.1 }}
+              transition={{ duration: 0.5 }}
+            />
             <motion.div
-              key={index}
-              initial={getAnimation(index)}
-              animate={isInView ? { opacity: 1, x: 0, y: 0, scale: 1, rotate: 0 } : {}}
-              transition={{ delay: index * 0.1, duration: 0.6 }}
-              className={`relative overflow-hidden rounded-2xl cursor-pointer group ${
-                index === 0 ? "md:row-span-2" : ""
-              } ${index === initialImages.length - 1 ? "md:col-span-2" : ""}`}
-              onClick={() => setSelectedImage(image)}
+              initial={{ opacity: 0 }}
+              whileHover={{ opacity: 1 }}
+              className="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/20 to-transparent flex items-end p-4"
             >
-              <motion.img
-                src={image.src}
-                alt={image.label}
-                className={`w-full object-cover ${
-                  index === 0 ? "h-full min-h-[200px] md:min-h-[400px]" : "h-36 md:h-56"
-                } ${index === initialImages.length - 1 ? "md:h-56" : ""}`}
-                whileHover={{ scale: 1.1 }}
-                transition={{ duration: 0.5 }}
-              />
-              <motion.div
-                initial={{ opacity: 0 }}
-                whileHover={{ opacity: 1 }}
-                className="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/20 to-transparent flex items-end p-4"
-              >
-                <span className="text-primary-foreground font-medium">{image.label}</span>
-              </motion.div>
+              <span className="text-primary-foreground font-medium">{image.label}</span>
             </motion.div>
-          ))}
-        </div>
+          </motion.div>
+        ))}
+      </div>
 
-        {/* Expanded Images with animated reveal */}
-        <AnimatePresence>
-          {showMore && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.5, ease: "easeInOut" }}
-              className="overflow-hidden"
-            >
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
-                {extraImages.map((image, index) => (
+      {/* Expanded Images */}
+      <AnimatePresence>
+        {showMore && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+            className="overflow-hidden"
+          >
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
+              {extra.map((image, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, scale: 0.85, y: 30 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.85, y: 30 }}
+                  transition={{ delay: index * 0.06, duration: 0.4 }}
+                  className="relative overflow-hidden rounded-2xl cursor-pointer group"
+                  onClick={() => setSelectedImage(image)}
+                >
+                  <motion.img
+                    src={image.src}
+                    alt={image.label}
+                    className="w-full h-36 md:h-56 object-cover"
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ duration: 0.5 }}
+                  />
                   <motion.div
-                    key={index}
-                    initial={{ opacity: 0, scale: 0.85, y: 30 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.85, y: 30 }}
-                    transition={{ delay: index * 0.06, duration: 0.4 }}
-                    className="relative overflow-hidden rounded-2xl cursor-pointer group"
-                    onClick={() => setSelectedImage(image)}
+                    initial={{ opacity: 0 }}
+                    whileHover={{ opacity: 1 }}
+                    className="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/20 to-transparent flex items-end p-4"
                   >
-                    <motion.img
-                      src={image.src}
-                      alt={image.label}
-                      className="w-full h-36 md:h-56 object-cover"
-                      whileHover={{ scale: 1.1 }}
-                      transition={{ duration: 0.5 }}
-                    />
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      whileHover={{ opacity: 1 }}
-                      className="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/20 to-transparent flex items-end p-4"
-                    >
-                      <span className="text-primary-foreground font-medium">{image.label}</span>
-                    </motion.div>
+                    <span className="text-primary-foreground font-medium">{image.label}</span>
                   </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-        {/* View More / Less Button */}
-        <motion.div
-          className="flex justify-center mt-10"
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.8 }}
+      {/* View More / Less */}
+      <div className="flex justify-center mt-8">
+        <motion.button
+          onClick={() => setShowMore((v) => !v)}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.97 }}
+          className="group flex items-center gap-2 px-8 py-3 rounded-full border border-primary text-primary font-medium hover:bg-primary hover:text-primary-foreground transition-all duration-300"
         >
-          <motion.button
-            onClick={() => setShowMore((v) => !v)}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.97 }}
-            className="group flex items-center gap-2 px-8 py-3 rounded-full border border-primary text-primary font-medium hover:bg-primary hover:text-primary-foreground transition-all duration-300"
-          >
-            <AnimatePresence mode="wait">
-              <motion.span
-                key={showMore ? "less" : "more"}
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.2 }}
-                className="flex items-center gap-2"
-              >
-                {showMore ? (
-                  <>Show Less <ChevronUp size={16} /></>
-                ) : (
-                  <>View More Photos <ChevronDown size={16} /></>
-                )}
-              </motion.span>
-            </AnimatePresence>
-          </motion.button>
-        </motion.div>
+          <AnimatePresence mode="wait">
+            <motion.span
+              key={showMore ? "less" : "more"}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.2 }}
+              className="flex items-center gap-2"
+            >
+              {showMore ? (
+                <>Show Less <ChevronUp size={16} /></>
+              ) : (
+                <>View More Photos <ChevronDown size={16} /></>
+              )}
+            </motion.span>
+          </AnimatePresence>
+        </motion.button>
       </div>
 
       {/* Lightbox */}
@@ -254,6 +196,144 @@ const CampusSection = () => {
           </motion.div>
         )}
       </AnimatePresence>
+    </>
+  );
+};
+
+const tabs: { id: Tab; label: string; subtitle: string; icon: React.ReactNode; accent: string }[] = [
+  {
+    id: "prashanti",
+    label: "Prashanti Kutiram",
+    subtitle: "Yoga, Wellness & Research · Bengaluru",
+    icon: <Leaf size={18} />,
+    accent: "from-emerald-700 to-emerald-500",
+  },
+  {
+    id: "gcc",
+    label: "Global City Campus",
+    subtitle: "Technology, Management & Innovation · Bengaluru",
+    icon: <Building2 size={18} />,
+    accent: "from-blue-800 to-blue-500",
+  },
+];
+
+const CampusSection = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [activeTab, setActiveTab] = useState<Tab>("prashanti");
+
+  return (
+    <section ref={ref} className="py-20 bg-background relative overflow-hidden">
+      {/* Decorative lotus */}
+      <motion.svg
+        className="absolute right-0 top-1/2 -translate-y-1/2 w-[400px] h-[400px] opacity-5 pointer-events-none"
+        viewBox="0 0 200 200"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="0.5"
+      >
+        <motion.path
+          d="M100 20 C100 20 140 60 140 100 C140 140 100 180 100 180 C100 180 60 140 60 100 C60 60 100 20 100 20"
+          initial={{ pathLength: 0 }}
+          animate={isInView ? { pathLength: 1 } : {}}
+          transition={{ duration: 3, ease: "easeInOut" }}
+        />
+        <motion.circle
+          cx="100" cy="100" r="30"
+          initial={{ pathLength: 0 }}
+          animate={isInView ? { pathLength: 1 } : {}}
+          transition={{ duration: 2, delay: 1 }}
+        />
+      </motion.svg>
+
+      <div className="container mx-auto px-4 relative">
+        {/* Section Title */}
+        <div className="text-center mb-12">
+          <motion.span
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            className="inline-block text-primary font-medium mb-4"
+          >
+            Experience Our Campuses
+          </motion.span>
+          <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+            {"Campus Life".split("").map((char, i) => (
+              <motion.span
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: i * 0.05 }}
+                className="inline-block"
+                style={{ marginRight: char === " " ? "0.5rem" : "0" }}
+              >
+                {char}
+              </motion.span>
+            ))}
+          </h2>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
+            transition={{ delay: 0.6 }}
+            className="text-muted-foreground max-w-2xl mx-auto"
+          >
+            Two iconic campuses, one transformative university. Explore world-class facilities designed for holistic learning.
+          </motion.p>
+        </div>
+
+        {/* Campus Tab Toggle */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.4 }}
+          className="flex flex-col sm:flex-row gap-4 justify-center mb-10"
+        >
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`relative flex items-center gap-3 px-7 py-4 rounded-2xl font-semibold text-sm transition-all duration-300 border-2 ${
+                activeTab === tab.id
+                  ? "border-transparent text-white shadow-lg scale-105"
+                  : "border-border text-muted-foreground hover:border-primary hover:text-foreground bg-background"
+              }`}
+            >
+              {activeTab === tab.id && (
+                <motion.div
+                  layoutId="campusTabBg"
+                  className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${tab.accent}`}
+                  transition={{ type: "spring", bounce: 0.2, duration: 0.5 }}
+                />
+              )}
+              <span className="relative z-10 flex items-center gap-2">
+                {tab.icon}
+                <span className="flex flex-col text-left">
+                  <span>{tab.label}</span>
+                  <span className={`text-xs font-normal ${activeTab === tab.id ? "text-white/80" : "text-muted-foreground"}`}>
+                    {tab.subtitle}
+                  </span>
+                </span>
+              </span>
+            </button>
+          ))}
+        </motion.div>
+
+        {/* Tab Content */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -16 }}
+            transition={{ duration: 0.4 }}
+          >
+            {activeTab === "prashanti" ? (
+              <ImageGrid images={prashantiImages} extra={prashantiExtra} />
+            ) : (
+              <ImageGrid images={gccImages} extra={gccExtra} />
+            )}
+          </motion.div>
+        </AnimatePresence>
+      </div>
     </section>
   );
 };
