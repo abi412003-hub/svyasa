@@ -583,6 +583,100 @@ const adminData: AdminProfile[] = [
   },
 ];
 
+// ─── ACADEMIC COUNCIL DATA ────────────────────────────────────────────────────
+const academicCouncilMembers: ECMember[] = [
+  {
+    id: "ac-vc-chair",
+    name: "Dr. N. K. Manjunath",
+    designation: "Vice Chancellor (Chairman)",
+    description: "Chairs the Academic Council as Vice Chancellor, providing academic leadership and guiding the university's educational vision, research priorities, and curriculum policy.",
+    qualifications: "MBBS, MD (Physiology); PhD (Yoga & Medicine); Post-Doctoral Research, Harvard Medical School",
+    photo: AIIU("1771457383548-0j6fqagz5c5.jpg"),
+    gender: "male",
+    expertise: "Academic governance, yoga-medicine integration, neuroscience, curriculum policy",
+  },
+  {
+    id: "ac-dean-academics",
+    name: "Prof. Jayaraman",
+    designation: "Dean of Academics",
+    description: "Member of the Academic Council, responsible for academic quality, curriculum development, and faculty development initiatives across all departments.",
+    qualifications: "PhD (Yoga Philosophy); MSc (Yoga); Vedanta scholar with 25+ years academic experience",
+    photo: ecJayaramanPhoto,
+    gender: "male",
+    expertise: "Academic governance, yoga philosophy, Vedanta, curriculum development",
+  },
+  {
+    id: "ac-prof-behra",
+    name: "Prof. Narayan Behra",
+    designation: "Dean, Physical Sciences",
+    description: "Represents the Division of Physical Sciences on the Academic Council, contributing expertise in biophysics and scientific research on yoga.",
+    qualifications: "PhD (Physics); Post-Doctoral Fellow, IIT Delhi; Professor with 20+ years research experience",
+    photo: `https://ui-avatars.com/api/?name=Narayan+Behra&background=1e3a5f&color=fff&size=400&bold=true`,
+    gender: "male",
+    expertise: "Biophysics, energy research, scientific measurement of yoga, PhD program leadership",
+  },
+  {
+    id: "ac-natesh-babu",
+    name: "Dr. Natesh Babu",
+    designation: "CODE Director",
+    description: "Member of the Academic Council representing distance and open education, steering policy for online and ODL programs at S-VYASA.",
+    qualifications: "PhD (Yoga & Education); MEd; Certified e-Learning Designer; 15+ years in distance education",
+    photo: ecNateshBabuPhoto,
+    gender: "male",
+    expertise: "Distance education, e-learning, instructional design, program delivery at scale",
+  },
+  {
+    id: "ac-muralidhar",
+    name: "Dr. Muralidhar Kanchi",
+    designation: "Director, Yoga & Humanities",
+    description: "Council member steering academic policy for the Humanities division, ensuring rigorous integration of classical yoga texts into the curriculum.",
+    qualifications: "PhD (Sanskrit & Yoga); MA (Sanskrit); Vedic scholar and yoga historian with 20+ years experience",
+    photo: `https://ui-avatars.com/api/?name=Muralidhar+Kanchi&background=1e3a5f&color=fff&size=400&bold=true`,
+    gender: "male",
+    expertise: "Sanskrit, yoga history, Vedic philosophy, YIC curriculum, humanities research",
+  },
+  {
+    id: "ac-sridhar-s",
+    name: "Dr. Sridhar S",
+    designation: "Director Academics, SCC",
+    description: "Represents the City Campus on the Academic Council, coordinating curriculum alignment and academic quality standards between campuses.",
+    qualifications: "PhD; Director Academics, S-VYASA City Campus; Expertise in academic governance and curriculum management",
+    photo: AIIU("1771457400614-v94tu13p01.jpg"),
+    gender: "male",
+    expertise: "Academic governance, curriculum management, faculty coordination, quality assurance",
+  },
+  {
+    id: "ac-ramesh",
+    name: "Dr. M N Ramesh",
+    designation: "Director, Anvesana Research Centre",
+    description: "Council member representing research interests, guiding academic policy on research programs, grants, and interdisciplinary study at Anvesana.",
+    qualifications: "PhD; Professor and Director, Anvesana Research Center; Research publications in yoga and life sciences",
+    photo: AIIU("1771457384294-oupaey091lm.jpeg"),
+    gender: "male",
+    expertise: "Research direction, yoga-science integration, Anvesana research programs",
+  },
+  {
+    id: "ac-external-1",
+    name: "Prof. R. Nagarathna",
+    designation: "External Expert Member",
+    description: "Distinguished external expert contributing academic insights from decades of clinical yoga research, enriching the council's deliberations on curriculum and research quality.",
+    qualifications: "MBBS, MD; Renowned researcher in integrative medicine and yoga therapy; Author of 30+ peer-reviewed publications",
+    photo: `https://ui-avatars.com/api/?name=R+Nagarathna&background=7c3d12&color=fff&size=400&bold=true`,
+    gender: "female",
+    expertise: "Clinical yoga research, integrative medicine, yoga therapy curriculum, research excellence",
+  },
+  {
+    id: "ac-external-2",
+    name: "Prof. S. Raghunathan",
+    designation: "External Expert Member",
+    description: "External academic expert bringing broad higher-education governance experience to the Academic Council, advising on quality benchmarks and regulatory compliance.",
+    qualifications: "PhD; Former Vice Chancellor; UGC Expert Committee member; 35+ years in higher education administration",
+    photo: `https://ui-avatars.com/api/?name=S+Raghunathan&background=1e3a5f&color=fff&size=400&bold=true`,
+    gender: "male",
+    expertise: "Higher education governance, UGC compliance, academic quality, institutional accreditation",
+  },
+];
+
 // ─── SECTION CONFIG ────────────────────────────────────────────────────────────
 const sections = [
   {
@@ -1243,6 +1337,24 @@ export default function Administration() {
         >
           <ECCategoriesSection onSelect={setSelected} />
         </CollapsibleSection>
+      </div>
+
+      {/* ── Academic Council Section ── */}
+      <div className="py-16 bg-[hsl(var(--cream))]/30 border-t border-border">
+        <div className="max-w-7xl mx-auto px-6 lg:px-10">
+          <CollapsibleSection
+            label="Section 02"
+            title="Academic Council Members"
+            subtitle={`The statutory academic body of S-VYASA Deemed to be University, comprising ${academicCouncilMembers.length} members responsible for academic policy, curriculum, and research standards.`}
+            defaultOpen={false}
+          >
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch">
+              {academicCouncilMembers.map((m) => (
+                <ECMemberCard key={m.id} member={m} onClick={() => setSelected(m)} />
+              ))}
+            </div>
+          </CollapsibleSection>
+        </div>
       </div>
 
       {/* ── CTA ── */}
