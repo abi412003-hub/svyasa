@@ -1,11 +1,12 @@
 import { motion } from "framer-motion";
 import { MapPin, Phone, Mail, ArrowRight, Smartphone } from "lucide-react";
+import gccCampusImage from "@/assets/gcc-campus.jpg";
 
 const CampusCards = () => {
   const campuses = [
     {
       name: "Global City Campus",
-      image: "https://images.unsplash.com/photo-1562774053-701939374585?w=800&q=80",
+      image: gccCampusImage,
       address: "Sattva Global City, Mysore Road, Rajarajeshwari nagar, Bengaluru, Karnataka - 560059, INDIA",
       mobile: ["+91-9070907066", "+91-9070907099"],
       landline: "080-22639998",
