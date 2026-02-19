@@ -67,7 +67,7 @@ export const navItems: NavItem[] = [
   {
     label: "About Us",
     links: [
-      { label: "S-Vyasa University", href: "/s-vyasa-university" },
+      { label: "S-Vyasa Deemed to be University", href: "/s-vyasa-university" },
       { label: "S-Vyasa Society", href: "/society" },
       { label: "Administration", href: "/administration" },
       { label: "Organogram", href: "/organogram" },
@@ -425,7 +425,7 @@ export const allRoutes: NavLink[] = [
   { label: "About", href: "/about" },
   { label: "S-VYASA Society", href: "/society" },
   { label: "Management", href: "/management" },
-  { label: "S-Vyasa University", href: "/s-vyasa-university" },
+  { label: "S-Vyasa Deemed to be University", href: "/s-vyasa-university" },
   { label: "Accreditation", href: "/accreditation" },
   { label: "Publications", href: "/publications" },
   { label: "Privacy Policy", href: "/privacy-policy" },
