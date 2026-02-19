@@ -100,7 +100,7 @@ const TestimonialsSection = () => {
           </motion.div>
 
           {/* Card */}
-          <div className="relative h-[420px] md:h-[360px]">
+          <div className="relative min-h-[320px] md:min-h-[280px]">
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentIndex}
@@ -108,7 +108,7 @@ const TestimonialsSection = () => {
                 animate={{ opacity: 1, rotateY: 0 }}
                 exit={{ opacity: 0, rotateY: 90 }}
                 transition={{ duration: 0.5 }}
-                className="absolute inset-0 bg-card rounded-3xl shadow-large p-8 md:p-12"
+                className="absolute inset-0 bg-card rounded-3xl shadow-large pt-10 pb-8 px-8 md:px-12"
               >
                 <div className="flex flex-col md:flex-row items-center gap-8 h-full">
                   {/* Avatar */}
