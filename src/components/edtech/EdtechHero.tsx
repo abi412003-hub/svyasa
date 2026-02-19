@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { motion, useAnimationFrame } from "framer-motion";
+import { useRef } from "react";
 
 import newtonLogo from "@/assets/partner-newton.jpg";
 import intellipaatLogo from "@/assets/partner-intellipaat.jpg";
@@ -24,11 +25,53 @@ const partners = [
   { name: "Nxtwave (NIAT)", logo: niatLogo },
 ];
 
+const InfiniteCarousel = () => {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const xRef = useRef(0);
+  const doubled = [...partners, ...partners, ...partners];
+
+  useAnimationFrame((_, delta) => {
+    xRef.current -= delta * 0.04;
+    const itemWidth = 220;
+    const resetAt = -(partners.length * itemWidth);
+    if (xRef.current <= resetAt) xRef.current += Math.abs(resetAt);
+    if (trackRef.current) {
+      trackRef.current.style.transform = `translateX(${xRef.current}px)`;
+    }
+  });
+
+  return (
+    <div className="overflow-hidden w-full py-4">
+      <div ref={trackRef} className="flex items-center will-change-transform">
+        {doubled.map((p, i) => (
+          <motion.div
+            key={i}
+            className="flex-shrink-0 mx-4 group cursor-pointer"
+            whileHover={{ scale: 1.06, y: -5 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
+            <div className="w-48 h-32 bg-white rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-2xl transition-shadow duration-300 overflow-hidden p-4">
+              <img
+                src={p.logo}
+                alt={`${p.name} logo`}
+                className="max-h-full max-w-full object-contain"
+              />
+            </div>
+            <p className="mt-2 text-xs text-white/55 text-center font-medium w-48 leading-tight group-hover:text-white/90 transition-colors">
+              {p.name}
+            </p>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 const EdtechHero = () => {
   return (
     <div>
-      {/* ── Hero text band ── */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-[#1a1040] via-[#0f2356] to-[#0a1628] py-20 pt-32">
+      {/* ── Hero band with carousel ── */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-[#1a1040] via-[#0f2356] to-[#0a1628] pb-16 pt-32">
         {/* subtle grid */}
         <div
           className="absolute inset-0 opacity-5 pointer-events-none"
@@ -44,7 +87,8 @@ const EdtechHero = () => {
           style={{ background: "radial-gradient(ellipse, hsl(var(--primary)) 0%, transparent 70%)" }}
         />
 
-        <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
+        {/* Title */}
+        <div className="relative z-10 text-center px-6 max-w-4xl mx-auto mb-14">
           <motion.span
             className="inline-block text-xs font-semibold uppercase tracking-widest text-amber-400 border border-amber-400/30 bg-amber-400/10 px-4 py-1.5 rounded-full mb-6"
             initial={{ opacity: 0, y: 12 }}
@@ -70,7 +114,7 @@ const EdtechHero = () => {
           </motion.h1>
 
           <motion.p
-            className="text-lg md:text-xl text-white/65 max-w-2xl mx-auto"
+            className="text-lg md:text-xl text-white/65 max-w-2xl mx-auto mb-6"
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
@@ -79,7 +123,7 @@ const EdtechHero = () => {
           </motion.p>
 
           <motion.div
-            className="mt-6 flex flex-wrap items-center justify-center gap-6 text-white/45 text-sm"
+            className="flex flex-wrap items-center justify-center gap-6 text-white/45 text-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.35 }}
@@ -95,10 +139,19 @@ const EdtechHero = () => {
             </span>
           </motion.div>
         </div>
+
+        {/* Infinite horizontal scroller */}
+        <InfiniteCarousel />
+
+        {/* bottom fade into grid section */}
+        <div
+          className="absolute bottom-0 left-0 right-0 h-16 pointer-events-none"
+          style={{ background: "linear-gradient(to bottom, transparent, hsl(var(--background)/0.15))" }}
+        />
       </section>
 
-      {/* ── Logo showcase — MAIN highlight ── */}
-      <section className="bg-muted/40 py-16 px-6">
+      {/* ── Large logo grid ── */}
+      <section className="bg-background py-16 px-6">
         <div className="max-w-6xl mx-auto">
           <motion.p
             className="text-center text-sm font-semibold uppercase tracking-widest text-muted-foreground mb-10"
@@ -113,7 +166,7 @@ const EdtechHero = () => {
             {partners.map((p, i) => (
               <motion.div
                 key={p.name}
-                className="group bg-white rounded-2xl shadow-md hover:shadow-xl border border-border/50 hover:border-primary/30 flex flex-col items-center justify-center p-6 cursor-pointer transition-all duration-300"
+                className="group bg-card rounded-2xl shadow-md hover:shadow-xl border border-border hover:border-primary/30 flex flex-col items-center justify-center p-6 cursor-pointer transition-all duration-300"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
