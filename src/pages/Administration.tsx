@@ -911,7 +911,7 @@ function SectionBlock({
 
 // ─── ORGANOGRAM (PDF-based) ────────────────────────────────────────────────────
 // ─── EC MEMBER CARD ───────────────────────────────────────────────────────────
-function ECMemberCard({ member, onClick, categoryLabel }: { member: ECMember; onClick: () => void; categoryLabel?: string }) {
+function ECMemberCard({ member, onClick }: { member: ECMember; onClick: () => void }) {
   const [imgErr, setImgErr] = useState(false);
   const fallback = `https://ui-avatars.com/api/?name=${encodeURIComponent(member.initials || member.name)}&background=92400e&color=fff&size=400&bold=true`;
   return (
@@ -930,13 +930,6 @@ function ECMemberCard({ member, onClick, categoryLabel }: { member: ECMember; on
           loading="lazy"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-        {categoryLabel && (
-          <div className="absolute top-3 left-3">
-            <span className="bg-black/50 backdrop-blur-sm text-white text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full">
-              {categoryLabel}
-            </span>
-          </div>
-        )}
       </div>
       <div className="p-4 flex-1 flex flex-col">
         <h3 className="font-['Playfair_Display',serif] text-base text-[hsl(var(--navy))] font-bold leading-tight mb-1">
@@ -998,7 +991,6 @@ function ECCategoriesSection({ onSelect }: { onSelect: (m: ECMember) => void }) 
               key={m.id}
               member={m}
               onClick={() => onSelect(m)}
-              categoryLabel={cat.label}
             />
           ))
         )}
