@@ -1,5 +1,6 @@
 import presidentNagendraImg from "@/assets/president-nagendra.jpg";
 import vcManjunathImg from "@/assets/vc-manjunath.png";
+import nagarathnaImg from "@/assets/nagarathna-portrait.jpg";
 
 export interface FacultyProfile {
   id: string;
@@ -48,7 +49,7 @@ export const facultyData: FacultyProfile[] = [
     name: "Dr. R Nagarathna",
     designation: "Director, Arogyadhama",
     qualifications: "MBBS, MD (Internal Medicine), MRCP, FRCP (Edinburgh)",
-    photo: `${BASE}/10/83.jpg`,
+    photo: nagarathnaImg,
     section: "leadership",
     achievements: [
       "Chief Consultant at Arogyadhama, SVYASA",
