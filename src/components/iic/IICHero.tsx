@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import iicHero from "@/assets/iic-hero.jpg";
 
 const IICHero = () => {
   const [scale, setScale] = useState(1);
@@ -25,7 +26,8 @@ const IICHero = () => {
       <motion.div
         className="absolute inset-0 bg-cover bg-center"
         style={{
-          backgroundImage: `url('img/banner/iic.jpg'), url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80')`,
+          backgroundImage: `url(${iicHero})`,
+          backgroundPosition: "center 30%",
           scale,
         }}
         transition={{ duration: 0.2 }}
