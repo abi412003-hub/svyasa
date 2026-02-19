@@ -925,7 +925,7 @@ function ECMemberCard({ member, onClick }: { member: ECMember; onClick: () => vo
         <img
           src={!member.photo || imgErr ? fallback : member.photo}
           alt={member.name}
-          className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+          className="w-full h-full object-contain object-center group-hover:scale-105 transition-transform duration-500"
           onError={() => setImgErr(true)}
           loading="lazy"
         />
