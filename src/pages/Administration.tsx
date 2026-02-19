@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import chancellorDayanandaPhoto from "@/assets/chancellor-dayananda-swamy.jpg";
+import presidentNagendraPhoto from "@/assets/president-nagendra.jpg";
 import ecRamakrishnaPhoto from "@/assets/ec-ramakrishna.jpg";
 import ecJayaramanPhoto from "@/assets/ec-jayaraman.jpg";
 import ecRamachandraBhatPhoto from "@/assets/ec-ramachandra-bhat.png";
@@ -71,7 +72,7 @@ const ecCategories: ECCategory[] = [
         designation: "President, S-VYASA Society",
         description: "Padma Shri awardee and ex-NASA scientist who dedicated his life to Yoga research and education, leading S-VYASA's mission of integrating ancient yogic wisdom with modern science.",
         qualifications: "PhD (Mechanical Engineering), IISc Bangalore; Post-Doctoral Fellow, University of British Columbia; Research Associate, NASA Marshall Space Flight Centre",
-        photo: AIIU("1771457396886-w3xa5gca93.JPG"),
+        photo: presidentNagendraPhoto,
         gender: "male",
         achievements: [
           "Post-Doctoral Research Fellow, University of British Columbia, Canada (1970)",
@@ -104,7 +105,7 @@ const ecCategories: ECCategory[] = [
         designation: "Chairperson, Vice Chancellor",
         description: "Has delivered lectures on evidence-based Yoga therapy at Harvard Medical School, Monash University, Royal College of Medicine, and Shanghai University of Sports. Editor, International Journal of Yoga.",
         qualifications: "BNYS, PhD, D.Sc.; Editor, International Journal of Yoga (IJOY); Founding Director, Vivekananda Yoga University, California",
-        photo: AIIU("1771457392679-ig24wth6fjs.JPG"),
+        photo: AIIU("1771457401844-sasvxg7vk5.jpg"),
         gender: "male",
         achievements: [
           "Delivered lectures at Harvard Medical School and Monash University",
@@ -173,7 +174,7 @@ const ecCategories: ECCategory[] = [
         designation: "Member",
         description: "Distinguished yoga researcher and clinician contributing her expertise in integrative medicine and yoga therapy to the Executive Council's academic and research governance.",
         qualifications: "MBBS, MD; Senior Physician and Researcher specializing in integrative medicine and yoga therapy",
-        photo: AIIU("1771457401844-sasvxg7vk5.jpg"),
+        photo: AIIU("1771457392679-ig24wth6fjs.JPG"),
         gender: "female",
         expertise: "Integrative medicine, yoga therapy, clinical research, evidence-based yoga",
       },
