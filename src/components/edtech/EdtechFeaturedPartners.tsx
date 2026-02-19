@@ -1,86 +1,106 @@
 import { motion } from "framer-motion";
 
+import newtonLogo from "@/assets/partner-newton.jpg";
+import intellipaatLogo from "@/assets/partner-intellipaat.jpg";
+import futurenseLogo from "@/assets/partner-futurense.jpg";
+import hclLogo from "@/assets/partner-hcl.jpg";
+import cambridgeLogo from "@/assets/partner-cambridge.jpg";
+import proximalLogo from "@/assets/partner-proximal.jpg";
+import intelLogo from "@/assets/partner-intel.jpg";
+import ibmLogo from "@/assets/partner-ibm.jpg";
+import ltLogo from "@/assets/partner-lt.jpg";
+import niatLogo from "@/assets/partner-niat.jpg";
+
 const partners = [
   {
-    abbr: "NS",
-    color: "#FF6B35",
-    name: "Newton School",
+    logo: newtonLogo,
+    name: "Newton School of Technology",
     outcome: "Structured tech programs with live project mentorship and guaranteed placement support for BCA & MCA students.",
     metric: "1,200+ Learners",
     metricSub: "Placed through program",
     tag: "Placement Partner",
+    color: "#003366",
   },
   {
-    abbr: "IP",
-    color: "#2563EB",
+    logo: intellipaatLogo,
     name: "Intellipaat",
     outcome: "Certified learning pathways in Data Science, Cloud & AI integrated as elective modules across postgraduate programs.",
     metric: "30+ Certifications",
     metricSub: "Offered jointly",
     tag: "Curriculum Partner",
+    color: "#7C3AED",
   },
   {
-    abbr: "FS",
-    color: "#7C3AED",
+    logo: futurenseLogo,
     name: "Futurense",
     outcome: "Tech-enabled career acceleration program connecting students with 500+ hiring companies in the startup ecosystem.",
     metric: "500+ Hirers",
     metricSub: "In partner network",
     tag: "Career Partner",
+    color: "#374151",
   },
   {
-    abbr: "HCL",
-    color: "#E31837",
-    name: "HCL Tech",
+    logo: hclLogo,
+    name: "HCL Tech & Pearson",
     outcome: "Industry immersion workshops, coding bootcamps, and priority internship slots for final-year engineering students.",
     metric: "800+ Interns",
     metricSub: "Placed annually",
     tag: "Industry Partner",
+    color: "#009FDB",
   },
   {
-    abbr: "CAM",
-    color: "#003366",
+    logo: cambridgeLogo,
     name: "University of Cambridge",
     outcome: "Joint research initiatives and access to Cambridge's global academic resources for faculty and doctoral scholars.",
     metric: "15+ Publications",
     metricSub: "Co-authored",
     tag: "Academic Partner",
+    color: "#003366",
   },
   {
-    abbr: "PL",
-    color: "#059669",
-    name: "Proximal Learning",
+    logo: proximalLogo,
+    name: "Proxima Learning",
     outcome: "Adaptive e-learning platform delivering personalised skill modules supplementing classroom instruction.",
     metric: "10,000+ Hours",
     metricSub: "Learning delivered",
     tag: "EdTech Partner",
+    color: "#2563EB",
   },
   {
-    abbr: "INT",
-    color: "#0071C5",
+    logo: intelLogo,
     name: "Intel",
     outcome: "Certified learning pathways in AI & Edge Computing, including lab equipment grants and faculty training workshops.",
     metric: "20+ Certified Programs",
     metricSub: "Delivered on campus",
     tag: "Technology Partner",
+    color: "#0071C5",
   },
   {
-    abbr: "IBM",
-    color: "#1F70C1",
+    logo: ibmLogo,
     name: "IBM",
     outcome: "Workshops, industry mentorship programmes, and IBM SkillsBuild integration for digital literacy at scale.",
     metric: "1,500+ Learners",
     metricSub: "Engaged via IBM SkillsBuild",
     tag: "Skills Partner",
+    color: "#1F70C1",
   },
   {
-    abbr: "L&T",
-    color: "#D4A017",
+    logo: ltLogo,
     name: "Larsen & Toubro",
     outcome: "Infrastructure & Engineering electives, site visits, and graduate recruitment pipeline for B.Tech students.",
     metric: "200+ Graduates",
     metricSub: "Hired annually",
     tag: "Recruitment Partner",
+    color: "#003366",
+  },
+  {
+    logo: niatLogo,
+    name: "Nxtwave (NIAT)",
+    outcome: "Full-stack and industry-ready developer programs co-delivered with campus placement support and live coding sprints.",
+    metric: "400+ Students",
+    metricSub: "Enrolled in joint programs",
+    tag: "EdTech Partner",
+    color: "#7B1C1C",
   },
 ];
 
@@ -117,28 +137,27 @@ const EdtechFeaturedPartners = () => {
               transition={{ duration: 0.5, delay: i * 0.06 }}
               whileHover={{ y: -4 }}
             >
-              {/* Header bar */}
+              {/* Top accent bar */}
               <div className="h-1.5 w-full" style={{ backgroundColor: p.color }} />
 
               <div className="p-6">
-                <div className="flex items-start gap-4 mb-4">
-                  {/* Logo placeholder */}
-                  <div
-                    className="w-14 h-14 rounded-xl flex-shrink-0 flex items-center justify-center font-black text-xs shadow-md"
-                    style={{ background: `${p.color}15`, border: `2px solid ${p.color}30`, color: p.color }}
-                    aria-label={`${p.name} logo`}
+                {/* Logo — large and prominent */}
+                <div className="w-full h-24 bg-white rounded-xl flex items-center justify-center mb-5 overflow-hidden p-3 border border-border/50">
+                  <img
+                    src={p.logo}
+                    alt={`${p.name} logo`}
+                    className="max-h-full max-w-full object-contain"
+                  />
+                </div>
+
+                <div className="flex items-center gap-2 mb-3">
+                  <span
+                    className="inline-block text-xs font-semibold px-2 py-0.5 rounded-full"
+                    style={{ background: `${p.color}15`, color: p.color }}
                   >
-                    {p.abbr}
-                  </div>
-                  <div>
-                    <span
-                      className="inline-block text-xs font-semibold px-2 py-0.5 rounded-full mb-1"
-                      style={{ background: `${p.color}15`, color: p.color }}
-                    >
-                      {p.tag}
-                    </span>
-                    <h3 className="text-base font-bold text-foreground">{p.name}</h3>
-                  </div>
+                    {p.tag}
+                  </span>
+                  <h3 className="text-sm font-bold text-foreground truncate">{p.name}</h3>
                 </div>
 
                 <p className="text-muted-foreground text-sm leading-relaxed mb-5">{p.outcome}</p>
