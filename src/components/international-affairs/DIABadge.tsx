@@ -1,5 +1,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import unaiLogo from "@/assets/logo-unai.jpg";
+import svyasaEmblem from "@/assets/svyasa-emblem.png";
 
 const DIABadge = () => {
   const ref = useRef(null);
@@ -24,15 +26,17 @@ const DIABadge = () => {
           <div className="relative z-10">
             {/* Logos */}
             <div className="flex items-center justify-center gap-6 mb-6">
-              {/* UN Logo placeholder */}
-              <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center">
-                <span className="text-2xl font-bold text-blue-600">UN</span>
-              </div>
+              {/* UNAI Logo */}
+              <img
+                src={unaiLogo}
+                alt="United Nations Academic Impact logo"
+                className="w-20 h-20 object-contain rounded-full"
+              />
               <div className="text-2xl text-gold">+</div>
               {/* S-VYASA Logo */}
               <img
-                src="/src/assets/svyasa-emblem.png"
-                alt="S-VYASA"
+                src={svyasaEmblem}
+                alt="S-VYASA emblem"
                 className="w-16 h-16 object-contain"
               />
             </div>
