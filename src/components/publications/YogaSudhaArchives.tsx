@@ -2,8 +2,26 @@ import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useRef, useState } from "react";
 import { FileText, Download } from "lucide-react";
 
+// Storage base URL for PDFs in the publications bucket
+const STORAGE_BASE = "https://spkbypslhjqvnvnujpwd.supabase.co/storage/v1/object/public/publications/yoga-sudha";
+
+// Map of year+month → storage PDF URL (overrides default path)
+const storagePdfMap: Record<string, string> = {
+  "2025-February": `${STORAGE_BASE}/2025/yoga_sudha_feb_2025.pdf`,
+  "2025-March":    `${STORAGE_BASE}/2025/yoga_sudha_mar_2025.pdf`,
+  "2025-April":    `${STORAGE_BASE}/2025/yoga_sudha_apr_2025.pdf`,
+  "2025-May":      `${STORAGE_BASE}/2025/yoga_sudha_may_2025.pdf`,
+  "2025-June":     `${STORAGE_BASE}/2025/yoga_sudha_june_2025.pdf`,
+  "2025-July":     `${STORAGE_BASE}/2025/yoga_sudha_july_2025.pdf`,
+  "2025-August":   `${STORAGE_BASE}/2025/yoga_sudha_aug_2025.pdf`,
+  "2025-September":`${STORAGE_BASE}/2025/yoga_sudha_sept_2025.pdf`,
+  "2025-October":  `${STORAGE_BASE}/2025/yoga_sudha_oct_2025.pdf`,
+  "2025-November": `${STORAGE_BASE}/2025/yoga_sudha_nov_2025.pdf`,
+};
+
 // Archive data structure
 const archiveData: Record<string, string[]> = {
+  "2025": ["February", "March", "April", "May", "June", "July", "August", "September", "October", "November"],
   "2024": ["April"],
   "2022": ["January", "February", "March", "April"],
   "2021": ["January", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
@@ -33,7 +51,7 @@ const monthColors: Record<string, string> = {
 
 // Edition card component
 const EditionCard = ({ month, year, index }: { month: string; year: string; index: number }) => {
-  const pdfPath = `/img/pdf/yoga-sudha-${month.toLowerCase()}-${year}.pdf`;
+  const pdfPath = storagePdfMap[`${year}-${month}`] ?? `/img/pdf/yoga-sudha-${month.toLowerCase()}-${year}.pdf`;
   const colorClass = monthColors[month] || "from-primary to-gold";
 
   return (
