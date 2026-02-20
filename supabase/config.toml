@@ -1,1 +1,4 @@
 project_id = "spkbypslhjqvnvnujpwd"
+
+[functions.pdf-proxy]
+verify_jwt = false

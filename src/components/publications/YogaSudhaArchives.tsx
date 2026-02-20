@@ -1,11 +1,10 @@
 import { motion, useInView, AnimatePresence } from "framer-motion";
-import { useRef, useState } from "react";
-import { FileText, Download, X, ExternalLink, Eye } from "lucide-react";
+import { useRef, useState, useEffect } from "react";
+import { FileText, Download, X, ExternalLink, Eye, Loader2 } from "lucide-react";
 
 // Edge Function proxy — serves PDFs with proper headers, bypassing Chrome CORS blocks
 const PROXY = (storagePath: string) =>
   `https://spkbypslhjqvnvnujpwd.supabase.co/functions/v1/pdf-proxy?path=${encodeURIComponent(storagePath)}`;
-
 
 // Map of year+month → proxied PDF URL
 const storagePdfMap: Record<string, string> = {
@@ -46,7 +45,6 @@ const archiveData: Record<string, string[]> = {
 
 const years = Object.keys(archiveData).sort((a, b) => Number(b) - Number(a));
 
-// Color palette for magazine covers
 const monthColors: Record<string, string> = {
   January: "from-blue-500 to-blue-700",
   February: "from-pink-500 to-rose-600",
@@ -62,94 +60,156 @@ const monthColors: Record<string, string> = {
   December: "from-violet-500 to-purple-600",
 };
 
-// PDF Preview Modal
+// ─── Blob URL hook ────────────────────────────────────────────────────────────
+// Fetches the PDF via the proxy and creates a same-origin blob: URL.
+// Chrome's PDF viewer never blocks blob: URLs, so both preview and download work.
+function usePdfBlobUrl(proxyUrl: string | null) {
+  const [blobUrl, setBlobUrl] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    if (!proxyUrl) return;
+    let alive = true;
+    setLoading(true);
+    setError(false);
+    setBlobUrl(null);
+
+    fetch(proxyUrl)
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.blob();
+      })
+      .then((blob) => {
+        if (alive) setBlobUrl(URL.createObjectURL(blob));
+      })
+      .catch(() => { if (alive) setError(true); })
+      .finally(() => { if (alive) setLoading(false); });
+
+    return () => { alive = false; };
+  }, [proxyUrl]);
+
+  // Revoke on change / unmount to avoid memory leaks
+  useEffect(() => {
+    return () => { if (blobUrl) URL.revokeObjectURL(blobUrl); };
+  }, [blobUrl]);
+
+  return { blobUrl, loading, error };
+}
+
+// ─── PDF Preview Modal ────────────────────────────────────────────────────────
 const PdfPreviewModal = ({
-  pdfUrl,
+  proxyUrl,
   month,
   year,
   onClose,
 }: {
-  pdfUrl: string;
+  proxyUrl: string;
   month: string;
   year: string;
   onClose: () => void;
-}) => (
-  <AnimatePresence>
-    <motion.div
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-    >
-      {/* Backdrop */}
-      <motion.div
-        className="absolute inset-0 bg-black/80 backdrop-blur-sm"
-        onClick={onClose}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-      />
+}) => {
+  const { blobUrl, loading, error } = usePdfBlobUrl(proxyUrl);
 
-      {/* Modal panel */}
+  const handleDownload = () => {
+    if (!blobUrl) return;
+    const a = document.createElement("a");
+    a.href = blobUrl;
+    a.download = `yoga_sudha_${month.toLowerCase()}_${year}.pdf`;
+    a.click();
+  };
+
+  return (
+    <AnimatePresence>
       <motion.div
-        className="relative z-10 w-full max-w-4xl h-[90vh] bg-card rounded-2xl shadow-2xl flex flex-col overflow-hidden"
-        initial={{ opacity: 0, scale: 0.92, y: 30 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.92, y: 30 }}
-        transition={{ type: "spring", stiffness: 280, damping: 25 }}
+        className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8"
+        initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
       >
-        {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-border bg-card shrink-0">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center">
-              <FileText className="w-4 h-4 text-primary" />
-            </div>
-            <div>
-              <h3 className="font-heading text-foreground text-base leading-tight">Yoga Sudha</h3>
-              <p className="text-xs text-muted-foreground">{month} {year} Edition</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <a
-              href={pdfUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
-            >
-              <ExternalLink className="w-3.5 h-3.5" />
-              Open in new tab
-            </a>
-            <a
-              href={pdfUrl}
-              download
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
-            >
-              <Download className="w-3.5 h-3.5" />
-              Download
-            </a>
-            <button
-              onClick={onClose}
-              className="ml-1 w-8 h-8 flex items-center justify-center rounded-full hover:bg-muted transition-colors"
-            >
-              <X className="w-4 h-4 text-muted-foreground" />
-            </button>
-          </div>
-        </div>
+        {/* Backdrop */}
+        <motion.div
+          className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+          onClick={onClose}
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+        />
 
-        {/* PDF iframe */}
-        <div className="flex-1 bg-muted/30">
-          <iframe
-            src={`${pdfUrl}#toolbar=1&navpanes=0&view=FitH`}
-            className="w-full h-full border-0"
-            title={`Yoga Sudha ${month} ${year}`}
-          />
-        </div>
+        {/* Panel */}
+        <motion.div
+          className="relative z-10 w-full max-w-4xl h-[90vh] bg-card rounded-2xl shadow-2xl flex flex-col overflow-hidden"
+          initial={{ opacity: 0, scale: 0.92, y: 30 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.92, y: 30 }}
+          transition={{ type: "spring", stiffness: 280, damping: 25 }}
+        >
+          {/* Header */}
+          <div className="flex items-center justify-between px-5 py-4 border-b border-border bg-card shrink-0">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center">
+                <FileText className="w-4 h-4 text-primary" />
+              </div>
+              <div>
+                <h3 className="font-heading text-foreground text-base leading-tight">Yoga Sudha</h3>
+                <p className="text-xs text-muted-foreground">{month} {year} Edition</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              {blobUrl && (
+                <>
+                  <a
+                    href={blobUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5" />
+                    Open in new tab
+                  </a>
+                  <button
+                    onClick={handleDownload}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+                  >
+                    <Download className="w-3.5 h-3.5" />
+                    Download
+                  </button>
+                </>
+              )}
+              <button
+                onClick={onClose}
+                className="ml-1 w-8 h-8 flex items-center justify-center rounded-full hover:bg-muted transition-colors"
+              >
+                <X className="w-4 h-4 text-muted-foreground" />
+              </button>
+            </div>
+          </div>
+
+          {/* Body */}
+          <div className="flex-1 bg-muted/30 relative">
+            {loading && (
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-muted-foreground">
+                <Loader2 className="w-8 h-8 animate-spin text-primary" />
+                <p className="text-sm">Loading PDF…</p>
+              </div>
+            )}
+            {error && (
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-muted-foreground">
+                <FileText className="w-10 h-10 opacity-40" />
+                <p className="text-sm">Could not load PDF. Please try downloading instead.</p>
+              </div>
+            )}
+            {blobUrl && (
+              <iframe
+                src={blobUrl}
+                className="w-full h-full border-0"
+                title={`Yoga Sudha ${month} ${year}`}
+              />
+            )}
+          </div>
+        </motion.div>
       </motion.div>
-    </motion.div>
-  </AnimatePresence>
-);
+    </AnimatePresence>
+  );
+};
 
-// Edition card component
+// ─── Edition Card ─────────────────────────────────────────────────────────────
 const EditionCard = ({
   month,
   year,
@@ -166,11 +226,8 @@ const EditionCard = ({
   const colorClass = monthColors[month] || "from-primary to-gold";
   const hasStorage = !!pdfPath;
 
-  const handleClick = (e: React.MouseEvent) => {
-    if (hasStorage) {
-      e.preventDefault();
-      onPreview(pdfPath!);
-    }
+  const handleClick = () => {
+    if (hasStorage) onPreview(pdfPath!);
   };
 
   return (
@@ -188,28 +245,23 @@ const EditionCard = ({
           <FileText className="w-4 h-4 text-primary" />
         </div>
 
-        {/* Magazine cover thumbnail */}
+        {/* Magazine cover */}
         <div className={`aspect-[3/4] bg-gradient-to-br ${colorClass} p-4 flex flex-col items-center justify-between transition-transform duration-300 group-hover:scale-105 relative`}>
-          {/* Header */}
           <div className="text-center">
             <div className="w-10 h-10 mx-auto mb-1 rounded-full bg-white/20 flex items-center justify-center">
               <span className="text-white text-lg">ॐ</span>
             </div>
             <h4 className="text-white text-sm font-medium">Yoga Sudha</h4>
           </div>
-
-          {/* Month display */}
           <div className="text-center">
             <p className="text-white/90 font-heading text-xl">{month}</p>
             <p className="text-white/70 text-sm">{year}</p>
           </div>
-
-          {/* Footer */}
           <div className="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center">
             <span className="text-white/60 text-xl">🪷</span>
           </div>
 
-          {/* Preview overlay on hover (only for storage PDFs) */}
+          {/* Hover overlay */}
           {hasStorage && (
             <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
               <div className="flex flex-col items-center gap-2 text-white">
@@ -220,7 +272,7 @@ const EditionCard = ({
           )}
         </div>
 
-        {/* Bottom golden border animation */}
+        {/* Gold border animation */}
         <motion.div
           className="absolute bottom-0 left-0 h-1 bg-gold"
           initial={{ width: 0 }}
@@ -251,7 +303,7 @@ const EditionCard = ({
   );
 };
 
-// Year section component
+// ─── Year Section ─────────────────────────────────────────────────────────────
 const YearSection = ({
   year,
   months,
@@ -275,7 +327,6 @@ const YearSection = ({
       animate={isInView ? { opacity: 1 } : {}}
       transition={{ duration: 0.5 }}
     >
-      {/* Year heading */}
       <motion.div
         className="flex items-center gap-4 mb-6"
         initial={{ opacity: 0, x: -20 }}
@@ -290,10 +341,9 @@ const YearSection = ({
           transition={{ duration: 0.6, delay: 0.2 }}
           style={{ originX: 0 }}
         />
-        <span className="text-sm text-muted-foreground">{months.length} edition{months.length > 1 ? 's' : ''}</span>
+        <span className="text-sm text-muted-foreground">{months.length} edition{months.length > 1 ? "s" : ""}</span>
       </motion.div>
 
-      {/* Editions grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
         <AnimatePresence mode="popLayout">
           {months.map((month, index) => (
@@ -311,6 +361,7 @@ const YearSection = ({
   );
 };
 
+// ─── Main Section ─────────────────────────────────────────────────────────────
 const YogaSudhaArchives = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -319,16 +370,15 @@ const YogaSudhaArchives = () => {
 
   const scrollToYear = (year: string) => {
     setActiveYear(year);
-    const element = document.getElementById(`year-${year}`);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    document.getElementById(`year-${year}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   const handlePreview = (url: string) => {
-    // Derive month/year from URL for the modal header
-    const parts = url.split("/").pop()?.replace(".pdf", "").split("_") ?? [];
-    // e.g. yoga_sudha_jan_2025 → ["yoga","sudha","jan","2025"]
+    // Extract month/year from the encoded path parameter in the proxy URL
+    const pathParam = decodeURIComponent(new URL(url).searchParams.get("path") ?? "");
+    const filename = pathParam.split("/").pop()?.replace(".pdf", "") ?? "";
+    // e.g. yoga_sudha_jan_2025 → parts[2]=jan, parts[3]=2025
+    const parts = filename.split("_");
     const monthAbbr = parts[2] ?? "";
     const year = parts[3] ?? "";
     const monthMap: Record<string, string> = {
@@ -341,7 +391,7 @@ const YogaSudhaArchives = () => {
 
   return (
     <section id="archives" ref={ref} className="py-20 md:py-28 bg-background relative overflow-hidden">
-      {/* Low opacity Om/lotus watermark */}
+      {/* Watermark */}
       <div className="absolute right-0 top-1/4 w-96 h-96 opacity-[0.03] pointer-events-none">
         <svg viewBox="0 0 200 200" className="w-full h-full fill-primary">
           {[...Array(12)].map((_, i) => (
@@ -352,7 +402,7 @@ const YogaSudhaArchives = () => {
       </div>
 
       <div className="container mx-auto px-4">
-        {/* Section heading */}
+        {/* Heading */}
         <div className="text-center mb-12">
           <motion.h2
             className="font-heading text-4xl md:text-5xl text-foreground mb-4"
@@ -372,15 +422,12 @@ const YogaSudhaArchives = () => {
               </motion.span>
             ))}
           </motion.h2>
-
-          {/* Gold underline */}
           <motion.div
             className="h-1 bg-gold mx-auto rounded-full"
             initial={{ width: 0 }}
             animate={isInView ? { width: 120 } : {}}
             transition={{ duration: 0.6, delay: 0.3 }}
           />
-
           <motion.p
             className="text-muted-foreground mt-4 max-w-2xl mx-auto"
             initial={{ opacity: 0, y: 15 }}
@@ -391,7 +438,7 @@ const YogaSudhaArchives = () => {
           </motion.p>
         </div>
 
-        {/* Year filter pills */}
+        {/* Year pills */}
         <motion.div
           className="flex flex-wrap justify-center gap-3 mb-12"
           initial={{ opacity: 0, y: 20 }}
@@ -418,12 +465,9 @@ const YogaSudhaArchives = () => {
           ))}
         </motion.div>
 
-        {/* Archive sections */}
+        {/* Archive */}
         <div className="relative">
-          {/* Timeline line */}
           <div className="hidden lg:block absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-gold via-primary to-gold/30" />
-
-          {/* Year sections */}
           <div className="lg:pl-12">
             {years.map((year) => (
               <YearSection
@@ -438,10 +482,10 @@ const YogaSudhaArchives = () => {
         </div>
       </div>
 
-      {/* PDF Preview Modal */}
+      {/* Modal */}
       {preview && (
         <PdfPreviewModal
-          pdfUrl={preview.url}
+          proxyUrl={preview.url}
           month={preview.month}
           year={preview.year}
           onClose={() => setPreview(null)}
