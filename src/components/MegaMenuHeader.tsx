@@ -818,11 +818,11 @@ const MegaMenuHeader = () => {
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden xl:flex items-center gap-1">
+            <nav className="hidden xl:flex items-center gap-0">
               {/* Home Button */}
               <Link
                 to="/"
-                className="px-3 py-2 text-sm text-foreground hover:text-primary transition-colors"
+                className="px-2 py-2 text-xs text-foreground hover:text-primary transition-colors whitespace-nowrap"
               >
                 Home
               </Link>
@@ -836,12 +836,12 @@ const MegaMenuHeader = () => {
                   {item.href ? (
                     <Link
                       to={item.href}
-                      className="px-3 py-2 text-sm text-foreground hover:text-primary transition-colors"
+                      className="px-2 py-2 text-xs text-foreground hover:text-primary transition-colors whitespace-nowrap"
                     >
                       {item.label}
                     </Link>
                   ) : (
-                    <button className="px-3 py-2 flex items-center gap-1 text-sm text-foreground hover:text-primary transition-colors">
+                    <button className="px-2 py-2 flex items-center gap-0.5 text-xs text-foreground hover:text-primary transition-colors whitespace-nowrap">
                       <span>{item.label}</span>
                       <ChevronDown
                         size={14}
