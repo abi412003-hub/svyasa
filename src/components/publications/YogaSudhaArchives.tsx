@@ -2,32 +2,34 @@ import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useRef, useState } from "react";
 import { FileText, Download, X, ExternalLink, Eye } from "lucide-react";
 
-// Storage base URL for PDFs in the publications bucket
-const STORAGE_BASE = "https://spkbypslhjqvnvnujpwd.supabase.co/storage/v1/object/public/publications/yoga-sudha";
+// Edge Function proxy — serves PDFs with proper headers, bypassing Chrome CORS blocks
+const PROXY = (storagePath: string) =>
+  `https://spkbypslhjqvnvnujpwd.supabase.co/functions/v1/pdf-proxy?path=${encodeURIComponent(storagePath)}`;
 
-// Map of year+month → storage PDF URL (overrides default path)
+
+// Map of year+month → proxied PDF URL
 const storagePdfMap: Record<string, string> = {
   // 2025
-  "2025-January":   `${STORAGE_BASE}/2025/yoga_sudha_jan_2025.pdf`,
-  "2025-February":  `${STORAGE_BASE}/2025/yoga_sudha_feb_2025.pdf`,
-  "2025-March":     `${STORAGE_BASE}/2025/yoga_sudha_mar_2025.pdf`,
-  "2025-April":     `${STORAGE_BASE}/2025/yoga_sudha_apr_2025.pdf`,
-  "2025-May":       `${STORAGE_BASE}/2025/yoga_sudha_may_2025.pdf`,
-  "2025-June":      `${STORAGE_BASE}/2025/yoga_sudha_june_2025.pdf`,
-  "2025-July":      `${STORAGE_BASE}/2025/yoga_sudha_july_2025.pdf`,
-  "2025-August":    `${STORAGE_BASE}/2025/yoga_sudha_aug_2025.pdf`,
-  "2025-September": `${STORAGE_BASE}/2025/yoga_sudha_sept_2025.pdf`,
-  "2025-October":   `${STORAGE_BASE}/2025/yoga_sudha_oct_2025.pdf`,
-  "2025-November":  `${STORAGE_BASE}/2025/yoga_sudha_nov_2025.pdf`,
+  "2025-January":   PROXY("publications/yoga-sudha/2025/yoga_sudha_jan_2025.pdf"),
+  "2025-February":  PROXY("publications/yoga-sudha/2025/yoga_sudha_feb_2025.pdf"),
+  "2025-March":     PROXY("publications/yoga-sudha/2025/yoga_sudha_mar_2025.pdf"),
+  "2025-April":     PROXY("publications/yoga-sudha/2025/yoga_sudha_apr_2025.pdf"),
+  "2025-May":       PROXY("publications/yoga-sudha/2025/yoga_sudha_may_2025.pdf"),
+  "2025-June":      PROXY("publications/yoga-sudha/2025/yoga_sudha_june_2025.pdf"),
+  "2025-July":      PROXY("publications/yoga-sudha/2025/yoga_sudha_july_2025.pdf"),
+  "2025-August":    PROXY("publications/yoga-sudha/2025/yoga_sudha_aug_2025.pdf"),
+  "2025-September": PROXY("publications/yoga-sudha/2025/yoga_sudha_sept_2025.pdf"),
+  "2025-October":   PROXY("publications/yoga-sudha/2025/yoga_sudha_oct_2025.pdf"),
+  "2025-November":  PROXY("publications/yoga-sudha/2025/yoga_sudha_nov_2025.pdf"),
   // 2024
-  "2024-April":     `${STORAGE_BASE}/2024/yoga_sudha_apr_2024.pdf`,
-  "2024-May":       `${STORAGE_BASE}/2024/yoga_sudha_may_2024.pdf`,
-  "2024-June":      `${STORAGE_BASE}/2024/yoga_sudha_june_2024.pdf`,
-  "2024-July":      `${STORAGE_BASE}/2024/yoga_sudha_july_2024.pdf`,
-  "2024-September": `${STORAGE_BASE}/2024/yoga_sudha_sept_2024.pdf`,
-  "2024-October":   `${STORAGE_BASE}/2024/yoga_sudha_oct_2024.pdf`,
-  "2024-November":  `${STORAGE_BASE}/2024/yoga_sudha_nov_2024.pdf`,
-  "2024-December":  `${STORAGE_BASE}/2024/yoga_sudha_dec_2024.pdf`,
+  "2024-April":     PROXY("publications/yoga-sudha/2024/yoga_sudha_apr_2024.pdf"),
+  "2024-May":       PROXY("publications/yoga-sudha/2024/yoga_sudha_may_2024.pdf"),
+  "2024-June":      PROXY("publications/yoga-sudha/2024/yoga_sudha_june_2024.pdf"),
+  "2024-July":      PROXY("publications/yoga-sudha/2024/yoga_sudha_july_2024.pdf"),
+  "2024-September": PROXY("publications/yoga-sudha/2024/yoga_sudha_sept_2024.pdf"),
+  "2024-October":   PROXY("publications/yoga-sudha/2024/yoga_sudha_oct_2024.pdf"),
+  "2024-November":  PROXY("publications/yoga-sudha/2024/yoga_sudha_nov_2024.pdf"),
+  "2024-December":  PROXY("publications/yoga-sudha/2024/yoga_sudha_dec_2024.pdf"),
 };
 
 // Archive data structure
