@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Phone, Mail, MessageCircle, ArrowUp, X } from "lucide-react";
+import { Phone, Mail, MessageCircle, ArrowUp, X, ChevronUp, ChevronDown } from "lucide-react";
 import SalesAgentWidget from "@/components/SalesAgentWidget";
 
 const FloatingActions = () => {
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [showPhoneTooltip, setShowPhoneTooltip] = useState(false);
+  const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -21,98 +22,128 @@ const FloatingActions = () => {
 
   // Desktop vertical stack
   const DesktopFloatingButtons = () => (
-    <div className="hidden md:flex fixed bottom-8 right-8 flex-col gap-3 z-40">
-      {/* Phone with tooltip */}
-      <div className="relative">
-        <motion.button
-          onClick={() => setShowPhoneTooltip(!showPhoneTooltip)}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
-          className="w-12 h-12 bg-secondary text-secondary-foreground rounded-full shadow-large flex items-center justify-center hover:bg-secondary/90 transition-colors"
-        >
-          <Phone className="w-5 h-5" />
-        </motion.button>
+    <div className="hidden md:flex fixed bottom-8 right-8 flex-col items-end gap-3 z-40">
 
-        <AnimatePresence>
-          {showPhoneTooltip && (
-            <motion.div
-              initial={{ opacity: 0, x: 20, scale: 0.9 }}
-              animate={{ opacity: 1, x: 0, scale: 1 }}
-              exit={{ opacity: 0, x: 20, scale: 0.9 }}
-              className="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-card rounded-xl shadow-large p-4 min-w-[220px]"
-            >
-              <button
-                onClick={() => setShowPhoneTooltip(false)}
-                className="absolute top-2 right-2 text-muted-foreground hover:text-foreground"
-              >
-                <X size={14} />
-              </button>
-              <h4 className="font-semibold text-foreground mb-3">Call Us</h4>
-              <div className="space-y-2 text-sm">
-                <div>
-                  <p className="text-muted-foreground text-xs">Global City Campus</p>
-                  <a href="tel:+919070907066" className="text-primary hover:underline">
-                    +91 9070907066
-                  </a>
-                </div>
-                <div>
-                  <p className="text-muted-foreground text-xs">Prashanti Campus</p>
-                  <a href="tel:+918762996815" className="text-primary hover:underline">
-                    +91 8762996815
-                  </a>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-
-      {/* Email */}
-      <motion.a
-        href="mailto:info@svyasa.edu.in"
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.95 }}
-        className="w-12 h-12 bg-primary text-primary-foreground rounded-full shadow-large flex items-center justify-center hover:bg-primary/90 transition-colors"
-      >
-        <Mail className="w-5 h-5" />
-      </motion.a>
-
-      {/* WhatsApp */}
-      <motion.a
-        href="https://wa.me/919070907066"
-        target="_blank"
-        rel="noopener noreferrer"
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.95 }}
-        className="w-12 h-12 bg-green-500 text-white rounded-full shadow-large flex items-center justify-center hover:bg-green-600 transition-colors"
-      >
-        <MessageCircle className="w-5 h-5" />
-      </motion.a>
-
-      {/* AI Sales Agent */}
-      <SalesAgentWidget />
-
-      {/* Back to top */}
+      {/* Expandable actions — shown only when expanded */}
       <AnimatePresence>
-        {showBackToTop && (
-          <motion.button
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0 }}
-            onClick={scrollToTop}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-            className="w-12 h-12 bg-gold text-accent-foreground rounded-full shadow-large flex items-center justify-center hover:bg-gold/90 transition-colors"
+        {expanded && (
+          <motion.div
+            className="flex flex-col gap-3"
+            initial={{ opacity: 0, y: 20, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.9 }}
+            transition={{ type: "spring", stiffness: 300, damping: 25 }}
           >
-            <motion.div
-              animate={{ y: [0, -3, 0] }}
-              transition={{ duration: 1, repeat: Infinity }}
+            {/* Back to top */}
+            <AnimatePresence>
+              {showBackToTop && (
+                <motion.button
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0 }}
+                  onClick={scrollToTop}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="w-12 h-12 bg-gold text-accent-foreground rounded-full shadow-large flex items-center justify-center hover:bg-gold/90 transition-colors"
+                >
+                  <motion.div
+                    animate={{ y: [0, -3, 0] }}
+                    transition={{ duration: 1, repeat: Infinity }}
+                  >
+                    <ArrowUp className="w-5 h-5" />
+                  </motion.div>
+                </motion.button>
+              )}
+            </AnimatePresence>
+
+            {/* AI Sales Agent */}
+            <SalesAgentWidget />
+
+            {/* WhatsApp */}
+            <motion.a
+              href="https://wa.me/919070907066"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              className="w-12 h-12 bg-green-500 text-white rounded-full shadow-large flex items-center justify-center hover:bg-green-600 transition-colors"
             >
-              <ArrowUp className="w-5 h-5" />
-            </motion.div>
-          </motion.button>
+              <MessageCircle className="w-5 h-5" />
+            </motion.a>
+
+            {/* Email */}
+            <motion.a
+              href="mailto:info@svyasa.edu.in"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              className="w-12 h-12 bg-primary text-primary-foreground rounded-full shadow-large flex items-center justify-center hover:bg-primary/90 transition-colors"
+            >
+              <Mail className="w-5 h-5" />
+            </motion.a>
+
+            {/* Phone with tooltip */}
+            <div className="relative">
+              <motion.button
+                onClick={() => setShowPhoneTooltip(!showPhoneTooltip)}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                className="w-12 h-12 bg-secondary text-secondary-foreground rounded-full shadow-large flex items-center justify-center hover:bg-secondary/90 transition-colors"
+              >
+                <Phone className="w-5 h-5" />
+              </motion.button>
+
+              <AnimatePresence>
+                {showPhoneTooltip && (
+                  <motion.div
+                    initial={{ opacity: 0, x: 20, scale: 0.9 }}
+                    animate={{ opacity: 1, x: 0, scale: 1 }}
+                    exit={{ opacity: 0, x: 20, scale: 0.9 }}
+                    className="absolute right-full mr-3 bottom-0 bg-card rounded-xl shadow-large p-4 min-w-[220px]"
+                  >
+                    <button
+                      onClick={() => setShowPhoneTooltip(false)}
+                      className="absolute top-2 right-2 text-muted-foreground hover:text-foreground"
+                    >
+                      <X size={14} />
+                    </button>
+                    <h4 className="font-semibold text-foreground mb-3">Call Us</h4>
+                    <div className="space-y-2 text-sm">
+                      <div>
+                        <p className="text-muted-foreground text-xs">Global City Campus</p>
+                        <a href="tel:+919070907066" className="text-primary hover:underline">
+                          +91 9070907066
+                        </a>
+                      </div>
+                      <div>
+                        <p className="text-muted-foreground text-xs">Prashanti Campus</p>
+                        <a href="tel:+918762996815" className="text-primary hover:underline">
+                          +91 8762996815
+                        </a>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Toggle button — always visible */}
+      <motion.button
+        onClick={() => { setExpanded(!expanded); if (expanded) setShowPhoneTooltip(false); }}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.95 }}
+        className="w-12 h-12 bg-secondary text-secondary-foreground rounded-full shadow-large flex items-center justify-center hover:bg-secondary/90 transition-colors"
+        title={expanded ? "Close" : "Quick actions"}
+      >
+        <motion.div
+          animate={{ rotate: expanded ? 180 : 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          {expanded ? <X className="w-5 h-5" /> : <ChevronUp className="w-5 h-5" />}
+        </motion.div>
+      </motion.button>
     </div>
   );
 
