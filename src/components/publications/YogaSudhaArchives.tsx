@@ -1,6 +1,6 @@
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useRef, useState } from "react";
-import { FileText, Download } from "lucide-react";
+import { FileText, Download, X, ExternalLink, Eye } from "lucide-react";
 
 // Storage base URL for PDFs in the publications bucket
 const STORAGE_BASE = "https://spkbypslhjqvnvnujpwd.supabase.co/storage/v1/object/public/publications/yoga-sudha";
@@ -60,21 +60,125 @@ const monthColors: Record<string, string> = {
   December: "from-violet-500 to-purple-600",
 };
 
+// PDF Preview Modal
+const PdfPreviewModal = ({
+  pdfUrl,
+  month,
+  year,
+  onClose,
+}: {
+  pdfUrl: string;
+  month: string;
+  year: string;
+  onClose: () => void;
+}) => (
+  <AnimatePresence>
+    <motion.div
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      {/* Backdrop */}
+      <motion.div
+        className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+        onClick={onClose}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      />
+
+      {/* Modal panel */}
+      <motion.div
+        className="relative z-10 w-full max-w-4xl h-[90vh] bg-card rounded-2xl shadow-2xl flex flex-col overflow-hidden"
+        initial={{ opacity: 0, scale: 0.92, y: 30 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.92, y: 30 }}
+        transition={{ type: "spring", stiffness: 280, damping: 25 }}
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between px-5 py-4 border-b border-border bg-card shrink-0">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center">
+              <FileText className="w-4 h-4 text-primary" />
+            </div>
+            <div>
+              <h3 className="font-heading text-foreground text-base leading-tight">Yoga Sudha</h3>
+              <p className="text-xs text-muted-foreground">{month} {year} Edition</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <a
+              href={pdfUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
+            >
+              <ExternalLink className="w-3.5 h-3.5" />
+              Open in new tab
+            </a>
+            <a
+              href={pdfUrl}
+              download
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+            >
+              <Download className="w-3.5 h-3.5" />
+              Download
+            </a>
+            <button
+              onClick={onClose}
+              className="ml-1 w-8 h-8 flex items-center justify-center rounded-full hover:bg-muted transition-colors"
+            >
+              <X className="w-4 h-4 text-muted-foreground" />
+            </button>
+          </div>
+        </div>
+
+        {/* PDF iframe */}
+        <div className="flex-1 bg-muted/30">
+          <iframe
+            src={`${pdfUrl}#toolbar=1&navpanes=0&view=FitH`}
+            className="w-full h-full border-0"
+            title={`Yoga Sudha ${month} ${year}`}
+          />
+        </div>
+      </motion.div>
+    </motion.div>
+  </AnimatePresence>
+);
+
 // Edition card component
-const EditionCard = ({ month, year, index }: { month: string; year: string; index: number }) => {
-  const pdfPath = storagePdfMap[`${year}-${month}`] ?? `/img/pdf/yoga-sudha-${month.toLowerCase()}-${year}.pdf`;
+const EditionCard = ({
+  month,
+  year,
+  index,
+  onPreview,
+}: {
+  month: string;
+  year: string;
+  index: number;
+  onPreview: (url: string) => void;
+}) => {
+  const pdfPath = storagePdfMap[`${year}-${month}`] ?? null;
+  const fallbackPath = `/img/pdf/yoga-sudha-${month.toLowerCase()}-${year}.pdf`;
   const colorClass = monthColors[month] || "from-primary to-gold";
+  const hasStorage = !!pdfPath;
+
+  const handleClick = (e: React.MouseEvent) => {
+    if (hasStorage) {
+      e.preventDefault();
+      onPreview(pdfPath!);
+    }
+  };
 
   return (
-    <motion.a
-      href={pdfPath}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="group block"
+    <motion.div
+      className="group block cursor-pointer"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
       transition={{ duration: 0.4, delay: index * 0.05 }}
+      onClick={handleClick}
     >
       <div className="relative bg-card rounded-xl overflow-hidden shadow-medium transition-all duration-300 group-hover:-translate-y-2 group-hover:shadow-large">
         {/* PDF badge */}
@@ -83,7 +187,7 @@ const EditionCard = ({ month, year, index }: { month: string; year: string; inde
         </div>
 
         {/* Magazine cover thumbnail */}
-        <div className={`aspect-[3/4] bg-gradient-to-br ${colorClass} p-4 flex flex-col items-center justify-between transition-transform duration-300 group-hover:scale-105`}>
+        <div className={`aspect-[3/4] bg-gradient-to-br ${colorClass} p-4 flex flex-col items-center justify-between transition-transform duration-300 group-hover:scale-105 relative`}>
           {/* Header */}
           <div className="text-center">
             <div className="w-10 h-10 mx-auto mb-1 rounded-full bg-white/20 flex items-center justify-center">
@@ -102,6 +206,16 @@ const EditionCard = ({ month, year, index }: { month: string; year: string; inde
           <div className="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center">
             <span className="text-white/60 text-xl">🪷</span>
           </div>
+
+          {/* Preview overlay on hover (only for storage PDFs) */}
+          {hasStorage && (
+            <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+              <div className="flex flex-col items-center gap-2 text-white">
+                <Eye className="w-8 h-8" />
+                <span className="text-xs font-medium">Preview</span>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Bottom golden border animation */}
@@ -113,19 +227,40 @@ const EditionCard = ({ month, year, index }: { month: string; year: string; inde
         />
 
         {/* Month label */}
-        <div className="p-4 bg-card">
+        <div className="p-3 bg-card">
           <div className="flex items-center justify-between">
-            <span className="text-foreground font-medium text-sm">{month} {year} Edition</span>
-            <Download className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
+            <span className="text-foreground font-medium text-xs">{month} {year}</span>
+            {hasStorage ? (
+              <Eye className="w-3.5 h-3.5 text-muted-foreground group-hover:text-primary transition-colors" />
+            ) : (
+              <a
+                href={fallbackPath}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <Download className="w-3.5 h-3.5 text-muted-foreground hover:text-primary transition-colors" />
+              </a>
+            )}
           </div>
         </div>
       </div>
-    </motion.a>
+    </motion.div>
   );
 };
 
 // Year section component
-const YearSection = ({ year, months, isActive }: { year: string; months: string[]; isActive: boolean }) => {
+const YearSection = ({
+  year,
+  months,
+  isActive,
+  onPreview,
+}: {
+  year: string;
+  months: string[];
+  isActive: boolean;
+  onPreview: (url: string) => void;
+}) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
 
@@ -160,7 +295,13 @@ const YearSection = ({ year, months, isActive }: { year: string; months: string[
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
         <AnimatePresence mode="popLayout">
           {months.map((month, index) => (
-            <EditionCard key={`${year}-${month}`} month={month} year={year} index={index} />
+            <EditionCard
+              key={`${year}-${month}`}
+              month={month}
+              year={year}
+              index={index}
+              onPreview={onPreview}
+            />
           ))}
         </AnimatePresence>
       </div>
@@ -172,6 +313,7 @@ const YogaSudhaArchives = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [activeYear, setActiveYear] = useState<string | null>(null);
+  const [preview, setPreview] = useState<{ url: string; month: string; year: string } | null>(null);
 
   const scrollToYear = (year: string) => {
     setActiveYear(year);
@@ -179,6 +321,20 @@ const YogaSudhaArchives = () => {
     if (element) {
       element.scrollIntoView({ behavior: "smooth", block: "start" });
     }
+  };
+
+  const handlePreview = (url: string) => {
+    // Derive month/year from URL for the modal header
+    const parts = url.split("/").pop()?.replace(".pdf", "").split("_") ?? [];
+    // e.g. yoga_sudha_jan_2025 → ["yoga","sudha","jan","2025"]
+    const monthAbbr = parts[2] ?? "";
+    const year = parts[3] ?? "";
+    const monthMap: Record<string, string> = {
+      jan: "January", feb: "February", mar: "March", apr: "April",
+      may: "May", june: "June", july: "July", aug: "August",
+      sept: "September", oct: "October", nov: "November", dec: "December",
+    };
+    setPreview({ url, month: monthMap[monthAbbr] ?? monthAbbr, year });
   };
 
   return (
@@ -273,11 +429,22 @@ const YogaSudhaArchives = () => {
                 year={year}
                 months={archiveData[year]}
                 isActive={activeYear === year}
+                onPreview={handlePreview}
               />
             ))}
           </div>
         </div>
       </div>
+
+      {/* PDF Preview Modal */}
+      {preview && (
+        <PdfPreviewModal
+          pdfUrl={preview.url}
+          month={preview.month}
+          year={preview.year}
+          onClose={() => setPreview(null)}
+        />
+      )}
     </section>
   );
 };
