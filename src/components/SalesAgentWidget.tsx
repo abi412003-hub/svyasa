@@ -5,7 +5,11 @@ import { Mic, MicOff, X, Bot, Volume2, Loader2 } from "lucide-react";
 
 const AGENT_ID = "agent_6601khwa75qfe8rvmec6t7pavc1a";
 
-const SalesAgentWidget = () => {
+interface SalesAgentWidgetProps {
+  mobile?: boolean;
+}
+
+const SalesAgentWidget = ({ mobile = false }: SalesAgentWidgetProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
 
@@ -56,21 +60,32 @@ const SalesAgentWidget = () => {
         onClick={() => setIsOpen(true)}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.97 }}
-        className="flex items-center gap-3 px-5 py-3.5 bg-violet-600 text-white rounded-full shadow-2xl hover:bg-violet-700 transition-colors relative"
+        className={
+          mobile
+            ? "flex-1 py-2.5 bg-violet-600 text-white rounded-lg text-center text-xs font-medium flex items-center justify-center gap-1 relative"
+            : "flex items-center gap-3 px-5 py-3.5 bg-violet-600 text-white rounded-full shadow-2xl hover:bg-violet-700 transition-colors relative"
+        }
         title="Talk to Prashanthi"
       >
-        <div className="relative">
-          <Bot className="w-6 h-6" />
-          {isConnected && (
-            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-green-400 rounded-full border border-white animate-pulse" />
-          )}
-        </div>
-        <span className="font-semibold text-sm whitespace-nowrap">Talk to Prashanthi</span>
-        {isConnected && (
+        {!mobile && (
+          <div className="relative">
+            <Bot className="w-6 h-6" />
+            {isConnected && (
+              <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-green-400 rounded-full border border-white animate-pulse" />
+            )}
+          </div>
+        )}
+        <span className={`font-semibold whitespace-nowrap ${mobile ? "text-xs" : "text-sm"}`}>
+          {mobile ? "Ask Prashanthi" : "Talk to Prashanthi"}
+        </span>
+        {isConnected && !mobile && (
           <span className="flex items-center gap-1 text-xs text-violet-200">
             <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
             Live
           </span>
+        )}
+        {isConnected && mobile && (
+          <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
         )}
       </motion.button>
 
@@ -82,7 +97,11 @@ const SalesAgentWidget = () => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.85, y: 20 }}
             transition={{ type: "spring", stiffness: 300, damping: 25 }}
-            className="fixed bottom-28 right-8 z-50 w-80 bg-card border border-border rounded-2xl shadow-2xl overflow-hidden"
+            className={
+              mobile
+                ? "fixed bottom-20 left-4 right-4 z-50 bg-card border border-border rounded-2xl shadow-2xl overflow-hidden"
+                : "fixed bottom-28 right-8 z-50 w-80 bg-card border border-border rounded-2xl shadow-2xl overflow-hidden"
+            }
           >
             {/* Header */}
             <div className="bg-violet-600 px-4 py-3 flex items-center justify-between">
