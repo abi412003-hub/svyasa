@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Phone, Mail, MessageCircle, ArrowUp, X } from "lucide-react";
+import SalesAgentWidget from "@/components/SalesAgentWidget";
 
 const FloatingActions = () => {
   const [showBackToTop, setShowBackToTop] = useState(false);
@@ -87,6 +88,9 @@ const FloatingActions = () => {
       >
         <MessageCircle className="w-5 h-5" />
       </motion.a>
+
+      {/* AI Sales Agent */}
+      <SalesAgentWidget />
 
       {/* Back to top */}
       <AnimatePresence>
