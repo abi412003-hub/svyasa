@@ -54,14 +54,23 @@ const SalesAgentWidget = () => {
       {/* Floating trigger button */}
       <motion.button
         onClick={() => setIsOpen(true)}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.95 }}
-        className="w-12 h-12 bg-violet-600 text-white rounded-full shadow-large flex items-center justify-center hover:bg-violet-700 transition-colors relative"
-        title="Talk to our AI Sales Agent"
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.97 }}
+        className="flex items-center gap-3 px-5 py-3.5 bg-violet-600 text-white rounded-full shadow-2xl hover:bg-violet-700 transition-colors relative"
+        title="Talk to Prashanthi"
       >
-        <Bot className="w-5 h-5" />
+        <div className="relative">
+          <Bot className="w-6 h-6" />
+          {isConnected && (
+            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-green-400 rounded-full border border-white animate-pulse" />
+          )}
+        </div>
+        <span className="font-semibold text-sm whitespace-nowrap">Talk to Prashanthi</span>
         {isConnected && (
-          <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full border-2 border-white animate-pulse" />
+          <span className="flex items-center gap-1 text-xs text-violet-200">
+            <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
+            Live
+          </span>
         )}
       </motion.button>
 
@@ -82,7 +91,7 @@ const SalesAgentWidget = () => {
                   <Bot className="w-4 h-4 text-white" />
                 </div>
                 <div>
-                  <p className="text-white font-semibold text-sm">SVYASA Sales Agent</p>
+                  <p className="text-white font-semibold text-sm">Prashanthi</p>
                   <p className="text-violet-200 text-xs">
                     {isConnected ? (
                       <span className="flex items-center gap-1">
