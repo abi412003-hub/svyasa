@@ -532,7 +532,7 @@ export const allRoutes: NavLink[] = [
   { label: "B.Sc. Yoga Vedic Wellness", href: "/bsc-yoga-vedic-therapy" },
   { label: "B.Sc. Yoga Therapy", href: "/bachelor-of-science-in-yoga-therapy" },
   { label: "M.Sc. Yoga Therapy", href: "/master-of-science-in-yoga-therapy" },
-  { label: "M.Sc. Yoga Vedic Therapy", href: "/master-of-science-yoga-vedic-therapy" },
+  { label: "M.Sc. Yoga Vedic Wellness", href: "/master-of-science-yoga-vedic-therapy" },
   { label: "BNYS", href: "/bachelor-of-naturopathy-and-yogic-sciences" },
   { label: "MD Yoga", href: "/doctor-of-medicine-yoga" },
   { label: "PG Diploma Yoga Therapy", href: "/post-graduate-diploma-in-yoga-therapy" },
