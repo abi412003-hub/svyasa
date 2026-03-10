@@ -115,7 +115,7 @@ const HeroSection = () => {
               className="flex flex-wrap gap-2 mb-4 md:mb-6"
             >
               <span className="px-3 py-1 md:px-4 md:py-1.5 bg-gold/20 backdrop-blur-sm text-gold-light text-xs md:text-sm font-medium rounded-full border border-gold/30">
-                NAAC 'A' Grade
+                NAAC 'A+' Grade
               </span>
               <span className="px-3 py-1 md:px-4 md:py-1.5 bg-gold/20 backdrop-blur-sm text-gold-light text-xs md:text-sm font-medium rounded-full border border-gold/30">
                 UGC Recognized
