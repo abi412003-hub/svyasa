@@ -103,7 +103,7 @@ export const navItems: NavItem[] = [
             parent: { label: "M.Sc. Yoga", href: "/programs/yoga-programmes" },
             specializations: [
               { label: "Yoga Therapy", href: "/courses/msc-yoga-therapy" },
-              { label: "Yoga & Vedic Therapy", href: "/courses/msc-yoga-vedic-therapy" },
+              { label: "Yoga & Vedic Wellness", href: "/courses/msc-yoga-vedic-therapy" },
             ],
           },
           {
