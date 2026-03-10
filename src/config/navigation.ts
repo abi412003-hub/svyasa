@@ -529,7 +529,7 @@ export const allRoutes: NavLink[] = [
   { label: "Ayurveda Lifestyle", href: "/ayurveda-lifestyle-management-course" },
   { label: "YIC", href: "/yoga-instructor-course" },
   { label: "Non Residential YIC", href: "/non-residential-yic" },
-  { label: "B.Sc. Yoga Vedic Therapy", href: "/bsc-yoga-vedic-therapy" },
+  { label: "B.Sc. Yoga Vedic Wellness", href: "/bsc-yoga-vedic-therapy" },
   { label: "B.Sc. Yoga Therapy", href: "/bachelor-of-science-in-yoga-therapy" },
   { label: "M.Sc. Yoga Therapy", href: "/master-of-science-in-yoga-therapy" },
   { label: "M.Sc. Yoga Vedic Therapy", href: "/master-of-science-yoga-vedic-therapy" },
