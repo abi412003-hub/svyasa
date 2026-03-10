@@ -32,8 +32,8 @@ const slides = [
   {
     title: (
       <>
-        Where Ancient Wisdom<br />
-        <span>Meets Modern Science</span>
+        Where Indian Knowledge Systems<br />
+        <span>Meet Modern Science</span>
       </>
     ),
     subtitle: "India's Premier Yoga University since 2002",
