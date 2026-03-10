@@ -2483,7 +2483,7 @@ export const courses: Course[] = [
   {
     slug: "bsc-yoga-vedic-therapy",
     title: "Bachelor of Science in Yoga & Vedic Wellness",
-    shortTitle: "B.Sc. Yoga & Vedic",
+    shortTitle: "B.Sc. Yoga & Vedic Wellness",
     degree: "Bachelor of Science",
     duration: "3 Years",
     campus: "Prashanti Kutiram Campus, Bengaluru",
