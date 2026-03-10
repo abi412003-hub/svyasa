@@ -2479,10 +2479,10 @@ export const courses: Course[] = [
   // YOGA PROGRAMMES
   // ==========================================
 
-  // SKELETON: B.Sc. Yoga & Vedic Therapy
+  // SKELETON: B.Sc. Yoga & Vedic Wellness
   {
     slug: "bsc-yoga-vedic-therapy",
-    title: "Bachelor of Science in Yoga & Vedic Therapy",
+    title: "Bachelor of Science in Yoga & Vedic Wellness",
     shortTitle: "B.Sc. Yoga & Vedic",
     degree: "Bachelor of Science",
     duration: "3 Years",
