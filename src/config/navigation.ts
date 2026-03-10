@@ -95,7 +95,7 @@ export const navItems: NavItem[] = [
           {
             parent: { label: "B.Sc. Yoga", href: "/programs/yoga-programmes" },
             specializations: [
-              { label: "Yoga & Vedic Therapy", href: "/courses/bsc-yoga-vedic-therapy" },
+              { label: "Yoga & Vedic Wellness", href: "/courses/bsc-yoga-vedic-therapy" },
               { label: "Yoga Therapy", href: "/courses/bsc-yoga-therapy" },
             ],
           },
@@ -103,7 +103,7 @@ export const navItems: NavItem[] = [
             parent: { label: "M.Sc. Yoga", href: "/programs/yoga-programmes" },
             specializations: [
               { label: "Yoga Therapy", href: "/courses/msc-yoga-therapy" },
-              { label: "Yoga & Vedic Therapy", href: "/courses/msc-yoga-vedic-therapy" },
+              { label: "Yoga & Vedic Wellness", href: "/courses/msc-yoga-vedic-therapy" },
             ],
           },
           {
@@ -529,10 +529,10 @@ export const allRoutes: NavLink[] = [
   { label: "Ayurveda Lifestyle", href: "/ayurveda-lifestyle-management-course" },
   { label: "YIC", href: "/yoga-instructor-course" },
   { label: "Non Residential YIC", href: "/non-residential-yic" },
-  { label: "B.Sc. Yoga Vedic Therapy", href: "/bsc-yoga-vedic-therapy" },
+  { label: "B.Sc. Yoga Vedic Wellness", href: "/bsc-yoga-vedic-therapy" },
   { label: "B.Sc. Yoga Therapy", href: "/bachelor-of-science-in-yoga-therapy" },
   { label: "M.Sc. Yoga Therapy", href: "/master-of-science-in-yoga-therapy" },
-  { label: "M.Sc. Yoga Vedic Therapy", href: "/master-of-science-yoga-vedic-therapy" },
+  { label: "M.Sc. Yoga Vedic Wellness", href: "/master-of-science-yoga-vedic-therapy" },
   { label: "BNYS", href: "/bachelor-of-naturopathy-and-yogic-sciences" },
   { label: "MD Yoga", href: "/doctor-of-medicine-yoga" },
   { label: "PG Diploma Yoga Therapy", href: "/post-graduate-diploma-in-yoga-therapy" },

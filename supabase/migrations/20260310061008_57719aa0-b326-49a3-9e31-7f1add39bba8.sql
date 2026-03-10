@@ -1,0 +1,2 @@
+UPDATE courses SET title = REPLACE(title, 'Vedic Therapy', 'Vedic Wellness') WHERE title ILIKE '%Vedic Therapy%';
+UPDATE courses SET short_title = REPLACE(short_title, 'Vedic Therapy', 'Vedic Wellness') WHERE short_title ILIKE '%Vedic Therapy%';
