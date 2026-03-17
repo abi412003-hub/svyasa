@@ -1223,16 +1223,19 @@ function Organogram() {
           <div className="w-56"><OrgNode title="Pro-Vice Chancellor" level="mid" /></div>
         </div>
         <OrgLine />
-        {/* Row 4: Registrar, FO, COE */}
+        {/* Row 4: FO, Registrar (center), COE */}
         <div className="flex justify-center gap-6">
-          <div className="w-48"><OrgNode title="Registrar" level="mid" /></div>
           <div className="w-48"><OrgNode title="Finance Officer" level="mid" /></div>
+          <div className="w-48"><OrgNode title="Registrar" level="mid" /></div>
           <div className="w-48"><OrgNode title="Controller of Examinations" level="mid" /></div>
         </div>
-        <OrgLine />
-        {/* Row 5: Under Registrar - Deans, Dy Reg, Principals, Director, PRO/AO */}
+        {/* Vertical line from Registrar only */}
+        <div className="flex justify-center">
+          <div className="w-0.5 h-8 bg-[hsl(var(--navy))]/20" />
+        </div>
+        {/* Row 5: Under Registrar */}
         <div className="flex justify-center gap-3 flex-wrap">
-          {["Deans", "Deputy Registrar", "Principals", "Director", "PRO / AO"].map((t) => (
+          {["Deans", "Deputy Registrar", "Principals", "Directors", "Administrative Officer", "Public Relations Officer"].map((t) => (
             <div key={t} className="w-40"><OrgNode title={t} level="leaf" /></div>
           ))}
         </div>
