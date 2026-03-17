@@ -1225,9 +1225,25 @@ function Organogram() {
           <div className="w-56"><OrgNode title="Chancellor" level="top" /></div>
         </div>
         <OrgLine />
-        {/* Row 3: VC */}
-        <div className="flex justify-center">
-          <div className="w-56"><OrgNode title="Vice Chancellor" level="top" /></div>
+        {/* Row 3: VC + side bodies */}
+        <div className="grid grid-cols-5 gap-3 items-start">
+          <div className="space-y-2">
+            <OrgNode title="Academic Council" level="leaf" />
+            <OrgNode title="Finance Committee" level="leaf" />
+          </div>
+          <div className="flex justify-center items-center h-full">
+            <OrgLine dir="h" />
+          </div>
+          <div>
+            <OrgNode title="Vice Chancellor" level="top" />
+          </div>
+          <div className="flex justify-center items-center h-full">
+            <OrgLine dir="h" />
+          </div>
+          <div className="space-y-2">
+            <OrgNode title="IQAC" level="leaf" />
+            <OrgNode title="Executive Council" level="leaf" />
+          </div>
         </div>
         <OrgLine />
         {/* Row 4: Pro-VC + CFO */}
