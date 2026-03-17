@@ -6,11 +6,11 @@ import vcPortrait from "@/assets/vc-portrait.png";
 
 const leaders = [
   {
-    name: "Dr. HR Dayanand Swamy",
+    name: "Dr. H R Dayananda Swamy",
     title: "Chancellor",
     image: chancellorPortrait,
     quote:
-      "Education is not merely about acquiring knowledge, it's about nurturing the mind, body and soul. It should empower individuals to realise their fullest potential and contribute positively to society. Let us strive for an education system that fosters holistic development and instills values of compassion, wisdom and innovation.",
+      "As one of the Founding Members of the S-VYASA Movement, I have been dedicated to the growth and stability of this institution for over three decades. Combining deep financial acumen with a profound understanding of Yoga and institutional development, my mission is to ensure S-VYASA continues to integrate Yoga, science, and education for global well-being.",
   },
   {
     name: "Dr. Manjunath NK",
