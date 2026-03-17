@@ -1104,14 +1104,14 @@ function ECCategoriesSection({ onSelect }: { onSelect: (m: ECMember) => void }) 
         {imageBlock}
         <div className={`flex-1 p-6 lg:p-8 flex flex-col justify-center ${imageRight ? "sm:order-1" : ""}`}>
           <p className="text-[hsl(var(--saffron))] text-xs font-bold uppercase tracking-widest mb-2">{roleLabel}</p>
-          <h3 className="font-['Playfair_Display',serif] text-2xl lg:text-3xl text-[hsl(var(--navy))] font-bold leading-tight mb-3">
+          <h3 className="font-['Playfair_Display',serif] text-2xl lg:text-3xl text-[hsl(var(--navy))] font-bold leading-tight mb-2">
             {member.name}
           </h3>
+          <p className="text-[hsl(var(--navy))]/60 text-xs italic mb-4 leading-relaxed">
+            {member.qualifications}
+          </p>
           <p className="text-[hsl(var(--muted-foreground))] text-sm leading-relaxed mb-4 line-clamp-4">
             {member.description}
-          </p>
-          <p className="text-[hsl(var(--navy))]/60 text-xs italic mb-5 leading-relaxed">
-            {member.qualifications}
           </p>
           {member.achievements && (
             <ul className="space-y-1 mb-5">
