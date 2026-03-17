@@ -1260,7 +1260,7 @@ function Organogram() {
         </div>
         {/* Row 5: Under Registrar */}
         <div className="flex justify-center gap-3 flex-wrap">
-          {["Deans", "Deputy Registrar", "Principals", "Directors", "Administrative Officer", "Public Relations Officer"].map((t) => (
+          {["Deans", "Deputy Registrar", "Principals", "Directors", "Administrative Officer", "Public Relations Officer", "Human Resource Officer", "Student Affairs"].map((t) => (
             <div key={t} className="w-40"><OrgNode title={t} level="leaf" /></div>
           ))}
         </div>
