@@ -93,11 +93,11 @@ const ChancellorsNote = () => {
               <Quote className="w-10 h-10 text-gold/30 mb-4 rotate-180" />
 
               <blockquote className="font-heading text-xl md:text-2xl text-foreground leading-relaxed mb-6">
-                S-VYASA stands as a living testament to the vision of integrating India's ancient yogic wisdom with modern scientific inquiry. Our mission is to nurture individuals who not only excel in their chosen fields but also embody the values of service, integrity, and holistic well-being.
+                As one of the Founding Members of the S-VYASA Movement, I have been dedicated to the growth and stability of this institution for over three decades. Our mission is to integrate Yoga, science, and education for global well-being.
               </blockquote>
 
               <p className="text-muted-foreground leading-relaxed mb-6">
-                As Chancellor, I am deeply committed to advancing S-VYASA's unique Gurukula model of education — where academic excellence is harmonized with character building, spiritual growth, and a profound respect for our cultural heritage. Together, we continue to build an institution that inspires transformation in every student who walks through our doors.
+                With a keen eye for financial prudence and operational excellence, my leadership as Secretary of S-VYASA Society ensures financial sustainability and strategic administration. Together, we continue to build an institution where ancient yogic wisdom meets modern scientific inquiry, nurturing individuals who embody the values of service, integrity, and holistic well-being.
               </p>
 
               <div className="flex items-center gap-3 pt-4 border-t border-border">
