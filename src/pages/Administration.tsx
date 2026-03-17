@@ -1219,11 +1219,7 @@ function Organogram() {
       className="overflow-x-auto pb-6"
     >
       <div className="min-w-[700px] space-y-0">
-        {/* Row 1: EC */}
-        <div className="flex justify-center">
-          <div className="w-56"><OrgNode title="Executive Council (EC)" level="top" /></div>
-        </div>
-        <OrgLine />
+        {/* Row 1: Chancellor */}
         {/* Row 2: Chancellor */}
         <div className="flex justify-center">
           <div className="w-56"><OrgNode title="Chancellor" level="top" /></div>
