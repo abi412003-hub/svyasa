@@ -1224,17 +1224,20 @@ function Organogram() {
         </div>
         {/* Branching lines from Pro-VC to 3 sub-nodes */}
         <div className="mx-auto w-[2px] h-4 bg-[hsl(var(--saffron))]/40" />
-        <div className="flex justify-center gap-6">
-          <div className="w-48 flex justify-center">
-            <div className="w-[2px] h-4 bg-[hsl(var(--saffron))]/40" />
-          </div>
-          <div className="w-48 flex justify-center">
-            <div className="w-[2px] h-4 bg-[hsl(var(--saffron))]/40" />
-          </div>
-          <div className="w-48 flex justify-center">
-            <div className="w-[2px] h-4 bg-[hsl(var(--saffron))]/40" />
+        <div className="flex justify-center">
+          <div className="flex gap-6 relative">
+            <div className="w-48" />
+            <div className="w-48" />
+            <div className="w-48" />
+            {/* Horizontal bar spanning from center of first to center of last */}
+            <div className="absolute top-0 left-[6rem] right-[6rem] h-[2px] bg-[hsl(var(--saffron))]/40" />
+            {/* Vertical drops */}
+            <div className="absolute top-0 left-[6rem] w-[2px] h-4 bg-[hsl(var(--saffron))]/40 -translate-x-[1px]" />
+            <div className="absolute top-0 left-1/2 w-[2px] h-4 bg-[hsl(var(--saffron))]/40 -translate-x-[1px]" />
+            <div className="absolute top-0 right-[6rem] w-[2px] h-4 bg-[hsl(var(--saffron))]/40 -translate-x-[1px]" />
           </div>
         </div>
+        <div className="h-4" />
         <div className="flex justify-center gap-6">
           <div className="w-48"><OrgNode title="Finance Officer" level="mid" /></div>
           <div className="w-48"><OrgNode title="Registrar" level="mid" /></div>
