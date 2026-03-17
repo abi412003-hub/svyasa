@@ -1027,13 +1027,24 @@ function ECMemberCard({ member, onClick }: { member: ECMember; onClick: () => vo
         <div className="absolute inset-0 z-20 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
       </div>
       <div className="p-4 flex-1 flex flex-col">
+        <p className="text-[hsl(var(--saffron))] text-xs font-semibold mb-1 leading-snug">{member.designation}</p>
         <h3 className="font-['Playfair_Display',serif] text-base text-[hsl(var(--navy))] font-bold leading-tight mb-1">
           {member.name}
         </h3>
-        <p className="text-[hsl(var(--saffron))] text-xs font-semibold mb-2 leading-snug">{member.designation}</p>
-        <p className="text-[hsl(var(--muted-foreground))] text-xs leading-relaxed line-clamp-2 flex-1">{member.description}</p>
-        <button className="mt-3 text-xs font-semibold text-[hsl(var(--teal))] hover:text-[hsl(var(--saffron))] transition-colors self-start">
-          View Profile →
+        <p className="text-[hsl(var(--navy))]/60 text-[11px] italic mb-2 leading-relaxed">{member.qualifications}</p>
+        <p className="text-[hsl(var(--muted-foreground))] text-xs leading-relaxed line-clamp-3 mb-2">{member.description}</p>
+        {member.achievements && member.achievements.length > 0 && (
+          <ul className="space-y-1 mb-2">
+            {member.achievements.slice(0, 2).map((a, i) => (
+              <li key={i} className="flex items-start gap-1.5 text-[11px] text-[hsl(var(--muted-foreground))]">
+                <span className="text-[hsl(var(--saffron))] mt-0.5 shrink-0">✦</span>
+                <span className="line-clamp-1">{a}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+        <button className="mt-auto text-xs font-semibold text-[hsl(var(--teal))] hover:text-[hsl(var(--saffron))] transition-colors self-start">
+          View Full Profile →
         </button>
       </div>
     </motion.div>
@@ -1093,14 +1104,14 @@ function ECCategoriesSection({ onSelect }: { onSelect: (m: ECMember) => void }) 
         {imageBlock}
         <div className={`flex-1 p-6 lg:p-8 flex flex-col justify-center ${imageRight ? "sm:order-1" : ""}`}>
           <p className="text-[hsl(var(--saffron))] text-xs font-bold uppercase tracking-widest mb-2">{roleLabel}</p>
-          <h3 className="font-['Playfair_Display',serif] text-2xl lg:text-3xl text-[hsl(var(--navy))] font-bold leading-tight mb-3">
+          <h3 className="font-['Playfair_Display',serif] text-2xl lg:text-3xl text-[hsl(var(--navy))] font-bold leading-tight mb-2">
             {member.name}
           </h3>
+          <p className="text-[hsl(var(--navy))]/60 text-xs italic mb-4 leading-relaxed">
+            {member.qualifications}
+          </p>
           <p className="text-[hsl(var(--muted-foreground))] text-sm leading-relaxed mb-4 line-clamp-4">
             {member.description}
-          </p>
-          <p className="text-[hsl(var(--navy))]/60 text-xs italic mb-5 leading-relaxed">
-            {member.qualifications}
           </p>
           {member.achievements && (
             <ul className="space-y-1 mb-5">
