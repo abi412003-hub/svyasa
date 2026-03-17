@@ -1231,7 +1231,7 @@ function Organogram() {
         <OrgLine />
         {/* Row 3: VC */}
         <div className="flex justify-center">
-          <div className="w-56"><OrgNode title="Vice Chancellor" subtitle="Dr. N. K. Manjunath" level="top" /></div>
+          <div className="w-56"><OrgNode title="Vice Chancellor" level="top" /></div>
         </div>
         <OrgLine />
         {/* Row 4: Pro-VC + CFO */}
