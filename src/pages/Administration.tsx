@@ -853,29 +853,17 @@ function ProfileDrawer({ member, onClose }: { member: AnyMember; onClose: () => 
               </div>
               <div className="pt-1">
                 <p className="text-amber-300 text-[10px] font-bold uppercase tracking-widest mb-1">
-                  {'section' in member
-                    ? (member.section === "ec" ? "Executive Council" :
-                       member.section === "deans" ? "Dean / Director" :
-                       member.section === "registrar-row" ? "Administration" : "Campus Administration")
-                    : "Executive Council"}
+                  S-VYASA Deemed to be University
                 </p>
-                <h2 className="text-white font-['Playfair_Display',serif] text-xl font-bold leading-snug mb-1">
+                <h2 className="text-white font-['Playfair_Display',serif] text-xl font-bold leading-snug mb-0.5">
                   {member.name}
                 </h2>
-                <p className="text-white/70 text-sm">{member.designation}</p>
+                <p className="text-white/70 text-sm mb-0.5">{member.designation}</p>
+                {member.qualifications && (
+                  <p className="text-white/60 text-xs leading-relaxed">{member.qualifications}</p>
+                )}
               </div>
             </div>
-            {member.qualifications && (
-              <div className="mt-5 bg-white/10 border border-white/20 rounded-xl px-4 py-3">
-                <div className="flex items-start gap-2">
-                  <GraduationCap size={15} className="text-amber-300 mt-0.5 shrink-0" />
-                  <div>
-                    <p className="text-amber-300 text-[10px] font-bold uppercase tracking-wider mb-1">Qualifications</p>
-                    <p className="text-white/85 text-sm leading-relaxed">{member.qualifications}</p>
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
 
           {/* Drawer Body */}
