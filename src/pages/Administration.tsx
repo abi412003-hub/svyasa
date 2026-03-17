@@ -1224,14 +1224,15 @@ function Organogram() {
         </div>
         {/* Branching lines from Pro-VC to 3 sub-nodes */}
         <div className="mx-auto w-[2px] h-4 bg-[hsl(var(--saffron))]/40" />
-        <div className="flex justify-center">
-          <div className="relative" style={{ width: "calc(48px * 3 + 12rem * 3 + 1.5rem * 2)" }}>
-            <div className="absolute top-0 left-[calc(16.66%)] right-[calc(16.66%)] h-[2px] bg-[hsl(var(--saffron))]/40" />
-            <div className="flex justify-between px-[16.66%]">
-              <div className="w-[2px] h-4 bg-[hsl(var(--saffron))]/40" />
-              <div className="w-[2px] h-4 bg-[hsl(var(--saffron))]/40" />
-              <div className="w-[2px] h-4 bg-[hsl(var(--saffron))]/40" />
-            </div>
+        <div className="flex justify-center gap-6">
+          <div className="w-48 flex justify-center">
+            <div className="w-[2px] h-4 bg-[hsl(var(--saffron))]/40" />
+          </div>
+          <div className="w-48 flex justify-center">
+            <div className="w-[2px] h-4 bg-[hsl(var(--saffron))]/40" />
+          </div>
+          <div className="w-48 flex justify-center">
+            <div className="w-[2px] h-4 bg-[hsl(var(--saffron))]/40" />
           </div>
         </div>
         <div className="flex justify-center gap-6">
