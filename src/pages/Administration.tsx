@@ -1209,55 +1209,31 @@ function Organogram() {
     >
       <div className="min-w-[700px] space-y-0">
         {/* Row 1: Chancellor */}
-        {/* Row 2: Chancellor */}
         <div className="flex justify-center">
           <div className="w-56"><OrgNode title="Chancellor" level="top" /></div>
         </div>
         <OrgLine />
-        {/* Row 3: VC + side bodies */}
-        <div className="grid grid-cols-5 gap-3 items-start">
-          <div className="space-y-2">
-            <OrgNode title="Academic Council" level="leaf" />
-            <OrgNode title="Finance Committee" level="leaf" />
-          </div>
-          <div className="flex justify-center items-center h-full">
-            <OrgLine dir="h" />
-          </div>
-          <div>
-            <OrgNode title="Vice Chancellor" level="top" />
-          </div>
-          <div className="flex justify-center items-center h-full">
-            <OrgLine dir="h" />
-          </div>
-          <div className="space-y-2">
-            <OrgNode title="IQAC" level="leaf" />
-            <OrgNode title="Executive Council" level="leaf" />
-          </div>
+        {/* Row 2: Vice Chancellor */}
+        <div className="flex justify-center">
+          <div className="w-56"><OrgNode title="Vice Chancellor" level="top" /></div>
         </div>
         <OrgLine />
-        {/* Row 4: Pro-VC + CFO */}
+        {/* Row 3: Pro-VC with Registrar, FO, COE branching */}
+        <div className="flex justify-center">
+          <div className="w-56"><OrgNode title="Pro-Vice Chancellor" level="mid" /></div>
+        </div>
+        <OrgLine />
+        {/* Row 4: Registrar, FO, COE */}
         <div className="flex justify-center gap-6">
-          <div className="w-52"><OrgNode title="Pro-Vice Chancellor" level="mid" /></div>
-          <div className="w-52"><OrgNode title="Chief Finance Officer" level="mid" /></div>
+          <div className="w-48"><OrgNode title="Registrar" level="mid" /></div>
+          <div className="w-48"><OrgNode title="Finance Officer" level="mid" /></div>
+          <div className="w-48"><OrgNode title="Controller of Examinations" level="mid" /></div>
         </div>
         <OrgLine />
-        {/* Row 5: Registrar + COE */}
-        <div className="flex justify-center gap-6">
-          <div className="w-52"><OrgNode title="Registrar" level="mid" /></div>
-          <div className="w-52"><OrgNode title="Controller of Examinations" level="mid" /></div>
-        </div>
-        <OrgLine />
-        {/* Row 6: Deans etc */}
+        {/* Row 5: Under Registrar - Deans, Dy Reg, Principals, Director, PRO/AO */}
         <div className="flex justify-center gap-3 flex-wrap">
-          {["Deans", "Deputy Registrar", "Administrative Officer", "Liaison Officer"].map((t) => (
-            <div key={t} className="w-44"><OrgNode title={t} level="leaf" /></div>
-          ))}
-        </div>
-        <OrgLine />
-        {/* Row 7: Bottom nodes */}
-        <div className="flex justify-center gap-3 flex-wrap">
-          {["Principal of Schools", "Directors of Centres", "Girls & Boys Hostels", "Human Resource Dept", "Campus Maintenance"].map((t) => (
-            <div key={t} className="w-44"><OrgNode title={t} level="leaf" /></div>
+          {["Deans", "Deputy Registrar", "Principals", "Director", "PRO / AO"].map((t) => (
+            <div key={t} className="w-40"><OrgNode title={t} level="leaf" /></div>
           ))}
         </div>
       </div>
