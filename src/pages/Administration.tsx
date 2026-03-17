@@ -1224,24 +1224,9 @@ function Organogram() {
           <div className="w-56"><OrgNode title="Executive Council (EC)" level="top" /></div>
         </div>
         <OrgLine />
-        {/* Row 2: Chancellor + side bodies */}
-        <div className="grid grid-cols-5 gap-3 items-start">
-          <div className="space-y-2">
-            <OrgNode title="Academic Council" level="leaf" />
-            <OrgNode title="Finance Committee" level="leaf" />
-          </div>
-          <div className="flex justify-center items-center h-full">
-            <OrgLine dir="h" />
-          </div>
-          <div>
-            <OrgNode title="Chancellor" subtitle="Dr. H R Dayananda Swamy" level="top" />
-          </div>
-          <div className="flex justify-center items-center h-full">
-            <OrgLine dir="h" />
-          </div>
-          <div className="space-y-2">
-            <OrgNode title="IQAC" level="leaf" />
-          </div>
+        {/* Row 2: Chancellor */}
+        <div className="flex justify-center">
+          <div className="w-56"><OrgNode title="Chancellor" level="top" /></div>
         </div>
         <OrgLine />
         {/* Row 3: VC */}
