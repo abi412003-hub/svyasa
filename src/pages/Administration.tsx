@@ -11,6 +11,7 @@ import ecSridharSubramanianPhoto from "@/assets/ec-sridhar-subramanian.jpg";
 import ecAmitSinghPhoto from "@/assets/ec-amit-singh.jpg";
 import ecMohanKishorePhoto from "@/assets/ec-mohan-kishore.jpg";
 import ecDhananjayaPhoto from "@/assets/ec-dhananjaya.jpg";
+import ecNagarathnaPhoto from "@/assets/ec-nagarathna.jpg";
 import ecSubhadradeviPhoto from "@/assets/ec-subhadra-devi.jpg";
 import { motion, useInView, AnimatePresence, Variants } from "framer-motion";
 import {
@@ -164,7 +165,7 @@ const ecCategories: ECCategory[] = [
         designation: "Member",
         description: "Distinguished yoga researcher and clinician contributing her expertise in integrative medicine and yoga therapy to the Executive Council's academic and research governance.",
         qualifications: "MBBS, MD; Senior Physician and Researcher specializing in integrative medicine and yoga therapy",
-        photo: AIIU("1771457401844-sasvxg7vk5.jpg"),
+        photo: ecNagarathnaPhoto,
         gender: "female",
         expertise: "Integrative medicine, yoga therapy, clinical research, evidence-based yoga",
       },
