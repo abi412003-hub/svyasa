@@ -11,6 +11,7 @@ import ecSridharSubramanianPhoto from "@/assets/ec-sridhar-subramanian.jpg";
 import ecAmitSinghPhoto from "@/assets/ec-amit-singh.jpg";
 import ecMohanKishorePhoto from "@/assets/ec-mohan-kishore.jpg";
 import ecDhananjayaPhoto from "@/assets/ec-dhananjaya.jpg";
+import ecNagarathnaPhoto from "@/assets/ec-nagarathna.jpg";
 import ecSubhadradeviPhoto from "@/assets/ec-subhadra-devi.jpg";
 import { motion, useInView, AnimatePresence, Variants } from "framer-motion";
 import {
