@@ -386,16 +386,16 @@ const adminData: AdminProfile[] = [
   },
   {
     id: "coe",
-    name: "Dr. Gaurav Sinha",
-    designation: "Controller of Examinations (COE)",
-    description: "Oversees all aspects of examination planning, administration, evaluation, and result declaration ensuring fairness, transparency, and adherence to academic standards.",
-    qualifications: "PhD; Controller of Examinations, S-VYASA University; Expert in examination systems, digital assessment, and academic evaluation",
+    name: "Dr. Mohan Kishore",
+    designation: "Deputy Controller of Examinations (COE)",
+    description: "Supports examination planning, administration, evaluation, and result declaration ensuring fairness, transparency, and adherence to academic standards.",
+    qualifications: "PhD; Deputy Controller of Examinations, S-VYASA University; Expert in examination systems, digital assessment, and academic evaluation",
     gender: "male",
     section: "registrar-row",
-    expertise: "Examination systems, digital assessment, academic evaluation, anti-malpractice",
+    expertise: "Examination systems, digital assessment, academic evaluation",
     achievements: [
-      "Implemented online examination portal for 3000+ students",
-      "Introduced biometric-based attendance and examination security",
+      "Streamlined examination scheduling and logistics",
+      "Coordinated digital evaluation and result processing",
     ],
   },
   {
