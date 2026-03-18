@@ -118,16 +118,6 @@ const ecCategories: ECCategory[] = [
         expertise: "Yoga therapy, clinical trials, integrative medicine, university governance",
       },
       {
-        id: "ec-ramakrishna",
-        name: "Dr. B. R. Ramakrishna",
-        designation: "Pro-Chancellor",
-        description: "Experienced academic leader serving as Pro-Chancellor of S-VYASA University, overseeing institutional strategy, governance compliance, and long-term development initiatives.",
-        qualifications: "PhD; Senior academic administrator with decades of experience in university leadership and governance",
-        photo: ecRamakrishnaPhoto,
-        gender: "male",
-        expertise: "University leadership, institutional strategy, governance, policy development",
-      },
-      {
         id: "ec-sivasankara",
         name: "Prof. Siva Sankara Sai",
         designation: "Pro-Vice Chancellor",
