@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import chancellorDayanandaPhoto from "@/assets/chancellor-dayananda.jpg";
-import ecRamakrishnaPhoto from "@/assets/ec-ramakrishna.jpg";
+
 import ecJayaramanPhoto from "@/assets/ec-jayaraman.jpg";
 import ecRamachandraBhatPhoto from "@/assets/ec-ramachandra-bhat.png";
 import ecSridharaSwamyPhoto from "@/assets/ec-sridhara-swamy.png";
