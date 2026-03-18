@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import chancellorDayanandaPhoto from "@/assets/chancellor-dayananda.jpg";
-import ecRamakrishnaPhoto from "@/assets/ec-ramakrishna.jpg";
+
 import ecJayaramanPhoto from "@/assets/ec-jayaraman.jpg";
 import ecRamachandraBhatPhoto from "@/assets/ec-ramachandra-bhat.png";
 import ecSridharaSwamyPhoto from "@/assets/ec-sridhara-swamy.png";
@@ -116,16 +116,6 @@ const ecCategories: ECCategory[] = [
           "Vice-President of Asian Yoga Therapy Association, Singapore",
         ],
         expertise: "Yoga therapy, clinical trials, integrative medicine, university governance",
-      },
-      {
-        id: "ec-ramakrishna",
-        name: "Dr. B. R. Ramakrishna",
-        designation: "Pro-Chancellor",
-        description: "Experienced academic leader serving as Pro-Chancellor of S-VYASA University, overseeing institutional strategy, governance compliance, and long-term development initiatives.",
-        qualifications: "PhD; Senior academic administrator with decades of experience in university leadership and governance",
-        photo: ecRamakrishnaPhoto,
-        gender: "male",
-        expertise: "University leadership, institutional strategy, governance, policy development",
       },
       {
         id: "ec-sivasankara",
