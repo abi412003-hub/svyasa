@@ -9,7 +9,7 @@ import ecSoubhagyalaxmiPhoto from "@/assets/ec-soubhagyalaxmi-mohanty.png";
 import ecMembersGroupPhoto from "@/assets/ec-members-group.jpg";
 import ecSridharSubramanianPhoto from "@/assets/ec-sridhar-subramanian.jpg";
 import ecAmitSinghPhoto from "@/assets/ec-amit-singh.jpg";
-import ecGauravSinhaPhoto from "@/assets/ec-gaurav-sinha.jpg";
+import ecMohanKishorePhoto from "@/assets/ec-mohan-kishore.jpg";
 import ecDhananjayaPhoto from "@/assets/ec-dhananjaya.jpg";
 import ecSubhadradeviPhoto from "@/assets/ec-subhadra-devi.jpg";
 import { motion, useInView, AnimatePresence, Variants } from "framer-motion";
@@ -347,19 +347,19 @@ const ecCategories: ECCategory[] = [
         expertise: "Academic governance, curriculum management, faculty coordination, quality assurance",
       },
       {
-        id: "ec-gaurav-sinha",
-        name: "Dr. Gaurav Sinha",
-        designation: "Controller of Examinations",
-        description: "Oversees all aspects of examination planning, administration, evaluation, and result declaration ensuring fairness, transparency, and adherence to academic standards at S-VYASA University.",
-        qualifications: "PhD; Controller of Examinations, S-VYASA University; Expert in examination systems, digital assessment, and academic evaluation",
-        photo: ecGauravSinhaPhoto,
+        id: "ec-mohan-kishore",
+        name: "Dr. Mohan Kishore",
+        designation: "Deputy Controller of Examinations",
+        description: "Supports the Controller of Examinations in planning, administration, evaluation, and result declaration ensuring fairness, transparency, and adherence to academic standards at S-VYASA University.",
+        qualifications: "PhD; Deputy Controller of Examinations, S-VYASA University; Expert in examination systems, digital assessment, and academic evaluation",
+        photo: ecMohanKishorePhoto,
         gender: "male",
         achievements: [
-          "Implemented online examination portal for 3000+ students",
-          "Introduced biometric-based attendance and examination security",
-          "Ensured fair and transparent evaluation across all programs",
+          "Streamlined examination scheduling and logistics",
+          "Coordinated digital evaluation and result processing",
+          "Ensured compliance with UGC examination guidelines",
         ],
-        expertise: "Examination systems, digital assessment, academic evaluation, anti-malpractice",
+        expertise: "Examination systems, digital assessment, academic evaluation",
       },
     ],
   },
@@ -386,16 +386,16 @@ const adminData: AdminProfile[] = [
   },
   {
     id: "coe",
-    name: "Dr. Gaurav Sinha",
-    designation: "Controller of Examinations (COE)",
-    description: "Oversees all aspects of examination planning, administration, evaluation, and result declaration ensuring fairness, transparency, and adherence to academic standards.",
-    qualifications: "PhD; Controller of Examinations, S-VYASA University; Expert in examination systems, digital assessment, and academic evaluation",
+    name: "Dr. Mohan Kishore",
+    designation: "Deputy Controller of Examinations (COE)",
+    description: "Supports examination planning, administration, evaluation, and result declaration ensuring fairness, transparency, and adherence to academic standards.",
+    qualifications: "PhD; Deputy Controller of Examinations, S-VYASA University; Expert in examination systems, digital assessment, and academic evaluation",
     gender: "male",
     section: "registrar-row",
-    expertise: "Examination systems, digital assessment, academic evaluation, anti-malpractice",
+    expertise: "Examination systems, digital assessment, academic evaluation",
     achievements: [
-      "Implemented online examination portal for 3000+ students",
-      "Introduced biometric-based attendance and examination security",
+      "Streamlined examination scheduling and logistics",
+      "Coordinated digital evaluation and result processing",
     ],
   },
   {
