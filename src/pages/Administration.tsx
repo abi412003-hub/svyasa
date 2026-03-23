@@ -105,7 +105,7 @@ const ecCategories: ECCategory[] = [
         name: "Dr. Manjunath N. K",
         designation: "Chairperson, Vice Chancellor",
         description: "Has delivered lectures on evidence-based Yoga therapy at Harvard Medical School, Monash University, Royal College of Medicine, and Shanghai University of Sports. Editor, International Journal of Yoga.",
-        qualifications: "BNYS, PhD, D.Sc.; Editor, International Journal of Yoga (IJOY); Founding Director, Vivekananda Yoga University, California",
+        qualifications: "BNYS, PhD, D.Sc.",
         photo: AIIU("1771457392679-ig24wth6fjs.JPG"),
         gender: "male",
         achievements: [
