@@ -38,10 +38,10 @@ export default function EventsList() {
   const paged = filtered.slice((page - 1) * PER_PAGE, page * PER_PAGE);
 
   const togglePublish = useCallback(async (item: EventItem) => {
-    const { error } = await supabaseExternal
+    const { error } = await supabase
       .from("svyasa_events")
       .update({ is_published: !item.isPublished })
-      .eq("id", Number(item.id));
+      .eq("id", item.id);
     if (error) { toast.error(error.message); return; }
     toast.success("Status updated");
     refetch();
