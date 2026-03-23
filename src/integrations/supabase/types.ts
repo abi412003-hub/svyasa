@@ -146,6 +146,102 @@ export type Database = {
         }
         Relationships: []
       }
+      svyasa_events: {
+        Row: {
+          body: string
+          campus: string
+          category: string
+          created_at: string
+          date: string
+          end_date: string | null
+          gallery_urls: Json
+          id: string
+          is_published: boolean
+          slug: string
+          thumbnail_url: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          body?: string
+          campus?: string
+          category?: string
+          created_at?: string
+          date?: string
+          end_date?: string | null
+          gallery_urls?: Json
+          id?: string
+          is_published?: boolean
+          slug: string
+          thumbnail_url?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          body?: string
+          campus?: string
+          category?: string
+          created_at?: string
+          date?: string
+          end_date?: string | null
+          gallery_urls?: Json
+          id?: string
+          is_published?: boolean
+          slug?: string
+          thumbnail_url?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      svyasa_news: {
+        Row: {
+          body: string
+          campus: string
+          category: string
+          created_at: string
+          date: string
+          gallery_urls: Json
+          id: string
+          is_featured: boolean
+          is_published: boolean
+          slug: string
+          thumbnail_url: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          body?: string
+          campus?: string
+          category?: string
+          created_at?: string
+          date?: string
+          gallery_urls?: Json
+          id?: string
+          is_featured?: boolean
+          is_published?: boolean
+          slug: string
+          thumbnail_url?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          body?: string
+          campus?: string
+          category?: string
+          created_at?: string
+          date?: string
+          gallery_urls?: Json
+          id?: string
+          is_featured?: boolean
+          is_published?: boolean
+          slug?: string
+          thumbnail_url?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           id: string
