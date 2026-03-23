@@ -53,6 +53,7 @@ interface FacultyForm {
   phone: string;
   google_scholar_url: string;
   orcid_id: string;
+  linkedin_url: string;
   achievements: string;
   publications: string;
   research: string;
@@ -67,7 +68,7 @@ interface FacultyForm {
 const emptyForm: FacultyForm = {
   name: "", slug: "", designation: "", department: "", faculty_category: "Faculty and Staff",
   qualifications: "", bio: "", photo_url: "", email: "", phone: "",
-  google_scholar_url: "", orcid_id: "", achievements: "", publications: "",
+  google_scholar_url: "", orcid_id: "", linkedin_url: "", achievements: "", publications: "",
   research: "", responsibility: "", research_interests: [], area_of_expertise: [],
   display_order: 999, is_published: true, contentful_id: "",
 };
@@ -101,6 +102,7 @@ export default function AdminFacultyEditor() {
         phone: data.phone || "",
         google_scholar_url: data.google_scholar_url || "",
         orcid_id: data.orcid_id || "",
+        linkedin_url: (data as any).linkedin_url || "",
         achievements: data.achievements || "",
         publications: data.publications || "",
         research: data.research || "",
@@ -140,6 +142,7 @@ export default function AdminFacultyEditor() {
       phone: form.phone,
       google_scholar_url: form.google_scholar_url,
       orcid_id: form.orcid_id,
+      linkedin_url: form.linkedin_url,
       achievements: form.achievements,
       publications: form.publications,
       research: form.research,
@@ -259,6 +262,9 @@ export default function AdminFacultyEditor() {
             </Field>
             <Field label="ORCID ID">
               <Input value={form.orcid_id} onChange={(e) => set("orcid_id", e.target.value)} className="bg-slate-800 border-slate-700 text-white" />
+            </Field>
+            <Field label="LinkedIn URL">
+              <Input value={form.linkedin_url} onChange={(e) => set("linkedin_url", e.target.value)} className="bg-slate-800 border-slate-700 text-white" placeholder="https://linkedin.com/in/..." />
             </Field>
           </div>
         </Section>

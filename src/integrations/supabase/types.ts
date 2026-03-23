@@ -170,6 +170,7 @@ export type Database = {
           google_scholar_url: string | null
           id: string
           is_published: boolean | null
+          linkedin_url: string | null
           name: string
           orcid_id: string | null
           phone: string | null
@@ -196,6 +197,7 @@ export type Database = {
           google_scholar_url?: string | null
           id?: string
           is_published?: boolean | null
+          linkedin_url?: string | null
           name: string
           orcid_id?: string | null
           phone?: string | null
@@ -222,6 +224,7 @@ export type Database = {
           google_scholar_url?: string | null
           id?: string
           is_published?: boolean | null
+          linkedin_url?: string | null
           name?: string
           orcid_id?: string | null
           phone?: string | null
