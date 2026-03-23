@@ -82,8 +82,10 @@ export const facultyData: FacultyProfile[] = [
     research:
       "Principal Investigator for the largest ongoing research projects at S-VYASA including the ₹4.73 crore Dyslipidemia study and ₹5.56 crore Type 2 Diabetes Remission trial. Also led DFID/Wellcome Trust funded Yoga-DP diabetes prevention study and MD Anderson Cancer Center collaboration on yoga for breast cancer patients.",
     publications: [
-      "100+ research papers in peer-reviewed journals",
-      "Editor of IJOY (Impact Factor 1.1, indexed in PubMed/Scopus)",
+      "100+ research papers in international journals indexed in major bibliographic databases",
+      "Primary research interests: psychophysiology of Yoga; neural correlates of meditation, aging, and rehabilitation",
+      "Guided numerous Ph.D., M.D., and M.Sc. students",
+      "Editor of International Journal of Yoga (IJOY); reviewer for several international journals",
     ],
   },
   {
