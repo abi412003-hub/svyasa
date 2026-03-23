@@ -1,4 +1,9 @@
 import { motion, useInView, Variants } from "framer-motion";
+import lab1Img from "@/assets/labs/lab-1-molecular.jpg";
+import lab2Img from "@/assets/labs/lab-2-psychophysiology.jpg";
+import lab3Img from "@/assets/labs/lab-3-cognitive.png";
+import lab4Img from "@/assets/labs/lab-4-psychology.jpg";
+import lab5Img from "@/assets/labs/lab-5-bio.jpg";
 import { ChevronDown, FlaskConical, Brain, Activity, BookOpen, Zap, CheckCircle2, Cpu } from "lucide-react";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
@@ -41,6 +46,7 @@ interface LabData {
   faculty: FacultyMember[];
   accentColor: string;
   bgColor: string;
+  image?: string;
 }
 
 /* ── Lab Data ── */
@@ -80,6 +86,7 @@ const labs: LabData[] = [
     ],
     accentColor: "hsl(var(--teal))",
     bgColor: "bg-white",
+    image: lab1Img,
   },
   {
     id: 2,
@@ -105,6 +112,7 @@ const labs: LabData[] = [
     ],
     accentColor: "hsl(var(--saffron))",
     bgColor: "bg-[#F7F5F0]",
+    image: lab2Img,
   },
   {
     id: 3,
@@ -129,6 +137,7 @@ const labs: LabData[] = [
     ],
     accentColor: "hsl(var(--navy))",
     bgColor: "bg-white",
+    image: lab3Img,
   },
   {
     id: 4,
@@ -154,6 +163,7 @@ const labs: LabData[] = [
     ],
     accentColor: "hsl(var(--teal))",
     bgColor: "bg-[#F7F5F0]",
+    image: lab4Img,
   },
   {
     id: 5,
@@ -179,6 +189,7 @@ const labs: LabData[] = [
     ],
     accentColor: "hsl(var(--saffron))",
     bgColor: "bg-white",
+    image: lab5Img,
   },
 ];
 
@@ -255,21 +266,28 @@ function LabSection({ lab, index }: { lab: LabData; index: number }) {
             variants={isEven ? slideRight : slideLeft}
             className="flex-[2]"
           >
-            <div
-              className="w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-md flex items-center justify-center"
-              style={{ background: `linear-gradient(135deg, hsl(210 52% 23% / 0.08), hsl(180 45% 35% / 0.12))` }}
-            >
-              <div className="text-center p-8">
-                <div
-                  className="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center"
-                  style={{ background: lab.accentColor }}
-                >
-                  <lab.icon className="text-white" size={28} />
+            {lab.image ? (
+              <img
+                src={lab.image}
+                alt={lab.name}
+                className="w-full aspect-[4/3] rounded-2xl object-cover shadow-md"
+              />
+            ) : (
+              <div
+                className="w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-md flex items-center justify-center"
+                style={{ background: `linear-gradient(135deg, hsl(210 52% 23% / 0.08), hsl(180 45% 35% / 0.12))` }}
+              >
+                <div className="text-center p-8">
+                  <div
+                    className="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center"
+                    style={{ background: lab.accentColor }}
+                  >
+                    <lab.icon className="text-white" size={28} />
+                  </div>
+                  <p className="text-[hsl(var(--muted-foreground))] text-sm font-medium">{lab.name}</p>
                 </div>
-                <p className="text-[hsl(var(--muted-foreground))] text-sm font-medium">{lab.name}</p>
-                <p className="text-[hsl(var(--muted-foreground))] text-xs mt-1 opacity-60">Photo coming soon</p>
               </div>
-            </div>
+            )}
           </motion.div>
         </div>
 
