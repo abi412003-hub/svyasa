@@ -46,6 +46,7 @@ interface LabData {
   faculty: FacultyMember[];
   accentColor: string;
   bgColor: string;
+  image?: string;
 }
 
 /* ── Lab Data ── */
