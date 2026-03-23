@@ -65,6 +65,14 @@ import AdminCategoryEditor from "./pages/admin/AdminCategoryEditor";
 import DivisionPage from "./pages/DivisionPage";
 import SchoolPage from "./pages/SchoolPage";
 import Guests from "./pages/Guests";
+import NewsAdminLayout from "./components/news-admin/NewsAdminLayout";
+import NewsAdminDashboard from "./pages/news-admin/Dashboard";
+import NewsList from "./pages/news-admin/NewsList";
+import NewsForm from "./pages/news-admin/NewsForm";
+import EventsList from "./pages/news-admin/EventsList";
+import EventForm from "./pages/news-admin/EventForm";
+import BulkImport from "./pages/news-admin/BulkImport";
+import ExportPage from "./pages/news-admin/ExportPage";
 
 // Alias for brevity in routes
 const ResearchCS = ({ title }: { title: string }) => <ResearchComingSoon title={title} />;
