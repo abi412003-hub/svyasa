@@ -42,7 +42,7 @@ export default function NewsForm() {
       if (error || !data) { toast.error("Item not found"); navigate("/news-admin/news"); return; }
       setTitle(data.title); setSlug(data.slug); setDate(data.date);
       setCampus(data.campus as any); setCategory(data.category); setBody(data.body || "");
-      setThumbnailUrl(data.thumbnail_url || ""); setGalleryUrls(data.gallery_urls || []);
+      setThumbnailUrl(data.thumbnail_url || ""); setGalleryUrls((data.gallery_urls as string[]) || []);
       setIsFeatured(data.is_featured); setIsPublished(data.is_published);
     })();
   }, [id, isEdit, navigate]);

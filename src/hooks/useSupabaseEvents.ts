@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import type { EventItem } from "@/lib/newsEventsTypes";
 
 interface DbEvent {
-  id: number;
+  id: string;
   title: string;
   slug: string;
   body: string;

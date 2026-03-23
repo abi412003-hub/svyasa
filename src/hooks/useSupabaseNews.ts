@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import type { NewsItem } from "@/lib/newsEventsTypes";
 
 interface DbNews {
-  id: number;
+  id: string;
   title: string;
   slug: string;
   body: string;
