@@ -53,6 +53,7 @@ interface FacultyForm {
   phone: string;
   google_scholar_url: string;
   orcid_id: string;
+  linkedin_url: string;
   achievements: string;
   publications: string;
   research: string;
