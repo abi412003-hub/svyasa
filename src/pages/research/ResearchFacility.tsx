@@ -1,4 +1,9 @@
 import { motion, useInView, Variants } from "framer-motion";
+import lab1Img from "@/assets/labs/lab-1-molecular.jpg";
+import lab2Img from "@/assets/labs/lab-2-psychophysiology.jpg";
+import lab3Img from "@/assets/labs/lab-3-cognitive.png";
+import lab4Img from "@/assets/labs/lab-4-psychology.jpg";
+import lab5Img from "@/assets/labs/lab-5-bio.jpg";
 import { ChevronDown, FlaskConical, Brain, Activity, BookOpen, Zap, CheckCircle2, Cpu } from "lucide-react";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
