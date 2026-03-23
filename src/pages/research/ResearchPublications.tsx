@@ -371,7 +371,13 @@ export default function ResearchPublications() {
         {/* Divider */}
         <div className="border-t border-dashed border-border" />
 
-        {/* ── Section 5: Download ── */}
+        {/* ── Section 5: Research Repository ── */}
+        <ResearchRepository />
+
+        {/* Divider */}
+        <div className="border-t border-dashed border-border" />
+
+        {/* ── Section 6: Download ── */}
         <motion.div
           ref={downloadRef}
           initial="hidden"
