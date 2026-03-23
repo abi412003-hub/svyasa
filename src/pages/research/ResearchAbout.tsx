@@ -1,5 +1,6 @@
 import { motion, useInView, Variants, AnimatePresence } from "framer-motion";
 import researchHeroBg from "@/assets/research-hero.jpeg";
+import researchHomeoImg from "@/assets/research-homeostasis.jpeg";
 import { ChevronDown, Activity, Heart, RefreshCw, Eye, Sparkles, FileText, Globe, Download, X, ExternalLink, AlertCircle } from "lucide-react";
 import { useRef, useState, useCallback, useEffect } from "react";
 import { Link } from "react-router-dom";
