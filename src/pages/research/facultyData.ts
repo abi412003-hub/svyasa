@@ -2,6 +2,7 @@ import presidentNagendraImg from "@/assets/president-nagendra.jpg";
 import vcManjunathImg from "@/assets/vc-manjunath.png";
 import nagarathnaImg from "@/assets/nagarathna-portrait.jpg";
 import ananyaBsImg from "@/assets/research/ananya-bs.jpg";
+import amitKanthiImg from "@/assets/research/amit-kanthi.jpg";
 
 export interface FacultyProfile {
   id: string;
@@ -290,7 +291,7 @@ export const facultyData: FacultyProfile[] = [
     name: "Dr. Amit Kanthi",
     designation: "Research Associate",
     qualifications: "PhD (Yoga/Neuroscience)",
-    photo: `${BASE}/12/91.jpg`,
+    photo: amitKanthiImg,
     section: "project",
     research: "Working on meditation neuroscience, investigating neural correlates of different meditation practices.",
   },
