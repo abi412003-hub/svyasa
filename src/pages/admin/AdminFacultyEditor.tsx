@@ -142,6 +142,7 @@ export default function AdminFacultyEditor() {
       phone: form.phone,
       google_scholar_url: form.google_scholar_url,
       orcid_id: form.orcid_id,
+      linkedin_url: form.linkedin_url,
       achievements: form.achievements,
       publications: form.publications,
       research: form.research,
