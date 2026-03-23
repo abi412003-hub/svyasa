@@ -112,6 +112,7 @@ const labs: LabData[] = [
     ],
     accentColor: "hsl(var(--saffron))",
     bgColor: "bg-[#F7F5F0]",
+    image: lab2Img,
   },
   {
     id: 3,
