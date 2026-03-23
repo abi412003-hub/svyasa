@@ -675,24 +675,35 @@ function InternationalSection() {
 /* ──────────────────────────────────────────────────────────
    SECTION 8: National Collaborations
 ────────────────────────────────────────────────────────── */
+import ayushLogo from "@/assets/partners/ayush.jpg";
+import iiscLogo from "@/assets/partners/iisc.jpg";
+import niasLogo from "@/assets/partners/nias.png";
+import aiimsDelhi from "@/assets/partners/aiims-delhi.png";
+import nimhansLogo from "@/assets/partners/nimhans.jpg";
+import aiimsBhopal from "@/assets/partners/aiims-bhopal.png";
+import sduaherLogo from "@/assets/partners/sduaher.jpg";
+import symbiosisLogo from "@/assets/partners/symbiosis.png";
+import dayanandaLogo from "@/assets/partners/dayananda-sagar.jpg";
+import narayanaLogo from "@/assets/partners/narayana-nethralaya.png";
+
 const nationalPartners = [
-  { name: "Department of AYUSH, GOK", location: "Karnataka" },
-  { name: "Indian Institute of Science (IISc)", location: "Bangalore" },
-  { name: "National Institute of Advanced Studies (NIAS)", location: "Bangalore" },
-  { name: "AIIMS", location: "New Delhi" },
-  { name: "NIMHANS", location: "Bangalore" },
-  { name: "Narayana Hrudayalaya", location: "Bangalore" },
-  { name: "AIIMS", location: "Bhopal" },
-  { name: "Sri Devaraj Urs Academy (SDUAHER)", location: "Kolar" },
-  { name: "Symbiosis International University", location: "Pune" },
-  { name: "Dayananda Sagar University", location: "Bangalore" },
-  { name: "PES University", location: "Bangalore" },
-  { name: "Ramaiah Institute of Technology", location: "Bangalore" },
-  { name: "MAHER", location: "Chennai" },
-  { name: "Father Muller Research Center", location: "Bangalore" },
-  { name: "BNM Institute of Technology", location: "Bangalore" },
-  { name: "CDSIMER", location: "Hubli" },
-  { name: "Narayana Nethralaya Foundation", location: "Bangalore" },
+  { name: "Department of AYUSH, GOK", location: "Karnataka", logo: ayushLogo },
+  { name: "Indian Institute of Science (IISc)", location: "Bangalore", logo: iiscLogo },
+  { name: "National Institute of Advanced Studies (NIAS)", location: "Bangalore", logo: niasLogo },
+  { name: "AIIMS", location: "New Delhi", logo: aiimsDelhi },
+  { name: "NIMHANS", location: "Bangalore", logo: nimhansLogo },
+  { name: "Narayana Hrudayalaya", location: "Bangalore", logo: null as string | null },
+  { name: "AIIMS", location: "Bhopal", logo: aiimsBhopal },
+  { name: "Sri Devaraj Urs Academy (SDUAHER)", location: "Kolar", logo: sduaherLogo },
+  { name: "Symbiosis International University", location: "Pune", logo: symbiosisLogo },
+  { name: "Dayananda Sagar University", location: "Bangalore", logo: dayanandaLogo },
+  { name: "PES University", location: "Bangalore", logo: null as string | null },
+  { name: "Ramaiah Institute of Technology", location: "Bangalore", logo: null as string | null },
+  { name: "MAHER", location: "Chennai", logo: null as string | null },
+  { name: "Father Muller Research Center", location: "Bangalore", logo: null as string | null },
+  { name: "BNM Institute of Technology", location: "Bangalore", logo: null as string | null },
+  { name: "CDSIMER", location: "Hubli", logo: null as string | null },
+  { name: "Narayana Nethralaya Foundation", location: "Bangalore", logo: narayanaLogo },
 ];
 
 function NationalSection() {
@@ -726,10 +737,21 @@ function NationalSection() {
                 key={`${p.name}-${i}`}
                 variants={fadeUpDelayed(i * 0.06)}
                 whileHover={{ y: -4 }}
-                className="bg-white border border-border rounded-lg p-5 cursor-default transition-all duration-200 hover:border-l-4 hover:border-l-[hsl(var(--teal))] hover:shadow-md"
+                className="bg-white border border-border rounded-lg p-5 cursor-default transition-all duration-200 hover:border-l-4 hover:border-l-[hsl(var(--teal))] hover:shadow-md flex items-center gap-4"
               >
-                <p className="text-[hsl(var(--navy))] font-bold text-sm leading-snug mb-1">{p.name}</p>
-                <p className="text-[hsl(var(--muted-foreground))] text-xs">{p.location}</p>
+                {p.logo ? (
+                  <img src={p.logo} alt={p.name} className="w-14 h-14 object-contain rounded-md shrink-0" />
+                ) : (
+                  <div className="w-14 h-14 rounded-md bg-[hsl(var(--cream))] flex items-center justify-center shrink-0">
+                    <span className="text-[hsl(var(--navy))] font-bold text-xs text-center leading-tight">
+                      {p.name.split(" ").map(w => w[0]).join("").slice(0, 3)}
+                    </span>
+                  </div>
+                )}
+                <div className="min-w-0">
+                  <p className="text-[hsl(var(--navy))] font-bold text-sm leading-snug mb-1">{p.name}</p>
+                  <p className="text-[hsl(var(--muted-foreground))] text-xs">{p.location}</p>
+                </div>
               </motion.div>
             ))}
           </motion.div>
