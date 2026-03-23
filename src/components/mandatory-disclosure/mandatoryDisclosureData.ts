@@ -23,33 +23,19 @@ export const disclosureCategories: MDCategory[] = [
       {
         id: "ugc-2002",
         title: "UGC Notification – 2002",
-        pdfUrl: "/pdfs/UGC-Notification-2002.pdf",
-      },
-      {
-        id: "aicte-approval",
-        title: "AICTE Letter of Approval",
-        pdfUrl: "/pdfs/AICTE-Letter-of-Approval.pdf",
-      },
-      {
-        id: "aishe-2023-24",
-        title: "AISHE Certificate 2023–24",
-        pdfUrl: "/pdfs/AISHE-Certificate-2023-24.pdf",
-        isLatest: true,
-      },
-      {
-        id: "aishe-2022-23",
-        title: "AISHE Certificate 2022–23",
-        pdfUrl: "/pdfs/AISHE-Certificate-2022-23.pdf",
-      },
-      {
-        id: "aishe-2021-22",
-        title: "AISHE Certificate 2021–22",
-        pdfUrl: "/pdfs/AISHE-Certificate-2021-22.pdf",
+        pdfUrl: "/pdfs/UGC_Notification.pdf",
       },
       {
         id: "aicte-extension",
-        title: "AICTE Extension of Approval",
-        pdfUrl: "/pdfs/AICTE-Extension-of-Approval.pdf",
+        title: "AICTE Extension of Approval 2025–2026",
+        pdfUrl: "/pdfs/AICTE_Extension_of_Approval-2025-2026.pdf",
+        isLatest: true,
+      },
+      {
+        id: "aishe-2024-25",
+        title: "AISHE Certificate 2024–25",
+        pdfUrl: "/pdfs/AISHE_Certificate_2024-25.pdf",
+        isLatest: true,
       },
     ],
   },
@@ -61,14 +47,14 @@ export const disclosureCategories: MDCategory[] = [
       {
         id: "naac-status",
         title: "NAAC Status",
-        pdfUrl: "/pdfs/NAAC-Status.pdf",
+        pdfUrl: "/pdfs/NAAC_Status-2.pdf",
         isFeatured: true,
         badge: "A+ Accredited",
       },
       {
         id: "12b-status",
         title: "12 B Status",
-        pdfUrl: "/pdfs/12-B-Status.pdf",
+        pdfUrl: "/pdfs/12_B.pdf",
       },
     ],
   },
@@ -80,22 +66,22 @@ export const disclosureCategories: MDCategory[] = [
       {
         id: "ugc-committees",
         title: "UGC Mandated Committees",
-        pdfUrl: "/pdfs/UGC-Mandated-Committees.pdf",
+        pdfUrl: "/pdfs/UGC_Mandated_Committees-2.pdf",
       },
       {
         id: "administration",
         title: "Administration",
-        pdfUrl: "/pdfs/Administration.pdf",
+        pdfUrl: "/pdfs/Administration-3.pdf",
       },
       {
         id: "odl-approval",
         title: "ODL Approval",
-        pdfUrl: "/pdfs/ODL-Approval.pdf",
+        pdfUrl: "/pdfs/ODL_Approval-2.pdf",
       },
       {
         id: "icc",
         title: "ICC (Internal Complaints Committee)",
-        pdfUrl: "/pdfs/ICC.pdf",
+        pdfUrl: "/pdfs/ICC-2.pdf",
       },
     ],
   },
@@ -117,7 +103,7 @@ export const disclosureCategories: MDCategory[] = [
       {
         id: "scholarships",
         title: "Scholarships",
-        pdfUrl: "/pdfs/Scholarships.pdf",
+        pdfUrl: "/pdfs/Scholarships-2.pdf",
       },
       {
         id: "anti-ragging",
