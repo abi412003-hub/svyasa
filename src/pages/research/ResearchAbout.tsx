@@ -409,59 +409,188 @@ function ResearchAreasSection() {
 }
 
 /* ──────────────────────────────────────────────────────────
+   PDF Preview Hook & Modal
+────────────────────────────────────────────────────────── */
+interface ResearchDoc {
+  title: string;
+  pdfPath: string;
+}
+
+function usePdfBlobUrl(pdfPath: string | null) {
+  const [blobUrl, setBlobUrl] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    if (!pdfPath) return;
+    let revokeUrl: string | null = null;
+    let cancelled = false;
+    setBlobUrl(null);
+    setLoading(true);
+    setError(false);
+
+    fetch(pdfPath)
+      .then((res) => { if (!res.ok) throw new Error("fetch failed"); return res.blob(); })
+      .then((blob) => { if (!cancelled) { const u = URL.createObjectURL(blob); revokeUrl = u; setBlobUrl(u); } })
+      .catch(() => { if (!cancelled) setError(true); })
+      .finally(() => { if (!cancelled) setLoading(false); });
+
+    return () => { cancelled = true; if (revokeUrl) URL.revokeObjectURL(revokeUrl); };
+  }, [pdfPath]);
+
+  return { blobUrl, loading, error };
+}
+
+function ResearchPDFModal({ doc, onClose }: { doc: ResearchDoc | null; onClose: () => void }) {
+  const { blobUrl, loading, error } = usePdfBlobUrl(doc?.pdfPath ?? null);
+  if (!doc) return null;
+
+  return (
+    <AnimatePresence>
+      <motion.div key="backdrop" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm" onClick={onClose} />
+      <motion.div key="modal" initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 20 }} className="fixed inset-4 md:inset-8 lg:inset-12 z-50 flex flex-col bg-white rounded-2xl shadow-2xl overflow-hidden">
+        <div className="flex items-center justify-between px-5 py-4 border-b flex-shrink-0">
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="w-9 h-9 rounded-lg bg-[hsl(var(--teal))]/10 flex items-center justify-center flex-shrink-0">
+              <FileText className="w-5 h-5 text-[hsl(var(--teal))]" />
+            </div>
+            <div className="min-w-0">
+              <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide">Document Preview</p>
+              <h3 className="font-semibold text-[hsl(var(--navy))] truncate">{doc.title}</h3>
+            </div>
+          </div>
+          <div className="flex items-center gap-2 flex-shrink-0 ml-4">
+            <a href={doc.pdfPath} download className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg bg-[hsl(var(--teal))] text-white hover:opacity-90 transition-colors">
+              <Download className="w-4 h-4" /><span className="hidden sm:inline">Download</span>
+            </a>
+            <a href={doc.pdfPath} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-lg bg-muted text-foreground hover:bg-muted/80 transition-colors" title="Open in new tab">
+              <ExternalLink className="w-4 h-4" />
+            </a>
+            <button onClick={onClose} className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-muted hover:bg-destructive/10 hover:text-destructive transition-colors" aria-label="Close preview">
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+        <div className="relative flex-1 bg-muted/50">
+          {loading && (
+            <div className="absolute inset-0 flex items-center justify-center z-10">
+              <div className="flex flex-col items-center gap-3">
+                <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }} className="w-10 h-10 border-4 border-[hsl(var(--teal))]/20 border-t-[hsl(var(--teal))] rounded-full" />
+                <p className="text-sm text-muted-foreground">Loading document…</p>
+              </div>
+            </div>
+          )}
+          {error ? (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="text-center p-8 max-w-sm">
+                <div className="w-16 h-16 bg-destructive/10 rounded-full flex items-center justify-center mx-auto mb-4"><AlertCircle className="w-8 h-8 text-destructive" /></div>
+                <h4 className="font-semibold text-[hsl(var(--navy))] mb-2">Preview unavailable</h4>
+                <p className="text-sm text-muted-foreground mb-6">Your browser couldn't load this PDF inline.</p>
+                <div className="flex gap-3 justify-center">
+                  <a href={doc.pdfPath} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg bg-[hsl(var(--teal))] text-white hover:opacity-90"><ExternalLink className="w-4 h-4" />Open in new tab</a>
+                  <a href={doc.pdfPath} download className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg border border-[hsl(var(--teal))] text-[hsl(var(--teal))]"><Download className="w-4 h-4" />Download</a>
+                </div>
+              </div>
+            </div>
+          ) : blobUrl ? (
+            <object data={`${blobUrl}#toolbar=1&navpanes=1&scrollbar=1`} type="application/pdf" className="w-full h-full border-0" title={doc.title}>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="text-center p-8 max-w-sm">
+                  <h4 className="font-semibold text-[hsl(var(--navy))] mb-2">PDF preview not supported</h4>
+                  <div className="flex gap-3 justify-center">
+                    <a href={doc.pdfPath} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg bg-[hsl(var(--teal))] text-white"><ExternalLink className="w-4 h-4" />Open in new tab</a>
+                    <a href={doc.pdfPath} download className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg border border-[hsl(var(--teal))] text-[hsl(var(--teal))]"><Download className="w-4 h-4" />Download</a>
+                  </div>
+                </div>
+              </div>
+            </object>
+          ) : null}
+        </div>
+      </motion.div>
+    </AnimatePresence>
+  );
+}
+
+/* ──────────────────────────────────────────────────────────
    SECTION 6: Archives / Resources
 ────────────────────────────────────────────────────────── */
-const documents = [
-  "Arogyadhama Circular",
-  "Patent",
-  "Functional MOUs",
-  "IPR Policy",
-  "Seed Money Details",
-  "Collaborative Activities",
-  "List of Training and Capacity Building Programmes",
+const BASE_RESEARCH = "/documents/research";
+
+const documents: ResearchDoc[] = [
+  { title: "Arogyadhama Circular", pdfPath: `${BASE_RESEARCH}/Arogyadhama-Circular.pdf` },
+  { title: "Patent", pdfPath: `${BASE_RESEARCH}/Patent.pdf` },
+  { title: "Functional MOUs", pdfPath: "" },
+  { title: "IPR Policy", pdfPath: "" },
+  { title: "Seed Money Details", pdfPath: `${BASE_RESEARCH}/Seed-Money-Details.pdf` },
+  { title: "Collaborative Activities", pdfPath: "" },
+  { title: "List of Training and Capacity Building Programmes", pdfPath: "" },
 ];
 
 function ArchivesSection() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
+  const [previewDoc, setPreviewDoc] = useState<ResearchDoc | null>(null);
+
+  const handlePreview = useCallback((doc: ResearchDoc) => setPreviewDoc(doc), []);
+  const handleClose = useCallback(() => setPreviewDoc(null), []);
 
   return (
-    <section className="py-20 bg-[#F7F5F0]">
-      <div className="max-w-7xl mx-auto px-6 lg:px-10">
-        <motion.div
-          ref={ref}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          variants={staggerContainer}
-        >
-          <motion.div variants={fadeUp} className="text-center mb-12">
-            <p className="text-[hsl(var(--teal))] text-sm font-semibold uppercase tracking-widest mb-3">
-              Downloads
-            </p>
-            <h2 className="font-['Playfair_Display',serif] text-4xl text-[hsl(var(--navy))] font-bold">
-              Research Archives &amp; Resources
-            </h2>
-          </motion.div>
+    <>
+      <section className="py-20 bg-[#F7F5F0]">
+        <div className="max-w-7xl mx-auto px-6 lg:px-10">
+          <motion.div
+            ref={ref}
+            initial="hidden"
+            animate={inView ? "visible" : "hidden"}
+            variants={staggerContainer}
+          >
+            <motion.div variants={fadeUp} className="text-center mb-12">
+              <p className="text-[hsl(var(--teal))] text-sm font-semibold uppercase tracking-widest mb-3">
+                Downloads
+              </p>
+              <h2 className="font-['Playfair_Display',serif] text-4xl text-[hsl(var(--navy))] font-bold">
+                Research Archives &amp; Resources
+              </h2>
+            </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {documents.map((doc, i) => (
-              <motion.div
-                key={doc}
-                variants={slideLeft(i * 0.08)}
-                whileHover={{ x: 4 }}
-                className="group flex items-center gap-4 bg-white border border-border rounded-lg p-5 cursor-pointer hover:border-l-4 hover:border-l-[hsl(var(--teal))] transition-all duration-200"
-              >
-                <FileText className="text-[hsl(var(--teal))] shrink-0" size={22} />
-                <span className="flex-1 text-[hsl(var(--navy))] font-semibold text-[15px]">{doc}</span>
-                <span className="text-[hsl(var(--saffron))] text-sm font-semibold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
-                  Download PDF →
-                </span>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-      </div>
-    </section>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {documents.map((doc, i) => (
+                <motion.div
+                  key={doc.title}
+                  variants={slideLeft(i * 0.08)}
+                  whileHover={{ x: 4 }}
+                  className="group flex items-center gap-4 bg-white border border-border rounded-lg p-5 transition-all duration-200 hover:border-l-4 hover:border-l-[hsl(var(--teal))] hover:shadow-md"
+                >
+                  <FileText className="text-[hsl(var(--teal))] shrink-0" size={22} />
+                  <span className="flex-1 text-[hsl(var(--navy))] font-semibold text-[15px]">{doc.title}</span>
+                  {doc.pdfPath ? (
+                    <div className="flex items-center gap-2 shrink-0">
+                      <button
+                        onClick={() => handlePreview(doc)}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-lg text-[hsl(var(--teal))] bg-[hsl(var(--teal))]/5 hover:bg-[hsl(var(--teal))] hover:text-white transition-all duration-200"
+                      >
+                        <Eye size={15} />
+                        Preview
+                      </button>
+                      <a
+                        href={doc.pdfPath}
+                        download
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-lg border border-border text-muted-foreground hover:border-[hsl(var(--teal))] hover:text-[hsl(var(--teal))] transition-all duration-200"
+                      >
+                        <Download size={15} />
+                      </a>
+                    </div>
+                  ) : (
+                    <span className="text-xs text-muted-foreground bg-muted px-3 py-1.5 rounded-lg">Coming Soon</span>
+                  )}
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+      <ResearchPDFModal doc={previewDoc} onClose={handleClose} />
+    </>
   );
 }
 
