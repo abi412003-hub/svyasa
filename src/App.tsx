@@ -63,6 +63,8 @@ import AdminCourseEditor from "./pages/admin/AdminCourseEditor";
 import AdminCategoryList from "./pages/admin/AdminCategoryList";
 import AdminCategoryEditor from "./pages/admin/AdminCategoryEditor";
 import ContentfulCMS from "./pages/admin/ContentfulCMS";
+import AdminFacultyList from "./pages/admin/AdminFacultyList";
+import AdminFacultyEditor from "./pages/admin/AdminFacultyEditor";
 import DivisionPage from "./pages/DivisionPage";
 import SchoolPage from "./pages/SchoolPage";
 import Guests from "./pages/Guests";
@@ -271,6 +273,8 @@ const App = () => (
             <Route path="courses/:id" element={<AdminCourseEditor />} />
             <Route path="categories" element={<AdminCategoryList />} />
             <Route path="categories/:id" element={<AdminCategoryEditor />} />
+            <Route path="faculty" element={<AdminFacultyList />} />
+            <Route path="faculty/:id" element={<AdminFacultyEditor />} />
             <Route path="cms" element={<ContentfulCMS />} />
           </Route>
           
