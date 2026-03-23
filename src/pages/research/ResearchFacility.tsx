@@ -163,6 +163,7 @@ const labs: LabData[] = [
     ],
     accentColor: "hsl(var(--teal))",
     bgColor: "bg-[#F7F5F0]",
+    image: lab4Img,
   },
   {
     id: 5,
