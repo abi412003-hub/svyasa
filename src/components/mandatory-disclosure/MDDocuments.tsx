@@ -122,7 +122,7 @@ const PDFModal = ({ doc, onClose }: PDFModalProps) => {
             </div>
           </div>
 
-          <div className="relative flex-1 bg-muted/50">
+          <div className="relative flex-1 bg-muted/50" id="pdf-preview-container">
             {loading && (
               <div className="absolute inset-0 flex items-center justify-center z-10">
                 <div className="flex flex-col items-center gap-3">
@@ -168,11 +168,43 @@ const PDFModal = ({ doc, onClose }: PDFModalProps) => {
                 </div>
               </div>
             ) : blobUrl ? (
-              <iframe
-                src={`${blobUrl}#toolbar=1&navpanes=1&scrollbar=1`}
+              <object
+                data={`${blobUrl}#toolbar=1&navpanes=1&scrollbar=1`}
+                type="application/pdf"
                 className="w-full h-full border-0"
                 title={doc.title}
-              />
+              >
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="text-center p-8 max-w-sm">
+                    <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <FileText className="w-8 h-8 text-primary" />
+                    </div>
+                    <h4 className="font-semibold text-navy mb-2">PDF preview not supported</h4>
+                    <p className="text-sm text-muted-foreground mb-6">
+                      Your browser doesn't support inline PDF viewing. Please open or download the document instead.
+                    </p>
+                    <div className="flex gap-3 justify-center">
+                      <a
+                        href={doc.pdfPath}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors"
+                      >
+                        <ExternalLink className="w-4 h-4" />
+                        Open in new tab
+                      </a>
+                      <a
+                        href={doc.pdfPath}
+                        download
+                        className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg border border-primary text-primary hover:bg-primary/5 transition-colors"
+                      >
+                        <Download className="w-4 h-4" />
+                        Download
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </object>
             ) : null}
           </div>
         </motion.div>
