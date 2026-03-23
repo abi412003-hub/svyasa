@@ -102,6 +102,7 @@ export default function AdminFacultyEditor() {
         phone: data.phone || "",
         google_scholar_url: data.google_scholar_url || "",
         orcid_id: data.orcid_id || "",
+        linkedin_url: (data as any).linkedin_url || "",
         achievements: data.achievements || "",
         publications: data.publications || "",
         research: data.research || "",
