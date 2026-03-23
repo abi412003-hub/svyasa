@@ -29,7 +29,7 @@ const EventsSection = () => {
             <div className="flex items-center gap-3 mb-8">
               <Calendar className="w-6 h-6 text-primary" />
               <h2 className="font-heading text-2xl font-bold text-foreground">
-                Upcoming Events
+                Events
               </h2>
             </div>
 
