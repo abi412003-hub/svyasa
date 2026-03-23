@@ -405,23 +405,34 @@ function ResearchAreasSection() {
           variants={{ visible: { transition: { staggerChildren: 0.12 } } }}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
         >
-          {researchAreas.map((area, i) => (
-            <motion.div
-              key={area.title}
-              variants={fadeUpDelayed(i * 0.1)}
-              whileHover={{ y: -6, boxShadow: "0 20px 40px -10px hsla(210, 52%, 23%, 0.15)" }}
-              className="group bg-white border border-border rounded-xl p-7 cursor-pointer transition-all duration-300 hover:border-[hsl(var(--saffron))]"
-            >
-              <div className="w-12 h-12 rounded-full bg-[hsl(var(--teal))] flex items-center justify-center mb-5">
-                <area.icon className="text-white" size={22} />
-              </div>
-              <h3 className="text-[hsl(var(--navy))] font-bold text-[17px] mb-3 leading-snug">
-                {area.title}
-              </h3>
-              <p className="text-[hsl(var(--muted-foreground))] text-sm leading-relaxed">{area.desc}</p>
-              <div className="mt-5 h-[3px] w-0 group-hover:w-full bg-[hsl(var(--saffron))] transition-all duration-300 rounded" />
-            </motion.div>
-          ))}
+          {researchAreas.map((area, i) => {
+            const colors = [
+              { bg: "from-[hsl(var(--teal))]/10 to-[hsl(var(--teal))]/5", icon: "bg-[hsl(var(--teal))]", bar: "bg-[hsl(var(--teal))]" },
+              { bg: "from-[hsl(var(--saffron))]/10 to-[hsl(var(--saffron))]/5", icon: "bg-[hsl(var(--saffron))]", bar: "bg-[hsl(var(--saffron))]" },
+              { bg: "from-[hsl(var(--navy))]/10 to-[hsl(var(--navy))]/5", icon: "bg-[hsl(var(--navy))]", bar: "bg-[hsl(var(--navy))]" },
+              { bg: "from-rose-100/80 to-rose-50/50", icon: "bg-rose-500", bar: "bg-rose-500" },
+              { bg: "from-violet-100/80 to-violet-50/50", icon: "bg-violet-600", bar: "bg-violet-600" },
+              { bg: "from-emerald-100/80 to-emerald-50/50", icon: "bg-emerald-600", bar: "bg-emerald-600" },
+            ];
+            const c = colors[i % colors.length];
+            return (
+              <motion.div
+                key={area.title}
+                variants={fadeUpDelayed(i * 0.1)}
+                whileHover={{ y: -6, boxShadow: "0 20px 40px -10px hsla(210, 52%, 23%, 0.18)" }}
+                className={`group bg-gradient-to-br ${c.bg} border border-white/60 rounded-xl p-7 cursor-pointer transition-all duration-300`}
+              >
+                <div className={`w-12 h-12 rounded-full ${c.icon} flex items-center justify-center mb-5 shadow-lg`}>
+                  <area.icon className="text-white" size={22} />
+                </div>
+                <h3 className="text-[hsl(var(--navy))] font-bold text-[17px] mb-3 leading-snug">
+                  {area.title}
+                </h3>
+                <p className="text-[hsl(var(--muted-foreground))] text-sm leading-relaxed">{area.desc}</p>
+                <div className={`mt-5 h-[3px] w-0 group-hover:w-full ${c.bar} transition-all duration-300 rounded`} />
+              </motion.div>
+            );
+          })}
         </motion.div>
       </div>
     </section>
