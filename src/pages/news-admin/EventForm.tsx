@@ -34,10 +34,10 @@ export default function EventForm() {
   useEffect(() => {
     if (!isEdit) return;
     (async () => {
-      const { data, error } = await supabaseExternal
+      const { data, error } = await supabase
         .from("svyasa_events")
         .select("*")
-        .eq("id", Number(id))
+        .eq("id", id!)
         .maybeSingle();
       if (error || !data) { toast.error("Item not found"); navigate("/news-admin/events"); return; }
       setTitle(data.title); setSlug(data.slug); setDate(data.date); setEndDate(data.end_date || "");
