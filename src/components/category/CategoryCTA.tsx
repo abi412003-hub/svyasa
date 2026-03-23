@@ -87,7 +87,7 @@ const CategoryCTA = ({ category }: CategoryCTAProps) => {
             variant="outline"
             className="border-white text-white hover:bg-white/20 rounded-xl px-8 py-3 text-base"
           >
-            <Link to="/contact-us">
+            <Link to="/contact-us" className="text-blue-900">
               Talk to Admissions
             </Link>
           </Button>
