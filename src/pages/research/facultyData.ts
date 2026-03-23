@@ -264,6 +264,7 @@ export const facultyData: FacultyProfile[] = [
     name: "Mr. Basavaraj",
     designation: "Section Officer",
     qualifications: "",
+    photo: basavarajImg,
     section: "staff",
   },
   {
