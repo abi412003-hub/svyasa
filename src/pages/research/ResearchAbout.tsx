@@ -643,29 +643,29 @@ const internationalPartners = [
   { name: "Nav Bharat International", country: "Bahrain", logo: navBharatLogo },
 ];
 
-function LogoMarquee({ partners, reverse = false }: { partners: typeof internationalPartners; reverse?: boolean }) {
+function LogoMarquee({ partners, reverse = false, speed = 35 }: { partners: { name: string; logo: string | null; [key: string]: any }[]; reverse?: boolean; speed?: number }) {
   const animClass = reverse
-    ? "animate-[marquee-reverse_40s_linear_infinite]"
-    : "animate-[marquee_35s_linear_infinite]";
+    ? `animate-[marquee-reverse_${speed}s_linear_infinite]`
+    : `animate-[marquee_${speed}s_linear_infinite]`;
 
   return (
     <div className="overflow-hidden py-3 group">
-      <div className={`flex gap-6 w-max ${animClass} group-hover:[animation-play-state:paused]`}>
+      <div className={`flex gap-8 w-max ${animClass} group-hover:[animation-play-state:paused]`} style={{ animationDuration: `${speed}s` }}>
         {[...partners, ...partners].map((p, i) => (
           <div
             key={`${p.name}-${i}`}
-            className="flex items-center gap-3 bg-white border border-border rounded-2xl px-6 py-4 hover:border-[hsl(var(--teal))]/50 hover:shadow-lg transition-all duration-200 shrink-0"
+            className="flex items-center gap-4 bg-white border border-border rounded-2xl px-8 py-5 hover:border-[hsl(var(--teal))]/50 hover:shadow-lg transition-all duration-200 shrink-0"
           >
             {p.logo ? (
-              <img src={p.logo} alt={p.name} className="h-14 w-auto max-w-[100px] object-contain" />
+              <img src={p.logo} alt={p.name} className="h-20 w-auto max-w-[140px] object-contain" />
             ) : (
-              <div className="w-14 h-14 rounded-full bg-[hsl(var(--cream))] flex items-center justify-center shrink-0">
-                <Globe size={22} className="text-[hsl(var(--teal))]" />
+              <div className="w-20 h-20 rounded-full bg-[hsl(var(--cream))] flex items-center justify-center shrink-0">
+                <Globe size={28} className="text-[hsl(var(--teal))]" />
               </div>
             )}
             <div className="whitespace-nowrap">
-              <p className="text-[hsl(var(--navy))] font-bold text-sm leading-snug">{p.name}</p>
-              <p className="text-[hsl(var(--muted-foreground))] text-xs">{p.country}</p>
+              <p className="text-[hsl(var(--navy))] font-bold text-base leading-snug">{p.name}</p>
+              <p className="text-[hsl(var(--muted-foreground))] text-xs">{(p as any).country || (p as any).location}</p>
             </div>
           </div>
         ))}
