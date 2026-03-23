@@ -685,6 +685,13 @@ import sduaherLogo from "@/assets/partners/sduaher.jpg";
 import symbiosisLogo from "@/assets/partners/symbiosis.png";
 import dayanandaLogo from "@/assets/partners/dayananda-sagar.jpg";
 import narayanaLogo from "@/assets/partners/narayana-nethralaya.png";
+import narayanaHealthLogo from "@/assets/partners/narayana-health.png";
+import cdsimer from "@/assets/partners/cdsimer.png";
+import bnmLogo from "@/assets/partners/bnm.jpg";
+import fatherMullerLogo from "@/assets/partners/father-muller.png";
+import maherLogo from "@/assets/partners/maher.png";
+import ramaiahLogo from "@/assets/partners/ramaiah.png";
+import pesLogo from "@/assets/partners/pes.png";
 
 const nationalPartners = [
   { name: "Department of AYUSH, GOK", location: "Karnataka", logo: ayushLogo },
@@ -692,17 +699,17 @@ const nationalPartners = [
   { name: "National Institute of Advanced Studies (NIAS)", location: "Bangalore", logo: niasLogo },
   { name: "AIIMS", location: "New Delhi", logo: aiimsDelhi },
   { name: "NIMHANS", location: "Bangalore", logo: nimhansLogo },
-  { name: "Narayana Hrudayalaya", location: "Bangalore", logo: null as string | null },
+  { name: "Narayana Hrudayalaya", location: "Bangalore", logo: narayanaHealthLogo },
   { name: "AIIMS", location: "Bhopal", logo: aiimsBhopal },
   { name: "Sri Devaraj Urs Academy (SDUAHER)", location: "Kolar", logo: sduaherLogo },
   { name: "Symbiosis International University", location: "Pune", logo: symbiosisLogo },
   { name: "Dayananda Sagar University", location: "Bangalore", logo: dayanandaLogo },
-  { name: "PES University", location: "Bangalore", logo: null as string | null },
-  { name: "Ramaiah Institute of Technology", location: "Bangalore", logo: null as string | null },
-  { name: "MAHER", location: "Chennai", logo: null as string | null },
-  { name: "Father Muller Research Center", location: "Bangalore", logo: null as string | null },
-  { name: "BNM Institute of Technology", location: "Bangalore", logo: null as string | null },
-  { name: "CDSIMER", location: "Hubli", logo: null as string | null },
+  { name: "PES University", location: "Bangalore", logo: pesLogo },
+  { name: "Ramaiah Institute of Technology", location: "Bangalore", logo: ramaiahLogo },
+  { name: "MAHER", location: "Chennai", logo: maherLogo },
+  { name: "Father Muller Research Center", location: "Bangalore", logo: fatherMullerLogo },
+  { name: "BNM Institute of Technology", location: "Bangalore", logo: bnmLogo },
+  { name: "CDSIMER", location: "Hubli", logo: cdsimer },
   { name: "Narayana Nethralaya Foundation", location: "Bangalore", logo: narayanaLogo },
 ];
 
