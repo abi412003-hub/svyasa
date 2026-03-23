@@ -263,6 +263,9 @@ export default function AdminFacultyEditor() {
             <Field label="ORCID ID">
               <Input value={form.orcid_id} onChange={(e) => set("orcid_id", e.target.value)} className="bg-slate-800 border-slate-700 text-white" />
             </Field>
+            <Field label="LinkedIn URL">
+              <Input value={form.linkedin_url} onChange={(e) => set("linkedin_url", e.target.value)} className="bg-slate-800 border-slate-700 text-white" placeholder="https://linkedin.com/in/..." />
+            </Field>
           </div>
         </Section>
 
