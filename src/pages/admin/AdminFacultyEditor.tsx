@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowLeft, Save, Plus, X } from "lucide-react";
+import { ArrowLeft, Save, Plus, X, Upload, Image as ImageIcon } from "lucide-react";
 
 const DEPARTMENTS = [
   "Department of Life Sciences",
@@ -83,6 +83,27 @@ export default function AdminFacultyEditor() {
   const [saving, setSaving] = useState(false);
   const [newInterest, setNewInterest] = useState("");
   const [newExpertise, setNewExpertise] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
+    const slug = form.slug || `faculty-${Date.now()}`;
+    const path = `faculty/${slug}.${ext}`;
+    setUploading(true);
+    const { error } = await supabase.storage.from("site-images").upload(path, file, { upsert: true });
+    if (error) {
+      toast({ title: "Upload failed", description: error.message, variant: "destructive" });
+    } else {
+      const { data: urlData } = supabase.storage.from("site-images").getPublicUrl(path);
+      set("photo_url", urlData.publicUrl);
+      toast({ title: "Photo uploaded" });
+    }
+    setUploading(false);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
 
   useEffect(() => {
     if (isNew) return;
@@ -238,8 +259,26 @@ export default function AdminFacultyEditor() {
             <Field label="Display Order">
               <Input type="number" value={form.display_order} onChange={(e) => set("display_order", parseInt(e.target.value) || 999)} className="bg-slate-800 border-slate-700 text-white" />
             </Field>
-            <Field label="Photo URL">
-              <Input value={form.photo_url} onChange={(e) => set("photo_url", e.target.value)} className="bg-slate-800 border-slate-700 text-white" placeholder="https://..." />
+            <Field label="Photo">
+              <div className="space-y-3">
+                {form.photo_url && (
+                  <div className="w-20 h-20 rounded-lg overflow-hidden bg-slate-700 border border-slate-600">
+                    <img src={form.photo_url} alt="Preview" className="w-full h-full object-cover" />
+                  </div>
+                )}
+                <div className="flex gap-2 items-center">
+                  <input ref={fileInputRef} type="file" accept="image/*" onChange={handlePhotoUpload} className="hidden" />
+                  <Button type="button" variant="outline" size="sm" disabled={uploading} onClick={() => fileInputRef.current?.click()} className="border-slate-700 text-slate-300 gap-2">
+                    <Upload size={14} /> {uploading ? "Uploading..." : "Upload Photo"}
+                  </Button>
+                  {form.photo_url && (
+                    <Button type="button" variant="ghost" size="sm" onClick={() => set("photo_url", "")} className="text-slate-400 hover:text-red-400">
+                      <X size={14} />
+                    </Button>
+                  )}
+                </div>
+                <Input value={form.photo_url} onChange={(e) => set("photo_url", e.target.value)} className="bg-slate-800 border-slate-700 text-white text-xs" placeholder="Or paste URL..." />
+              </div>
             </Field>
           </div>
           <div className="flex items-center gap-3 mt-4">
