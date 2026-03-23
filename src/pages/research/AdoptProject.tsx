@@ -185,25 +185,21 @@ export default function AdoptProject() {
             {/* Illustration card */}
             <motion.div
               variants={fadeUp}
-              className="relative rounded-2xl overflow-hidden border border-border shadow-lg aspect-[4/3] bg-[hsl(var(--cream))] flex items-center justify-center"
+              className="relative rounded-2xl overflow-hidden border border-border shadow-lg aspect-[4/3]"
             >
-              <div
-                className="absolute inset-0"
-                style={{
-                  background:
-                    "linear-gradient(160deg, hsl(210 60% 12%) 0%, hsl(180 45% 22%) 100%)",
-                }}
+              <img
+                src={adoptPlaceholder}
+                alt="S-VYASA students in research lab"
+                className="absolute inset-0 w-full h-full object-cover"
               />
-              <div className="relative z-10 text-center px-8">
-                <div className="w-20 h-20 rounded-full bg-white/10 flex items-center justify-center mx-auto mb-5 border border-white/20">
-                  <FlaskConical className="text-[hsl(var(--saffron))]" size={38} />
-                </div>
-                <p className="text-white/80 text-sm leading-relaxed">
+              <div className="absolute inset-0 bg-gradient-to-t from-[hsl(210,60%,12%)]/70 to-transparent" />
+              <div className="relative z-10 h-full flex flex-col justify-end p-6">
+                <p className="text-white/90 text-sm leading-relaxed mb-4">
                   Join hands with S-VYASA's Anvesana Research Labs to fund cutting-edge yoga &amp; health research
                 </p>
-                <div className="mt-5 flex flex-wrap gap-2 justify-center">
+                <div className="flex flex-wrap gap-2">
                   {["Impactful", "Tax-Exempt", "Recognition"].map((tag) => (
-                    <span key={tag} className="text-xs bg-white/10 text-white/70 px-3 py-1 rounded-full border border-white/20">
+                    <span key={tag} className="text-xs bg-white/20 text-white/90 px-3 py-1 rounded-full border border-white/30 backdrop-blur-sm">
                       {tag}
                     </span>
                   ))}
