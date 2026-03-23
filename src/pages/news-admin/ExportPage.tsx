@@ -18,7 +18,7 @@ export default function ExportPage() {
   const [copiedEvents, setCopiedEvents] = useState(false);
 
   const fetchNews = async () => {
-    const { data, error } = await supabaseExternal.from("svyasa_news").select("*").order("date", { ascending: false });
+    const { data, error } = await supabase.from("svyasa_news").select("*").order("date", { ascending: false });
     if (error) { toast.error(error.message); return null; }
     return data;
   };
