@@ -84,7 +84,7 @@ function ImportTab({ type }: { type: "news" | "events" }) {
         return base;
       });
 
-      const { data, error: err } = await supabaseExternal
+      const { data, error: err } = await supabase
         .from(table)
         .upsert(mapped, { onConflict: "slug" })
         .select();

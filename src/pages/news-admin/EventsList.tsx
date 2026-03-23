@@ -48,10 +48,10 @@ export default function EventsList() {
   }, [refetch]);
 
   const deleteItem = useCallback(async (id: string) => {
-    const { error } = await supabaseExternal
+    const { error } = await supabase
       .from("svyasa_events")
       .delete()
-      .eq("id", Number(id));
+      .eq("id", id);
     if (error) { toast.error(error.message); return; }
     toast.success("Event deleted");
     refetch();

@@ -73,7 +73,7 @@ export default function NewsForm() {
           .eq("id", id!);
         if (error) throw error;
       } else {
-        const { error } = await supabaseExternal
+        const { error } = await supabase
           .from("svyasa_news")
           .insert(payload);
         if (error) throw error;

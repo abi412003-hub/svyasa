@@ -48,10 +48,10 @@ export default function NewsList() {
   }, [refetch]);
 
   const deleteItem = useCallback(async (id: string) => {
-    const { error } = await supabaseExternal
+    const { error } = await supabase
       .from("svyasa_news")
       .delete()
-      .eq("id", Number(id));
+      .eq("id", id);
     if (error) { toast.error(error.message); return; }
     toast.success("News article deleted");
     refetch();

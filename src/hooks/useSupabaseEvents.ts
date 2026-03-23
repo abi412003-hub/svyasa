@@ -43,7 +43,7 @@ export function useSupabaseEvents() {
 
   const fetch = useCallback(async () => {
     setLoading(true);
-    const { data: rows, error: err } = await supabaseExternal
+    const { data: rows, error: err } = await supabase
       .from("svyasa_events")
       .select("*")
       .order("date", { ascending: false });

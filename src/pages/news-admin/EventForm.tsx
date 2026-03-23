@@ -73,7 +73,7 @@ export default function EventForm() {
           .eq("id", id!);
         if (error) throw error;
       } else {
-        const { error } = await supabaseExternal
+        const { error } = await supabase
           .from("svyasa_events")
           .insert(payload);
         if (error) throw error;

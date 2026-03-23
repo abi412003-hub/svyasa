@@ -24,7 +24,7 @@ export default function ExportPage() {
   };
 
   const fetchEvents = async () => {
-    const { data, error } = await supabaseExternal.from("svyasa_events").select("*").order("date", { ascending: false });
+    const { data, error } = await supabase.from("svyasa_events").select("*").order("date", { ascending: false });
     if (error) { toast.error(error.message); return null; }
     return data;
   };
