@@ -8,8 +8,8 @@ import { Badge } from "@/components/ui/badge";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { ChevronDown } from "lucide-react";
 import { toast } from "sonner";
-import { STORAGE_KEYS, getItems, setItems } from "@/lib/newsEventsStorage";
-import { generateSlug, type NewsItem, type EventItem } from "@/lib/newsEventsTypes";
+import { supabaseExternal } from "@/lib/supabaseExternal";
+import { generateSlug } from "@/lib/newsEventsTypes";
 
 const SAMPLE_NEWS = JSON.stringify([
   {
@@ -43,6 +43,7 @@ function ImportTab({ type }: { type: "news" | "events" }) {
   const [json, setJson] = useState("");
   const [preview, setPreview] = useState<any[] | null>(null);
   const [error, setError] = useState("");
+  const [importing, setImporting] = useState(false);
 
   const handlePreview = () => {
     try {
@@ -58,42 +59,44 @@ function ImportTab({ type }: { type: "news" | "events" }) {
 
   const handleImport = async () => {
     if (!preview) return;
+    setImporting(true);
     try {
-      const key = type === "news" ? STORAGE_KEYS.NEWS : STORAGE_KEYS.EVENTS;
-      const existing = await getItems<any>(key);
-      const existingTitles = new Set(existing.map((i: any) => i.title.toLowerCase()));
-      const now = new Date().toISOString();
-      let imported = 0;
+      const table = type === "news" ? "svyasa_news" : "svyasa_events";
 
-      const newItems = preview
-        .filter((item) => !existingTitles.has(item.title?.toLowerCase()))
-        .map((item) => {
-          imported++;
-          const id = `${type === "news" ? "news" : "event"}-${Date.now()}-${imported}`;
-          return {
-            id,
-            title: item.title || "Untitled",
-            slug: generateSlug(item.title || "untitled"),
-            body: item.body || "",
-            date: item.date || now.slice(0, 10),
-            ...(type === "events" ? { endDate: item.endDate || "" } : {}),
-            campus: item.campus || "Both",
-            category: item.category || "Other",
-            thumbnailUrl: item.thumbnailUrl || "",
-            galleryUrls: item.galleryUrls || [],
-            ...(type === "news" ? { isFeatured: item.isFeatured || false } : {}),
-            isPublished: item.isPublished !== false,
-            createdAt: now,
-            updatedAt: now,
-          };
-        });
+      const mapped = preview.map((item) => {
+        const base: any = {
+          title: item.title || "Untitled",
+          slug: item.slug || generateSlug(item.title || "untitled"),
+          body: item.body || "",
+          date: item.date,
+          campus: item.campus || "Both",
+          category: item.category || "Other",
+          thumbnail_url: item.thumbnailUrl || item.thumbnail_url || "",
+          gallery_urls: item.galleryUrls || item.gallery_urls || [],
+          is_published: item.isPublished !== false && item.is_published !== false,
+        };
+        if (type === "news") {
+          base.is_featured = item.isFeatured || item.is_featured || false;
+        }
+        if (type === "events") {
+          base.end_date = item.endDate || item.end_date || null;
+        }
+        return base;
+      });
 
-      await setItems(key, [...existing, ...newItems]);
-      toast.success(`Imported ${newItems.length} ${type} items (${preview.length - newItems.length} duplicates skipped)`);
+      const { data, error: err } = await supabaseExternal
+        .from(table)
+        .upsert(mapped, { onConflict: "slug" })
+        .select();
+
+      if (err) throw err;
+      toast.success(`Imported ${data?.length || mapped.length} ${type} items`);
       setJson("");
       setPreview(null);
     } catch (e: any) {
       toast.error(e.message || "Import failed");
+    } finally {
+      setImporting(false);
     }
   };
 
@@ -113,7 +116,9 @@ function ImportTab({ type }: { type: "news" | "events" }) {
 
       <div className="flex gap-2">
         <Button onClick={handlePreview} variant="outline" disabled={!json.trim()}>Preview</Button>
-        <Button onClick={handleImport} disabled={!preview} className="bg-[#1e3a5f] hover:bg-[#2d5a8e]">Import All</Button>
+        <Button onClick={handleImport} disabled={!preview || importing} className="bg-[#1e3a5f] hover:bg-[#2d5a8e]">
+          {importing ? "Importing..." : "Import All"}
+        </Button>
         <Button variant="ghost" onClick={() => { setJson(""); setPreview(null); setError(""); }}>Clear</Button>
       </div>
 

@@ -11,8 +11,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
-import { STORAGE_KEYS, getItems, setItems } from "@/lib/newsEventsStorage";
-import { EVENT_CATEGORIES, CAMPUS_OPTIONS, generateSlug, type EventItem } from "@/lib/newsEventsTypes";
+import { supabaseExternal } from "@/lib/supabaseExternal";
+import { EVENT_CATEGORIES, CAMPUS_OPTIONS, generateSlug } from "@/lib/newsEventsTypes";
 
 export default function EventForm() {
   const { id } = useParams();
@@ -34,13 +34,16 @@ export default function EventForm() {
   useEffect(() => {
     if (!isEdit) return;
     (async () => {
-      const items = await getItems<EventItem>(STORAGE_KEYS.EVENTS);
-      const item = items.find((e) => e.id === id);
-      if (!item) { toast.error("Item not found"); navigate("/news-admin/events"); return; }
-      setTitle(item.title); setSlug(item.slug); setDate(item.date); setEndDate(item.endDate || "");
-      setCampus(item.campus); setCategory(item.category); setBody(item.body);
-      setThumbnailUrl(item.thumbnailUrl); setGalleryUrls(item.galleryUrls);
-      setIsPublished(item.isPublished);
+      const { data, error } = await supabaseExternal
+        .from("svyasa_events")
+        .select("*")
+        .eq("id", Number(id))
+        .maybeSingle();
+      if (error || !data) { toast.error("Item not found"); navigate("/news-admin/events"); return; }
+      setTitle(data.title); setSlug(data.slug); setDate(data.date); setEndDate(data.end_date || "");
+      setCampus(data.campus as any); setCategory(data.category); setBody(data.body || "");
+      setThumbnailUrl(data.thumbnail_url || ""); setGalleryUrls(data.gallery_urls || []);
+      setIsPublished(data.is_published);
     })();
   }, [id, isEdit, navigate]);
 
@@ -50,22 +53,30 @@ export default function EventForm() {
     setLoading(true);
     try {
       const finalSlug = slug || generateSlug(title);
-      const now = new Date().toISOString();
-      const item: EventItem = {
-        id: isEdit ? id! : "event-" + Date.now(),
-        title: title.trim(), slug: finalSlug, date, endDate, campus, category, body,
-        thumbnailUrl, galleryUrls: galleryUrls.filter(Boolean),
-        isPublished: publish,
-        createdAt: isEdit ? "" : now, updatedAt: now,
+      const payload = {
+        title: title.trim(),
+        slug: finalSlug,
+        body,
+        date,
+        end_date: endDate || null,
+        campus,
+        category,
+        thumbnail_url: thumbnailUrl,
+        gallery_urls: galleryUrls.filter(Boolean),
+        is_published: publish,
       };
-      const items = await getItems<EventItem>(STORAGE_KEYS.EVENTS);
+
       if (isEdit) {
-        const existing = items.find((e) => e.id === id);
-        item.createdAt = existing?.createdAt || now;
-        const updated = items.map((e) => (e.id === id ? item : e));
-        await setItems(STORAGE_KEYS.EVENTS, updated);
+        const { error } = await supabaseExternal
+          .from("svyasa_events")
+          .update(payload)
+          .eq("id", Number(id));
+        if (error) throw error;
       } else {
-        await setItems(STORAGE_KEYS.EVENTS, [...items, item]);
+        const { error } = await supabaseExternal
+          .from("svyasa_events")
+          .insert(payload);
+        if (error) throw error;
       }
       toast.success(isEdit ? "Event updated" : "Event created");
       navigate("/news-admin/events");

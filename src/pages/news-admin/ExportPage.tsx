@@ -3,8 +3,7 @@ import { Download, Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { toast } from "sonner";
-import { STORAGE_KEYS, getItems } from "@/lib/newsEventsStorage";
-import type { NewsItem, EventItem } from "@/lib/newsEventsTypes";
+import { supabaseExternal } from "@/lib/supabaseExternal";
 
 function downloadJSON(data: any, filename: string) {
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
@@ -18,27 +17,43 @@ export default function ExportPage() {
   const [copiedNews, setCopiedNews] = useState(false);
   const [copiedEvents, setCopiedEvents] = useState(false);
 
+  const fetchNews = async () => {
+    const { data, error } = await supabaseExternal.from("svyasa_news").select("*").order("date", { ascending: false });
+    if (error) { toast.error(error.message); return null; }
+    return data;
+  };
+
+  const fetchEvents = async () => {
+    const { data, error } = await supabaseExternal.from("svyasa_events").select("*").order("date", { ascending: false });
+    if (error) { toast.error(error.message); return null; }
+    return data;
+  };
+
   const exportNews = async () => {
-    const items = await getItems<NewsItem>(STORAGE_KEYS.NEWS);
+    const items = await fetchNews();
+    if (!items) return;
     downloadJSON(items, "svyasa-news-export.json");
     toast.success(`Exported ${items.length} news items`);
   };
 
   const exportEvents = async () => {
-    const items = await getItems<EventItem>(STORAGE_KEYS.EVENTS);
+    const items = await fetchEvents();
+    if (!items) return;
     downloadJSON(items, "svyasa-events-export.json");
     toast.success(`Exported ${items.length} events`);
   };
 
   const exportAll = async () => {
-    const news = await getItems<NewsItem>(STORAGE_KEYS.NEWS);
-    const events = await getItems<EventItem>(STORAGE_KEYS.EVENTS);
+    const news = await fetchNews();
+    const events = await fetchEvents();
+    if (!news || !events) return;
     downloadJSON({ news, events }, "svyasa-content-export.json");
     toast.success(`Exported ${news.length} news + ${events.length} events`);
   };
 
-  const copyToClipboard = async (key: string, type: "news" | "events") => {
-    const items = await getItems<any>(key);
+  const copyToClipboard = async (type: "news" | "events") => {
+    const items = type === "news" ? await fetchNews() : await fetchEvents();
+    if (!items) return;
     await navigator.clipboard.writeText(JSON.stringify(items, null, 2));
     if (type === "news") { setCopiedNews(true); setTimeout(() => setCopiedNews(false), 2000); }
     else { setCopiedEvents(true); setTimeout(() => setCopiedEvents(false), 2000); }
@@ -57,7 +72,7 @@ export default function ExportPage() {
           </CardHeader>
           <CardContent className="flex gap-2">
             <Button onClick={exportNews} className="bg-[#1e3a5f] hover:bg-[#2d5a8e]"><Download className="w-4 h-4 mr-1" /> Download</Button>
-            <Button variant="outline" onClick={() => copyToClipboard(STORAGE_KEYS.NEWS, "news")}>
+            <Button variant="outline" onClick={() => copyToClipboard("news")}>
               {copiedNews ? <Check className="w-4 h-4 mr-1" /> : <Copy className="w-4 h-4 mr-1" />}
               {copiedNews ? "Copied!" : "Copy"}
             </Button>
@@ -71,7 +86,7 @@ export default function ExportPage() {
           </CardHeader>
           <CardContent className="flex gap-2">
             <Button onClick={exportEvents} className="bg-[#1e3a5f] hover:bg-[#2d5a8e]"><Download className="w-4 h-4 mr-1" /> Download</Button>
-            <Button variant="outline" onClick={() => copyToClipboard(STORAGE_KEYS.EVENTS, "events")}>
+            <Button variant="outline" onClick={() => copyToClipboard("events")}>
               {copiedEvents ? <Check className="w-4 h-4 mr-1" /> : <Copy className="w-4 h-4 mr-1" />}
               {copiedEvents ? "Copied!" : "Copy"}
             </Button>

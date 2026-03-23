@@ -11,14 +11,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { toast } from "sonner";
-import { useStorageData } from "@/hooks/useStorageData";
-import { STORAGE_KEYS, setItems } from "@/lib/newsEventsStorage";
+import { supabaseExternal } from "@/lib/supabaseExternal";
+import { useSupabaseNews } from "@/hooks/useSupabaseNews";
 import { NEWS_CATEGORIES, CAMPUS_OPTIONS, type NewsItem } from "@/lib/newsEventsTypes";
 
 const PER_PAGE = 15;
 
 export default function NewsList() {
-  const { data: news, loading, refetch } = useStorageData<NewsItem>(STORAGE_KEYS.NEWS);
+  const { data: news, loading, refetch } = useSupabaseNews();
   const [search, setSearch] = useState("");
   const [campusFilter, setCampusFilter] = useState("All");
   const [categoryFilter, setCategoryFilter] = useState("All");
@@ -37,19 +37,25 @@ export default function NewsList() {
   const totalPages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
   const paged = filtered.slice((page - 1) * PER_PAGE, page * PER_PAGE);
 
-  const togglePublish = useCallback(async (id: string) => {
-    const updated = news.map((n) => n.id === id ? { ...n, isPublished: !n.isPublished, updatedAt: new Date().toISOString() } : n);
-    await setItems(STORAGE_KEYS.NEWS, updated);
+  const togglePublish = useCallback(async (item: NewsItem) => {
+    const { error } = await supabaseExternal
+      .from("svyasa_news")
+      .update({ is_published: !item.isPublished })
+      .eq("id", Number(item.id));
+    if (error) { toast.error(error.message); return; }
     toast.success("Status updated");
     refetch();
-  }, [news, refetch]);
+  }, [refetch]);
 
   const deleteItem = useCallback(async (id: string) => {
-    const updated = news.filter((n) => n.id !== id);
-    await setItems(STORAGE_KEYS.NEWS, updated);
+    const { error } = await supabaseExternal
+      .from("svyasa_news")
+      .delete()
+      .eq("id", Number(id));
+    if (error) { toast.error(error.message); return; }
     toast.success("News article deleted");
     refetch();
-  }, [news, refetch]);
+  }, [refetch]);
 
   const fmtDate = (d: string) => {
     try { return new Date(d).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" }); }
@@ -136,7 +142,7 @@ export default function NewsList() {
                       <Badge variant="secondary" className={n.campus === "GCC" ? "bg-blue-100 text-blue-800" : n.campus === "Prashanti" ? "bg-green-100 text-green-800" : "bg-purple-100 text-purple-800"}>{n.campus}</Badge>
                     </TableCell>
                     <TableCell><Badge variant="secondary" className="bg-slate-100 text-slate-700">{n.category}</Badge></TableCell>
-                    <TableCell><Switch checked={n.isPublished} onCheckedChange={() => togglePublish(n.id)} /></TableCell>
+                    <TableCell><Switch checked={n.isPublished} onCheckedChange={() => togglePublish(n)} /></TableCell>
                     <TableCell>
                       <div className="flex gap-1">
                         <Button asChild variant="ghost" size="icon"><Link to={`/news-admin/news/${n.id}/edit`}><Pencil className="w-4 h-4" /></Link></Button>

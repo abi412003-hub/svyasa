@@ -6,13 +6,13 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { useStorageData } from "@/hooks/useStorageData";
-import { STORAGE_KEYS } from "@/lib/newsEventsStorage";
+import { useSupabaseNews } from "@/hooks/useSupabaseNews";
+import { useSupabaseEvents } from "@/hooks/useSupabaseEvents";
 import type { NewsItem, EventItem } from "@/lib/newsEventsTypes";
 
 export default function Dashboard() {
-  const { data: news, loading: nl } = useStorageData<NewsItem>(STORAGE_KEYS.NEWS);
-  const { data: events, loading: el } = useStorageData<EventItem>(STORAGE_KEYS.EVENTS);
+  const { data: news, loading: nl } = useSupabaseNews();
+  const { data: events, loading: el } = useSupabaseEvents();
   const loading = nl || el;
 
   const stats = useMemo(() => {
@@ -97,7 +97,7 @@ export default function Dashboard() {
               </TableHeader>
               <TableBody>
                 {recentItems.map((item) => (
-                  <TableRow key={item.id}>
+                  <TableRow key={item._type + item.id}>
                     <TableCell>
                       <Badge variant="secondary" className={item._type === "News" ? "bg-blue-100 text-blue-800" : "bg-green-100 text-green-800"}>
                         {item._type}

@@ -11,14 +11,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { toast } from "sonner";
-import { useStorageData } from "@/hooks/useStorageData";
-import { STORAGE_KEYS, setItems } from "@/lib/newsEventsStorage";
+import { supabaseExternal } from "@/lib/supabaseExternal";
+import { useSupabaseEvents } from "@/hooks/useSupabaseEvents";
 import { EVENT_CATEGORIES, CAMPUS_OPTIONS, type EventItem } from "@/lib/newsEventsTypes";
 
 const PER_PAGE = 15;
 
 export default function EventsList() {
-  const { data: events, loading, refetch } = useStorageData<EventItem>(STORAGE_KEYS.EVENTS);
+  const { data: events, loading, refetch } = useSupabaseEvents();
   const [search, setSearch] = useState("");
   const [campusFilter, setCampusFilter] = useState("All");
   const [categoryFilter, setCategoryFilter] = useState("All");
@@ -37,19 +37,25 @@ export default function EventsList() {
   const totalPages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
   const paged = filtered.slice((page - 1) * PER_PAGE, page * PER_PAGE);
 
-  const togglePublish = useCallback(async (id: string) => {
-    const updated = events.map((e) => e.id === id ? { ...e, isPublished: !e.isPublished, updatedAt: new Date().toISOString() } : e);
-    await setItems(STORAGE_KEYS.EVENTS, updated);
+  const togglePublish = useCallback(async (item: EventItem) => {
+    const { error } = await supabaseExternal
+      .from("svyasa_events")
+      .update({ is_published: !item.isPublished })
+      .eq("id", Number(item.id));
+    if (error) { toast.error(error.message); return; }
     toast.success("Status updated");
     refetch();
-  }, [events, refetch]);
+  }, [refetch]);
 
   const deleteItem = useCallback(async (id: string) => {
-    const updated = events.filter((e) => e.id !== id);
-    await setItems(STORAGE_KEYS.EVENTS, updated);
+    const { error } = await supabaseExternal
+      .from("svyasa_events")
+      .delete()
+      .eq("id", Number(id));
+    if (error) { toast.error(error.message); return; }
     toast.success("Event deleted");
     refetch();
-  }, [events, refetch]);
+  }, [refetch]);
 
   const fmtDate = (d: string) => {
     try { return new Date(d).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" }); }
@@ -132,7 +138,7 @@ export default function EventsList() {
                       <Badge variant="secondary" className={e.campus === "GCC" ? "bg-blue-100 text-blue-800" : e.campus === "Prashanti" ? "bg-green-100 text-green-800" : "bg-purple-100 text-purple-800"}>{e.campus}</Badge>
                     </TableCell>
                     <TableCell><Badge variant="secondary" className="bg-slate-100 text-slate-700">{e.category}</Badge></TableCell>
-                    <TableCell><Switch checked={e.isPublished} onCheckedChange={() => togglePublish(e.id)} /></TableCell>
+                    <TableCell><Switch checked={e.isPublished} onCheckedChange={() => togglePublish(e)} /></TableCell>
                     <TableCell>
                       <div className="flex gap-1">
                         <Button asChild variant="ghost" size="icon"><Link to={`/news-admin/events/${e.id}/edit`}><Pencil className="w-4 h-4" /></Link></Button>
