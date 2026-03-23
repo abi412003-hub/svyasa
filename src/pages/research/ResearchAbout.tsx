@@ -585,37 +585,48 @@ function ArchivesSection() {
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {documents.map((doc, i) => (
-                <motion.div
-                  key={doc.title}
-                  variants={slideLeft(i * 0.08)}
-                  whileHover={{ x: 4 }}
-                  className="group flex items-center gap-4 bg-white border border-border rounded-lg p-5 transition-all duration-200 hover:border-l-4 hover:border-l-[hsl(var(--teal))] hover:shadow-md"
-                >
-                  <FileText className="text-[hsl(var(--teal))] shrink-0" size={22} />
-                  <span className="flex-1 text-[hsl(var(--navy))] font-semibold text-[15px]">{doc.title}</span>
-                  {doc.pdfPath ? (
-                    <div className="flex items-center gap-2 shrink-0">
-                      <button
-                        onClick={() => handlePreview(doc)}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-lg text-[hsl(var(--teal))] bg-[hsl(var(--teal))]/5 hover:bg-[hsl(var(--teal))] hover:text-white transition-all duration-200"
-                      >
-                        <Eye size={15} />
-                        Preview
-                      </button>
-                      <a
-                        href={doc.pdfPath}
-                        download
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-lg border border-border text-muted-foreground hover:border-[hsl(var(--teal))] hover:text-[hsl(var(--teal))] transition-all duration-200"
-                      >
-                        <Download size={15} />
-                      </a>
-                    </div>
-                  ) : (
-                    <span className="text-xs text-muted-foreground bg-muted px-3 py-1.5 rounded-lg">Coming Soon</span>
-                  )}
-                </motion.div>
-              ))}
+              {documents.map((doc, i) => {
+                const docColors = [
+                  { border: "border-l-[hsl(var(--teal))]", icon: "text-[hsl(var(--teal))]", bg: "bg-[hsl(var(--teal))]/5" },
+                  { border: "border-l-[hsl(var(--saffron))]", icon: "text-[hsl(var(--saffron))]", bg: "bg-[hsl(var(--saffron))]/5" },
+                  { border: "border-l-[hsl(var(--navy))]", icon: "text-[hsl(var(--navy))]", bg: "bg-[hsl(var(--navy))]/5" },
+                  { border: "border-l-rose-500", icon: "text-rose-500", bg: "bg-rose-50" },
+                  { border: "border-l-violet-600", icon: "text-violet-600", bg: "bg-violet-50" },
+                  { border: "border-l-emerald-600", icon: "text-emerald-600", bg: "bg-emerald-50" },
+                ];
+                const dc = docColors[i % docColors.length];
+                return (
+                  <motion.div
+                    key={doc.title}
+                    variants={slideLeft(i * 0.08)}
+                    whileHover={{ x: 4 }}
+                    className={`group flex items-center gap-4 ${dc.bg} border-l-4 ${dc.border} border border-border rounded-lg p-5 transition-all duration-200 hover:shadow-md`}
+                  >
+                    <FileText className={`${dc.icon} shrink-0`} size={22} />
+                    <span className="flex-1 text-[hsl(var(--navy))] font-semibold text-[15px]">{doc.title}</span>
+                    {doc.pdfPath ? (
+                      <div className="flex items-center gap-2 shrink-0">
+                        <button
+                          onClick={() => handlePreview(doc)}
+                          className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-lg ${dc.icon} ${dc.bg} hover:opacity-80 transition-all duration-200`}
+                        >
+                          <Eye size={15} />
+                          Preview
+                        </button>
+                        <a
+                          href={doc.pdfPath}
+                          download
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-lg border border-border text-muted-foreground hover:border-[hsl(var(--teal))] hover:text-[hsl(var(--teal))] transition-all duration-200"
+                        >
+                          <Download size={15} />
+                        </a>
+                      </div>
+                    ) : (
+                      <span className="text-xs text-muted-foreground bg-muted px-3 py-1.5 rounded-lg">Coming Soon</span>
+                    )}
+                  </motion.div>
+                );
+              })}
             </div>
           </motion.div>
         </div>
