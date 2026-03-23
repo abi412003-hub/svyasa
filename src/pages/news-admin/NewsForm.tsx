@@ -11,8 +11,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
-import { STORAGE_KEYS, getItems, setItems } from "@/lib/newsEventsStorage";
-import { NEWS_CATEGORIES, CAMPUS_OPTIONS, generateSlug, type NewsItem } from "@/lib/newsEventsTypes";
+import { supabaseExternal } from "@/lib/supabaseExternal";
+import { NEWS_CATEGORIES, CAMPUS_OPTIONS, generateSlug } from "@/lib/newsEventsTypes";
 
 export default function NewsForm() {
   const { id } = useParams();
@@ -34,13 +34,16 @@ export default function NewsForm() {
   useEffect(() => {
     if (!isEdit) return;
     (async () => {
-      const items = await getItems<NewsItem>(STORAGE_KEYS.NEWS);
-      const item = items.find((n) => n.id === id);
-      if (!item) { toast.error("Item not found"); navigate("/news-admin/news"); return; }
-      setTitle(item.title); setSlug(item.slug); setDate(item.date);
-      setCampus(item.campus); setCategory(item.category); setBody(item.body);
-      setThumbnailUrl(item.thumbnailUrl); setGalleryUrls(item.galleryUrls);
-      setIsFeatured(item.isFeatured); setIsPublished(item.isPublished);
+      const { data, error } = await supabaseExternal
+        .from("svyasa_news")
+        .select("*")
+        .eq("id", Number(id))
+        .maybeSingle();
+      if (error || !data) { toast.error("Item not found"); navigate("/news-admin/news"); return; }
+      setTitle(data.title); setSlug(data.slug); setDate(data.date);
+      setCampus(data.campus as any); setCategory(data.category); setBody(data.body || "");
+      setThumbnailUrl(data.thumbnail_url || ""); setGalleryUrls(data.gallery_urls || []);
+      setIsFeatured(data.is_featured); setIsPublished(data.is_published);
     })();
   }, [id, isEdit, navigate]);
 
@@ -50,22 +53,30 @@ export default function NewsForm() {
     setLoading(true);
     try {
       const finalSlug = slug || generateSlug(title);
-      const now = new Date().toISOString();
-      const item: NewsItem = {
-        id: isEdit ? id! : "news-" + Date.now(),
-        title: title.trim(), slug: finalSlug, date, campus, category, body,
-        thumbnailUrl, galleryUrls: galleryUrls.filter(Boolean),
-        isFeatured, isPublished: publish,
-        createdAt: isEdit ? "" : now, updatedAt: now,
+      const payload = {
+        title: title.trim(),
+        slug: finalSlug,
+        body,
+        date,
+        campus,
+        category,
+        thumbnail_url: thumbnailUrl,
+        gallery_urls: galleryUrls.filter(Boolean),
+        is_featured: isFeatured,
+        is_published: publish,
       };
-      const items = await getItems<NewsItem>(STORAGE_KEYS.NEWS);
+
       if (isEdit) {
-        const existing = items.find((n) => n.id === id);
-        item.createdAt = existing?.createdAt || now;
-        const updated = items.map((n) => (n.id === id ? item : n));
-        await setItems(STORAGE_KEYS.NEWS, updated);
+        const { error } = await supabaseExternal
+          .from("svyasa_news")
+          .update(payload)
+          .eq("id", Number(id));
+        if (error) throw error;
       } else {
-        await setItems(STORAGE_KEYS.NEWS, [...items, item]);
+        const { error } = await supabaseExternal
+          .from("svyasa_news")
+          .insert(payload);
+        if (error) throw error;
       }
       toast.success(isEdit ? "News updated" : "News created");
       navigate("/news-admin/news");
