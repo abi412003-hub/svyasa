@@ -607,6 +607,12 @@ import texasMdLogo from "@/assets/partners/intl/texas-md.png";
 import sarvaLogo from "@/assets/partners/intl/sarva.jpg";
 import toyoLogo from "@/assets/partners/intl/toyo.png";
 import southernCrossLogo from "@/assets/partners/intl/southern-cross.png";
+import navBharatLogo from "@/assets/partners/intl/nav-bharat.png";
+import allHereSaLogo from "@/assets/partners/intl/all-here-sa.jpg";
+import choonhaeLogo from "@/assets/partners/intl/choonhae.jpg";
+import collegeAyurvedaLogo from "@/assets/partners/intl/college-ayurveda.jpg";
+import vietnamYogaLogo from "@/assets/partners/intl/vietnam-yoga.jpg";
+import siliconAndhraLogo from "@/assets/partners/intl/silicon-andhra.png";
 
 const internationalPartners = [
   { name: "Shanghai University", country: "China", logo: shanghaiLogo },
@@ -620,12 +626,12 @@ const internationalPartners = [
   { name: "TOYO University", country: "Japan", logo: toyoLogo },
   { name: "Southern Cross University", country: "Australia", logo: southernCrossLogo },
   { name: "IYSF", country: "International", logo: null as string | null },
-  { name: "Silicon Andhra University", country: "USA", logo: null as string | null },
-  { name: "Vietnam Yoga", country: "Vietnam", logo: null as string | null },
-  { name: "College of Ayurveda Yoga Therapy", country: "International", logo: null as string | null },
-  { name: "Choonhae University", country: "South Korea", logo: null as string | null },
-  { name: "ALL HERE SA", country: "Switzerland", logo: null as string | null },
-  { name: "Nav Bharat International", country: "Bahrain", logo: null as string | null },
+  { name: "Silicon Andhra University", country: "USA", logo: siliconAndhraLogo },
+  { name: "Vietnam Yoga Academy", country: "Vietnam", logo: vietnamYogaLogo },
+  { name: "College of Ayurveda & Yoga Therapy", country: "UK", logo: collegeAyurvedaLogo },
+  { name: "Choonhae University", country: "South Korea", logo: choonhaeLogo },
+  { name: "ALL HERE SA", country: "Switzerland", logo: allHereSaLogo },
+  { name: "Nav Bharat International", country: "Bahrain", logo: navBharatLogo },
 ];
 
 function InternationalSection() {
