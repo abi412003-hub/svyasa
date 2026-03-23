@@ -1,0 +1,1 @@
+ALTER TABLE public.faculty_profiles ADD COLUMN IF NOT EXISTS linkedin_url text DEFAULT '';
