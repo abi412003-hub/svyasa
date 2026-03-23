@@ -751,56 +751,29 @@ const nationalPartners = [
 function NationalSection() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
+  const mid = Math.ceil(nationalPartners.length / 2);
 
   return (
-    <section className="py-20 bg-[#F7F5F0]">
+    <section className="py-20 bg-[#F7F5F0] overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-10">
         <motion.div
           ref={ref}
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
           variants={staggerContainer}
+          className="text-center mb-12"
         >
-          <motion.div variants={fadeUp} className="text-center mb-12">
-            <p className="text-[hsl(var(--teal))] text-sm font-semibold uppercase tracking-widest mb-3">
-              India Network
-            </p>
-            <h2 className="font-['Playfair_Display',serif] text-4xl text-[hsl(var(--navy))] font-bold">
-              National Research Partners
-            </h2>
-          </motion.div>
-
-          <motion.div
-            variants={{ visible: { transition: { staggerChildren: 0.06 } } }}
-            className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5"
-          >
-            {nationalPartners.map((p, i) => (
-              <motion.div
-                key={`${p.name}-${i}`}
-                variants={fadeUpDelayed(i * 0.04)}
-                whileHover={{ y: -6, scale: 1.02 }}
-                className="bg-white border border-border rounded-2xl p-6 flex flex-col items-center text-center gap-4 hover:border-[hsl(var(--teal))]/50 hover:shadow-xl transition-all duration-300"
-              >
-                {p.logo ? (
-                  <div className="w-full h-24 flex items-center justify-center">
-                    <img src={p.logo} alt={p.name} className="max-w-full max-h-24 object-contain" />
-                  </div>
-                ) : (
-                  <div className="w-20 h-20 rounded-full bg-[hsl(var(--cream))] flex items-center justify-center">
-                    <span className="text-[hsl(var(--navy))] font-bold text-lg text-center leading-tight">
-                      {p.name.split(" ").map(w => w[0]).join("").slice(0, 3)}
-                    </span>
-                  </div>
-                )}
-                <div>
-                  <p className="text-[hsl(var(--navy))] font-bold text-sm leading-snug mb-1">{p.name}</p>
-                  <p className="text-[hsl(var(--muted-foreground))] text-xs">{p.location}</p>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
+          <motion.p variants={fadeUp} className="text-[hsl(var(--teal))] text-sm font-semibold uppercase tracking-widest mb-3">
+            India Network
+          </motion.p>
+          <motion.h2 variants={fadeUp} className="font-['Playfair_Display',serif] text-4xl text-[hsl(var(--navy))] font-bold">
+            National Research Partners
+          </motion.h2>
         </motion.div>
       </div>
+
+      <LogoMarquee partners={nationalPartners.slice(0, mid)} speed={40} />
+      <LogoMarquee partners={nationalPartners.slice(mid)} reverse speed={45} />
     </section>
   );
 }
