@@ -181,6 +181,13 @@ function IntroSection() {
                 className="w-full h-full"
               />
             </div>
+            <div className="mt-5 rounded-xl overflow-hidden shadow-[0_10px_30px_-10px_hsla(210_52%_23%/0.15)]">
+              <img
+                src={researchHeroBg}
+                alt="Anvesana Research Labs Building"
+                className="w-full h-auto object-cover rounded-xl"
+              />
+            </div>
             <div className="mt-5 text-center">
               <Link
                 to="/research/facility"
