@@ -3,6 +3,7 @@ import vcManjunathImg from "@/assets/vc-manjunath.png";
 import nagarathnaImg from "@/assets/nagarathna-portrait.jpg";
 import ananyaBsImg from "@/assets/research/ananya-bs.jpg";
 import amitKanthiImg from "@/assets/research/amit-kanthi.jpg";
+import sandeepImg from "@/assets/research/sandeep.jpg";
 
 export interface FacultyProfile {
   id: string;
