@@ -1,6 +1,6 @@
-import { motion, useInView, Variants } from "framer-motion";
-import { ChevronDown, Activity, Heart, RefreshCw, Eye, Sparkles, FileText, Globe } from "lucide-react";
-import { useRef } from "react";
+import { motion, useInView, Variants, AnimatePresence } from "framer-motion";
+import { ChevronDown, Activity, Heart, RefreshCw, Eye, Sparkles, FileText, Globe, Download, X, ExternalLink, AlertCircle } from "lucide-react";
+import { useRef, useState, useCallback, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useCountUp } from "@/hooks/useCountUp";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
