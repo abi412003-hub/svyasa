@@ -675,24 +675,35 @@ function InternationalSection() {
 /* ──────────────────────────────────────────────────────────
    SECTION 8: National Collaborations
 ────────────────────────────────────────────────────────── */
+import ayushLogo from "@/assets/partners/ayush.jpg";
+import iiscLogo from "@/assets/partners/iisc.jpg";
+import niasLogo from "@/assets/partners/nias.png";
+import aiimsDelhi from "@/assets/partners/aiims-delhi.png";
+import nimhansLogo from "@/assets/partners/nimhans.jpg";
+import aiimsBhopal from "@/assets/partners/aiims-bhopal.png";
+import sduaherLogo from "@/assets/partners/sduaher.jpg";
+import symbiosisLogo from "@/assets/partners/symbiosis.png";
+import dayanandaLogo from "@/assets/partners/dayananda-sagar.jpg";
+import narayanaLogo from "@/assets/partners/narayana-nethralaya.png";
+
 const nationalPartners = [
-  { name: "Department of AYUSH, GOK", location: "Karnataka" },
-  { name: "Indian Institute of Science (IISc)", location: "Bangalore" },
-  { name: "National Institute of Advanced Studies (NIAS)", location: "Bangalore" },
-  { name: "AIIMS", location: "New Delhi" },
-  { name: "NIMHANS", location: "Bangalore" },
-  { name: "Narayana Hrudayalaya", location: "Bangalore" },
-  { name: "AIIMS", location: "Bhopal" },
-  { name: "Sri Devaraj Urs Academy (SDUAHER)", location: "Kolar" },
-  { name: "Symbiosis International University", location: "Pune" },
-  { name: "Dayananda Sagar University", location: "Bangalore" },
-  { name: "PES University", location: "Bangalore" },
-  { name: "Ramaiah Institute of Technology", location: "Bangalore" },
-  { name: "MAHER", location: "Chennai" },
-  { name: "Father Muller Research Center", location: "Bangalore" },
-  { name: "BNM Institute of Technology", location: "Bangalore" },
-  { name: "CDSIMER", location: "Hubli" },
-  { name: "Narayana Nethralaya Foundation", location: "Bangalore" },
+  { name: "Department of AYUSH, GOK", location: "Karnataka", logo: ayushLogo },
+  { name: "Indian Institute of Science (IISc)", location: "Bangalore", logo: iiscLogo },
+  { name: "National Institute of Advanced Studies (NIAS)", location: "Bangalore", logo: niasLogo },
+  { name: "AIIMS", location: "New Delhi", logo: aiimsDelhi },
+  { name: "NIMHANS", location: "Bangalore", logo: nimhansLogo },
+  { name: "Narayana Hrudayalaya", location: "Bangalore", logo: null as string | null },
+  { name: "AIIMS", location: "Bhopal", logo: aiimsBhopal },
+  { name: "Sri Devaraj Urs Academy (SDUAHER)", location: "Kolar", logo: sduaherLogo },
+  { name: "Symbiosis International University", location: "Pune", logo: symbiosisLogo },
+  { name: "Dayananda Sagar University", location: "Bangalore", logo: dayanandaLogo },
+  { name: "PES University", location: "Bangalore", logo: null as string | null },
+  { name: "Ramaiah Institute of Technology", location: "Bangalore", logo: null as string | null },
+  { name: "MAHER", location: "Chennai", logo: null as string | null },
+  { name: "Father Muller Research Center", location: "Bangalore", logo: null as string | null },
+  { name: "BNM Institute of Technology", location: "Bangalore", logo: null as string | null },
+  { name: "CDSIMER", location: "Hubli", logo: null as string | null },
+  { name: "Narayana Nethralaya Foundation", location: "Bangalore", logo: narayanaLogo },
 ];
 
 function NationalSection() {
