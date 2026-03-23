@@ -754,26 +754,28 @@ function NationalSection() {
           </motion.div>
 
           <motion.div
-            variants={{ visible: { transition: { staggerChildren: 0.08 } } }}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
+            variants={{ visible: { transition: { staggerChildren: 0.06 } } }}
+            className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5"
           >
             {nationalPartners.map((p, i) => (
               <motion.div
                 key={`${p.name}-${i}`}
-                variants={fadeUpDelayed(i * 0.06)}
-                whileHover={{ y: -4 }}
-                className="bg-white border border-border rounded-lg p-5 cursor-default transition-all duration-200 hover:border-l-4 hover:border-l-[hsl(var(--teal))] hover:shadow-md flex items-center gap-4"
+                variants={fadeUpDelayed(i * 0.04)}
+                whileHover={{ y: -6, scale: 1.02 }}
+                className="bg-white border border-border rounded-2xl p-6 flex flex-col items-center text-center gap-4 hover:border-[hsl(var(--teal))]/50 hover:shadow-xl transition-all duration-300"
               >
                 {p.logo ? (
-                  <img src={p.logo} alt={p.name} className="w-14 h-14 object-contain rounded-md shrink-0" />
+                  <div className="w-full h-24 flex items-center justify-center">
+                    <img src={p.logo} alt={p.name} className="max-w-full max-h-24 object-contain" />
+                  </div>
                 ) : (
-                  <div className="w-14 h-14 rounded-md bg-[hsl(var(--cream))] flex items-center justify-center shrink-0">
-                    <span className="text-[hsl(var(--navy))] font-bold text-xs text-center leading-tight">
+                  <div className="w-20 h-20 rounded-full bg-[hsl(var(--cream))] flex items-center justify-center">
+                    <span className="text-[hsl(var(--navy))] font-bold text-lg text-center leading-tight">
                       {p.name.split(" ").map(w => w[0]).join("").slice(0, 3)}
                     </span>
                   </div>
                 )}
-                <div className="min-w-0">
+                <div>
                   <p className="text-[hsl(var(--navy))] font-bold text-sm leading-snug mb-1">{p.name}</p>
                   <p className="text-[hsl(var(--muted-foreground))] text-xs">{p.location}</p>
                 </div>
