@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation, Outlet } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { BookOpen, LayoutGrid, LogOut, ChevronRight, Settings } from "lucide-react";
+import { BookOpen, LayoutGrid, LogOut, ChevronRight, Globe } from "lucide-react";
 import svyasaLogo from "@/assets/svyasa-logo-full.svg";
 
 const navItems = [
   { path: "/admin/courses", label: "Courses", icon: BookOpen },
   { path: "/admin/categories", label: "Categories", icon: LayoutGrid },
+  { path: "/admin/cms", label: "Contentful CMS", icon: Globe },
 ];
 
 const AdminLayout = () => {

@@ -271,6 +271,7 @@ const App = () => (
             <Route path="courses/:id" element={<AdminCourseEditor />} />
             <Route path="categories" element={<AdminCategoryList />} />
             <Route path="categories/:id" element={<AdminCategoryEditor />} />
+            <Route path="cms" element={<ContentfulCMS />} />
           </Route>
           
           {/* News & Events Admin */}
