@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { supabaseExternal } from "@/lib/supabaseExternal";
+import { supabase } from "@/integrations/supabase/client";
 import type { NewsItem } from "@/lib/newsEventsTypes";
 
 interface DbNews {
