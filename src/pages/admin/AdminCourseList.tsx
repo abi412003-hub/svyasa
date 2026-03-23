@@ -9,24 +9,18 @@ import { useToast } from "@/hooks/use-toast";
 import { Plus, Search, Pencil, Eye, EyeOff, Upload, ExternalLink } from "lucide-react";
 
 interface DBCourse {
-  id: string;
-  slug: string;
-  title: string;
-  short_title: string;
-  category: string;
-  campus_type: string;
-  domain_theme: string;
-  is_published: boolean;
-  updated_at: string;
+  id: string; slug: string; title: string; short_title: string;
+  category: string; campus_type: string; domain_theme: string;
+  is_published: boolean; updated_at: string;
 }
 
 const THEME_COLORS: Record<string, string> = {
-  tech: "bg-blue-500/10 text-blue-400 border-blue-500/20",
-  business: "bg-purple-500/10 text-purple-400 border-purple-500/20",
-  yoga: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
-  health: "bg-rose-500/10 text-rose-400 border-rose-500/20",
-  research: "bg-orange-500/10 text-orange-400 border-orange-500/20",
-  arts: "bg-pink-500/10 text-pink-400 border-pink-500/20",
+  tech: "bg-blue-50 text-blue-600 border-blue-200",
+  business: "bg-purple-50 text-purple-600 border-purple-200",
+  yoga: "bg-emerald-50 text-emerald-600 border-emerald-200",
+  health: "bg-rose-50 text-rose-600 border-rose-200",
+  research: "bg-orange-50 text-orange-600 border-orange-200",
+  arts: "bg-pink-50 text-pink-600 border-pink-200",
 };
 
 const AdminCourseList = () => {
@@ -56,26 +50,15 @@ const AdminCourseList = () => {
     for (const c of staticCourses) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const { error } = await (supabase.from("courses") as any).upsert({
-        slug: c.slug,
-        title: c.title,
-        short_title: c.shortTitle,
-        degree: c.degree,
-        duration: c.duration,
-        campus: c.campus,
-        campus_type: c.campusType,
-        category: c.category,
-        banner_image: c.bannerImage ?? "",
-        hook_line: c.hookLine ?? "",
-        overview: c.overview ?? [],
-        stat_callout: c.statCallout,
-        eligibility: c.eligibility ?? {},
-        highlights: c.highlights ?? [],
-        careers: c.careers ?? [],
-        related_programs: c.relatedPrograms ?? [],
-        fee: c.fee ?? {},
-        apply_link: c.applyLink ?? "",
-        brochure_link: c.brochureLink ?? null,
-        domain_theme: c.domainTheme,
+        slug: c.slug, title: c.title, short_title: c.shortTitle,
+        degree: c.degree, duration: c.duration, campus: c.campus,
+        campus_type: c.campusType, category: c.category,
+        banner_image: c.bannerImage ?? "", hook_line: c.hookLine ?? "",
+        overview: c.overview ?? [], stat_callout: c.statCallout,
+        eligibility: c.eligibility ?? {}, highlights: c.highlights ?? [],
+        careers: c.careers ?? [], related_programs: c.relatedPrograms ?? [],
+        fee: c.fee ?? {}, apply_link: c.applyLink ?? "",
+        brochure_link: c.brochureLink ?? null, domain_theme: c.domainTheme,
         is_published: true,
       }, { onConflict: "slug" });
       if (error) fail++; else ok++;
@@ -100,53 +83,42 @@ const AdminCourseList = () => {
 
   return (
     <div className="p-8">
-      {/* Header */}
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-white">Courses</h1>
-          <p className="text-slate-400 text-sm mt-0.5">{courses.length} programmes in database</p>
+          <h1 className="text-2xl font-bold text-gray-900">Courses</h1>
+          <p className="text-gray-500 text-sm mt-0.5">{courses.length} programmes in database</p>
         </div>
         <div className="flex gap-3">
           {courses.length === 0 && (
-            <Button
-              onClick={handleSeedFromStatic}
-              disabled={seeding}
-              variant="outline"
-              className="gap-2 border-amber-500/30 text-amber-400 hover:bg-amber-500/10"
-            >
-              <Upload size={14} />
-              {seeding ? "Importing…" : "Import from Static Data"}
+            <Button onClick={handleSeedFromStatic} disabled={seeding} variant="outline"
+              className="gap-2 border-amber-300 text-amber-700 hover:bg-amber-50">
+              <Upload size={14} /> {seeding ? "Importing…" : "Import from Static Data"}
             </Button>
           )}
           <Link to="/admin/courses/new">
-            <Button className="gap-2 bg-amber-500 hover:bg-amber-400 text-slate-900 font-semibold">
+            <Button className="gap-2 bg-amber-500 hover:bg-amber-600 text-white font-semibold">
               <Plus size={14} /> Add Course
             </Button>
           </Link>
         </div>
       </div>
 
-      {/* Search */}
       <div className="relative mb-6">
-        <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
-        <Input
-          value={search}
-          onChange={e => setSearch(e.target.value)}
+        <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+        <Input value={search} onChange={e => setSearch(e.target.value)}
           placeholder="Search by title, slug, or category…"
-          className="pl-9 bg-white/5 border-white/10 text-white placeholder:text-slate-500 focus:border-amber-400"
-        />
+          className="pl-9 bg-gray-50 border-gray-300 text-gray-900 placeholder:text-gray-400 focus:border-amber-500" />
       </div>
 
-      {/* Table */}
       {loading ? (
         <div className="flex items-center justify-center h-48">
-          <div className="w-7 h-7 border-2 border-amber-400 border-t-transparent rounded-full animate-spin" />
+          <div className="w-7 h-7 border-2 border-amber-500 border-t-transparent rounded-full animate-spin" />
         </div>
       ) : (
-        <div className="bg-white/5 border border-white/10 rounded-xl overflow-hidden">
+        <div className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-white/10 text-slate-400 text-xs uppercase tracking-wider">
+              <tr className="border-b border-gray-200 text-gray-500 text-xs uppercase tracking-wider bg-gray-50">
                 <th className="text-left px-5 py-3">Programme</th>
                 <th className="text-left px-5 py-3 hidden md:table-cell">Category</th>
                 <th className="text-left px-5 py-3 hidden lg:table-cell">Theme</th>
@@ -155,21 +127,21 @@ const AdminCourseList = () => {
                 <th className="text-right px-5 py-3">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/5">
+            <tbody className="divide-y divide-gray-100">
               {filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="text-center py-12 text-slate-500">
+                  <td colSpan={6} className="text-center py-12 text-gray-400">
                     {courses.length === 0 ? 'No courses yet. Click "Import from Static Data" to populate.' : "No results found."}
                   </td>
                 </tr>
               ) : filtered.map(c => (
-                <tr key={c.id} className="hover:bg-white/5 transition-colors">
+                <tr key={c.id} className="hover:bg-gray-50 transition-colors">
                   <td className="px-5 py-3.5">
-                    <div className="text-white font-medium">{c.short_title}</div>
-                    <div className="text-slate-500 text-xs mt-0.5">/courses/{c.slug}</div>
+                    <div className="text-gray-900 font-medium">{c.short_title}</div>
+                    <div className="text-gray-400 text-xs mt-0.5">/courses/{c.slug}</div>
                   </td>
                   <td className="px-5 py-3.5 hidden md:table-cell">
-                    <span className="text-slate-300">{c.category}</span>
+                    <span className="text-gray-600">{c.category}</span>
                   </td>
                   <td className="px-5 py-3.5 hidden lg:table-cell">
                     <span className={`text-xs px-2 py-0.5 rounded-full border ${THEME_COLORS[c.domain_theme] ?? ""}`}>
@@ -177,40 +149,30 @@ const AdminCourseList = () => {
                     </span>
                   </td>
                   <td className="px-5 py-3.5 hidden lg:table-cell">
-                    <span className="text-slate-400 text-xs">{c.campus_type === "gcc" ? "Global City" : "Prashanti"}</span>
+                    <span className="text-gray-500 text-xs">{c.campus_type === "gcc" ? "Global City" : "Prashanti"}</span>
                   </td>
                   <td className="px-5 py-3.5">
                     <span className={`text-xs px-2 py-0.5 rounded-full border ${
                       c.is_published
-                        ? "bg-green-500/10 text-green-400 border-green-500/20"
-                        : "bg-slate-500/10 text-slate-400 border-slate-500/20"
+                        ? "bg-green-50 text-green-600 border-green-200"
+                        : "bg-gray-100 text-gray-500 border-gray-200"
                     }`}>
                       {c.is_published ? "Published" : "Draft"}
                     </span>
                   </td>
                   <td className="px-5 py-3.5">
                     <div className="flex items-center justify-end gap-2">
-                      <a
-                        href={`/courses/${c.slug}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-1.5 text-slate-500 hover:text-white transition-colors"
-                        title="Preview"
-                      >
+                      <a href={`/courses/${c.slug}`} target="_blank" rel="noopener noreferrer"
+                        className="p-1.5 text-gray-400 hover:text-gray-700 transition-colors" title="Preview">
                         <ExternalLink size={14} />
                       </a>
-                      <button
-                        onClick={() => togglePublished(c.id, c.is_published)}
-                        className="p-1.5 text-slate-500 hover:text-amber-400 transition-colors"
-                        title={c.is_published ? "Unpublish" : "Publish"}
-                      >
+                      <button onClick={() => togglePublished(c.id, c.is_published)}
+                        className="p-1.5 text-gray-400 hover:text-amber-600 transition-colors"
+                        title={c.is_published ? "Unpublish" : "Publish"}>
                         {c.is_published ? <EyeOff size={14} /> : <Eye size={14} />}
                       </button>
-                      <Link
-                        to={`/admin/courses/${c.id}`}
-                        className="p-1.5 text-slate-500 hover:text-white transition-colors"
-                        title="Edit"
-                      >
+                      <Link to={`/admin/courses/${c.id}`}
+                        className="p-1.5 text-gray-400 hover:text-gray-700 transition-colors" title="Edit">
                         <Pencil size={14} />
                       </Link>
                     </div>

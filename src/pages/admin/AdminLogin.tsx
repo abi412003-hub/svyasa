@@ -20,7 +20,6 @@ const AdminLogin = () => {
     try {
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) throw error;
-      // Check admin role
       const { data: roleData } = await supabase
         .from("user_roles")
         .select("role")
@@ -40,17 +39,17 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-        <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-8 shadow-2xl">
+        <div className="bg-white border border-gray-200 rounded-2xl p-8 shadow-xl">
           <div className="text-center mb-8">
-            <img src={svyasaLogo} alt="S-VYASA" className="h-10 mx-auto mb-4 invert" />
-            <h1 className="text-2xl font-bold text-white">Admin Portal</h1>
-            <p className="text-slate-400 text-sm mt-1">Sign in to manage courses & programmes</p>
+            <img src={svyasaLogo} alt="S-VYASA" className="h-10 mx-auto mb-4" />
+            <h1 className="text-2xl font-bold text-gray-900">Admin Portal</h1>
+            <p className="text-gray-500 text-sm mt-1">Sign in to manage courses & programmes</p>
           </div>
           <form onSubmit={handleLogin} className="space-y-5">
             <div>
-              <Label htmlFor="email" className="text-slate-300 text-sm">Email</Label>
+              <Label htmlFor="email" className="text-gray-700 text-sm">Email</Label>
               <Input
                 id="email"
                 type="email"
@@ -58,11 +57,11 @@ const AdminLogin = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 placeholder="admin@svyasa.edu.in"
-                className="mt-1.5 bg-white/10 border-white/20 text-white placeholder:text-slate-500 focus:border-amber-400"
+                className="mt-1.5 bg-gray-50 border-gray-300 text-gray-900 placeholder:text-gray-400 focus:border-amber-500"
               />
             </div>
             <div>
-              <Label htmlFor="password" className="text-slate-300 text-sm">Password</Label>
+              <Label htmlFor="password" className="text-gray-700 text-sm">Password</Label>
               <Input
                 id="password"
                 type="password"
@@ -70,13 +69,13 @@ const AdminLogin = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 placeholder="••••••••"
-                className="mt-1.5 bg-white/10 border-white/20 text-white placeholder:text-slate-500 focus:border-amber-400"
+                className="mt-1.5 bg-gray-50 border-gray-300 text-gray-900 placeholder:text-gray-400 focus:border-amber-500"
               />
             </div>
             <Button
               type="submit"
               disabled={loading}
-              className="w-full bg-amber-500 hover:bg-amber-400 text-slate-900 font-semibold rounded-xl h-11"
+              className="w-full bg-amber-500 hover:bg-amber-600 text-white font-semibold rounded-xl h-11"
             >
               {loading ? "Signing in…" : "Sign In"}
             </Button>
