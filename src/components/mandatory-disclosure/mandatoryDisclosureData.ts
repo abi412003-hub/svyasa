@@ -26,16 +26,41 @@ export const disclosureCategories: MDCategory[] = [
         pdfUrl: "/pdfs/UGC_Notification.pdf",
       },
       {
-        id: "aicte-extension",
+        id: "aicte-letter",
+        title: "AICTE Letter of Approval",
+        pdfUrl: "/pdfs/AICTE_Letter_of_Approval-2.pdf",
+      },
+      {
+        id: "aicte-extension-2025-26",
         title: "AICTE Extension of Approval 2025–2026",
         pdfUrl: "/pdfs/AICTE_Extension_of_Approval-2025-2026.pdf",
         isLatest: true,
+      },
+      {
+        id: "aicte-extension-2024-25",
+        title: "AICTE Extension of Approval 2024–2025",
+        pdfUrl: "/pdfs/AICTE_Extension_of_Approval-2024-2025.pdf",
       },
       {
         id: "aishe-2024-25",
         title: "AISHE Certificate 2024–25",
         pdfUrl: "/pdfs/AISHE_Certificate_2024-25.pdf",
         isLatest: true,
+      },
+      {
+        id: "aishe-2023-24",
+        title: "AISHE Certificate 2023–24",
+        pdfUrl: "/pdfs/AISHE_Certificate_2023-24-2.pdf",
+      },
+      {
+        id: "aishe-2022-23",
+        title: "AISHE Certificate 2022–23",
+        pdfUrl: "/pdfs/AISHE_Certificate_2022-23-2.pdf",
+      },
+      {
+        id: "aishe-2021-22",
+        title: "AISHE Certificate 2021–22",
+        pdfUrl: "/pdfs/AISHE_Certificate_2021-22-2.pdf",
       },
     ],
   },
@@ -83,6 +108,11 @@ export const disclosureCategories: MDCategory[] = [
         title: "ICC (Internal Complaints Committee)",
         pdfUrl: "/pdfs/ICC-2.pdf",
       },
+      {
+        id: "sc-st-cell",
+        title: "Constitution of SC/ST Cell",
+        pdfUrl: "/pdfs/Constitution_of_SC_ST_Cell.pdf",
+      },
     ],
   },
   {
@@ -93,7 +123,7 @@ export const disclosureCategories: MDCategory[] = [
       {
         id: "abc-nad",
         title: "ABC & NAD",
-        pdfUrl: "/pdfs/ABC-NAD.pdf",
+        pdfUrl: "/pdfs/ABC_and_NAD.pdf",
       },
       {
         id: "hostel",
@@ -108,7 +138,7 @@ export const disclosureCategories: MDCategory[] = [
       {
         id: "anti-ragging",
         title: "Anti-Ragging",
-        pdfUrl: "/pdfs/Anti-Ragging.pdf",
+        pdfUrl: "/pdfs/Anti-_Ragging-2.pdf",
       },
     ],
   },
