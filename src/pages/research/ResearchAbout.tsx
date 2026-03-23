@@ -737,10 +737,21 @@ function NationalSection() {
                 key={`${p.name}-${i}`}
                 variants={fadeUpDelayed(i * 0.06)}
                 whileHover={{ y: -4 }}
-                className="bg-white border border-border rounded-lg p-5 cursor-default transition-all duration-200 hover:border-l-4 hover:border-l-[hsl(var(--teal))] hover:shadow-md"
+                className="bg-white border border-border rounded-lg p-5 cursor-default transition-all duration-200 hover:border-l-4 hover:border-l-[hsl(var(--teal))] hover:shadow-md flex items-center gap-4"
               >
-                <p className="text-[hsl(var(--navy))] font-bold text-sm leading-snug mb-1">{p.name}</p>
-                <p className="text-[hsl(var(--muted-foreground))] text-xs">{p.location}</p>
+                {p.logo ? (
+                  <img src={p.logo} alt={p.name} className="w-14 h-14 object-contain rounded-md shrink-0" />
+                ) : (
+                  <div className="w-14 h-14 rounded-md bg-[hsl(var(--cream))] flex items-center justify-center shrink-0">
+                    <span className="text-[hsl(var(--navy))] font-bold text-xs text-center leading-tight">
+                      {p.name.split(" ").map(w => w[0]).join("").slice(0, 3)}
+                    </span>
+                  </div>
+                )}
+                <div className="min-w-0">
+                  <p className="text-[hsl(var(--navy))] font-bold text-sm leading-snug mb-1">{p.name}</p>
+                  <p className="text-[hsl(var(--muted-foreground))] text-xs">{p.location}</p>
+                </div>
               </motion.div>
             ))}
           </motion.div>
