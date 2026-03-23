@@ -285,6 +285,7 @@ export const facultyData: FacultyProfile[] = [
     name: "Mr. Rajesh NJ",
     designation: "Staff",
     qualifications: "",
+    photo: rajeshNjImg,
     section: "staff",
   },
 
