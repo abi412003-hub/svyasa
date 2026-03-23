@@ -271,6 +271,20 @@ const App = () => (
             <Route path="categories" element={<AdminCategoryList />} />
             <Route path="categories/:id" element={<AdminCategoryEditor />} />
           </Route>
+          
+          {/* News & Events Admin */}
+          <Route path="/news-admin" element={<NewsAdminLayout />}>
+            <Route index element={<NewsAdminDashboard />} />
+            <Route path="news" element={<NewsList />} />
+            <Route path="news/new" element={<NewsForm />} />
+            <Route path="news/:id/edit" element={<NewsForm />} />
+            <Route path="events" element={<EventsList />} />
+            <Route path="events/new" element={<EventForm />} />
+            <Route path="events/:id/edit" element={<EventForm />} />
+            <Route path="import" element={<BulkImport />} />
+            <Route path="export" element={<ExportPage />} />
+          </Route>
+
           {/* Catch-all 404 */}
           <Route path="*" element={<NotFound />} />
         </Routes>
