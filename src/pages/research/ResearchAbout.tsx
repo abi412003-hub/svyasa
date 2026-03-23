@@ -59,12 +59,13 @@ function HeroSection() {
   return (
     <section
       className="relative flex flex-col items-center justify-center h-[70vh] sm:h-[50vh] overflow-hidden"
-      style={{
-        background:
-          "linear-gradient(160deg, hsl(210 60% 12%) 0%, hsl(210 52% 23%) 50%, hsl(180 45% 25%) 100%)",
-      }}
     >
-      <div className="absolute inset-0 bg-black/60" />
+      <img
+        src={researchHeroBg}
+        alt="Anvesana Research Labs"
+        className="absolute inset-0 w-full h-full object-cover object-center animate-[ken-burns_20s_ease-out_forwards]"
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-[hsl(210_60%_12%/0.7)] via-[hsl(210_52%_23%/0.65)] to-[hsl(180_45%_25%/0.7)]" />
 
       {/* Breadcrumb */}
       <div className="absolute top-6 left-6 md:left-8 flex items-center gap-2 text-white/60 text-xs z-10">
