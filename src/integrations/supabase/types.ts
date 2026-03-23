@@ -146,6 +146,87 @@ export type Database = {
         }
         Relationships: []
       }
+      faculty_profiles: {
+        Row: {
+          achievements: string | null
+          area_of_expertise: Json | null
+          bio: string | null
+          contentful_id: string
+          created_at: string | null
+          department: string | null
+          designation: string | null
+          display_order: number | null
+          email: string | null
+          faculty_category: string | null
+          google_scholar_url: string | null
+          id: string
+          is_published: boolean | null
+          name: string
+          orcid_id: string | null
+          phone: string | null
+          photo_url: string | null
+          publications: string | null
+          qualifications: string | null
+          research: string | null
+          research_interests: Json | null
+          responsibility: string | null
+          slug: string
+          updated_at: string | null
+        }
+        Insert: {
+          achievements?: string | null
+          area_of_expertise?: Json | null
+          bio?: string | null
+          contentful_id: string
+          created_at?: string | null
+          department?: string | null
+          designation?: string | null
+          display_order?: number | null
+          email?: string | null
+          faculty_category?: string | null
+          google_scholar_url?: string | null
+          id?: string
+          is_published?: boolean | null
+          name: string
+          orcid_id?: string | null
+          phone?: string | null
+          photo_url?: string | null
+          publications?: string | null
+          qualifications?: string | null
+          research?: string | null
+          research_interests?: Json | null
+          responsibility?: string | null
+          slug: string
+          updated_at?: string | null
+        }
+        Update: {
+          achievements?: string | null
+          area_of_expertise?: Json | null
+          bio?: string | null
+          contentful_id?: string
+          created_at?: string | null
+          department?: string | null
+          designation?: string | null
+          display_order?: number | null
+          email?: string | null
+          faculty_category?: string | null
+          google_scholar_url?: string | null
+          id?: string
+          is_published?: boolean | null
+          name?: string
+          orcid_id?: string | null
+          phone?: string | null
+          photo_url?: string | null
+          publications?: string | null
+          qualifications?: string | null
+          research?: string | null
+          research_interests?: Json | null
+          responsibility?: string | null
+          slug?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       svyasa_events: {
         Row: {
           body: string
