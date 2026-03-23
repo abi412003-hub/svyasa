@@ -291,7 +291,7 @@ export const facultyData: FacultyProfile[] = [
     name: "Dr. Amit Kanthi",
     designation: "Research Associate",
     qualifications: "PhD (Yoga/Neuroscience)",
-    photo: `${BASE}/12/91.jpg`,
+    photo: amitKanthiImg,
     section: "project",
     research: "Working on meditation neuroscience, investigating neural correlates of different meditation practices.",
   },
