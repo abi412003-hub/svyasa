@@ -6,6 +6,7 @@ import amitKanthiImg from "@/assets/research/amit-kanthi.jpg";
 import sandeepImg from "@/assets/research/sandeep.jpg";
 import rajeshNjImg from "@/assets/research/rajesh.jpg";
 import basavarajImg from "@/assets/research/basavaraj.jpg";
+import devarajaImg from "@/assets/research/devaraja.jpg";
 
 export interface FacultyProfile {
   id: string;
