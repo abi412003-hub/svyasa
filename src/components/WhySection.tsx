@@ -10,7 +10,7 @@ const features = [
   },
   {
     icon: Award,
-    title: "NAAC 'A' Accredited",
+    title: "NAAC 'A+' Accredited",
     description: "Highest quality standards recognized by National Assessment Council",
   },
   {
