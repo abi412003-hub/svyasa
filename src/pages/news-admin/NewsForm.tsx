@@ -11,7 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
-import { supabaseExternal } from "@/lib/supabaseExternal";
+import { supabase } from "@/integrations/supabase/client";
 import { NEWS_CATEGORIES, CAMPUS_OPTIONS, generateSlug } from "@/lib/newsEventsTypes";
 
 export default function NewsForm() {
@@ -34,15 +34,15 @@ export default function NewsForm() {
   useEffect(() => {
     if (!isEdit) return;
     (async () => {
-      const { data, error } = await supabaseExternal
+      const { data, error } = await supabase
         .from("svyasa_news")
         .select("*")
-        .eq("id", Number(id))
+        .eq("id", id!)
         .maybeSingle();
       if (error || !data) { toast.error("Item not found"); navigate("/news-admin/news"); return; }
       setTitle(data.title); setSlug(data.slug); setDate(data.date);
       setCampus(data.campus as any); setCategory(data.category); setBody(data.body || "");
-      setThumbnailUrl(data.thumbnail_url || ""); setGalleryUrls(data.gallery_urls || []);
+      setThumbnailUrl(data.thumbnail_url || ""); setGalleryUrls((data.gallery_urls as string[]) || []);
       setIsFeatured(data.is_featured); setIsPublished(data.is_published);
     })();
   }, [id, isEdit, navigate]);
@@ -67,13 +67,13 @@ export default function NewsForm() {
       };
 
       if (isEdit) {
-        const { error } = await supabaseExternal
+        const { error } = await supabase
           .from("svyasa_news")
           .update(payload)
-          .eq("id", Number(id));
+          .eq("id", id!);
         if (error) throw error;
       } else {
-        const { error } = await supabaseExternal
+        const { error } = await supabase
           .from("svyasa_news")
           .insert(payload);
         if (error) throw error;

@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback } from "react";
-import { supabaseExternal } from "@/lib/supabaseExternal";
+import { supabase } from "@/integrations/supabase/client";
 import type { EventItem } from "@/lib/newsEventsTypes";
 
 interface DbEvent {
-  id: number;
+  id: string;
   title: string;
   slug: string;
   body: string;
@@ -43,7 +43,7 @@ export function useSupabaseEvents() {
 
   const fetch = useCallback(async () => {
     setLoading(true);
-    const { data: rows, error: err } = await supabaseExternal
+    const { data: rows, error: err } = await supabase
       .from("svyasa_events")
       .select("*")
       .order("date", { ascending: false });

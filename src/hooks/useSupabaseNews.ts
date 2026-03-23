@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback } from "react";
-import { supabaseExternal } from "@/lib/supabaseExternal";
+import { supabase } from "@/integrations/supabase/client";
 import type { NewsItem } from "@/lib/newsEventsTypes";
 
 interface DbNews {
-  id: number;
+  id: string;
   title: string;
   slug: string;
   body: string;
@@ -43,7 +43,7 @@ export function useSupabaseNews() {
 
   const fetch = useCallback(async () => {
     setLoading(true);
-    const { data: rows, error: err } = await supabaseExternal
+    const { data: rows, error: err } = await supabase
       .from("svyasa_news")
       .select("*")
       .order("date", { ascending: false });

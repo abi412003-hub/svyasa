@@ -3,7 +3,7 @@ import { Download, Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { toast } from "sonner";
-import { supabaseExternal } from "@/lib/supabaseExternal";
+import { supabase } from "@/integrations/supabase/client";
 
 function downloadJSON(data: any, filename: string) {
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
@@ -18,13 +18,13 @@ export default function ExportPage() {
   const [copiedEvents, setCopiedEvents] = useState(false);
 
   const fetchNews = async () => {
-    const { data, error } = await supabaseExternal.from("svyasa_news").select("*").order("date", { ascending: false });
+    const { data, error } = await supabase.from("svyasa_news").select("*").order("date", { ascending: false });
     if (error) { toast.error(error.message); return null; }
     return data;
   };
 
   const fetchEvents = async () => {
-    const { data, error } = await supabaseExternal.from("svyasa_events").select("*").order("date", { ascending: false });
+    const { data, error } = await supabase.from("svyasa_events").select("*").order("date", { ascending: false });
     if (error) { toast.error(error.message); return null; }
     return data;
   };

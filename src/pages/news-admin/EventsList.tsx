@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { toast } from "sonner";
-import { supabaseExternal } from "@/lib/supabaseExternal";
+import { supabase } from "@/integrations/supabase/client";
 import { useSupabaseEvents } from "@/hooks/useSupabaseEvents";
 import { EVENT_CATEGORIES, CAMPUS_OPTIONS, type EventItem } from "@/lib/newsEventsTypes";
 
@@ -38,20 +38,20 @@ export default function EventsList() {
   const paged = filtered.slice((page - 1) * PER_PAGE, page * PER_PAGE);
 
   const togglePublish = useCallback(async (item: EventItem) => {
-    const { error } = await supabaseExternal
+    const { error } = await supabase
       .from("svyasa_events")
       .update({ is_published: !item.isPublished })
-      .eq("id", Number(item.id));
+      .eq("id", item.id);
     if (error) { toast.error(error.message); return; }
     toast.success("Status updated");
     refetch();
   }, [refetch]);
 
   const deleteItem = useCallback(async (id: string) => {
-    const { error } = await supabaseExternal
+    const { error } = await supabase
       .from("svyasa_events")
       .delete()
-      .eq("id", Number(id));
+      .eq("id", id);
     if (error) { toast.error(error.message); return; }
     toast.success("Event deleted");
     refetch();
