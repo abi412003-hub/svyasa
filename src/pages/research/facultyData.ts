@@ -380,6 +380,7 @@ export const facultyData: FacultyProfile[] = [
     name: "Dr. Ananya BS",
     designation: "Yoga Trainer (BNYS)",
     qualifications: "BNYS (Bachelor of Naturopathy and Yogic Sciences)",
+    photo: ananyaBsImg,
     section: "project",
     research: "Yoga Trainer for research intervention protocols.",
   },
