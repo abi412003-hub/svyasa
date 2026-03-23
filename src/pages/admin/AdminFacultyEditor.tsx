@@ -83,6 +83,27 @@ export default function AdminFacultyEditor() {
   const [saving, setSaving] = useState(false);
   const [newInterest, setNewInterest] = useState("");
   const [newExpertise, setNewExpertise] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
+    const slug = form.slug || `faculty-${Date.now()}`;
+    const path = `faculty/${slug}.${ext}`;
+    setUploading(true);
+    const { error } = await supabase.storage.from("site-images").upload(path, file, { upsert: true });
+    if (error) {
+      toast({ title: "Upload failed", description: error.message, variant: "destructive" });
+    } else {
+      const { data: urlData } = supabase.storage.from("site-images").getPublicUrl(path);
+      set("photo_url", urlData.publicUrl);
+      toast({ title: "Photo uploaded" });
+    }
+    setUploading(false);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
 
   useEffect(() => {
     if (isNew) return;
