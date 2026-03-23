@@ -1,7 +1,8 @@
 export interface MDDocument {
   id: string;
   title: string;
-  pdfUrl: string;
+  /** Storage path inside the 'publications' bucket, e.g. "mandatory-disclosure/UGC_Notification.pdf" */
+  storagePath: string;
   isFeatured?: boolean;
   isLatest?: boolean;
   badge?: string;
@@ -23,44 +24,44 @@ export const disclosureCategories: MDCategory[] = [
       {
         id: "ugc-2002",
         title: "UGC Notification – 2002",
-        pdfUrl: "/pdfs/UGC_Notification.pdf",
+        storagePath: "mandatory-disclosure/UGC_Notification.pdf",
       },
       {
         id: "aicte-letter",
         title: "AICTE Letter of Approval",
-        pdfUrl: "/pdfs/AICTE_Letter_of_Approval-2.pdf",
+        storagePath: "mandatory-disclosure/AICTE_Letter_of_Approval-2.pdf",
       },
       {
         id: "aicte-extension-2025-26",
         title: "AICTE Extension of Approval 2025–2026",
-        pdfUrl: "/pdfs/AICTE_Extension_of_Approval-2025-2026.pdf",
+        storagePath: "mandatory-disclosure/AICTE_Extension_of_Approval-2025-2026.pdf",
         isLatest: true,
       },
       {
         id: "aicte-extension-2024-25",
         title: "AICTE Extension of Approval 2024–2025",
-        pdfUrl: "/pdfs/AICTE_Extension_of_Approval-2024-2025.pdf",
+        storagePath: "mandatory-disclosure/AICTE_Extension_of_Approval-2024-2025.pdf",
       },
       {
         id: "aishe-2024-25",
         title: "AISHE Certificate 2024–25",
-        pdfUrl: "/pdfs/AISHE_Certificate_2024-25.pdf",
+        storagePath: "mandatory-disclosure/AISHE_Certificate_2024-25.pdf",
         isLatest: true,
       },
       {
         id: "aishe-2023-24",
         title: "AISHE Certificate 2023–24",
-        pdfUrl: "/pdfs/AISHE_Certificate_2023-24-2.pdf",
+        storagePath: "mandatory-disclosure/AISHE_Certificate_2023-24-2.pdf",
       },
       {
         id: "aishe-2022-23",
         title: "AISHE Certificate 2022–23",
-        pdfUrl: "/pdfs/AISHE_Certificate_2022-23-2.pdf",
+        storagePath: "mandatory-disclosure/AISHE_Certificate_2022-23-2.pdf",
       },
       {
         id: "aishe-2021-22",
         title: "AISHE Certificate 2021–22",
-        pdfUrl: "/pdfs/AISHE_Certificate_2021-22-2.pdf",
+        storagePath: "mandatory-disclosure/AISHE_Certificate_2021-22-2.pdf",
       },
     ],
   },
@@ -72,14 +73,14 @@ export const disclosureCategories: MDCategory[] = [
       {
         id: "naac-status",
         title: "NAAC Status",
-        pdfUrl: "/pdfs/NAAC_Status-2.pdf",
+        storagePath: "mandatory-disclosure/NAAC_Status-2.pdf",
         isFeatured: true,
         badge: "A+ Accredited",
       },
       {
         id: "12b-status",
         title: "12 B Status",
-        pdfUrl: "/pdfs/12_B.pdf",
+        storagePath: "mandatory-disclosure/12_B.pdf",
       },
     ],
   },
@@ -91,27 +92,27 @@ export const disclosureCategories: MDCategory[] = [
       {
         id: "ugc-committees",
         title: "UGC Mandated Committees",
-        pdfUrl: "/pdfs/UGC_Mandated_Committees-2.pdf",
+        storagePath: "mandatory-disclosure/UGC_Mandated_Committees-2.pdf",
       },
       {
         id: "administration",
         title: "Administration",
-        pdfUrl: "/pdfs/Administration-3.pdf",
+        storagePath: "mandatory-disclosure/Administration-3.pdf",
       },
       {
         id: "odl-approval",
         title: "ODL Approval",
-        pdfUrl: "/pdfs/ODL_Approval-2.pdf",
+        storagePath: "mandatory-disclosure/ODL_Approval-2.pdf",
       },
       {
         id: "icc",
         title: "ICC (Internal Complaints Committee)",
-        pdfUrl: "/pdfs/ICC-2.pdf",
+        storagePath: "mandatory-disclosure/ICC-2.pdf",
       },
       {
         id: "sc-st-cell",
         title: "Constitution of SC/ST Cell",
-        pdfUrl: "/pdfs/Constitution_of_SC_ST_Cell.pdf",
+        storagePath: "mandatory-disclosure/Constitution_of_SC_ST_Cell.pdf",
       },
     ],
   },
@@ -123,22 +124,22 @@ export const disclosureCategories: MDCategory[] = [
       {
         id: "abc-nad",
         title: "ABC & NAD",
-        pdfUrl: "/pdfs/ABC_and_NAD.pdf",
+        storagePath: "mandatory-disclosure/ABC_and_NAD.pdf",
       },
       {
         id: "hostel",
         title: "Hostel",
-        pdfUrl: "",
+        storagePath: "",
       },
       {
         id: "scholarships",
         title: "Scholarships",
-        pdfUrl: "/pdfs/Scholarships-2.pdf",
+        storagePath: "mandatory-disclosure/Scholarships-2.pdf",
       },
       {
         id: "anti-ragging",
         title: "Anti-Ragging",
-        pdfUrl: "/pdfs/Anti-_Ragging-2.pdf",
+        storagePath: "mandatory-disclosure/Anti-_Ragging-2.pdf",
       },
     ],
   },

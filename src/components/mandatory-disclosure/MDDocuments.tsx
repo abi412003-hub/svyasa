@@ -1,7 +1,9 @@
 import { motion, useInView, AnimatePresence } from "framer-motion";
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback, useEffect } from "react";
 import { FileText, Download, Star, Award, Building2, Users, Eye, X, ExternalLink, AlertCircle } from "lucide-react";
 import { disclosureCategories, MDDocument, MDCategory } from "./mandatoryDisclosureData";
+
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 
 const categoryIcons: Record<string, React.ElementType> = {
   certificate: Award,
@@ -10,6 +12,46 @@ const categoryIcons: Record<string, React.ElementType> = {
   people: Users,
 };
 
+/** Build the proxy URL that returns the raw PDF bytes from Supabase storage */
+function getProxyUrl(storagePath: string): string {
+  return `${SUPABASE_URL}/functions/v1/pdf-proxy?path=${encodeURIComponent(storagePath)}`;
+}
+
+/** Fetch the PDF via the proxy edge function and return a same-origin blob: URL.
+ *  Chrome never blocks blob: URLs in iframes. */
+function usePdfBlobUrl(storagePath: string | null) {
+  const [blobUrl, setBlobUrl] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    if (!storagePath) return;
+    let revoke: string | null = null;
+    setLoading(true);
+    setError(false);
+
+    fetch(getProxyUrl(storagePath))
+      .then((res) => {
+        if (!res.ok) throw new Error("fetch failed");
+        return res.blob();
+      })
+      .then((blob) => {
+        const url = URL.createObjectURL(blob);
+        revoke = url;
+        setBlobUrl(url);
+      })
+      .catch(() => setError(true))
+      .finally(() => setLoading(false));
+
+    return () => {
+      if (revoke) URL.revokeObjectURL(revoke);
+      setBlobUrl(null);
+    };
+  }, [storagePath]);
+
+  return { blobUrl, loading, error };
+}
+
 // ── PDF Preview Modal ─────────────────────────────────────────────────────────
 interface PDFModalProps {
   doc: MDDocument | null;
@@ -17,8 +59,8 @@ interface PDFModalProps {
 }
 
 const PDFModal = ({ doc, onClose }: PDFModalProps) => {
-  const [loadError, setLoadError] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const proxyUrl = doc?.storagePath ? getProxyUrl(doc.storagePath) : null;
+  const { blobUrl, loading, error } = usePdfBlobUrl(doc?.storagePath ?? null);
 
   if (!doc) return null;
 
@@ -60,7 +102,7 @@ const PDFModal = ({ doc, onClose }: PDFModalProps) => {
 
               <div className="flex items-center gap-2 flex-shrink-0 ml-4">
                 <a
-                  href={doc.pdfUrl}
+                  href={proxyUrl || "#"}
                   download
                   target="_blank"
                   rel="noopener noreferrer"
@@ -70,7 +112,7 @@ const PDFModal = ({ doc, onClose }: PDFModalProps) => {
                   <span className="hidden sm:inline">Download</span>
                 </a>
                 <a
-                  href={doc.pdfUrl}
+                  href={proxyUrl || "#"}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-lg bg-muted text-foreground hover:bg-muted/80 transition-colors"
@@ -91,7 +133,7 @@ const PDFModal = ({ doc, onClose }: PDFModalProps) => {
             {/* PDF Viewer */}
             <div className="relative flex-1 bg-muted/50">
               {/* Loading spinner */}
-              {isLoading && !loadError && (
+              {loading && (
                 <div className="absolute inset-0 flex items-center justify-center z-10">
                   <div className="flex flex-col items-center gap-3">
                     <motion.div
@@ -105,7 +147,7 @@ const PDFModal = ({ doc, onClose }: PDFModalProps) => {
               )}
 
               {/* Error state */}
-              {loadError ? (
+              {error ? (
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="text-center p-8 max-w-sm">
                     <div className="w-16 h-16 bg-destructive/10 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -117,7 +159,7 @@ const PDFModal = ({ doc, onClose }: PDFModalProps) => {
                     </p>
                     <div className="flex gap-3 justify-center">
                       <a
-                        href={doc.pdfUrl}
+                        href={proxyUrl || "#"}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors"
@@ -126,7 +168,7 @@ const PDFModal = ({ doc, onClose }: PDFModalProps) => {
                         Open in new tab
                       </a>
                       <a
-                        href={doc.pdfUrl}
+                        href={proxyUrl || "#"}
                         download
                         className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg border border-primary text-primary hover:bg-primary/5 transition-colors"
                       >
@@ -136,15 +178,13 @@ const PDFModal = ({ doc, onClose }: PDFModalProps) => {
                     </div>
                   </div>
                 </div>
-              ) : (
+              ) : blobUrl ? (
                 <iframe
-                  src={`${doc.pdfUrl}#toolbar=1&navpanes=1&scrollbar=1`}
+                  src={`${blobUrl}#toolbar=1&navpanes=1&scrollbar=1`}
                   className="w-full h-full border-0"
                   title={doc.title}
-                  onLoad={() => setIsLoading(false)}
-                  onError={() => { setIsLoading(false); setLoadError(true); }}
                 />
-              )}
+              ) : null}
             </div>
           </motion.div>
         </>
@@ -163,6 +203,8 @@ interface DocumentCardProps {
 }
 
 const DocumentCard = ({ doc, index, isInView, baseDelay, onPreview }: DocumentCardProps) => {
+  const proxyUrl = doc.storagePath ? getProxyUrl(doc.storagePath) : "";
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -221,7 +263,7 @@ const DocumentCard = ({ doc, index, isInView, baseDelay, onPreview }: DocumentCa
             {doc.title}
           </h3>
 
-          {doc.pdfUrl ? (
+          {doc.storagePath ? (
             <div className="flex items-center gap-2 flex-wrap">
               {/* Preview button */}
               <button
@@ -238,7 +280,7 @@ const DocumentCard = ({ doc, index, isInView, baseDelay, onPreview }: DocumentCa
 
               {/* Download button */}
               <a
-                href={doc.pdfUrl}
+                href={proxyUrl}
                 download
                 target="_blank"
                 rel="noopener noreferrer"
