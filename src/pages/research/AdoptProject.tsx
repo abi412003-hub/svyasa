@@ -1,4 +1,4 @@
-import { motion, useInView, Variants } from "framer-motion";
+import adoptPlaceholder from "@/assets/research-adopt-placeholder.jpeg";\nimport { motion, useInView, Variants } from "framer-motion";
 import Layout from "@/components/layout/Layout";
 import ResearchSubNav from "@/components/research/ResearchSubNav";
 import {
