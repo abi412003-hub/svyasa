@@ -84,11 +84,14 @@ export type Database = {
           hook_line: string | null
           id: string
           is_published: boolean | null
+          learning_journey: Json | null
           overview: Json | null
+          quote: Json | null
           related_programs: Json | null
           short_title: string
           slug: string
           stat_callout: Json | null
+          testimonials: Json | null
           title: string
           updated_at: string | null
         }
@@ -110,11 +113,14 @@ export type Database = {
           hook_line?: string | null
           id?: string
           is_published?: boolean | null
+          learning_journey?: Json | null
           overview?: Json | null
+          quote?: Json | null
           related_programs?: Json | null
           short_title: string
           slug: string
           stat_callout?: Json | null
+          testimonials?: Json | null
           title: string
           updated_at?: string | null
         }
@@ -136,11 +142,14 @@ export type Database = {
           hook_line?: string | null
           id?: string
           is_published?: boolean | null
+          learning_journey?: Json | null
           overview?: Json | null
+          quote?: Json | null
           related_programs?: Json | null
           short_title?: string
           slug?: string
           stat_callout?: Json | null
+          testimonials?: Json | null
           title?: string
           updated_at?: string | null
         }
