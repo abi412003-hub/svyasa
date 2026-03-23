@@ -228,7 +228,7 @@ function HomeostasisSection() {
         ))}
       </svg>
 
-      <div className="relative max-w-3xl mx-auto px-6 text-center" ref={ref}>
+      <div className="relative max-w-6xl mx-auto px-6 lg:px-10" ref={ref}>
         <motion.div
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
@@ -244,34 +244,44 @@ function HomeostasisSection() {
 
           <motion.h2
             variants={fadeUp}
-            className="font-['Playfair_Display',serif] text-4xl text-[hsl(var(--navy))] font-bold mb-2"
+            className="font-['Playfair_Display',serif] text-4xl text-[hsl(var(--navy))] font-bold mb-2 text-center"
           >
             Homeostasis &amp; Beyond
           </motion.h2>
-          <motion.p variants={fadeUp} className="text-[hsl(var(--teal))] text-lg mb-8 font-medium">
+          <motion.p variants={fadeUp} className="text-[hsl(var(--teal))] text-lg mb-10 font-medium text-center">
             Cellular Insights into Yoga
           </motion.p>
 
-          <motion.div variants={staggerContainer} className="space-y-5 text-[hsl(var(--muted-foreground))] text-[16px] leading-relaxed text-left">
-            <motion.p variants={fadeUp}>
-              We at our lab as a team seek not just to study the response of the body to Yoga, but
-              to understand the complex dynamics that are existing in coordination ensuring
-              homeostasis of the human to his completeness.
-            </motion.p>
-            <motion.p variants={fadeUp}>
-              The ambitious goals of the entire team, with a stable support from the University has
-              generated a cohesive environment amongst the research groups paving way for extensive
-              interdisciplinary studies. The development of the laboratory to this state in part is
-              also contributed by the alumni. Our move into this brand new facility with state of
-              the art laboratories marks a stepping stone for our entry into a new dimension of Yoga
-              research.
-            </motion.p>
-            <motion.p variants={fadeUp}>
-              Anvesana provides an unparalleled environment for young and established researchers
-              from various domains. We along with your support are inspired to contribute to yoga
-              and making it as a socially relevant science.
-            </motion.p>
-          </motion.div>
+          <div className="flex flex-col lg:flex-row gap-10 items-center">
+            <motion.div variants={fadeUp} className="flex-[3] space-y-5 text-[hsl(var(--muted-foreground))] text-[16px] leading-relaxed">
+              <p>
+                We at our lab as a team seek not just to study the response of the body to Yoga, but
+                to understand the complex dynamics that are existing in coordination ensuring
+                homeostasis of the human to his completeness.
+              </p>
+              <p>
+                The ambitious goals of the entire team, with a stable support from the University has
+                generated a cohesive environment amongst the research groups paving way for extensive
+                interdisciplinary studies. The development of the laboratory to this state in part is
+                also contributed by the alumni. Our move into this brand new facility with state of
+                the art laboratories marks a stepping stone for our entry into a new dimension of Yoga
+                research.
+              </p>
+              <p>
+                Anvesana provides an unparalleled environment for young and established researchers
+                from various domains. We along with your support are inspired to contribute to yoga
+                and making it as a socially relevant science.
+              </p>
+            </motion.div>
+
+            <motion.div variants={slideRight} className="flex-[2] w-full">
+              <img
+                src={researchHomeoImg}
+                alt="Research laboratory microscope"
+                className="w-full rounded-xl shadow-[0_20px_50px_-15px_hsla(210_52%_23%/0.2)] object-cover"
+              />
+            </motion.div>
+          </div>
         </motion.div>
       </div>
     </section>
