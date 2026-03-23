@@ -67,10 +67,10 @@ export default function EventForm() {
       };
 
       if (isEdit) {
-        const { error } = await supabaseExternal
+        const { error } = await supabase
           .from("svyasa_events")
           .update(payload)
-          .eq("id", Number(id));
+          .eq("id", id!);
         if (error) throw error;
       } else {
         const { error } = await supabaseExternal
