@@ -644,13 +644,14 @@ const internationalPartners = [
 ];
 
 function LogoMarquee({ partners, reverse = false, speed = 35 }: { partners: { name: string; logo: string | null; [key: string]: any }[]; reverse?: boolean; speed?: number }) {
-  const animClass = reverse
-    ? `animate-[marquee-reverse_${speed}s_linear_infinite]`
-    : `animate-[marquee_${speed}s_linear_infinite]`;
-
   return (
     <div className="overflow-hidden py-3 group">
-      <div className={`flex gap-8 w-max ${animClass} group-hover:[animation-play-state:paused]`} style={{ animationDuration: `${speed}s` }}>
+      <div
+        className="flex gap-8 w-max group-hover:[animation-play-state:paused]"
+        style={{
+          animation: `${reverse ? 'marquee-reverse' : 'marquee'} ${speed}s linear infinite`,
+        }}
+      >
         {[...partners, ...partners].map((p, i) => (
           <div
             key={`${p.name}-${i}`}
