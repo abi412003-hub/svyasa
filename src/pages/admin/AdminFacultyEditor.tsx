@@ -68,7 +68,7 @@ interface FacultyForm {
 const emptyForm: FacultyForm = {
   name: "", slug: "", designation: "", department: "", faculty_category: "Faculty and Staff",
   qualifications: "", bio: "", photo_url: "", email: "", phone: "",
-  google_scholar_url: "", orcid_id: "", achievements: "", publications: "",
+  google_scholar_url: "", orcid_id: "", linkedin_url: "", achievements: "", publications: "",
   research: "", responsibility: "", research_interests: [], area_of_expertise: [],
   display_order: 999, is_published: true, contentful_id: "",
 };
