@@ -76,8 +76,8 @@ const AdminCategoryEditor = () => {
   };
 
   if (loading) return (
-    <div className="flex items-center justify-center h-full min-h-screen bg-slate-950">
-      <div className="w-7 h-7 border-2 border-amber-400 border-t-transparent rounded-full animate-spin" />
+    <div className="flex items-center justify-center h-full min-h-screen bg-gray-50">
+      <div className="w-7 h-7 border-2 border-amber-500 border-t-transparent rounded-full animate-spin" />
     </div>
   );
 
@@ -85,29 +85,29 @@ const AdminCategoryEditor = () => {
     <div className="p-8 max-w-3xl mx-auto">
       <div className="flex items-center justify-between mb-8">
         <div className="flex items-center gap-3">
-          <Link to="/admin/categories" className="text-slate-400 hover:text-white transition-colors">
+          <Link to="/admin/categories" className="text-gray-400 hover:text-gray-700 transition-colors">
             <ArrowLeft size={18} />
           </Link>
           <div>
-            <h1 className="text-xl font-bold text-white">{isNew ? "Add Category" : "Edit Category"}</h1>
-            {!isNew && <p className="text-slate-500 text-xs mt-0.5">{form.slug}</p>}
+            <h1 className="text-xl font-bold text-gray-900">{isNew ? "Add Category" : "Edit Category"}</h1>
+            {!isNew && <p className="text-gray-400 text-xs mt-0.5">{form.slug}</p>}
           </div>
         </div>
         <div className="flex gap-3">
           {!isNew && (
-            <Button variant="ghost" onClick={handleDelete} className="gap-2 text-red-400 hover:text-red-300 hover:bg-red-400/10">
+            <Button variant="ghost" onClick={handleDelete} className="gap-2 text-red-500 hover:text-red-600 hover:bg-red-50">
               <Trash2 size={14} /> Delete
             </Button>
           )}
-          <Button onClick={handleSave} disabled={saving} className="gap-2 bg-amber-500 hover:bg-amber-400 text-slate-900 font-semibold">
+          <Button onClick={handleSave} disabled={saving} className="gap-2 bg-amber-500 hover:bg-amber-600 text-white font-semibold">
             <Save size={14} /> {saving ? "Saving…" : "Save"}
           </Button>
         </div>
       </div>
 
       <div className="space-y-6">
-        <section className="bg-white/5 border border-white/10 rounded-xl p-6 space-y-4">
-          <h2 className="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-4">Basic Information</h2>
+        <section className="bg-white border border-gray-200 rounded-xl p-6 space-y-4 shadow-sm">
+          <h2 className="text-sm font-semibold text-gray-600 uppercase tracking-wider mb-4">Basic Information</h2>
           <div className="grid grid-cols-2 gap-4">
             <Field label="Slug *" value={form.slug} onChange={v => set("slug", v)} placeholder="bca" hint="/programs/slug" />
             <Field label="Short Title *" value={form.short_title} onChange={v => set("short_title", v)} placeholder="BCA" />
@@ -117,13 +117,13 @@ const AdminCategoryEditor = () => {
           <Field label="Banner Image URL" value={form.banner_image} onChange={v => set("banner_image", v)} placeholder="https://…" />
         </section>
 
-        <section className="bg-white/5 border border-white/10 rounded-xl p-6 space-y-4">
-          <h2 className="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-4">Classification</h2>
+        <section className="bg-white border border-gray-200 rounded-xl p-6 space-y-4 shadow-sm">
+          <h2 className="text-sm font-semibold text-gray-600 uppercase tracking-wider mb-4">Classification</h2>
           <div className="grid grid-cols-3 gap-4">
             <div>
-              <Label className="text-slate-300 text-sm mb-1.5 block">Level</Label>
+              <Label className="text-gray-600 text-sm mb-1.5 block">Level</Label>
               <Select value={form.level} onValueChange={v => set("level", v)}>
-                <SelectTrigger className="bg-white/10 border-white/20 text-white"><SelectValue /></SelectTrigger>
+                <SelectTrigger className="bg-gray-50 border-gray-300 text-gray-900"><SelectValue /></SelectTrigger>
                 <SelectContent>
                   {["undergraduate","postgraduate","doctoral","certificate","diploma"].map(l => (
                     <SelectItem key={l} value={l}>{l}</SelectItem>
@@ -132,9 +132,9 @@ const AdminCategoryEditor = () => {
               </Select>
             </div>
             <div>
-              <Label className="text-slate-300 text-sm mb-1.5 block">Campus Type</Label>
+              <Label className="text-gray-600 text-sm mb-1.5 block">Campus Type</Label>
               <Select value={form.campus_type} onValueChange={v => set("campus_type", v)}>
-                <SelectTrigger className="bg-white/10 border-white/20 text-white"><SelectValue /></SelectTrigger>
+                <SelectTrigger className="bg-gray-50 border-gray-300 text-gray-900"><SelectValue /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="gcc">Global City Campus</SelectItem>
                   <SelectItem value="prashanti">Prashanti Kutiram</SelectItem>
@@ -143,9 +143,9 @@ const AdminCategoryEditor = () => {
               </Select>
             </div>
             <div>
-              <Label className="text-slate-300 text-sm mb-1.5 block">Domain Theme</Label>
+              <Label className="text-gray-600 text-sm mb-1.5 block">Domain Theme</Label>
               <Select value={form.domain_theme} onValueChange={v => set("domain_theme", v)}>
-                <SelectTrigger className="bg-white/10 border-white/20 text-white"><SelectValue /></SelectTrigger>
+                <SelectTrigger className="bg-gray-50 border-gray-300 text-gray-900"><SelectValue /></SelectTrigger>
                 <SelectContent>
                   {["tech","business","yoga","health","research","arts"].map(t => (
                     <SelectItem key={t} value={t}>{t}</SelectItem>
@@ -155,9 +155,9 @@ const AdminCategoryEditor = () => {
             </div>
           </div>
           <div>
-            <Label className="text-slate-300 text-sm mb-1.5 block">Status</Label>
+            <Label className="text-gray-600 text-sm mb-1.5 block">Status</Label>
             <Select value={form.is_published ? "published" : "draft"} onValueChange={v => set("is_published", v === "published")}>
-              <SelectTrigger className="bg-white/10 border-white/20 text-white w-40"><SelectValue /></SelectTrigger>
+              <SelectTrigger className="bg-gray-50 border-gray-300 text-gray-900 w-40"><SelectValue /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="published">Published</SelectItem>
                 <SelectItem value="draft">Draft</SelectItem>
@@ -166,11 +166,11 @@ const AdminCategoryEditor = () => {
           </div>
         </section>
 
-        <section className="bg-white/5 border border-white/10 rounded-xl p-6">
+        <section className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-sm font-semibold text-slate-300 uppercase tracking-wider">Programme Slugs</h2>
+            <h2 className="text-sm font-semibold text-gray-600 uppercase tracking-wider">Programme Slugs</h2>
             <Button variant="ghost" size="sm" onClick={() => set("program_slugs", [...form.program_slugs, ""])}
-              className="gap-1.5 text-slate-400 hover:text-white text-xs">
+              className="gap-1.5 text-gray-500 hover:text-gray-900 text-xs">
               <Plus size={12} /> Add
             </Button>
           </div>
@@ -180,10 +180,10 @@ const AdminCategoryEditor = () => {
                 <Input value={slug} onChange={e => {
                   const updated = [...form.program_slugs]; updated[i] = e.target.value;
                   set("program_slugs", updated);
-                }} placeholder="course-slug" className="bg-white/10 border-white/20 text-white placeholder:text-slate-500 text-sm" />
+                }} placeholder="course-slug" className="bg-gray-50 border-gray-300 text-gray-900 placeholder:text-gray-400 text-sm" />
                 {form.program_slugs.length > 1 && (
                   <button onClick={() => set("program_slugs", form.program_slugs.filter((_, j) => j !== i))}
-                    className="text-slate-500 hover:text-red-400 transition-colors">
+                    className="text-gray-400 hover:text-red-500 transition-colors">
                     <X size={14} />
                   </button>
                 )}
@@ -200,10 +200,10 @@ const Field = ({ label, value, onChange, placeholder, hint }: {
   label: string; value: string; onChange: (v: string) => void; placeholder?: string; hint?: string;
 }) => (
   <div>
-    <Label className="text-slate-300 text-sm mb-1.5 block">{label}</Label>
+    <Label className="text-gray-600 text-sm mb-1.5 block">{label}</Label>
     <Input value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder}
-      className="bg-white/10 border-white/20 text-white placeholder:text-slate-500 focus:border-amber-400" />
-    {hint && <p className="text-xs text-slate-500 mt-1">{hint}</p>}
+      className="bg-gray-50 border-gray-300 text-gray-900 placeholder:text-gray-400 focus:border-amber-500" />
+    {hint && <p className="text-xs text-gray-400 mt-1">{hint}</p>}
   </div>
 );
 
