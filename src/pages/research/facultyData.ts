@@ -1,6 +1,7 @@
 import presidentNagendraImg from "@/assets/president-nagendra.jpg";
 import vcManjunathImg from "@/assets/vc-manjunath.png";
 import nagarathnaImg from "@/assets/nagarathna-portrait.jpg";
+import ananyaBsImg from "@/assets/research/ananya-bs.jpg";
 
 export interface FacultyProfile {
   id: string;
