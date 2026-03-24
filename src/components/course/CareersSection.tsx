@@ -35,7 +35,8 @@ const CareersSection = ({ course }: CareersSectionProps) => {
   const isInView = useInView(sectionRef, { once: true, amount: 0.15 });
   const [expandedCard, setExpandedCard] = useState<number | null>(null);
 
-  const careers = course.careers.slice(0, 8);
+  const careers = course.careers.slice(0, 10);
+  const isBCA = course.slug.startsWith("bca-");
 
   return (
     <section ref={sectionRef} id="careers" className="py-24 md:py-32 relative overflow-hidden">
@@ -69,18 +70,19 @@ const CareersSection = ({ course }: CareersSectionProps) => {
             style={{ background: "linear-gradient(90deg, hsl(25 84% 50%), hsl(42 65% 55%))" }}
           />
           <h2 className="font-heading text-3xl md:text-[2.75rem] lg:text-5xl font-bold text-white mb-4 leading-tight tracking-tight">
-            Where This Degree{" "}
-            <span className="bg-gradient-to-r from-[hsl(42,65%,55%)] to-[hsl(25,84%,55%)] bg-clip-text text-transparent">
-              Takes You
-            </span>
+            {isBCA ? (
+              <>Programme{" "}<span className="bg-gradient-to-r from-[hsl(42,65%,55%)] to-[hsl(25,84%,55%)] bg-clip-text text-transparent">Outcomes</span></>
+            ) : (
+              <>Where This Degree{" "}<span className="bg-gradient-to-r from-[hsl(42,65%,55%)] to-[hsl(25,84%,55%)] bg-clip-text text-transparent">Takes You</span></>
+            )}
           </h2>
           <p className="text-white/35 text-base md:text-lg font-light tracking-wide">
-            Career paths our graduates pursue across industries
+            {isBCA ? "Knowledge, skills and abilities students attain upon programme completion" : "Career paths our graduates pursue across industries"}
           </p>
         </motion.div>
 
         {/* Career Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 max-w-6xl mx-auto">
+        <div className={`grid grid-cols-1 sm:grid-cols-2 ${isBCA ? "lg:grid-cols-3" : "lg:grid-cols-4"} gap-4 md:gap-5 max-w-6xl mx-auto`}>
           {careers.map((career, index) => {
             const IconComponent = getIconComponent(career.icon);
             const demand = getDemandStyles(career.demand);
