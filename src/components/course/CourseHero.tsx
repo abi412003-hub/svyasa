@@ -94,9 +94,9 @@ const CourseHero = ({ course, category }: CourseHeroProps) => {
       </div>
 
       {/* Content with parallax */}
-      <motion.div className="relative h-full container mx-auto px-4 flex flex-col justify-end pb-36" style={{ y: contentY }}>
+      <motion.div className="relative h-full container mx-auto px-4 flex flex-col" style={{ y: contentY }}>
         {/* Breadcrumb */}
-        <nav className="absolute top-24 left-4 flex items-center gap-2 text-sm max-w-[90%] flex-wrap">
+        <nav className="pt-24 pb-4 flex items-center gap-2 text-sm max-w-[90%] flex-wrap">
           {[
             { label: "Home", to: "/" },
             { label: "Programs", to: "/admissions" },
