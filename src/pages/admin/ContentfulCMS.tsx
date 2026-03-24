@@ -32,7 +32,7 @@ const extractPlainText = (richText: any): string => {
 };
 
 const contentTypes = [
-  { id: "course", label: "Courses", icon: BookOpen, color: "bg-blue-50 text-blue-600 border-blue-200" },
+  { id: "coursePage", label: "Courses", icon: BookOpen, color: "bg-blue-50 text-blue-600 border-blue-200" },
   { id: "faculty", label: "Faculty", icon: Users, color: "bg-emerald-50 text-emerald-600 border-emerald-200" },
   { id: "department", label: "Departments", icon: Building2, color: "bg-purple-50 text-purple-600 border-purple-200" },
 ];
@@ -58,7 +58,7 @@ const syncContentful = async (contentType: string) => {
 };
 
 const ContentfulCMS = () => {
-  const [activeType, setActiveType] = useState("course");
+  const [activeType, setActiveType] = useState("coursePage");
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -146,7 +146,7 @@ const ContentfulCMS = () => {
         </div>
       ) : (
         <div className="space-y-3">
-          {activeType === "course" && <CourseList items={data?.items || []} />}
+          {activeType === "coursePage" && <CourseList items={data?.items || []} />}
           {activeType === "faculty" && <FacultyList items={data?.items || []} />}
           {activeType === "department" && <DepartmentList items={data?.items || []} />}
         </div>
@@ -159,27 +159,25 @@ const CourseList = ({ items }: { items: ContentfulItem[] }) => (
   <div className="grid gap-3">
     {items.map((item) => {
       const f = item.fields;
-      const imageUrl = f.image?.sys?.id ? item._resolved?.assets[f.image.sys.id] : null;
       return (
         <div key={item.sys.id} className="bg-white border border-gray-200 rounded-xl p-5 hover:bg-gray-50 transition-colors shadow-sm">
           <div className="flex gap-4">
-            {imageUrl && <img src={imageUrl} alt={f.title} className="w-20 h-14 rounded-lg object-cover flex-shrink-0" />}
             <div className="flex-1 min-w-0">
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <h3 className="text-gray-900 font-semibold text-sm">{f.title}</h3>
-                  <p className="text-gray-400 text-xs mt-0.5">/{f.slug}</p>
+                  <h3 className="text-gray-900 font-semibold text-sm">{f.pageName}</h3>
+                  <p className="text-gray-400 text-xs mt-0.5">/{item.sys.id}</p>
                 </div>
                 <div className="flex items-center gap-2 flex-shrink-0">
-                  <Badge className="bg-blue-50 text-blue-600 border-blue-200 text-xs">{f.programLevel || "—"}</Badge>
-                  {f.admissionOpen && <Badge className="bg-emerald-50 text-emerald-600 border-emerald-200 text-xs">Admission Open</Badge>}
+                  <Badge className="bg-blue-50 text-blue-600 border-blue-200 text-xs">{f.level || "—"}</Badge>
+                  <Badge className="bg-gray-50 text-gray-600 border-gray-200 text-xs">{f.campus || "—"}</Badge>
+                  {f.category === "Landing Page" && <Badge className="bg-amber-50 text-amber-600 border-amber-200 text-xs">Landing</Badge>}
                 </div>
               </div>
-              <p className="text-gray-500 text-xs mt-2 line-clamp-2">{extractPlainText(f.description)}</p>
+              <p className="text-gray-500 text-xs mt-2 line-clamp-2">{f.overview?.substring(0, 150)}</p>
               <div className="flex gap-4 mt-2 text-xs text-gray-400">
                 {f.duration && <span>⏱ {f.duration}</span>}
-                {f.mode && <span>📍 {f.mode}</span>}
-                {f.fee && <span>💰 {f.fee}</span>}
+                {f.feeStructure && <span>💰 {f.feeStructure.substring(0, 60)}...</span>}
               </div>
             </div>
           </div>

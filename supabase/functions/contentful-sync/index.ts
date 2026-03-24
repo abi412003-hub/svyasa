@@ -136,6 +136,47 @@ serve(async (req) => {
 
       let synced = 0;
 
+      if (contentType === "coursePage") {
+        for (const item of allItems) {
+          const f = item.fields;
+
+          // Generate slug from entry ID (already URL-friendly)
+          const slug = item.sys.id;
+
+          // Parse fee structure from pipe-delimited text into structured format
+          // Format: "Program | Year | General\nB.Tech CSE | 1st Year | 3,00,000\n2nd Year | 3,00,000\n..."
+          const parsedFee = parseFeeStructure(f.feeStructure || "");
+
+          const courseData = {
+            slug,
+            title: f.pageName || "",
+            short_title: (f.pageName || "").substring(0, 30),
+            degree: f.level || "",
+            duration: f.duration || "",
+            campus: f.campus || "S-VYASA",
+            campus_type: f.campus === "Prashanti" ? "prashanti" : "gcc",
+            category: (f.level || "").toLowerCase(),
+            hook_line: (f.overview || "").substring(0, 200),
+            overview: f.overview ? [{ heading: "Overview", body: f.overview }] : [],
+            eligibility: f.eligibility ? { criteria: f.eligibility } : {},
+            fee: parsedFee,
+            highlights: f.programHighlights ? [{ heading: "Program Highlights", body: f.programHighlights }] : [],
+            careers: f.careerOutcomes ? [{ heading: "Career Outcomes", body: f.careerOutcomes }] : [],
+            is_published: f.category !== "Landing Page",
+          };
+
+          const { error } = await supabase
+            .from("courses")
+            .upsert(courseData, { onConflict: "slug" });
+          if (error) {
+            console.error(`[coursePage] Error upserting ${slug}:`, error.message);
+          } else {
+            synced++;
+          }
+        }
+      }
+
+      // Legacy support: also accept "course" content type
       if (contentType === "course") {
         for (const item of allItems) {
           const f = item.fields;
@@ -233,6 +274,78 @@ serve(async (req) => {
     });
   }
 });
+
+function parseFeeStructure(feeText: string): Record<string, any> {
+  if (!feeText) return {};
+
+  const lines = feeText.split("\n").map((l) => l.trim()).filter(Boolean);
+  const yearlyFees: { year: string; amount: string }[] = [];
+  let registration = "";
+
+  for (const line of lines) {
+    // Match registration fee note
+    if (/registration\s*fee/i.test(line)) {
+      registration = line;
+      continue;
+    }
+
+    const parts = line.split("|").map((p) => p.trim());
+
+    // Look for year + amount patterns in pipe-delimited rows
+    for (let i = 0; i < parts.length; i++) {
+      const part = parts[i];
+      // Check if this part is a year label
+      if (/^(1st|2nd|3rd|4th|5th|6th)\s*(Year|Sem)/i.test(part)) {
+        // The amount is typically the next part (or 2 parts ahead if there's a category column)
+        for (let j = i + 1; j < parts.length; j++) {
+          const candidate = parts[j].replace(/[₹\s]/g, "");
+          if (/^[\d,]+$/.test(candidate) && candidate.length >= 4) {
+            yearlyFees.push({ year: part, amount: `₹${candidate}` });
+            break;
+          }
+        }
+      }
+      // Also handle "Sl. No | Particulars | First Semester | Second Semester" format
+      if (/^(First|Second|Third|Fourth|Fifth|Sixth)\s*(Year|Sem)/i.test(part)) {
+        for (let j = i + 1; j < parts.length; j++) {
+          const candidate = parts[j].replace(/[₹\s]/g, "");
+          if (/^[\d,]+$/.test(candidate) && candidate.length >= 3) {
+            yearlyFees.push({ year: part, amount: `₹${candidate}` });
+            break;
+          }
+        }
+      }
+    }
+
+    // Handle "Sl No | Towards | Karnataka (INR) | ..." format (MBA style)
+    if (parts.length >= 3) {
+      const label = parts[1] || parts[0];
+      if (/tuition|fee|total|semester/i.test(label)) {
+        const amtPart = parts[2]?.replace(/[₹\s]/g, "");
+        if (/^[\d,]+$/.test(amtPart) && amtPart.length >= 4) {
+          // Only add total/tuition rows
+          if (/total|tuition/i.test(label) && !yearlyFees.some((f) => f.year === label)) {
+            yearlyFees.push({ year: label, amount: `₹${amtPart}` });
+          }
+        }
+      }
+    }
+  }
+
+  // Deduplicate
+  const seen = new Set<string>();
+  const unique = yearlyFees.filter((f) => {
+    const key = `${f.year}-${f.amount}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+
+  return {
+    yearlyFees: unique.length > 0 ? unique : [],
+    registration: registration || "",
+  };
+}
 
 function extractPlainText(richText: any): string {
   if (!richText) return "";

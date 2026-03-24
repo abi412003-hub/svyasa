@@ -287,8 +287,8 @@ serve(async (req) => {
           order: { "en-US": 0 },
         };
 
-        const entryId = `course-${course.slug.substring(0, 60).replace(/[^a-zA-Z0-9-_]/g, "-")}`;
-        const result = await upsertEntry(entryId, "course", fields);
+        const entryId = `${course.slug.substring(0, 64).replace(/[^a-zA-Z0-9-_]/g, "-")}`;
+        const result = await upsertEntry(entryId, "coursePage", fields);
         results.push(result);
         await new Promise((r) => setTimeout(r, 200));
       }
