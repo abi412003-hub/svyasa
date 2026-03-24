@@ -4,7 +4,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
-    "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
+    "authorization, x-client-info, apikey, content-type, x-service-role-key, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
 const GATEWAY_URL = "https://connector-gateway.lovable.dev/contentful";
@@ -25,15 +25,26 @@ serve(async (req) => {
     let authorized = false;
 
     if (token) {
-      const { data: { user } } = await supabase.auth.getUser(token);
-      if (user) {
-        const { data: roleData } = await supabase
-          .from("user_roles")
-          .select("role")
-          .eq("user_id", user.id)
-          .eq("role", "admin")
-          .single();
-        authorized = !!roleData;
+      // Check if JWT has service_role claim (decode without verification — Supabase gateway already verified)
+      try {
+        const payload = JSON.parse(atob(token.split(".")[1]));
+        if (payload.role === "service_role") {
+          authorized = true;
+        }
+      } catch (_) { /* not a JWT */ }
+
+      // Otherwise check user-based admin role
+      if (!authorized) {
+        const { data: { user } } = await supabase.auth.getUser(token);
+        if (user) {
+          const { data: roleData } = await supabase
+            .from("user_roles")
+            .select("role")
+            .eq("user_id", user.id)
+            .eq("role", "admin")
+            .single();
+          authorized = !!roleData;
+        }
       }
     }
 
