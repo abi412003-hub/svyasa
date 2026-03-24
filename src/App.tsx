@@ -240,6 +240,7 @@ const App = () => (
           <Route path="/research/cpeb" element={<ResearchCS title="CPEB Project Proposal" />} />
           <Route path="/research/division-yoga-life-sciences" element={<DivisionYogaLifeSciences />} />
           <Route path="/research/division-yoga-physical-sciences" element={<DivisionYogaPhysicalSciences />} />
+          <Route path="/research/division-yoga-management" element={<DivisionYogaManagement />} />
           
           {/* Important Links */}
           <Route path="/gallery" element={<Gallery />} />
