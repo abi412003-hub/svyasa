@@ -133,7 +133,7 @@ const CareersSection = ({ course }: CareersSectionProps) => {
                     </div>
 
                     {/* Title */}
-                    <h3 className={`font-bold text-base leading-snug mb-1 transition-colors duration-300 ${
+                    <h3 className={`font-bold text-lg md:text-xl leading-snug mb-1 transition-colors duration-300 ${
                       isExpanded ? "text-white" : "text-white group-hover:text-white"
                     }`}>
                       {career.title}
