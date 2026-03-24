@@ -212,6 +212,12 @@ export default function ResearchPublications() {
         {/* Divider */}
         <div className="border-t border-dashed border-border" />
 
+        {/* ── Research Repository ── */}
+        <ResearchRepository />
+
+        {/* Divider */}
+        <div className="border-t border-dashed border-border" />
+
         {/* ── Section 2: Research Areas ── */}
         <motion.div
           ref={areasRef}
