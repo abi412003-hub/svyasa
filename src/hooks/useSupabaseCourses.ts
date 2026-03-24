@@ -16,25 +16,26 @@ function mapOverview(raw: any): string[] {
 }
 
 // Transform DB fee to {registration, yearlyFees}
-function mapFee(raw: any): { registration: string; yearlyFees: { year: string; amount: string }[] } {
+function mapFee(raw: any): Course["fee"] {
   if (!raw) return { registration: "", yearlyFees: [] };
   if (raw.yearlyFees) return raw; // already in expected format
   
   // If raw_table exists, parse the structured fee table
   if (raw.raw_table && typeof raw.raw_table === "string") {
-    return parseFeeTable(raw.raw_table, raw.amount);
+    const result = parseFeeTable(raw.raw_table, raw.amount);
+    result.applicationFee = raw.application_fee || raw.applicationFee || undefined;
+    result.perks = raw.perks || undefined;
+    return result;
   }
   
   const amountStr: string = raw.amount || "";
   
-  // If amount is a plain number (e.g. "300000"), format it as per-year fee
   if (/^\d+$/.test(amountStr.trim())) {
     const num = parseInt(amountStr, 10);
     const formatted = `₹${num.toLocaleString("en-IN")}`;
     return { registration: "", yearlyFees: [{ year: "Per Year", amount: formatted }] };
   }
   
-  // Split on pattern like ", 2nd Year" or ", 3rd Year" or ", Internship"
   const entries = amountStr.match(/[^,]+(?:,\s*(?!\s*(?:\d+(?:st|nd|rd|th)\s+Year|Internship|Registration))[^,]*)*/gi) || [];
   
   const yearlyFees = entries.map((entry: string) => {
@@ -50,28 +51,58 @@ function mapFee(raw: any): { registration: string; yearlyFees: { year: string; a
   return { registration: raw.registration || "", yearlyFees };
 }
 
-// Parse Contentful fee table text into structured data
-function parseFeeTable(tableText: string, fallbackAmount?: string): { registration: string; yearlyFees: { year: string; amount: string }[] } {
+// Parse Contentful fee table text into structured data with full multi-column support
+function parseFeeTable(tableText: string, fallbackAmount?: string): Course["fee"] {
   const yearlyFees: { year: string; amount: string }[] = [];
   let registration = "";
   
-  const lines = tableText.split("\n");
+  const lines = tableText.split("\n").filter(l => l.trim());
+  
+  // Try to parse full multi-column table
+  // Detect header line (contains "Particulars" or multiple | separators on first meaningful line)
+  const headerLine = lines.find(l => l.includes("Particulars") || l.includes("Sl No"));
+  let fullTable: { headers: string[]; rows: string[][]; totalRow?: string[] } | undefined;
+  
+  if (headerLine) {
+    const headers = headerLine.split("|").map(h => h.trim()).filter(Boolean);
+    const dataRows: string[][] = [];
+    let totalRow: string[] | undefined;
+    
+    for (const line of lines) {
+      if (line === headerLine) continue;
+      const cells = line.split("|").map(c => c.trim()).filter(Boolean);
+      if (cells.length < 2) continue;
+      
+      // Check if this is a total row
+      if (cells.some(c => /^total$/i.test(c.replace(/\*/g, "").trim()))) {
+        totalRow = cells;
+      } else if (cells[0] && /^\d+$/.test(cells[0])) {
+        dataRows.push(cells);
+      }
+    }
+    
+    if (dataRows.length > 0) {
+      fullTable = { headers, rows: dataRows, totalRow };
+    }
+  }
+  
+  // Also extract simple yearly fees for fallback display
   for (const line of lines) {
-    // Match patterns like "1st Year | 3,00,000" or "2nd Year | 3,00,000"
     const yearMatch = line.match(/(\d+(?:st|nd|rd|th)\s+Year)\s*\|\s*([\d,]+)/i);
     if (yearMatch) {
       const amt = parseInt(yearMatch[2].replace(/,/g, ""), 10);
       yearlyFees.push({ year: yearMatch[1], amount: `₹${amt.toLocaleString("en-IN")}` });
       continue;
     }
-    // Match "Total | amount"  
-    const totalMatch = line.match(/Total\s*\|\s*([\d,]+)/i);
-    if (totalMatch && yearlyFees.length === 0) {
-      const amt = parseInt(totalMatch[1].replace(/,/g, ""), 10);
-      yearlyFees.push({ year: "Total", amount: `₹${amt.toLocaleString("en-IN")}` });
+    // Match installment patterns
+    const installMatch = line.match(/(\d+)\s*\|\s*(.+?)\s*\|\s*([\d,]+)/);
+    if (installMatch && !line.toLowerCase().includes("registration")) {
+      const label = installMatch[2].trim();
+      const amt = parseInt(installMatch[3].replace(/,/g, ""), 10);
+      yearlyFees.push({ year: label, amount: `₹${amt.toLocaleString("en-IN")}` });
     }
     // Match registration fee
-    const regMatch = line.match(/Registration Fee[^|]*\|\s*([\d,]+)/i) || line.match(/Registration Fee[^-]*-\s*INR\s*([\d,]+)/i);
+    const regMatch = line.match(/Registration Fee[^|]*\|\s*([\d,]+)/i);
     if (regMatch) {
       const amt = parseInt(regMatch[1].replace(/,/g, ""), 10);
       registration = `₹${amt.toLocaleString("en-IN")}`;
@@ -86,7 +117,7 @@ function parseFeeTable(tableText: string, fallbackAmount?: string): { registrati
     }
   }
   
-  return { registration, yearlyFees };
+  return { registration, yearlyFees, fullTable };
 }
 
 // Transform DB eligibility {criteria: "..."} to full shape
