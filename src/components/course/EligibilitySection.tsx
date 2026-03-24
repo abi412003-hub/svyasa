@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 import { motion, AnimatePresence, useReducedMotion, useInView } from "framer-motion";
-import { CheckCircle, HelpCircle, ArrowRight, RefreshCw, Check } from "lucide-react";
+import { CheckCircle, HelpCircle, ArrowRight, RefreshCw, Check, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Course } from "@/data/courses";
@@ -14,15 +14,13 @@ const EligibilitySection = ({ course }: EligibilitySectionProps) => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
 
-  // Quiz state
   const [quizStarted, setQuizStarted] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<boolean[]>([]);
   const [quizComplete, setQuizComplete] = useState(false);
   const [isEligible, setIsEligible] = useState(false);
-
-  // Animated progress ring
   const [progressAnimated, setProgressAnimated] = useState(false);
+
   const marksPercent = course.eligibility.minMarks ? parseInt(course.eligibility.minMarks.replace(/[^0-9]/g, "")) || 0 : 0;
 
   useEffect(() => {
@@ -35,11 +33,9 @@ const EligibilitySection = ({ course }: EligibilitySectionProps) => {
   const handleAnswer = (answer: boolean) => {
     const newAnswers = [...answers, answer];
     setAnswers(newAnswers);
-
     if (currentQuestion < course.eligibility.quizQuestions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
-      // Check eligibility
       const allCorrect = course.eligibility.quizQuestions.every(
         (q, i) => (newAnswers[i] === true) === q.yesIsCorrect
       );
@@ -60,238 +56,242 @@ const EligibilitySection = ({ course }: EligibilitySectionProps) => {
   const strokeDashoffset = circumference - (progressAnimated ? (marksPercent / 100) * circumference : circumference);
 
   return (
-    <section ref={sectionRef} id="eligibility" className="py-16 md:py-20 bg-background">
-      <div className="container mx-auto px-4">
+    <section ref={sectionRef} id="eligibility" className="py-20 md:py-28 bg-background relative overflow-hidden">
+      {/* Decorative */}
+      <div className="absolute top-0 left-0 w-[400px] h-[400px] rounded-full opacity-[0.03] blur-[100px]"
+        style={{ background: "radial-gradient(circle, hsl(180 45% 35%), transparent)" }}
+      />
+
+      <div className="container mx-auto px-4 relative">
         {/* Section Header */}
         <motion.div
           initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="mb-10"
+          className="mb-14"
         >
-          <div className="flex items-center gap-3 mb-4">
-            <span className="text-primary text-sm uppercase tracking-[3px] font-medium">
+          <div className="flex items-center gap-4 mb-4">
+            <span className="text-sm uppercase tracking-[4px] font-semibold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
               WHO CAN APPLY
             </span>
             <motion.div
               initial={{ width: 0 }}
-              animate={isInView ? { width: 40 } : {}}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="h-0.5 bg-primary"
+              animate={isInView ? { width: 60 } : {}}
+              transition={{ duration: 1, delay: 0.2 }}
+              className="h-[2px] rounded-full"
+              style={{ background: "linear-gradient(90deg, hsl(25 84% 50%), hsl(42 65% 55%))" }}
             />
           </div>
-          <h2 className="font-heading text-2xl md:text-3xl font-bold text-foreground">
+          <h2 className="font-heading text-3xl md:text-4xl font-bold text-foreground">
             Eligibility Criteria
           </h2>
         </motion.div>
 
-        <div className="flex flex-col lg:flex-row gap-10">
-          {/* Left Column - Eligibility Info */}
-          <div className="lg:w-[60%]">
-            {/* Primary Eligibility */}
+        <div className="flex flex-col lg:flex-row gap-12">
+          {/* Left Column */}
+          <div className="lg:w-[58%]">
+            {/* Primary Eligibility - Gradient card */}
             <motion.div
               initial={shouldReduceMotion ? {} : { opacity: 0, scale: 0.95 }}
               animate={isInView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.5, delay: 0.2, type: "spring" }}
-              className="bg-cream rounded-xl p-6 flex items-center gap-4 mb-6"
+              className="relative rounded-2xl overflow-hidden mb-8"
             >
-              <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center shrink-0">
-                <CheckCircle className="w-6 h-6 text-green-600" />
+              <div className="absolute inset-0 bg-gradient-to-r from-green-50 to-emerald-50" />
+              <div className="relative p-6 flex items-center gap-5">
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400 to-green-500 flex items-center justify-center shrink-0 shadow-lg shadow-emerald-200">
+                  <CheckCircle className="w-7 h-7 text-white" />
+                </div>
+                <p className="text-lg font-bold text-foreground leading-snug">
+                  {course.eligibility.primary}
+                </p>
               </div>
-              <p className="text-lg font-semibold text-foreground">
-                {course.eligibility.primary}
-              </p>
             </motion.div>
 
             {/* Extra Requirements */}
             {course.eligibility.extras.length > 0 && (
-              <div className="space-y-3 mb-8">
+              <div className="space-y-4 mb-10">
                 {course.eligibility.extras.map((extra, index) => (
                   <motion.div
                     key={index}
                     initial={shouldReduceMotion ? {} : { opacity: 0, x: -20 }}
                     animate={isInView ? { opacity: 1, x: 0 } : {}}
                     transition={{ duration: 0.4, delay: 0.3 + index * 0.1 }}
-                    className="flex items-start gap-3"
+                    className="flex items-start gap-4 p-3 rounded-xl hover:bg-cream/50 transition-colors"
                   >
-                    <CheckCircle className="w-5 h-5 text-primary mt-0.5 shrink-0" />
+                    <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
+                      <CheckCircle className="w-4 h-4 text-primary" />
+                    </div>
                     <span className="text-muted-foreground">{extra}</span>
                   </motion.div>
                 ))}
               </div>
             )}
 
-            {/* Minimum Marks Ring */}
+            {/* Minimum Marks Ring - Enhanced */}
             {course.eligibility.minMarks && (
               <motion.div
                 initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.5 }}
-                className="flex items-center gap-6"
+                className="flex items-center gap-8 p-6 rounded-2xl bg-gradient-to-r from-cream to-transparent"
               >
-                <div className="relative w-28 h-28">
+                <div className="relative w-32 h-32">
                   <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="45" fill="none" stroke="hsl(var(--border))" strokeWidth="5" />
                     <circle
-                      cx="50"
-                      cy="50"
-                      r="45"
-                      fill="none"
-                      stroke="hsl(var(--border))"
-                      strokeWidth="6"
-                    />
-                    <circle
-                      cx="50"
-                      cy="50"
-                      r="45"
-                      fill="none"
-                      stroke="hsl(var(--primary))"
-                      strokeWidth="6"
-                      strokeLinecap="round"
+                      cx="50" cy="50" r="45" fill="none"
+                      strokeWidth="5" strokeLinecap="round"
                       strokeDasharray={circumference}
                       strokeDashoffset={strokeDashoffset}
-                      className="transition-all duration-1000 ease-out"
+                      className="transition-all duration-[1.5s] ease-out"
+                      style={{ stroke: "url(#ringGradient)" }}
                     />
+                    <defs>
+                      <linearGradient id="ringGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="hsl(25 84% 50%)" />
+                        <stop offset="100%" stopColor="hsl(42 65% 55%)" />
+                      </linearGradient>
+                    </defs>
                   </svg>
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-2xl font-bold text-secondary">{course.eligibility.minMarks}</span>
+                    <span className="text-2xl font-black bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">{course.eligibility.minMarks}</span>
                   </div>
                 </div>
-                <p className="text-muted-foreground">Minimum Aggregate</p>
+                <div>
+                  <p className="text-lg font-semibold text-foreground">Minimum Aggregate</p>
+                  <p className="text-sm text-muted-foreground mt-1">Required across qualifying examination</p>
+                </div>
               </motion.div>
             )}
           </div>
 
-          {/* Right Column - Quiz */}
-          <div className="lg:w-[40%]">
+          {/* Right Column - Premium Quiz Card */}
+          <div className="lg:w-[42%]">
             <motion.div
               initial={shouldReduceMotion ? {} : { opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.4 }}
-              className="bg-secondary rounded-2xl p-8 shadow-xl"
+              className="relative rounded-3xl overflow-hidden shadow-2xl"
             >
-              <div className="flex items-center gap-3 mb-6">
-                <HelpCircle className="w-6 h-6 text-white" />
-                <h3 className="text-xl font-semibold text-white">
-                  Quick Check: Am I Eligible?
-                </h3>
-              </div>
+              {/* Gradient background */}
+              <div className="absolute inset-0 bg-gradient-to-br from-secondary via-secondary to-navy-dark" />
+              {/* Mesh overlay */}
+              <div className="absolute inset-0 opacity-10" style={{
+                backgroundImage: "radial-gradient(circle at 70% 20%, hsl(25 84% 50%), transparent 50%), radial-gradient(circle at 30% 80%, hsl(42 65% 55%), transparent 50%)"
+              }} />
+              
+              <div className="relative p-8">
+                <div className="flex items-center gap-3 mb-8">
+                  <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
+                    <Shield className="w-5 h-5 text-accent" />
+                  </div>
+                  <h3 className="text-xl font-bold text-white">
+                    Quick Eligibility Check
+                  </h3>
+                </div>
 
-              <AnimatePresence mode="wait">
-                {!quizStarted && !quizComplete && (
-                  <motion.div
-                    key="start"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                  >
-                    <p className="text-cream/80 mb-6">
-                      Answer a few quick questions to check if you meet the requirements.
-                    </p>
-                    <Button
-                      onClick={() => setQuizStarted(true)}
-                      className="w-full bg-primary hover:bg-primary/90 text-white rounded-xl"
+                <AnimatePresence mode="wait">
+                  {!quizStarted && !quizComplete && (
+                    <motion.div key="start" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                      <p className="text-white/70 mb-8 leading-relaxed">
+                        Answer a few quick questions to check if you meet the requirements for this program.
+                      </p>
+                      <Button
+                        onClick={() => setQuizStarted(true)}
+                        className="w-full bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white rounded-2xl py-3 shadow-lg shadow-primary/30"
+                      >
+                        Start Quiz
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </Button>
+                    </motion.div>
+                  )}
+
+                  {quizStarted && !quizComplete && (
+                    <motion.div
+                      key={`question-${currentQuestion}`}
+                      initial={{ opacity: 0, x: 30 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -30 }}
+                      transition={{ duration: 0.3 }}
                     >
-                      Start Quiz
-                    </Button>
-                  </motion.div>
-                )}
-
-                {quizStarted && !quizComplete && (
-                  <motion.div
-                    key={`question-${currentQuestion}`}
-                    initial={{ opacity: 0, x: 30 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -30 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <p className="text-white text-lg mb-6">
-                      {course.eligibility.quizQuestions[currentQuestion].question}
-                    </p>
-                    <div className="flex gap-4">
-                      <Button
-                        onClick={() => handleAnswer(true)}
-                        className="flex-1 bg-primary hover:bg-primary/90 text-white rounded-xl"
-                      >
-                        Yes
-                      </Button>
-                      <Button
-                        onClick={() => handleAnswer(false)}
-                        variant="outline"
-                        className="flex-1 border-white/30 text-white hover:bg-white/10 rounded-xl"
-                      >
-                        No
-                      </Button>
-                    </div>
-                    <p className="text-cream/60 text-sm mt-4 text-center">
-                      Question {currentQuestion + 1} of {course.eligibility.quizQuestions.length}
-                    </p>
-                  </motion.div>
-                )}
-
-                {quizComplete && (
-                  <motion.div
-                    key="result"
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ type: "spring" }}
-                    className="text-center"
-                  >
-                    {isEligible ? (
-                      <>
+                      {/* Progress bar */}
+                      <div className="h-1 bg-white/10 rounded-full mb-8 overflow-hidden">
                         <motion.div
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          transition={{ type: "spring", delay: 0.2 }}
-                          className="w-16 h-16 mx-auto mb-4 rounded-full bg-green-500 flex items-center justify-center"
-                        >
-                          <Check className="w-8 h-8 text-white" />
-                        </motion.div>
-                        <h4 className="text-xl font-bold text-green-400 mb-2">
-                          You're eligible! 🎉
-                        </h4>
-                        <p className="text-cream/80 mb-6">
-                          Great news! You meet all the requirements.
-                        </p>
+                          className="h-full rounded-full"
+                          style={{ background: "linear-gradient(90deg, hsl(25 84% 50%), hsl(42 65% 55%))" }}
+                          initial={{ width: 0 }}
+                          animate={{ width: `${((currentQuestion + 1) / course.eligibility.quizQuestions.length) * 100}%` }}
+                        />
+                      </div>
+                      <p className="text-white text-lg font-medium mb-8 leading-relaxed">
+                        {course.eligibility.quizQuestions[currentQuestion].question}
+                      </p>
+                      <div className="flex gap-4">
                         <Button
-                          asChild
-                          className="w-full bg-primary hover:bg-primary/90 text-white rounded-xl"
+                          onClick={() => handleAnswer(true)}
+                          className="flex-1 bg-gradient-to-r from-primary to-accent text-white rounded-2xl py-3 hover:scale-105 transition-transform"
                         >
-                          <a href={course.applyLink} target="_blank" rel="noopener noreferrer">
-                            Apply Now
-                            <ArrowRight className="ml-2 h-4 w-4" />
-                          </a>
+                          Yes
                         </Button>
-                      </>
-                    ) : (
-                      <>
-                        <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-amber-500/20 flex items-center justify-center">
-                          <HelpCircle className="w-8 h-8 text-amber-400" />
-                        </div>
-                        <h4 className="text-lg font-semibold text-amber-400 mb-2">
-                          You may still qualify
-                        </h4>
-                        <p className="text-cream/80 mb-6">
-                          Speak to our admissions team to explore your options.
-                        </p>
                         <Button
-                          asChild
-                          variant="outline"
-                          className="w-full border-white text-white hover:bg-white/10 rounded-xl"
+                          onClick={() => handleAnswer(false)}
+                          className="flex-1 bg-white/10 border border-white/20 text-white hover:bg-white/20 rounded-2xl py-3 hover:scale-105 transition-transform"
                         >
-                          <Link to="/contact-us">Contact Admissions</Link>
+                          No
                         </Button>
-                      </>
-                    )}
-                    <button
-                      onClick={resetQuiz}
-                      className="mt-4 text-cream/60 hover:text-cream text-sm flex items-center justify-center gap-2 mx-auto"
+                      </div>
+                      <p className="text-white/40 text-sm mt-6 text-center">
+                        {currentQuestion + 1} of {course.eligibility.quizQuestions.length}
+                      </p>
+                    </motion.div>
+                  )}
+
+                  {quizComplete && (
+                    <motion.div
+                      key="result"
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ type: "spring" }}
+                      className="text-center"
                     >
-                      <RefreshCw className="w-4 h-4" />
-                      Try Again
-                    </button>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                      {isEligible ? (
+                        <>
+                          <motion.div
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{ type: "spring", delay: 0.2 }}
+                            className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-emerald-400 to-green-500 flex items-center justify-center shadow-lg shadow-emerald-500/30"
+                          >
+                            <Check className="w-10 h-10 text-white" />
+                          </motion.div>
+                          <h4 className="text-2xl font-bold text-emerald-400 mb-2">You're eligible! 🎉</h4>
+                          <p className="text-white/70 mb-8">Great news! You meet all the requirements.</p>
+                          <Button asChild className="w-full bg-gradient-to-r from-primary to-accent text-white rounded-2xl py-3 shadow-lg">
+                            <a href={course.applyLink} target="_blank" rel="noopener noreferrer">
+                              Apply Now <ArrowRight className="ml-2 h-4 w-4" />
+                            </a>
+                          </Button>
+                        </>
+                      ) : (
+                        <>
+                          <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-amber-500/20 flex items-center justify-center">
+                            <HelpCircle className="w-10 h-10 text-amber-400" />
+                          </div>
+                          <h4 className="text-xl font-bold text-amber-400 mb-2">You may still qualify</h4>
+                          <p className="text-white/70 mb-8">Speak to our admissions team to explore your options.</p>
+                          <Button asChild className="w-full bg-white/10 border border-white/20 text-white hover:bg-white/20 rounded-2xl py-3">
+                            <Link to="/contact-us">Contact Admissions</Link>
+                          </Button>
+                        </>
+                      )}
+                      <button onClick={resetQuiz} className="mt-6 text-white/50 hover:text-white text-sm flex items-center justify-center gap-2 mx-auto transition-colors">
+                        <RefreshCw className="w-4 h-4" /> Try Again
+                      </button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             </motion.div>
           </div>
         </div>
