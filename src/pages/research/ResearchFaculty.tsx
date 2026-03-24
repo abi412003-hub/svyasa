@@ -253,10 +253,41 @@ function SectionHeading({ label, title, count }: { label: string; title: string;
 /* ── Page ── */
 export default function ResearchFaculty() {
   const [selected, setSelected] = useState<FacultyProfile | null>(null);
+  const [allFaculty, setAllFaculty] = useState<FacultyProfile[]>([]);
 
-  const leadership = facultyData.filter((f) => f.section === "leadership");
-  const staff = facultyData.filter((f) => f.section === "staff");
-  const project = facultyData.filter((f) => f.section === "project");
+  useEffect(() => {
+    async function fetchFaculty() {
+      const { data } = await supabase
+        .from("faculty_profiles")
+        .select("*")
+        .eq("is_published", true)
+        .in("department", ["Anvesana Research Labs"])
+        .order("display_order", { ascending: true });
+
+      if (data) {
+        setAllFaculty(
+          data.map((d) => ({
+            id: d.id,
+            name: d.name,
+            designation: d.designation || "",
+            qualifications: d.qualifications || "",
+            photo: d.photo_url || undefined,
+            section: mapCategoryToSection(d.faculty_category || ""),
+            achievements: d.achievements ? d.achievements.split("\n").filter(Boolean) : undefined,
+            expertise: (d.area_of_expertise as string[] | null)?.join(", ") || undefined,
+            research: d.research || undefined,
+            publications: d.publications ? d.publications.split("\n").filter(Boolean) : undefined,
+            linkedin_url: d.linkedin_url || undefined,
+          }))
+        );
+      }
+    }
+    fetchFaculty();
+  }, []);
+
+  const leadership = allFaculty.filter((f) => f.section === "leadership");
+  const staff = allFaculty.filter((f) => f.section === "staff");
+  const project = allFaculty.filter((f) => f.section === "project");
 
   const sec1Ref = useRef<HTMLDivElement>(null);
   const sec2Ref = useRef<HTMLDivElement>(null);
