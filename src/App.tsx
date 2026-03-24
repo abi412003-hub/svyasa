@@ -57,6 +57,7 @@ import LabEvents from "./pages/research/LabEvents";
 import AdoptProject from "./pages/research/AdoptProject";
 import DivisionYogaLifeSciences from "./pages/research/DivisionYogaLifeSciences";
 import DivisionYogaPhysicalSciences from "./pages/research/DivisionYogaPhysicalSciences";
+import DivisionYogaManagement from "./pages/research/DivisionYogaManagement";
 import EdtechPartners from "./pages/EdtechPartners";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminLayout from "./components/admin/AdminLayout";
