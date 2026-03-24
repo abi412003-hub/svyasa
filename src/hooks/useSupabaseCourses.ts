@@ -167,6 +167,7 @@ function mapCourseRow(row: any): Course {
     eligibility: mapEligibility(row.eligibility),
     highlights: mapHighlights(row.highlights),
     careers: mapCareers(row.careers),
+    learningJourney: Array.isArray(row.learning_journey) && row.learning_journey.length > 0 ? row.learning_journey : undefined,
     relatedPrograms: Array.isArray(row.related_programs) ? row.related_programs : [],
     fee: mapFee(row.fee),
     applyLink: row.apply_link || "",
