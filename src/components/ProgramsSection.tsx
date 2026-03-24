@@ -6,6 +6,7 @@ import {
   GraduationCap, TrendingUp, Microscope, Leaf, HeartPulse, BookOpen, Crown
 } from "lucide-react";
 import { categories, courses } from "@/data/courses";
+import { getYogaImage } from "@/utils/yogaImages";
 
 const iconMap: Record<string, React.ElementType> = {
   bca: Monitor,
@@ -261,7 +262,7 @@ const ProgramsSection = () => {
                   >
                     <div className="relative h-20 overflow-hidden shrink-0">
                       <img
-                        src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=400&q=80"
+                        src={getYogaImage(course.slug) || "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=400&q=80"}
                         alt={course.shortTitle}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                       />
