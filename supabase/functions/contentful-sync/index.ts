@@ -19,10 +19,12 @@ serve(async (req) => {
     const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, serviceRoleKey);
 
-    // Auth: accept service role key OR admin JWT
+    // Auth: accept service role key, anon key (for internal tools), or admin JWT
     const authHeader = req.headers.get("authorization") || "";
+    const apiKeyHeader = req.headers.get("apikey") || "";
     const token = authHeader.replace("Bearer ", "");
-    let authorized = token === serviceRoleKey;
+    const anonKey = Deno.env.get("SUPABASE_ANON_KEY") || "";
+    let authorized = token === serviceRoleKey || apiKeyHeader === serviceRoleKey || token === anonKey;
 
     if (!authorized && token) {
       const { data: { user } } = await supabase.auth.getUser(token);
