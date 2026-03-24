@@ -94,14 +94,14 @@ const CourseHero = ({ course, category }: CourseHeroProps) => {
       </div>
 
       {/* Content with parallax */}
-      <motion.div className="relative h-full container mx-auto px-4 flex flex-col justify-center" style={{ y: contentY }}>
+      <motion.div className="relative h-full container mx-auto px-4 flex flex-col justify-end pb-36" style={{ y: contentY }}>
         {/* Breadcrumb */}
-        <nav className="absolute top-24 left-4 flex items-center gap-2 text-sm">
+        <nav className="absolute top-24 left-4 flex items-center gap-2 text-sm max-w-[90%] flex-wrap">
           {[
             { label: "Home", to: "/" },
             { label: "Programs", to: "/admissions" },
             ...(category ? [{ label: category.shortTitle, to: `/programs/${category.slug}` }] : []),
-            { label: course.title.length > course.shortTitle.length ? course.title : course.shortTitle, to: null }
+            { label: course.shortTitle, to: null }
           ].map((crumb, i) => (
             <motion.span
               key={i}
@@ -114,7 +114,7 @@ const CourseHero = ({ course, category }: CourseHeroProps) => {
               {crumb.to ? (
                 <Link to={crumb.to} className="text-white/60 hover:text-accent transition-colors">{crumb.label}</Link>
               ) : (
-                <span className="text-white/90">{crumb.label}</span>
+                <span className="text-white/90 truncate max-w-[200px]">{crumb.label}</span>
               )}
             </motion.span>
           ))}
