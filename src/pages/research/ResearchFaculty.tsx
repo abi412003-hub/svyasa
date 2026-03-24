@@ -120,6 +120,16 @@ function FacultyModal({ member, onClose }: { member: FacultyProfile; onClose: ()
 
           {/* Body */}
           <div className="px-8 py-8 space-y-8">
+            {member.bio && (
+              <div>
+                <div className="flex items-center gap-2 mb-3">
+                  <User className="text-[hsl(var(--teal))]" size={18} />
+                  <h3 className="font-semibold text-[hsl(var(--navy))] text-base">About</h3>
+                </div>
+                <p className="text-sm text-[hsl(var(--muted-foreground))] leading-relaxed">{member.bio}</p>
+              </div>
+            )}
+
             {member.achievements && member.achievements.length > 0 && (
               <div>
                 <div className="flex items-center gap-2 mb-4">
@@ -173,7 +183,7 @@ function FacultyModal({ member, onClose }: { member: FacultyProfile; onClose: ()
               </div>
             )}
 
-            {!member.achievements && !member.expertise && !member.research && !member.publications && (
+            {!member.bio && !member.achievements && !member.expertise && !member.research && !member.publications && (
               <div className="text-center py-12 text-[hsl(var(--muted-foreground))]">
                 <User className="mx-auto mb-3 opacity-30" size={40} />
                 <p className="text-sm">Full profile details coming soon.</p>
