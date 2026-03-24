@@ -2,6 +2,45 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import type { Course, Category, CourseHighlight, CareerPath } from "@/data/courses";
 
+// Transform DB overview [{heading, body}] to string[]
+function mapOverview(raw: any): string[] {
+  if (!Array.isArray(raw)) return [];
+  // If already string[], return as-is
+  if (raw.length > 0 && typeof raw[0] === "string") return raw;
+  // If [{heading, body}], extract body text and split by newlines
+  return raw.flatMap((item: any) => {
+    if (typeof item === "string") return [item];
+    const body = item?.body || "";
+    return body.split("\n").filter((s: string) => s.trim());
+  });
+}
+
+// Transform DB fee {amount: "1st Year: ₹X, 2nd Year: ₹Y"} to {registration, yearlyFees}
+function mapFee(raw: any): { registration: string; yearlyFees: { year: string; amount: string }[] } {
+  if (!raw) return { registration: "", yearlyFees: [] };
+  if (raw.yearlyFees) return raw; // already in expected format
+  
+  const amountStr = raw.amount || "";
+  const parts = amountStr.split(",").map((s: string) => s.trim()).filter(Boolean);
+  const yearlyFees = parts.map((part: string) => {
+    const [year, amount] = part.split(":").map((s: string) => s.trim());
+    return { year: year || part, amount: amount || part };
+  });
+  return { registration: raw.registration || "", yearlyFees };
+}
+
+// Transform DB eligibility {criteria: "..."} to full shape
+function mapEligibility(raw: any): Course["eligibility"] {
+  if (!raw) return { primary: "", minMarks: null, extras: [], quizQuestions: [] };
+  if (raw.quizQuestions) return raw; // already in expected format
+  return {
+    primary: raw.criteria || raw.primary || "",
+    minMarks: raw.minMarks || raw.min_marks || null,
+    extras: raw.extras || [],
+    quizQuestions: raw.quizQuestions || raw.quiz_questions || [],
+  };
+}
+
 // Map Supabase snake_case row to camelCase Course interface
 function mapCourseRow(row: any): Course {
   return {
@@ -15,13 +54,13 @@ function mapCourseRow(row: any): Course {
     category: row.category || "",
     bannerImage: row.banner_image || "",
     hookLine: row.hook_line || "",
-    overview: Array.isArray(row.overview) ? row.overview : [],
+    overview: mapOverview(row.overview),
     statCallout: row.stat_callout || null,
-    eligibility: row.eligibility || { primary: "", minMarks: null, extras: [], quizQuestions: [] },
+    eligibility: mapEligibility(row.eligibility),
     highlights: Array.isArray(row.highlights) ? row.highlights as CourseHighlight[] : [],
     careers: Array.isArray(row.careers) ? row.careers as CareerPath[] : [],
     relatedPrograms: Array.isArray(row.related_programs) ? row.related_programs : [],
-    fee: row.fee || { registration: "", yearlyFees: [] },
+    fee: mapFee(row.fee),
     applyLink: row.apply_link || "",
     brochureLink: row.brochure_link || null,
     domainTheme: row.domain_theme || "tech",
