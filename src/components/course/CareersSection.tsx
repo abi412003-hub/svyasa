@@ -126,7 +126,7 @@ const CareersSection = ({ course }: CareersSectionProps) => {
                       </div>
                       <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full ${demand.bg}`}>
                         <span className={`w-[6px] h-[6px] rounded-full ${demand.dot}`} />
-                        <span className={`text-[10px] font-bold uppercase tracking-widest ${demand.text}`}>
+                        <span className={`text-xs font-bold uppercase tracking-widest ${demand.text}`}>
                           {demand.label}
                         </span>
                       </div>
