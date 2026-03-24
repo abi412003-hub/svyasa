@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
 import Layout from "@/components/layout/Layout";
@@ -10,37 +10,21 @@ import ExploreOtherCategories from "@/components/category/ExploreOtherCategories
 import CategoryCTA from "@/components/category/CategoryCTA";
 import CategorySkeleton from "@/components/category/CategorySkeleton";
 import { Button } from "@/components/ui/button";
-import { getCategoryBySlug, getCoursesByCategory, Category, Course } from "@/data/courses";
+import { useCategoryBySlug, useCoursesByCategory } from "@/hooks/useSupabaseCourses";
 
 const CategoryLanding = () => {
   const { category: categorySlug } = useParams<{ category: string }>();
   const shouldReduceMotion = useReducedMotion();
   
-  const [category, setCategory] = useState<Category | null>(null);
-  const [courses, setCourses] = useState<Course[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const { category, isLoading: categoryLoading } = useCategoryBySlug(categorySlug);
+  const { courses, isLoading: coursesLoading } = useCoursesByCategory(categorySlug);
+
+  const isLoading = categoryLoading || coursesLoading;
 
   useEffect(() => {
-    // Scroll to top on mount
     window.scrollTo(0, 0);
-
-    // Simulate brief loading for skeleton effect
-    setIsLoading(true);
-    
-    const timer = setTimeout(() => {
-      if (categorySlug) {
-        const foundCategory = getCategoryBySlug(categorySlug);
-        const foundCourses = getCoursesByCategory(categorySlug);
-        setCategory(foundCategory || null);
-        setCourses(foundCourses);
-      }
-      setIsLoading(false);
-    }, 300);
-
-    return () => clearTimeout(timer);
   }, [categorySlug]);
 
-  // Update page title
   useEffect(() => {
     if (category) {
       document.title = `${category.title} | Programs | S-VYASA University`;
@@ -56,7 +40,6 @@ const CategoryLanding = () => {
     }
   };
 
-  // Loading state
   if (isLoading) {
     return (
       <Layout>
@@ -65,7 +48,6 @@ const CategoryLanding = () => {
     );
   }
 
-  // 404 state
   if (!category) {
     return (
       <Layout>
@@ -75,20 +57,13 @@ const CategoryLanding = () => {
             animate={{ opacity: 1, scale: 1 }}
             className="text-center max-w-md"
           >
-            {/* 404 Text */}
             <h1 className="text-8xl md:text-9xl font-bold text-accent mb-4">404</h1>
-            
-            {/* Heading */}
             <h2 className="font-heading text-2xl md:text-3xl font-semibold text-secondary mb-4">
               Category Not Found
             </h2>
-            
-            {/* Description */}
             <p className="text-muted-foreground mb-8">
               The program category you're looking for doesn't exist or may have been moved.
             </p>
-
-            {/* Decorative Lotus */}
             <div className="mb-8 opacity-30">
               <svg width="80" height="80" viewBox="0 0 100 100" className="mx-auto">
                 <path d="M50 20 Q65 40 50 60 Q35 40 50 20" stroke="currentColor" strokeWidth="1" fill="none" className="text-accent" />
@@ -96,8 +71,6 @@ const CategoryLanding = () => {
                 <path d="M35 50 Q50 55 65 50" stroke="currentColor" strokeWidth="1" fill="none" className="text-accent" />
               </svg>
             </div>
-
-            {/* CTAs */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Button asChild className="bg-primary text-white hover:bg-primary-dark rounded-xl px-6">
                 <Link to="/admissions">Browse All Programs</Link>
@@ -114,28 +87,17 @@ const CategoryLanding = () => {
 
   return (
     <Layout>
-      {/* Hero Section */}
       <CategoryHero 
         category={category} 
         programCount={courses.length}
         onExploreClick={handleExploreClick}
       />
-
-      {/* Program Explorer Grid */}
       <ProgramGrid courses={courses} category={category} />
-
-      {/* Why Study Section */}
       <WhyStudySection category={category} />
-
-      {/* Compare Table */}
       {courses.length > 1 && (
         <CompareTable courses={courses} />
       )}
-
-      {/* Explore Other Categories */}
       <ExploreOtherCategories currentCategorySlug={category.slug} />
-
-      {/* Final CTA */}
       <CategoryCTA category={category} />
     </Layout>
   );
