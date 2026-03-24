@@ -42,6 +42,9 @@ export interface Course {
   fee: {
     registration: string;
     yearlyFees: { year: string; amount: string }[];
+    fullTable?: { headers: string[]; rows: string[][]; totalRow?: string[] };
+    applicationFee?: string;
+    perks?: string;
   };
   applyLink: string;
   brochureLink: string | null;
