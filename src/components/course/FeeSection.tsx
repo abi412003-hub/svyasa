@@ -100,7 +100,9 @@ const FeeSection = ({ course }: FeeSectionProps) => {
                         >
                           {cIdx > 1 && cIdx < row.length - 1 ? (
                             <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent font-bold text-base">
-                              {/^\d/.test(cell) && !cell.includes("$") ? `₹${cell}` : cell.includes("$") ? `$${cell.replace(/[^0-9.,]/g, "")}` : cell}
+                              {fee.fullTable!.headers[cIdx]?.includes("USD") || cell.includes("$")
+                                ? `$${cell.replace(/[^0-9.,]/g, "")}`
+                                : /^\d/.test(cell) ? `₹${cell}` : cell}
                             </span>
                           ) : (
                             <span className="text-muted-foreground">{cell}</span>
