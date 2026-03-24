@@ -15,26 +15,29 @@ serve(async (req) => {
   }
 
   try {
-    // Auth check
-    const authHeader = req.headers.get("authorization");
-    if (!authHeader) throw new Error("Unauthorized");
-
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
-    const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-    const supabase = createClient(supabaseUrl, supabaseKey);
+    const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    const supabase = createClient(supabaseUrl, serviceRoleKey);
 
-    // Verify admin role
+    // Auth: accept admin JWT
+    const authHeader = req.headers.get("authorization") || "";
     const token = authHeader.replace("Bearer ", "");
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
-    if (authError || !user) throw new Error("Invalid token");
+    let authorized = false;
 
-    const { data: roleData } = await supabase
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", user.id)
-      .eq("role", "admin")
-      .single();
-    if (!roleData) throw new Error("Admin access required");
+    if (token) {
+      const { data: { user } } = await supabase.auth.getUser(token);
+      if (user) {
+        const { data: roleData } = await supabase
+          .from("user_roles")
+          .select("role")
+          .eq("user_id", user.id)
+          .eq("role", "admin")
+          .single();
+        authorized = !!roleData;
+      }
+    }
+
+    if (!authorized) throw new Error("Admin access required");
 
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY not configured");
@@ -46,6 +49,7 @@ serve(async (req) => {
     if (!SPACE_ID) throw new Error("CONTENTFUL_SPACE_ID not configured");
 
     const { action, contentType } = await req.json();
+    console.log(`[contentful-sync] action=${action} contentType=${contentType}`);
 
     const headers = {
       Authorization: `Bearer ${LOVABLE_API_KEY}`,
@@ -53,7 +57,6 @@ serve(async (req) => {
     };
 
     if (action === "list") {
-      // List entries from Contentful
       const limit = 100;
       let skip = 0;
       let allItems: any[] = [];
@@ -67,14 +70,12 @@ serve(async (req) => {
         if (!res.ok) throw new Error(`Contentful API error [${res.status}]: ${await res.text()}`);
         const data = await res.json();
         total = data.total;
-        
-        // Resolve assets
+
         const assets = (data.includes?.Asset || []).reduce((acc: any, a: any) => {
           acc[a.sys.id] = `https:${a.fields.file.url}`;
           return acc;
         }, {});
 
-        // Resolve linked entries (departments etc.)
         const entries = (data.includes?.Entry || []).reduce((acc: any, e: any) => {
           acc[e.sys.id] = e.fields;
           return acc;
@@ -95,7 +96,6 @@ serve(async (req) => {
     }
 
     if (action === "sync") {
-      // Fetch all entries
       const limit = 100;
       let skip = 0;
       let allItems: any[] = [];
@@ -196,7 +196,6 @@ serve(async (req) => {
       }
 
       if (contentType === "department") {
-        // Just return departments for reference - no DB table needed
         const departments = allItems.map((item: any) => ({
           id: item.sys.id,
           name: item.fields.name,
