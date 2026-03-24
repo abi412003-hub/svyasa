@@ -168,7 +168,7 @@ const CourseHero = ({ course, category }: CourseHeroProps) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.9 }}
           >
-            <p className="text-lg md:text-xl text-white/80 italic mb-10 max-w-xl leading-relaxed">
+            <p className="text-lg md:text-xl text-white/80 italic mb-10 max-w-xl leading-relaxed line-clamp-3">
               {course.hookLine}
             </p>
             <motion.div
