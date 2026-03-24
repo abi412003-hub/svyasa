@@ -5,6 +5,7 @@ import Layout from "@/components/layout/Layout";
 import CourseHero from "@/components/course/CourseHero";
 import OverviewSection from "@/components/course/OverviewSection";
 import HighlightsCarousel from "@/components/course/HighlightsCarousel";
+import CourseStructureSection from "@/components/course/CourseStructureSection";
 import EligibilitySection from "@/components/course/EligibilitySection";
 import CareersSection from "@/components/course/CareersSection";
 import TestimonialsSection from "@/components/course/TestimonialsSection";
