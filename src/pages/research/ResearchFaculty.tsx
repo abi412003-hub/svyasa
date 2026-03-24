@@ -352,7 +352,7 @@ export default function ResearchFaculty() {
             { n: leadership.length, label: "Academic Leadership" },
             { n: staff.length, label: "Faculty & Staff" },
             { n: project.length, label: "Project Staff" },
-            { n: facultyData.length, label: "Total Members" },
+            { n: allFaculty.length, label: "Total Members" },
           ].map((s) => (
             <div key={s.label} className="text-center sm:text-left">
               <p className="text-[hsl(var(--saffron))] font-['DM_Mono',monospace] text-2xl font-bold">{s.n}</p>
