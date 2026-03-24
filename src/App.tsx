@@ -59,6 +59,7 @@ import DivisionYogaLifeSciences from "./pages/research/DivisionYogaLifeSciences"
 import DivisionYogaPhysicalSciences from "./pages/research/DivisionYogaPhysicalSciences";
 import DivisionYogaManagement from "./pages/research/DivisionYogaManagement";
 import DivisionYogaHumanities from "./pages/research/DivisionYogaHumanities";
+import DivisionYogaSpirituality from "./pages/research/DivisionYogaSpirituality";
 import EdtechPartners from "./pages/EdtechPartners";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminLayout from "./components/admin/AdminLayout";
