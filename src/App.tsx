@@ -59,6 +59,7 @@ import DivisionYogaLifeSciences from "./pages/research/DivisionYogaLifeSciences"
 import DivisionYogaPhysicalSciences from "./pages/research/DivisionYogaPhysicalSciences";
 import DivisionYogaManagement from "./pages/research/DivisionYogaManagement";
 import DivisionYogaHumanities from "./pages/research/DivisionYogaHumanities";
+import DivisionYogaSpirituality from "./pages/research/DivisionYogaSpirituality";
 import EdtechPartners from "./pages/EdtechPartners";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminLayout from "./components/admin/AdminLayout";
@@ -243,6 +244,7 @@ const App = () => (
           <Route path="/research/division-yoga-physical-sciences" element={<DivisionYogaPhysicalSciences />} />
           <Route path="/research/division-yoga-management" element={<DivisionYogaManagement />} />
           <Route path="/research/division-yoga-humanities" element={<DivisionYogaHumanities />} />
+          <Route path="/research/division-yoga-spirituality" element={<DivisionYogaSpirituality />} />
           
           {/* Important Links */}
           <Route path="/gallery" element={<Gallery />} />
