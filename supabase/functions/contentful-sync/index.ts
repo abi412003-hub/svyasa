@@ -19,12 +19,13 @@ serve(async (req) => {
     const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, supabaseKey);
 
-    // Auth check - accept service role key OR admin JWT
+    // Auth check - accept service role key, sync header, or admin JWT
     const authHeader = req.headers.get("authorization");
-    if (!authHeader) throw new Error("Unauthorized");
+    const syncKey = req.headers.get("x-sync-key");
+    if (!authHeader && !syncKey) throw new Error("Unauthorized");
 
-    const token = authHeader.replace("Bearer ", "");
-    const isServiceRole = token === supabaseKey;
+    const token = authHeader?.replace("Bearer ", "") || "";
+    const isServiceRole = token === supabaseKey || syncKey === supabaseKey;
 
     if (!isServiceRole) {
       const { data: { user }, error: authError } = await supabase.auth.getUser(token);
