@@ -49,7 +49,7 @@ const CourseDetail = () => {
     );
   }
 
-  if (!course || !category) {
+  if (!course) {
     return (
       <Layout>
         <div className="min-h-[80vh] flex flex-col items-center justify-center px-4">
