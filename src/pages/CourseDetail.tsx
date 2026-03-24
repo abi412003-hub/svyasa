@@ -93,6 +93,9 @@ const CourseDetail = () => {
       <OverviewSection course={course} />
       <HighlightsCarousel course={course} />
       <EligibilitySection course={course} />
+      {course.learningJourney && course.learningJourney.length > 0 && (
+        <CourseStructureSection learningJourney={course.learningJourney} />
+      )}
       <CareersSection course={course} />
       <TestimonialsSection />
       <FeeSection course={course} />
