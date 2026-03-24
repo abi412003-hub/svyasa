@@ -15,17 +15,25 @@ function mapOverview(raw: any): string[] {
   });
 }
 
-// Transform DB fee {amount: "1st Year: ₹X, 2nd Year: ₹Y"} to {registration, yearlyFees}
+// Transform DB fee {amount: "1st Year: ₹2,50,000, 2nd Year: ₹2,50,000"} to {registration, yearlyFees}
 function mapFee(raw: any): { registration: string; yearlyFees: { year: string; amount: string }[] } {
   if (!raw) return { registration: "", yearlyFees: [] };
   if (raw.yearlyFees) return raw; // already in expected format
   
-  const amountStr = raw.amount || "";
-  const parts = amountStr.split(",").map((s: string) => s.trim()).filter(Boolean);
-  const yearlyFees = parts.map((part: string) => {
-    const [year, amount] = part.split(":").map((s: string) => s.trim());
-    return { year: year || part, amount: amount || part };
-  });
+  const amountStr: string = raw.amount || "";
+  // Split on pattern like ", 2nd Year" or ", 3rd Year" or ", Internship" — i.e. comma followed by a word that starts a new entry
+  const entries = amountStr.match(/[^,]+(?:,\s*(?!\s*(?:\d+(?:st|nd|rd|th)\s+Year|Internship|Registration))[^,]*)*/gi) || [];
+  
+  const yearlyFees = entries.map((entry: string) => {
+    const trimmed = entry.trim();
+    const colonIdx = trimmed.indexOf(":");
+    if (colonIdx === -1) return { year: trimmed, amount: trimmed };
+    return {
+      year: trimmed.substring(0, colonIdx).trim(),
+      amount: trimmed.substring(colonIdx + 1).trim(),
+    };
+  }).filter(f => f.year);
+  
   return { registration: raw.registration || "", yearlyFees };
 }
 
