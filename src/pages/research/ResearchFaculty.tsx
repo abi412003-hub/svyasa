@@ -266,7 +266,7 @@ export default function ResearchFaculty() {
         .from("faculty_profiles")
         .select("*")
         .eq("is_published", true)
-        .in("department", ["Anvesana Research Labs"])
+        .in("department", ["Anvesana Research Labs", "Department of Life Sciences"])
         .order("display_order", { ascending: true });
 
       if (data) {
