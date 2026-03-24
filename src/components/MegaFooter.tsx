@@ -205,14 +205,20 @@ const MegaFooter = () => {
             <ul className="space-y-1.5">
               {prashanthiPrograms.map((program, index) => (
                 <motion.li
-                  key={program}
+                  key={program.label}
                   initial={{ opacity: 0, x: -10 }}
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
                   transition={{ delay: 0.4 + index * 0.02 }}
                 >
-                  <span className="text-sm text-secondary-foreground/70 hover:text-gold transition-colors cursor-pointer">
-                    {program}
-                  </span>
+                  {program.href.startsWith("http") ? (
+                    <a href={program.href} target="_blank" rel="noopener noreferrer" className="text-sm text-secondary-foreground/70 hover:text-gold transition-colors">
+                      {program.label}
+                    </a>
+                  ) : (
+                    <Link to={program.href} className="text-sm text-secondary-foreground/70 hover:text-gold transition-colors">
+                      {program.label}
+                    </Link>
+                  )}
                 </motion.li>
               ))}
             </ul>
