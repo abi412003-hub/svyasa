@@ -1,10 +1,30 @@
 import { motion, useInView, Variants, AnimatePresence } from "framer-motion";
-import { ChevronDown, X, Award, BookOpen, FlaskConical, Star, User } from "lucide-react";
-import { useRef, useState } from "react";
+import { ChevronDown, X, Award, BookOpen, FlaskConical, Star, User, Linkedin } from "lucide-react";
+import { useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Layout from "@/components/layout/Layout";
 import ResearchSubNav from "@/components/research/ResearchSubNav";
-import { facultyData, type FacultyProfile } from "./facultyData";
+import { supabase } from "@/integrations/supabase/client";
+
+export interface FacultyProfile {
+  id: string;
+  name: string;
+  designation: string;
+  qualifications: string;
+  photo?: string;
+  section: "leadership" | "staff" | "project";
+  achievements?: string[];
+  expertise?: string;
+  research?: string;
+  publications?: string[];
+  linkedin_url?: string;
+}
+
+function mapCategoryToSection(cat: string): "leadership" | "staff" | "project" {
+  if (cat === "Academic Leadership Board") return "leadership";
+  if (cat === "Project Staff") return "project";
+  return "staff";
+}
 
 /* ── Variants ── */
 const fadeUp: Variants = {
