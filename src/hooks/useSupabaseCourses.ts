@@ -25,9 +25,6 @@ function mapCourseRow(row: any): Course {
     applyLink: row.apply_link || "",
     brochureLink: row.brochure_link || null,
     domainTheme: row.domain_theme || "tech",
-    quote: row.quote || undefined,
-    learningJourney: row.learning_journey || undefined,
-    testimonials: row.testimonials || undefined,
   };
 }
 
