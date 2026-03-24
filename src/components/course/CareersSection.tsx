@@ -133,16 +133,16 @@ const CareersSection = ({ course }: CareersSectionProps) => {
                     </div>
 
                     {/* Title */}
-                    <h3 className={`font-bold text-[15px] leading-snug mb-1 transition-colors duration-300 ${
-                      isExpanded ? "text-white" : "text-white/90 group-hover:text-white"
+                    <h3 className={`font-bold text-base leading-snug mb-1 transition-colors duration-300 ${
+                      isExpanded ? "text-white" : "text-white group-hover:text-white"
                     }`}>
                       {career.title}
                     </h3>
 
                     {/* Learn more hint */}
                     <div className={`flex items-center gap-1 transition-all duration-300 ${isExpanded ? "opacity-0 h-0 mt-0" : "opacity-100 mt-2"}`}>
-                      <span className="text-[11px] text-white/30 font-medium tracking-wide">Learn more</span>
-                      <ChevronRight className="w-3 h-3 text-white/30 group-hover:translate-x-0.5 group-hover:text-white/50 transition-all" />
+                      <span className="text-xs text-white/50 font-medium tracking-wide">Learn more</span>
+                      <ChevronRight className="w-3 h-3 text-white/50 group-hover:translate-x-0.5 group-hover:text-white/70 transition-all" />
                     </div>
 
                     {/* Expanded content */}
@@ -155,7 +155,7 @@ const CareersSection = ({ course }: CareersSectionProps) => {
                           transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                           className="overflow-hidden"
                         >
-                          <p className="text-white/45 text-sm leading-relaxed mt-4 pt-4 border-t border-white/[0.06]">
+                          <p className="text-white/60 text-sm leading-relaxed mt-4 pt-4 border-t border-white/[0.08]">
                             {career.description}
                           </p>
                         </motion.div>
