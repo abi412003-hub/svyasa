@@ -236,7 +236,7 @@ const MegaFooter = () => {
                 { label: "About Us", href: "/about" },
                 { label: "Admissions", href: "/admissions" },
                 { label: "Research", href: "/research" },
-                { label: "Careers", href: "/career" },
+                { label: "Careers", href: "/careers" },
                 { label: "Library", href: "/library" },
                 { label: "IQAC", href: "/iqac" },
                 { label: "Gallery", href: "/gallery" },

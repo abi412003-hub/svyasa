@@ -582,7 +582,7 @@ export const allRoutes: NavLink[] = [
   
   // Important Links
   { label: "Gallery", href: "/gallery" },
-  { label: "Careers", href: "/career" },
+  { label: "Careers", href: "/careers" },
   { label: "Library", href: "/library" },
   { label: "Exams", href: "/exams" },
   { label: "IQAC", href: "/iqac" },

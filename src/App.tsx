@@ -126,109 +126,109 @@ const App = () => (
           <Route path="/life-at-svyasa" element={<LifeAtSvyasa />} />
           <Route path="/contact-us" element={<ContactUs />} />
           
-          {/* Undergraduate Programs */}
-          <Route path="/bca" element={<ComingSoon />} />
-          <Route path="/bca-cybersecurity-ethical-hacking-digital-forensics" element={<ComingSoon />} />
-          <Route path="/bca-artificial-intelligence-cloud-computing-devops" element={<ComingSoon />} />
-          <Route path="/bca-data-science-artificial-intelligence-big-data-analytics" element={<ComingSoon />} />
-          <Route path="/bca-cloud-computing-cybersecurity-ethical-hacking" element={<ComingSoon />} />
-          <Route path="/bca-artificial-intelligence-robotics-internet-of-things" element={<ComingSoon />} />
-          <Route path="/bca-artificial-intelligence-machine-learning-robotics" element={<ComingSoon />} />
-          <Route path="/bba" element={<ComingSoon />} />
-          <Route path="/bba-in-sports-management" element={<ComingSoon />} />
-          <Route path="/bba-logistics-and-aviation" element={<ComingSoon />} />
-          <Route path="/bba-business-management-digital-marketing-business-analytics" element={<ComingSoon />} />
-          <Route path="/bba-entrepreneurship-innovation-business-analytics" element={<ComingSoon />} />
-          <Route path="/bba-logistics-supply-chain-management-port-management" element={<ComingSoon />} />
-          <Route path="/bcom" element={<ComingSoon />} />
-          <Route path="/b-com-international-accounting-finance-integrated-with-acca" element={<ComingSoon />} />
-          <Route path="/btech" element={<ComingSoon />} />
-          <Route path="/niat-corporate-b-tech-in-cse" element={<ComingSoon />} />
-          <Route path="/btech-computer-science-and-engineering" element={<ComingSoon />} />
-          <Route path="/btech-computer-science-and-information-technology" element={<ComingSoon />} />
-          <Route path="/btech-computer-science-software-engineering" element={<ComingSoon />} />
-          <Route path="/btech-artificial-intelligence-machine-learning" element={<ComingSoon />} />
-          <Route path="/btech-computer-science-engineering-data-science" element={<ComingSoon />} />
-          <Route path="/btech-computer-science-engineering-cyber-security" element={<ComingSoon />} />
-          <Route path="/bsc" element={<ComingSoon />} />
-          <Route path="/bsc-computer-science" element={<ComingSoon />} />
-          <Route path="/bsc-artificial-intelligence-machine-learning-robotics" element={<ComingSoon />} />
-          <Route path="/bsc-clinical-psychology" element={<ComingSoon />} />
-          <Route path="/bachelor-of-physiotherapy" element={<ComingSoon />} />
-          <Route path="/bachelor-of-occupational-therapy" element={<ComingSoon />} />
+          {/* Legacy course redirects → dynamic /courses/:slug */}
+          <Route path="/bca" element={<Navigate to="/programs/bca" replace />} />
+          <Route path="/bca-cybersecurity-ethical-hacking-digital-forensics" element={<Navigate to="/courses/bca-cybersecurity-ethical-hacking-digital-forensics" replace />} />
+          <Route path="/bca-artificial-intelligence-cloud-computing-devops" element={<Navigate to="/courses/bca-artificial-intelligence-cloud-computing-devops" replace />} />
+          <Route path="/bca-data-science-artificial-intelligence-big-data-analytics" element={<Navigate to="/courses/bca-data-science-artificial-intelligence-big-data-analytics" replace />} />
+          <Route path="/bca-cloud-computing-cybersecurity-ethical-hacking" element={<Navigate to="/courses/bca-cloud-computing-cybersecurity-ethical-hacking" replace />} />
+          <Route path="/bca-artificial-intelligence-robotics-internet-of-things" element={<Navigate to="/courses/bca-artificial-intelligence-robotics-internet-of-things" replace />} />
+          <Route path="/bca-artificial-intelligence-machine-learning-robotics" element={<Navigate to="/courses/bca-artificial-intelligence-machine-learning-robotics" replace />} />
+          <Route path="/bba" element={<Navigate to="/programs/bba" replace />} />
+          <Route path="/bba-in-sports-management" element={<Navigate to="/courses/bba-in-sports-management" replace />} />
+          <Route path="/bba-logistics-and-aviation" element={<Navigate to="/courses/bba-logistics-and-aviation" replace />} />
+          <Route path="/bba-business-management-digital-marketing-business-analytics" element={<Navigate to="/courses/bba-business-management-digital-marketing-business-analytics" replace />} />
+          <Route path="/bba-entrepreneurship-innovation-business-analytics" element={<Navigate to="/courses/bba-entrepreneurship-innovation-business-analytics" replace />} />
+          <Route path="/bba-logistics-supply-chain-management-port-management" element={<Navigate to="/courses/bba-logistics-supply-chain-management-port-management" replace />} />
+          <Route path="/bcom" element={<Navigate to="/programs/bcom" replace />} />
+          <Route path="/b-com-international-accounting-finance-integrated-with-acca" element={<Navigate to="/courses/bcom-international-accounting-finance-acca" replace />} />
+          <Route path="/btech" element={<Navigate to="/programs/btech" replace />} />
+          <Route path="/niat-corporate-b-tech-in-cse" element={<Navigate to="/courses/niat-corporate-btech-cse" replace />} />
+          <Route path="/btech-computer-science-and-engineering" element={<Navigate to="/courses/btech-computer-science-engineering" replace />} />
+          <Route path="/btech-computer-science-and-information-technology" element={<Navigate to="/courses/btech-computer-science-information-technology" replace />} />
+          <Route path="/btech-computer-science-software-engineering" element={<Navigate to="/courses/btech-computer-science-software-engineering" replace />} />
+          <Route path="/btech-artificial-intelligence-machine-learning" element={<Navigate to="/courses/btech-artificial-intelligence-machine-learning" replace />} />
+          <Route path="/btech-computer-science-engineering-data-science" element={<Navigate to="/courses/btech-computer-science-engineering-data-science" replace />} />
+          <Route path="/btech-computer-science-engineering-cyber-security" element={<Navigate to="/courses/btech-computer-science-engineering-cyber-security" replace />} />
+          <Route path="/bsc" element={<Navigate to="/programs/bsc" replace />} />
+          <Route path="/bsc-computer-science" element={<Navigate to="/courses/bsc-computer-science" replace />} />
+          <Route path="/bsc-artificial-intelligence-machine-learning-robotics" element={<Navigate to="/courses/bsc-artificial-intelligence-machine-learning-robotics" replace />} />
+          <Route path="/bsc-clinical-psychology" element={<Navigate to="/courses/bsc-clinical-psychology" replace />} />
+          <Route path="/bachelor-of-physiotherapy" element={<Navigate to="/courses/bachelor-of-physiotherapy" replace />} />
+          <Route path="/bachelor-of-occupational-therapy" element={<Navigate to="/courses/bachelor-of-occupational-therapy" replace />} />
           
-          {/* Postgraduate Programs */}
-          <Route path="/mca" element={<ComingSoon />} />
-          <Route path="/mca-cloud-computing-devops" element={<ComingSoon />} />
-          <Route path="/mca-cybersecurity-ethical-hacking-cyber-forensics" element={<ComingSoon />} />
-          <Route path="/mca-artificial-intelligence-machine-learning-data-science" element={<ComingSoon />} />
-          <Route path="/mca-data-science" element={<ComingSoon />} />
-          <Route path="/mca-data-science-big-data-analytics" element={<ComingSoon />} />
-          <Route path="/mca-data-science-internet-of-things" element={<ComingSoon />} />
-          <Route path="/mba" element={<ComingSoon />} />
-          <Route path="/mba-dual-specialisation" element={<ComingSoon />} />
-          <Route path="/mba-marketing-finance-business-analytics" element={<ComingSoon />} />
-          <Route path="/mba-hospital-administration-with-medical-tourism" element={<ComingSoon />} />
-          <Route path="/mba-logistics-and-supply-chain-management" element={<ComingSoon />} />
-          <Route path="/mba-digital-business-management-data-analytics" element={<ComingSoon />} />
-          <Route path="/mba-pro-ai-data-analytics" element={<ComingSoon />} />
-          <Route path="/mba-digital-marketing-and-ai" element={<ComingSoon />} />
-          <Route path="/msc" element={<ComingSoon />} />
-          <Route path="/msc-cybersecurity-ethical-hacking-cyber-forensics" element={<ComingSoon />} />
-          <Route path="/msc-data-science" element={<ComingSoon />} />
-          <Route path="/msc-data-science-big-data-analytics" element={<ComingSoon />} />
-          <Route path="/msc-clinical-psychology" element={<ComingSoon />} />
-          <Route path="/msc-neuropsychology" element={<ComingSoon />} />
-          <Route path="/msc-counselling-psychology" element={<ComingSoon />} />
-          <Route path="/msc-health-psychology" element={<ComingSoon />} />
+          {/* Postgraduate redirects */}
+          <Route path="/mca" element={<Navigate to="/programs/mca" replace />} />
+          <Route path="/mca-cloud-computing-devops" element={<Navigate to="/courses/mca-cloud-computing-devops" replace />} />
+          <Route path="/mca-cybersecurity-ethical-hacking-cyber-forensics" element={<Navigate to="/courses/mca-cybersecurity-ethical-hacking-cyber-forensics" replace />} />
+          <Route path="/mca-artificial-intelligence-machine-learning-data-science" element={<Navigate to="/courses/mca-artificial-intelligence-machine-learning-data-science" replace />} />
+          <Route path="/mca-data-science" element={<Navigate to="/courses/mca-data-science" replace />} />
+          <Route path="/mca-data-science-big-data-analytics" element={<Navigate to="/courses/mca-data-science-big-data-analytics" replace />} />
+          <Route path="/mca-data-science-internet-of-things" element={<Navigate to="/courses/mca-data-science-internet-of-things" replace />} />
+          <Route path="/mba" element={<Navigate to="/programs/mba" replace />} />
+          <Route path="/mba-dual-specialisation" element={<Navigate to="/courses/mba-dual-specialisation" replace />} />
+          <Route path="/mba-marketing-finance-business-analytics" element={<Navigate to="/courses/mba-marketing-finance-business-analytics" replace />} />
+          <Route path="/mba-hospital-administration-with-medical-tourism" element={<Navigate to="/courses/mba-hospital-administration-medical-tourism" replace />} />
+          <Route path="/mba-logistics-and-supply-chain-management" element={<Navigate to="/courses/mba-logistics-supply-chain-management" replace />} />
+          <Route path="/mba-digital-business-management-data-analytics" element={<Navigate to="/courses/mba-digital-business-management-data-analytics" replace />} />
+          <Route path="/mba-pro-ai-data-analytics" element={<Navigate to="/courses/mba-pro-ai-data-analytics" replace />} />
+          <Route path="/mba-digital-marketing-and-ai" element={<Navigate to="/courses/mba-digital-marketing-ai" replace />} />
+          <Route path="/msc" element={<Navigate to="/programs/msc" replace />} />
+          <Route path="/msc-cybersecurity-ethical-hacking-cyber-forensics" element={<Navigate to="/courses/msc-cybersecurity-ethical-hacking-cyber-forensics" replace />} />
+          <Route path="/msc-data-science" element={<Navigate to="/courses/msc-data-science" replace />} />
+          <Route path="/msc-data-science-big-data-analytics" element={<Navigate to="/courses/msc-data-science-big-data-analytics" replace />} />
+          <Route path="/msc-clinical-psychology" element={<Navigate to="/courses/msc-clinical-psychology" replace />} />
+          <Route path="/msc-neuropsychology" element={<Navigate to="/courses/msc-neuropsychology" replace />} />
+          <Route path="/msc-counselling-psychology" element={<Navigate to="/courses/msc-counselling-psychology" replace />} />
+          <Route path="/msc-health-psychology" element={<Navigate to="/courses/msc-health-psychology" replace />} />
           
           {/* D.Sc., D.Litt */}
-          <Route path="/dlit" element={<ComingSoon />} />
+          <Route path="/dlit" element={<Navigate to="/courses/dsc-dlitt" replace />} />
           
-          {/* Yoga Programs */}
-          <Route path="/yoga-programs" element={<ComingSoon />} />
-          <Route path="/ayurveda-lifestyle-management-course" element={<ComingSoon />} />
-          <Route path="/yoga-instructor-course" element={<ComingSoon />} />
-          <Route path="/non-residential-yic" element={<ComingSoon />} />
-          <Route path="/bsc-yoga-vedic-therapy" element={<ComingSoon />} />
-          <Route path="/bachelor-of-science-in-yoga-therapy" element={<ComingSoon />} />
-          <Route path="/master-of-science-in-yoga-therapy" element={<ComingSoon />} />
-          <Route path="/master-of-science-yoga-vedic-therapy" element={<ComingSoon />} />
-          <Route path="/bachelor-of-naturopathy-and-yogic-sciences" element={<ComingSoon />} />
-          <Route path="/doctor-of-medicine-yoga" element={<ComingSoon />} />
-          <Route path="/post-graduate-diploma-in-yoga-therapy" element={<ComingSoon />} />
-          <Route path="/post-graduate-yoga-diploma-for-doctors" element={<ComingSoon />} />
-          <Route path="/phd-yoga" element={<ComingSoon />} />
-          <Route path="/self-management-of-excessive-tension" element={<ComingSoon />} />
-          <Route path="/division-of-yoga-and-humanities" element={<ComingSoon />} />
-          <Route path="/aerial-yoga-teacher-training-course" element={<ComingSoon />} />
+          {/* Yoga Programs redirects */}
+          <Route path="/yoga-programs" element={<Navigate to="/programs/yoga-programmes" replace />} />
+          <Route path="/ayurveda-lifestyle-management-course" element={<Navigate to="/courses/ayurveda-lifestyle-management" replace />} />
+          <Route path="/yoga-instructor-course" element={<Navigate to="/courses/yoga-instructor-course" replace />} />
+          <Route path="/non-residential-yic" element={<Navigate to="/courses/non-residential-yic" replace />} />
+          <Route path="/bsc-yoga-vedic-therapy" element={<Navigate to="/courses/bsc-yoga-vedic-therapy" replace />} />
+          <Route path="/bachelor-of-science-in-yoga-therapy" element={<Navigate to="/courses/bsc-yoga-therapy" replace />} />
+          <Route path="/master-of-science-in-yoga-therapy" element={<Navigate to="/courses/msc-yoga-therapy" replace />} />
+          <Route path="/master-of-science-yoga-vedic-therapy" element={<Navigate to="/courses/msc-yoga-vedic-therapy" replace />} />
+          <Route path="/bachelor-of-naturopathy-and-yogic-sciences" element={<Navigate to="/courses/bnys" replace />} />
+          <Route path="/doctor-of-medicine-yoga" element={<Navigate to="/courses/doctor-of-medicine-yoga" replace />} />
+          <Route path="/post-graduate-diploma-in-yoga-therapy" element={<Navigate to="/courses/pg-diploma-yoga-therapy" replace />} />
+          <Route path="/post-graduate-yoga-diploma-for-doctors" element={<Navigate to="/courses/pg-diploma-yoga-for-doctors" replace />} />
+          <Route path="/phd-yoga" element={<Navigate to="/courses/phd-yoga" replace />} />
+          <Route path="/self-management-of-excessive-tension" element={<Navigate to="/courses/self-management-excessive-tension" replace />} />
+          <Route path="/division-of-yoga-and-humanities" element={<Navigate to="/courses/division-yoga-humanities" replace />} />
+          <Route path="/aerial-yoga-teacher-training-course" element={<Navigate to="/courses/aerial-yoga" replace />} />
           <Route path="/personality-development-camp" element={<ComingSoon />} />
           <Route path="/personality-development-camp-for-children" element={<ComingSoon />} />
           <Route path="/himalaya-yoga-olympiad" element={<ComingSoon />} />
-          <Route path="/master-of-arts-in-yoga" element={<ComingSoon />} />
+          <Route path="/master-of-arts-in-yoga" element={<Navigate to="/courses/master-of-arts-yoga-darshanam" replace />} />
           <Route path="/spec" element={<ComingSoon />} />
           
-          {/* Ph.D Programs */}
-          <Route path="/phd-programs" element={<ComingSoon />} />
-          <Route path="/doctor-of-philosophy-in-computer-science" element={<ComingSoon />} />
-          <Route path="/doctor-of-philosophy-in-computer-science-and-engineering" element={<ComingSoon />} />
-          <Route path="/doctor-of-philosophy-in-management-and-commerce" element={<ComingSoon />} />
-          <Route path="/doctor-of-philosophy-in-applied-sciences" element={<ComingSoon />} />
-          <Route path="/doctor-of-philosophy-in-allied-sciences" element={<ComingSoon />} />
-          <Route path="/doctor-of-philosophy-in-english" element={<ComingSoon />} />
+          {/* Ph.D Programs redirects */}
+          <Route path="/phd-programs" element={<Navigate to="/programs/phd" replace />} />
+          <Route path="/doctor-of-philosophy-in-computer-science" element={<Navigate to="/courses/phd-computer-science" replace />} />
+          <Route path="/doctor-of-philosophy-in-computer-science-and-engineering" element={<Navigate to="/courses/phd-computer-science-engineering" replace />} />
+          <Route path="/doctor-of-philosophy-in-management-and-commerce" element={<Navigate to="/courses/phd-commerce-management" replace />} />
+          <Route path="/doctor-of-philosophy-in-applied-sciences" element={<Navigate to="/courses/phd-applied-sciences" replace />} />
+          <Route path="/doctor-of-philosophy-in-allied-sciences" element={<Navigate to="/courses/phd-allied-sciences" replace />} />
+          <Route path="/doctor-of-philosophy-in-english" element={<Navigate to="/courses/phd-english" replace />} />
           
           {/* Allied Healthcare */}
-          <Route path="/allied-sciences" element={<ComingSoon />} />
+          <Route path="/allied-sciences" element={<Navigate to="/programs/allied-healthcare" replace />} />
           
-          {/* Departments */}
-          <Route path="/department-of-commerce-and-management" element={<ComingSoon />} />
-          <Route path="/department-of-engineering-and-technology" element={<ComingSoon />} />
-          <Route path="/department-of-computer-science-application" element={<ComingSoon />} />
-          <Route path="/department-of-allied-health-care-professionals" element={<ComingSoon />} />
-          <Route path="/department-of-allied-health-science" element={<ComingSoon />} />
-          <Route path="/department-of-physiotherapy" element={<ComingSoon />} />
-          <Route path="/division-of-yoga-and-humanities-gcc" element={<ComingSoon />} />
-          <Route path="/department-of-science-and-humanities" element={<ComingSoon />} />
+          {/* Department redirects */}
+          <Route path="/department-of-commerce-and-management" element={<Navigate to="/divisions/yoga-management-studies/schools/school-of-commerce-and-management" replace />} />
+          <Route path="/department-of-engineering-and-technology" element={<Navigate to="/divisions/yoga-physical-sciences/schools/school-of-engineering" replace />} />
+          <Route path="/department-of-computer-science-application" element={<Navigate to="/divisions/yoga-physical-sciences/schools/school-of-computer-sciences" replace />} />
+          <Route path="/department-of-allied-health-care-professionals" element={<Navigate to="/divisions/yoga-life-sciences/schools/school-of-allied-and-healthcare" replace />} />
+          <Route path="/department-of-allied-health-science" element={<Navigate to="/divisions/yoga-life-sciences/schools/school-of-allied-and-healthcare" replace />} />
+          <Route path="/department-of-physiotherapy" element={<Navigate to="/divisions/yoga-life-sciences/schools/school-of-physiotherapy" replace />} />
+          <Route path="/division-of-yoga-and-humanities-gcc" element={<Navigate to="/divisions/yoga-humanities" replace />} />
+          <Route path="/department-of-science-and-humanities" element={<Navigate to="/divisions/yoga-humanities" replace />} />
           
           {/* Research */}
           <Route path="/research" element={<ResearchAbout />} />
