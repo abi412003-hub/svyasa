@@ -126,14 +126,14 @@ const CareersSection = ({ course }: CareersSectionProps) => {
                       </div>
                       <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full ${demand.bg}`}>
                         <span className={`w-[6px] h-[6px] rounded-full ${demand.dot}`} />
-                        <span className={`text-[10px] font-bold uppercase tracking-widest ${demand.text}`}>
+                        <span className={`text-xs font-bold uppercase tracking-widest ${demand.text}`}>
                           {demand.label}
                         </span>
                       </div>
                     </div>
 
                     {/* Title */}
-                    <h3 className={`font-bold text-base leading-snug mb-1 transition-colors duration-300 ${
+                    <h3 className={`font-bold text-lg md:text-xl leading-snug mb-1 transition-colors duration-300 ${
                       isExpanded ? "text-white" : "text-white group-hover:text-white"
                     }`}>
                       {career.title}
@@ -141,7 +141,7 @@ const CareersSection = ({ course }: CareersSectionProps) => {
 
                     {/* Learn more hint */}
                     <div className={`flex items-center gap-1 transition-all duration-300 ${isExpanded ? "opacity-0 h-0 mt-0" : "opacity-100 mt-2"}`}>
-                      <span className="text-xs text-white/50 font-medium tracking-wide">Learn more</span>
+                      <span className="text-sm text-white/50 font-medium tracking-wide">Learn more</span>
                       <ChevronRight className="w-3 h-3 text-white/50 group-hover:translate-x-0.5 group-hover:text-white/70 transition-all" />
                     </div>
 
@@ -155,7 +155,7 @@ const CareersSection = ({ course }: CareersSectionProps) => {
                           transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                           className="overflow-hidden"
                         >
-                          <p className="text-white/60 text-sm leading-relaxed mt-4 pt-4 border-t border-white/[0.08]">
+                          <p className="text-white/60 text-base leading-relaxed mt-4 pt-4 border-t border-white/[0.08]">
                             {career.description}
                           </p>
                         </motion.div>
