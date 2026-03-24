@@ -100,6 +100,11 @@ function FacultyModal({ member, onClose }: { member: FacultyProfile; onClose: ()
                   {member.name}
                 </h2>
                 <p className="text-white/70 text-sm">{member.designation}</p>
+                {member.linkedin_url && (
+                  <a href={member.linkedin_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-white/60 hover:text-white text-xs mt-1 transition-colors">
+                    <Linkedin size={12} /> LinkedIn
+                  </a>
+                )}
               </div>
             </div>
             {member.qualifications && (
