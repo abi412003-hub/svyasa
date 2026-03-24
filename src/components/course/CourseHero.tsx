@@ -18,7 +18,7 @@ const getCampusImageForSlug = (slug: string): string => {
 
 interface CourseHeroProps {
   course: Course;
-  category: Category;
+  category: Category | null;
 }
 
 const CourseHero = ({ course, category }: CourseHeroProps) => {
@@ -97,7 +97,7 @@ const CourseHero = ({ course, category }: CourseHeroProps) => {
           {[
             { label: "Home", to: "/" },
             { label: "Programs", to: "/admissions" },
-            { label: category.shortTitle, to: `/programs/${category.slug}` },
+            ...(category ? [{ label: category.shortTitle, to: `/programs/${category.slug}` }] : []),
             { label: course.title.length > course.shortTitle.length ? course.title : course.shortTitle, to: null }
           ].map((crumb, i) => (
             <motion.span

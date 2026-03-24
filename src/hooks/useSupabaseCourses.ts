@@ -214,7 +214,8 @@ export function useCategoryBySlug(slug: string | undefined) {
 }
 
 // Find the category whose program_slugs contains the given course slug
-export function useCategoryForCourse(courseSlug: string | undefined) {
+// Falls back to matching by the course's category field if not found in program_slugs
+export function useCategoryForCourse(courseSlug: string | undefined, courseCategorySlug?: string) {
   const [category, setCategory] = useState<Category | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -222,18 +223,45 @@ export function useCategoryForCourse(courseSlug: string | undefined) {
     if (!courseSlug) { setIsLoading(false); return; }
     setIsLoading(true);
 
-    supabase
-      .from("categories")
-      .select("*")
-      .eq("is_published", true)
-      .contains("program_slugs", JSON.stringify([courseSlug]))
-      .maybeSingle()
-      .then(({ data, error }) => {
-        if (error) console.error("Category for course error:", error);
-        setCategory(data ? mapCategoryRow(data) : null);
+    const fetchCategory = async () => {
+      // First try: find category whose program_slugs contains this course slug
+      const { data: bySlug, error: err1 } = await supabase
+        .from("categories")
+        .select("*")
+        .eq("is_published", true)
+        .contains("program_slugs", JSON.stringify([courseSlug]))
+        .maybeSingle();
+
+      if (bySlug) {
+        setCategory(mapCategoryRow(bySlug));
         setIsLoading(false);
-      });
-  }, [courseSlug]);
+        return;
+      }
+
+      // Fallback: find any category matching the course's category field
+      if (courseCategorySlug) {
+        const { data: byCat } = await supabase
+          .from("categories")
+          .select("*")
+          .eq("is_published", true)
+          .eq("level", courseCategorySlug === "bachelors" ? "undergraduate" : "postgraduate")
+          .limit(1)
+          .maybeSingle();
+
+        if (byCat) {
+          setCategory(mapCategoryRow(byCat));
+          setIsLoading(false);
+          return;
+        }
+      }
+
+      if (err1) console.error("Category for course error:", err1);
+      setCategory(null);
+      setIsLoading(false);
+    };
+
+    fetchCategory();
+  }, [courseSlug, courseCategorySlug]);
 
   return { category, isLoading };
 }
