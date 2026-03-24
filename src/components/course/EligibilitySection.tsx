@@ -98,13 +98,31 @@ const EligibilitySection = ({ course }: EligibilitySectionProps) => {
               className="relative rounded-2xl overflow-hidden mb-8"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-green-50 to-emerald-50" />
-              <div className="relative p-6 flex items-center gap-5">
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400 to-green-500 flex items-center justify-center shrink-0 shadow-lg shadow-emerald-200">
-                  <CheckCircle className="w-7 h-7 text-white" />
+              <div className="relative p-6 md:p-8">
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-400 to-green-500 flex items-center justify-center shrink-0 shadow-lg shadow-emerald-200">
+                    <CheckCircle className="w-5 h-5 text-white" />
+                  </div>
+                  <h3 className="text-lg font-bold text-foreground">Key Requirements</h3>
                 </div>
-                <p className="text-lg font-bold text-foreground leading-snug">
-                  {course.eligibility.primary}
-                </p>
+                <ul className="space-y-3">
+                  {course.eligibility.primary
+                    .split(/\*\s*/)
+                    .map(item => item.trim())
+                    .filter(Boolean)
+                    .map((item, i) => (
+                      <motion.li
+                        key={i}
+                        initial={shouldReduceMotion ? {} : { opacity: 0, x: -10 }}
+                        animate={isInView ? { opacity: 1, x: 0 } : {}}
+                        transition={{ duration: 0.3, delay: 0.3 + i * 0.05 }}
+                        className="flex items-start gap-3"
+                      >
+                        <span className="mt-1.5 w-2 h-2 rounded-full bg-gradient-to-r from-emerald-400 to-green-500 shrink-0" />
+                        <span className="text-sm text-foreground/80 leading-relaxed">{item}</span>
+                      </motion.li>
+                    ))}
+                </ul>
               </div>
             </motion.div>
 
