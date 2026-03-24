@@ -108,27 +108,40 @@ export default function AdminFacultyEditor() {
       toast({ title: "Name and slug required", variant: "destructive" }); return;
     }
     setSaving(true);
-    const payload = {
-      name: form.name, slug: form.slug, designation: form.designation,
-      department: form.department, faculty_category: form.faculty_category,
-      qualifications: form.qualifications, bio: form.bio, photo_url: form.photo_url,
-      email: form.email, phone: form.phone, google_scholar_url: form.google_scholar_url,
-      orcid_id: form.orcid_id, linkedin_url: form.linkedin_url,
-      achievements: form.achievements, publications: form.publications,
-      research: form.research, responsibility: form.responsibility,
-      research_interests: form.research_interests, area_of_expertise: form.area_of_expertise,
-      display_order: form.display_order, is_published: form.is_published,
-      contentful_id: form.contentful_id || `local-${form.slug}`,
-    };
-    let error;
-    if (isNew) ({ error } = await supabase.from("faculty_profiles").insert(payload));
-    else ({ error } = await supabase.from("faculty_profiles").update(payload).eq("id", id));
-    setSaving(false);
-    if (error) {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
-    } else {
-      toast({ title: isNew ? "Faculty created" : "Faculty updated" });
+
+    try {
+      const facultyPayload = {
+        name: form.name, slug: form.slug, designation: form.designation,
+        department: form.department, faculty_category: form.faculty_category,
+        qualifications: form.qualifications, bio: form.bio, photo_url: form.photo_url,
+        email: form.email, phone: form.phone, google_scholar_url: form.google_scholar_url,
+        orcid_id: form.orcid_id, linkedin_url: form.linkedin_url,
+        achievements: form.achievements, publications: form.publications,
+        research: form.research, responsibility: form.responsibility,
+        research_interests: form.research_interests, area_of_expertise: form.area_of_expertise,
+        display_order: form.display_order, is_published: form.is_published,
+      };
+
+      // Push to Contentful first, which also syncs back to Supabase
+      const { data: result, error } = await supabase.functions.invoke("contentful-push", {
+        body: { action: "push-faculty", faculty: facultyPayload },
+      });
+
+      if (error) throw error;
+
+      if (result?.action?.includes("failed")) {
+        throw new Error(result.error || "Contentful push failed");
+      }
+
+      toast({
+        title: isNew ? "Faculty created" : "Faculty updated",
+        description: `Pushed to Contentful (${result?.action}) and synced to database.`,
+      });
       navigate("/admin/faculty");
+    } catch (err: any) {
+      toast({ title: "Error", description: err.message || "Save failed", variant: "destructive" });
+    } finally {
+      setSaving(false);
     }
   };
 
