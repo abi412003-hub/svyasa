@@ -101,26 +101,52 @@ function mapEligibility(raw: any): Course["eligibility"] {
   };
 }
 
-// Transform highlights: handle both structured [{icon, title, ...}] and raw string arrays
-function mapHighlights(raw: any): CourseHighlight[] {
-  if (!Array.isArray(raw)) return [];
-  return raw.filter((item: any) => typeof item === "object" && item !== null && item.title).map((item: any, i: number) => ({
-    number: item.number || String(i + 1).padStart(2, "0"),
-    icon: item.icon || "sparkles",
-    title: item.title || "",
-    description: item.description || "",
-  }));
+// Parse markdown-formatted string like "### __Title:\n\nDescription" into {title, description}
+function parseMarkdownEntry(text: string): { title: string; description: string } | null {
+  if (typeof text !== "string") return null;
+  const match = text.match(/###\s*(?:__)?(.+?)(?::)?\s*\n+([\s\S]*)/);
+  if (match) return { title: match[1].trim(), description: match[2].trim() };
+  return null;
 }
 
-// Transform careers: handle both structured [{icon, title, ...}] and raw string arrays
+// Transform highlights: handle structured objects, markdown strings, or plain strings
+function mapHighlights(raw: any): CourseHighlight[] {
+  if (!Array.isArray(raw)) return [];
+  return raw.map((item: any, i: number) => {
+    if (typeof item === "object" && item !== null && item.title) {
+      return {
+        number: item.number || String(i + 1).padStart(2, "0"),
+        icon: item.icon || "sparkles",
+        title: item.title,
+        description: item.description || "",
+      };
+    }
+    if (typeof item === "string") {
+      const parsed = parseMarkdownEntry(item);
+      if (parsed) return { number: String(i + 1).padStart(2, "0"), icon: "sparkles", ...parsed };
+    }
+    return null;
+  }).filter(Boolean) as CourseHighlight[];
+}
+
+// Transform careers: handle structured objects, markdown strings, or plain strings
 function mapCareers(raw: any): CareerPath[] {
   if (!Array.isArray(raw)) return [];
-  return raw.filter((item: any) => typeof item === "object" && item !== null && item.title).map((item: any) => ({
-    icon: item.icon || "briefcase",
-    title: item.title || "",
-    description: item.description || "",
-    demand: item.demand || "growing",
-  }));
+  return raw.map((item: any) => {
+    if (typeof item === "object" && item !== null && item.title) {
+      return {
+        icon: item.icon || "briefcase",
+        title: item.title,
+        description: item.description || "",
+        demand: item.demand || "growing",
+      };
+    }
+    if (typeof item === "string") {
+      const parsed = parseMarkdownEntry(item);
+      if (parsed) return { icon: "briefcase", ...parsed, demand: "growing" as const };
+    }
+    return null;
+  }).filter(Boolean) as CareerPath[];
 }
 
 // Map Supabase snake_case row to camelCase Course interface
