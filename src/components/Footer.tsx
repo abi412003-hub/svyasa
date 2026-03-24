@@ -143,18 +143,30 @@ const Footer = () => {
               <ul className="space-y-2">
                 {links.map((link, linkIndex) => (
                   <motion.li
-                    key={link}
+                    key={link.label}
                     initial={{ opacity: 0, x: -10 }}
                     animate={isInView ? { opacity: 1, x: 0 } : {}}
                     transition={{ delay: 0.3 + columnIndex * 0.1 + linkIndex * 0.05 }}
                   >
-                    <a
-                      href="#"
-                      className="text-sm text-secondary-foreground/70 hover:text-gold transition-colors relative group inline-block"
-                    >
-                      {link}
-                      <span className="absolute bottom-0 left-0 w-0 h-px bg-gold transition-all duration-300 group-hover:w-full" />
-                    </a>
+                    {link.href.startsWith("http") ? (
+                      <a
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm text-secondary-foreground/70 hover:text-gold transition-colors relative group inline-block"
+                      >
+                        {link.label}
+                        <span className="absolute bottom-0 left-0 w-0 h-px bg-gold transition-all duration-300 group-hover:w-full" />
+                      </a>
+                    ) : (
+                      <Link
+                        to={link.href}
+                        className="text-sm text-secondary-foreground/70 hover:text-gold transition-colors relative group inline-block"
+                      >
+                        {link.label}
+                        <span className="absolute bottom-0 left-0 w-0 h-px bg-gold transition-all duration-300 group-hover:w-full" />
+                      </Link>
+                    )}
                   </motion.li>
                 ))}
               </ul>
