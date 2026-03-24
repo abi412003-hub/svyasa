@@ -141,7 +141,7 @@ const CareersSection = ({ course }: CareersSectionProps) => {
 
                     {/* Learn more hint */}
                     <div className={`flex items-center gap-1 transition-all duration-300 ${isExpanded ? "opacity-0 h-0 mt-0" : "opacity-100 mt-2"}`}>
-                      <span className="text-xs text-white/50 font-medium tracking-wide">Learn more</span>
+                      <span className="text-sm text-white/50 font-medium tracking-wide">Learn more</span>
                       <ChevronRight className="w-3 h-3 text-white/50 group-hover:translate-x-0.5 group-hover:text-white/70 transition-all" />
                     </div>
 
