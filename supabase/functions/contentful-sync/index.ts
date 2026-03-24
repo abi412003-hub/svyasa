@@ -22,27 +22,29 @@ serve(async (req) => {
     // Auth: accept admin JWT
     const authHeader = req.headers.get("authorization") || "";
     const token = authHeader.replace("Bearer ", "");
-    const serviceKeyHeader = req.headers.get("x-service-role-key") || "";
     let authorized = false;
 
-    console.log(`[auth-debug] token-length=${token.length} serviceKeyHeader-length=${serviceKeyHeader.length} serviceRoleKey-length=${serviceRoleKey?.length || 0}`);
-    console.log(`[auth-debug] token-match=${token === serviceRoleKey} header-match=${serviceKeyHeader === serviceRoleKey}`);
+    if (token) {
+      // Check if JWT has service_role claim (decode without verification — Supabase gateway already verified)
+      try {
+        const payload = JSON.parse(atob(token.split(".")[1]));
+        if (payload.role === "service_role") {
+          authorized = true;
+        }
+      } catch (_) { /* not a JWT */ }
 
-    // Allow service-role key via custom header or Authorization
-    if (serviceKeyHeader && serviceKeyHeader === serviceRoleKey) {
-      authorized = true;
-    } else if (token && token === serviceRoleKey) {
-      authorized = true;
-    } else if (token) {
-      const { data: { user } } = await supabase.auth.getUser(token);
-      if (user) {
-        const { data: roleData } = await supabase
-          .from("user_roles")
-          .select("role")
-          .eq("user_id", user.id)
-          .eq("role", "admin")
-          .single();
-        authorized = !!roleData;
+      // Otherwise check user-based admin role
+      if (!authorized) {
+        const { data: { user } } = await supabase.auth.getUser(token);
+        if (user) {
+          const { data: roleData } = await supabase
+            .from("user_roles")
+            .select("role")
+            .eq("user_id", user.id)
+            .eq("role", "admin")
+            .single();
+          authorized = !!roleData;
+        }
       }
     }
 
