@@ -5,6 +5,7 @@ import Layout from "@/components/layout/Layout";
 import CourseHero from "@/components/course/CourseHero";
 import OverviewSection from "@/components/course/OverviewSection";
 import HighlightsCarousel from "@/components/course/HighlightsCarousel";
+import CourseStructureSection from "@/components/course/CourseStructureSection";
 import EligibilitySection from "@/components/course/EligibilitySection";
 import CareersSection from "@/components/course/CareersSection";
 import TestimonialsSection from "@/components/course/TestimonialsSection";
@@ -92,6 +93,9 @@ const CourseDetail = () => {
       <OverviewSection course={course} />
       <HighlightsCarousel course={course} />
       <EligibilitySection course={course} />
+      {course.learningJourney && course.learningJourney.length > 0 && (
+        <CourseStructureSection learningJourney={course.learningJourney} />
+      )}
       <CareersSection course={course} />
       <TestimonialsSection />
       <FeeSection course={course} />
