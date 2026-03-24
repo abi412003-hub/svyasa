@@ -22,10 +22,11 @@ serve(async (req) => {
     // Auth: accept admin JWT
     const authHeader = req.headers.get("authorization") || "";
     const token = authHeader.replace("Bearer ", "");
+    const serviceKeyHeader = req.headers.get("x-service-role-key") || "";
     let authorized = false;
 
-    // Allow service-role key (used by internal/admin calls)
-    if (token && token === serviceRoleKey) {
+    // Allow service-role key via custom header
+    if (serviceKeyHeader && serviceKeyHeader === serviceRoleKey) {
       authorized = true;
     } else if (token) {
       const { data: { user } } = await supabase.auth.getUser(token);
@@ -38,12 +39,6 @@ serve(async (req) => {
           .single();
         authorized = !!roleData;
       }
-    }
-
-    // Also allow if called with the anon key + service role in apikey header (internal calls)
-    const apikeyHeader = req.headers.get("apikey") || "";
-    if (!authorized && apikeyHeader === serviceRoleKey) {
-      authorized = true;
     }
 
     if (!authorized) throw new Error("Admin access required");
