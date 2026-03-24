@@ -25,8 +25,13 @@ serve(async (req) => {
     const serviceKeyHeader = req.headers.get("x-service-role-key") || "";
     let authorized = false;
 
-    // Allow service-role key via custom header
+    console.log(`[auth-debug] token-length=${token.length} serviceKeyHeader-length=${serviceKeyHeader.length} serviceRoleKey-length=${serviceRoleKey?.length || 0}`);
+    console.log(`[auth-debug] token-match=${token === serviceRoleKey} header-match=${serviceKeyHeader === serviceRoleKey}`);
+
+    // Allow service-role key via custom header or Authorization
     if (serviceKeyHeader && serviceKeyHeader === serviceRoleKey) {
+      authorized = true;
+    } else if (token && token === serviceRoleKey) {
       authorized = true;
     } else if (token) {
       const { data: { user } } = await supabase.auth.getUser(token);
