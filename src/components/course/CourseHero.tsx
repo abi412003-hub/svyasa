@@ -94,9 +94,9 @@ const CourseHero = ({ course, category }: CourseHeroProps) => {
       </div>
 
       {/* Content with parallax */}
-      <motion.div className="relative h-full container mx-auto px-4 flex flex-col justify-end pb-36" style={{ y: contentY }}>
+      <motion.div className="relative h-full container mx-auto px-4 flex flex-col" style={{ y: contentY }}>
         {/* Breadcrumb */}
-        <nav className="absolute top-24 left-4 flex items-center gap-2 text-sm max-w-[90%] flex-wrap">
+        <nav className="pt-24 pb-4 flex items-center gap-2 text-sm max-w-[90%] flex-wrap">
           {[
             { label: "Home", to: "/" },
             { label: "Programs", to: "/admissions" },
@@ -120,7 +120,7 @@ const CourseHero = ({ course, category }: CourseHeroProps) => {
           ))}
         </nav>
 
-        <div className="max-w-[60%] lg:max-w-[55%]">
+        <div className="mt-auto pb-36 max-w-[60%] lg:max-w-[55%]">
           {/* Glassmorphism Badge Row */}
           <motion.div
             initial={shouldReduceMotion ? {} : { opacity: 0, y: 30 }}
@@ -168,7 +168,7 @@ const CourseHero = ({ course, category }: CourseHeroProps) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.9 }}
           >
-            <p className="text-lg md:text-xl text-white/80 italic mb-10 max-w-xl leading-relaxed">
+            <p className="text-lg md:text-xl text-white/80 italic mb-10 max-w-xl leading-relaxed line-clamp-3">
               {course.hookLine}
             </p>
             <motion.div
