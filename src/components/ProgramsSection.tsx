@@ -6,6 +6,7 @@ import {
   GraduationCap, TrendingUp, Microscope, Leaf, HeartPulse, BookOpen, Crown
 } from "lucide-react";
 import { categories, courses } from "@/data/courses";
+import { getYogaImage } from "@/utils/yogaImages";
 
 const iconMap: Record<string, React.ElementType> = {
   bca: Monitor,
