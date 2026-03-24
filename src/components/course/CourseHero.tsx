@@ -5,25 +5,15 @@ import { Clock, MapPin, ArrowRight, Download, ChevronDown, HelpCircle, Sparkles 
 import { Button } from "@/components/ui/button";
 import { Course, Category } from "@/data/courses";
 import DomainSVG from "@/components/category/DomainSVG";
-import yogaWellness1 from "@/assets/yoga-wellness-1.jpg";
-import yogaWellness2 from "@/assets/yoga-wellness-2.jpg";
-import yogaWellness3 from "@/assets/yoga-wellness-3.jpg";
-import yogaWellness4 from "@/assets/yoga-wellness-4.jpg";
-import yogaWellness5 from "@/assets/yoga-wellness-5.jpg";
-import yogaWellness6 from "@/assets/yoga-wellness-6.jpg";
-import yogaWellness7 from "@/assets/yoga-wellness-7.jpg";
-import yogaWellness8 from "@/assets/yoga-wellness-8.jpg";
-import yogaWellness9 from "@/assets/yoga-wellness-9.jpg";
-import yogaWellness10 from "@/assets/yoga-wellness-10.jpg";
+// Campus images (52-image set)
+const campusImages = Object.values(
+  import.meta.glob("@/assets/course-images/campus-*.jpg", { eager: true, import: "default" })
+) as string[];
 
-const YOGA_IMAGES = [
-  yogaWellness1, yogaWellness2, yogaWellness3, yogaWellness4, yogaWellness5,
-  yogaWellness6, yogaWellness7, yogaWellness8, yogaWellness9, yogaWellness10,
-];
-
-const getYogaImageForSlug = (slug: string): string => {
+const getCampusImageForSlug = (slug: string): string => {
+  if (!campusImages.length) return "";
   const hash = slug.split("").reduce((acc, ch) => acc + ch.charCodeAt(0), 0);
-  return YOGA_IMAGES[hash % YOGA_IMAGES.length];
+  return campusImages[hash % campusImages.length];
 };
 
 interface CourseHeroProps {
@@ -46,7 +36,7 @@ const CourseHero = ({ course, category }: CourseHeroProps) => {
   }, []);
 
   const shortCampus = course.campusType === "gcc" ? "Global City Campus" : "Prashanti Kutiram";
-  const heroBg = course.bannerImage || getYogaImageForSlug(course.slug);
+  const heroBg = course.bannerImage || getCampusImageForSlug(course.slug);
 
   return (
     <section className="relative h-screen min-h-[700px] overflow-hidden">
