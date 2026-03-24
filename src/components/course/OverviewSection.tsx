@@ -62,7 +62,7 @@ const OverviewSection = ({ course }: OverviewSectionProps) => {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="font-heading text-3xl md:text-4xl font-bold text-foreground mb-10 leading-tight"
             >
-              Why <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">{course.shortTitle}</span>?
+              Why <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">{course.title.length > course.shortTitle.length ? course.title : course.shortTitle}</span>?
             </motion.h2>
 
             {/* Overview Paragraphs with stagger */}
