@@ -12,6 +12,7 @@ const sections = [
   { id: "overview", label: "Overview" },
   { id: "journey", label: "Journey" },
   { id: "eligibility", label: "Eligibility" },
+  { id: "course-structure", label: "Curriculum" },
   { id: "careers", label: "Careers" },
   { id: "testimonials", label: "Voices" },
   { id: "fee", label: "Fee" },
