@@ -56,11 +56,11 @@ const prashanthiPrograms = [
 ];
 
 const socialLinks = [
-  { icon: Facebook, label: "Facebook", color: "hover:bg-blue-600", href: "#" },
-  { icon: Instagram, label: "Instagram", color: "hover:bg-pink-600", href: "#" },
-  { icon: Twitter, label: "Twitter", color: "hover:bg-sky-500", href: "#" },
-  { icon: Youtube, label: "YouTube", color: "hover:bg-red-600", href: "#" },
-  { icon: Linkedin, label: "LinkedIn", color: "hover:bg-blue-700", href: "#" },
+  { icon: Facebook, label: "Facebook", color: "hover:bg-blue-600", href: "https://www.facebook.com/svyasauniversity" },
+  { icon: Instagram, label: "Instagram", color: "hover:bg-pink-600", href: "https://www.instagram.com/svyasauniversity" },
+  { icon: Twitter, label: "Twitter", color: "hover:bg-sky-500", href: "https://twitter.com/svyasa" },
+  { icon: Youtube, label: "YouTube", color: "hover:bg-red-600", href: "https://www.youtube.com/@svyasa" },
+  { icon: Linkedin, label: "LinkedIn", color: "hover:bg-blue-700", href: "https://www.linkedin.com/school/svyasa" },
 ];
 
 const MegaFooter = () => {
