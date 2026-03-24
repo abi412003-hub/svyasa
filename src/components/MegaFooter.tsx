@@ -16,28 +16,51 @@ import { Link } from "react-router-dom";
 import svyasaLogo from "@/assets/svyasa-footer-logo.png";
 
 const gccPrograms = [
-  "BCA", "BBA", "B.Com", "B.Tech", "B.Sc. Computer Science", 
-  "B.Sc. Psychology (Clinical)", "Bachelor of Occupational Therapy (BOT)", 
-  "MBA", "MCA", "M.Sc. Computer Science", "M.Sc. Psychology (Clinical)", 
-  "Ph.D Computer Science and Applications", "Ph.D Computer Science and Engineering", 
-  "Ph.D Commerce and Management", "Ph.D Applied Sciences", "Ph.D Allied Sciences", "Ph.D English"
+  { label: "BCA", href: "/programs/bca" },
+  { label: "BBA", href: "/programs/bba" },
+  { label: "B.Com", href: "/programs/bcom" },
+  { label: "B.Tech", href: "/programs/btech" },
+  { label: "B.Sc. Computer Science", href: "/courses/bsc-computer-science" },
+  { label: "B.Sc. Psychology (Clinical)", href: "/courses/bsc-clinical-psychology" },
+  { label: "Bachelor of Occupational Therapy (BOT)", href: "/courses/bachelor-of-occupational-therapy" },
+  { label: "MBA", href: "/programs/mba" },
+  { label: "MCA", href: "/programs/mca" },
+  { label: "M.Sc. Computer Science", href: "/programs/msc" },
+  { label: "M.Sc. Psychology (Clinical)", href: "/courses/msc-clinical-psychology" },
+  { label: "Ph.D Computer Science and Applications", href: "/courses/phd-computer-science" },
+  { label: "Ph.D Computer Science and Engineering", href: "/courses/phd-computer-science-engineering" },
+  { label: "Ph.D Commerce and Management", href: "/courses/phd-commerce-management" },
+  { label: "Ph.D Applied Sciences", href: "/courses/phd-applied-sciences" },
+  { label: "Ph.D Allied Sciences", href: "/courses/phd-allied-sciences" },
+  { label: "Ph.D English", href: "/courses/phd-english" },
 ];
 
 const prashanthiPrograms = [
-  "B.Sc. Yoga Therapy", "B.Sc. Yoga & Vedic Wellness", 
-  "Bachelor of Naturopathy and Yogic Sciences (BNYS)", "Bachelor of Physiotherapy (BPT)",
-  "M.Sc. Yoga Therapy", "M.Sc. Yoga & Vedic Wellness", "MD Yoga", "M.A. Yoga Darshanam",
-  "M.Sc. Yoga (Distance Mode)", "Ph.D Yoga", "Ph.D Naturopathy", "Ph.D Dance",
-  "Aerial Yoga", "YIC", "ANTTC", "Ayurveda Lifestyle Management", "SMET",
-  "B.Sc. Yoga (Distance Mode)", "YIC (Distance Mode)", "DYT (Distance Mode)"
+  { label: "B.Sc. Yoga Therapy", href: "/courses/bsc-yoga-therapy" },
+  { label: "B.Sc. Yoga & Vedic Wellness", href: "/courses/bsc-yoga-vedic-therapy" },
+  { label: "BNYS", href: "/courses/bnys" },
+  { label: "BPT", href: "/courses/bachelor-of-physiotherapy" },
+  { label: "M.Sc. Yoga Therapy", href: "/courses/msc-yoga-therapy" },
+  { label: "M.Sc. Yoga & Vedic Wellness", href: "/courses/msc-yoga-vedic-therapy" },
+  { label: "MD Yoga", href: "/courses/doctor-of-medicine-yoga" },
+  { label: "M.A. Yoga Darshanam", href: "/courses/master-of-arts-yoga-darshanam" },
+  { label: "Ph.D Yoga", href: "/courses/phd-yoga" },
+  { label: "Aerial Yoga", href: "/courses/aerial-yoga" },
+  { label: "YIC", href: "/courses/yoga-instructor-course" },
+  { label: "Ayurveda Lifestyle Management", href: "/courses/ayurveda-lifestyle-management" },
+  { label: "SMET", href: "/courses/self-management-excessive-tension" },
+  { label: "B.Sc. Yoga (Distance)", href: "https://svyasadde.com/bsc/" },
+  { label: "M.Sc. Yoga (Distance)", href: "https://svyasadde.com/msc/" },
+  { label: "YIC (Distance)", href: "https://svyasadde.com/yic/" },
+  { label: "DYT (Distance)", href: "https://svyasadde.com/dyt/" },
 ];
 
 const socialLinks = [
-  { icon: Facebook, label: "Facebook", color: "hover:bg-blue-600", href: "#" },
-  { icon: Instagram, label: "Instagram", color: "hover:bg-pink-600", href: "#" },
-  { icon: Twitter, label: "Twitter", color: "hover:bg-sky-500", href: "#" },
-  { icon: Youtube, label: "YouTube", color: "hover:bg-red-600", href: "#" },
-  { icon: Linkedin, label: "LinkedIn", color: "hover:bg-blue-700", href: "#" },
+  { icon: Facebook, label: "Facebook", color: "hover:bg-blue-600", href: "https://www.facebook.com/svyasauniversity" },
+  { icon: Instagram, label: "Instagram", color: "hover:bg-pink-600", href: "https://www.instagram.com/svyasauniversity" },
+  { icon: Twitter, label: "Twitter", color: "hover:bg-sky-500", href: "https://twitter.com/svyasa" },
+  { icon: Youtube, label: "YouTube", color: "hover:bg-red-600", href: "https://www.youtube.com/@svyasa" },
+  { icon: Linkedin, label: "LinkedIn", color: "hover:bg-blue-700", href: "https://www.linkedin.com/school/svyasa" },
 ];
 
 const MegaFooter = () => {
@@ -158,14 +181,14 @@ const MegaFooter = () => {
             <ul className="space-y-1.5">
               {gccPrograms.map((program, index) => (
                 <motion.li
-                  key={program}
+                  key={program.label}
                   initial={{ opacity: 0, x: -10 }}
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
                   transition={{ delay: 0.3 + index * 0.02 }}
                 >
-                  <span className="text-sm text-secondary-foreground/70 hover:text-gold transition-colors cursor-pointer">
-                    {program}
-                  </span>
+                  <Link to={program.href} className="text-sm text-secondary-foreground/70 hover:text-gold transition-colors">
+                    {program.label}
+                  </Link>
                 </motion.li>
               ))}
             </ul>
@@ -182,14 +205,20 @@ const MegaFooter = () => {
             <ul className="space-y-1.5">
               {prashanthiPrograms.map((program, index) => (
                 <motion.li
-                  key={program}
+                  key={program.label}
                   initial={{ opacity: 0, x: -10 }}
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
                   transition={{ delay: 0.4 + index * 0.02 }}
                 >
-                  <span className="text-sm text-secondary-foreground/70 hover:text-gold transition-colors cursor-pointer">
-                    {program}
-                  </span>
+                  {program.href.startsWith("http") ? (
+                    <a href={program.href} target="_blank" rel="noopener noreferrer" className="text-sm text-secondary-foreground/70 hover:text-gold transition-colors">
+                      {program.label}
+                    </a>
+                  ) : (
+                    <Link to={program.href} className="text-sm text-secondary-foreground/70 hover:text-gold transition-colors">
+                      {program.label}
+                    </Link>
+                  )}
                 </motion.li>
               ))}
             </ul>
@@ -207,7 +236,7 @@ const MegaFooter = () => {
                 { label: "About Us", href: "/about" },
                 { label: "Admissions", href: "/admissions" },
                 { label: "Research", href: "/research" },
-                { label: "Careers", href: "/career" },
+                { label: "Careers", href: "/careers" },
                 { label: "Library", href: "/library" },
                 { label: "IQAC", href: "/iqac" },
                 { label: "Gallery", href: "/gallery" },
