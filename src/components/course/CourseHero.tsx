@@ -18,7 +18,7 @@ const getCampusImageForSlug = (slug: string): string => {
 
 interface CourseHeroProps {
   course: Course;
-  category: Category;
+  category: Category | null;
 }
 
 const CourseHero = ({ course, category }: CourseHeroProps) => {
