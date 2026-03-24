@@ -214,7 +214,9 @@ const Footer = () => {
               {socialLinks.map((social, index) => (
                 <motion.a
                   key={social.label}
-                  href="#"
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   initial={{ opacity: 0, scale: 0 }}
                   animate={isInView ? { opacity: 1, scale: 1 } : {}}
                   transition={{ delay: 0.8 + index * 0.1, type: "spring" }}
