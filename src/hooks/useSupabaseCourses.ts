@@ -22,7 +22,10 @@ function mapFee(raw: any): Course["fee"] {
   
   // If raw_table exists, parse the structured fee table
   if (raw.raw_table && typeof raw.raw_table === "string") {
-    return parseFeeTable(raw.raw_table, raw.amount);
+    const result = parseFeeTable(raw.raw_table, raw.amount);
+    result.applicationFee = raw.application_fee || raw.applicationFee || undefined;
+    result.perks = raw.perks || undefined;
+    return result;
   }
   
   const amountStr: string = raw.amount || "";
