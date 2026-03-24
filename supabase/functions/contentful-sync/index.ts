@@ -25,7 +25,7 @@ serve(async (req) => {
     let authorized = false;
 
     // Allow service-role key (used by internal/admin calls)
-    if (token === serviceRoleKey) {
+    if (token && token === serviceRoleKey) {
       authorized = true;
     } else if (token) {
       const { data: { user } } = await supabase.auth.getUser(token);
@@ -38,6 +38,12 @@ serve(async (req) => {
           .single();
         authorized = !!roleData;
       }
+    }
+
+    // Also allow if called with the anon key + service role in apikey header (internal calls)
+    const apikeyHeader = req.headers.get("apikey") || "";
+    if (!authorized && apikeyHeader === serviceRoleKey) {
+      authorized = true;
     }
 
     if (!authorized) throw new Error("Admin access required");
