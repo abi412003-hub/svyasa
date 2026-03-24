@@ -15,14 +15,14 @@ import ScrollSpySidebar from "@/components/course/ScrollSpySidebar";
 import CompareWidget from "@/components/course/CompareWidget";
 import CourseSkeleton from "@/components/course/CourseSkeleton";
 import { Button } from "@/components/ui/button";
-import { useCourseBySlug, useCategoryBySlug, useCoursesByCategory, useRelatedCourses } from "@/hooks/useSupabaseCourses";
+import { useCourseBySlug, useCategoryForCourse, useCoursesByCategory, useRelatedCourses } from "@/hooks/useSupabaseCourses";
 
 const CourseDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const shouldReduceMotion = useReducedMotion();
   
   const { course, isLoading: courseLoading } = useCourseBySlug(slug);
-  const { category, isLoading: categoryLoading } = useCategoryBySlug(course?.category);
+  const { category, isLoading: categoryLoading } = useCategoryForCourse(slug);
   const { courses: categoryCourses } = useCoursesByCategory(course?.category);
   const relatedCourses = useRelatedCourses(slug, course?.category, course?.relatedPrograms || []);
 

@@ -92,6 +92,31 @@ export function useCategoryBySlug(slug: string | undefined) {
   return { category, isLoading };
 }
 
+// Find the category whose program_slugs contains the given course slug
+export function useCategoryForCourse(courseSlug: string | undefined) {
+  const [category, setCategory] = useState<Category | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (!courseSlug) { setIsLoading(false); return; }
+    setIsLoading(true);
+
+    supabase
+      .from("categories")
+      .select("*")
+      .eq("is_published", true)
+      .contains("program_slugs", JSON.stringify([courseSlug]))
+      .maybeSingle()
+      .then(({ data, error }) => {
+        if (error) console.error("Category for course error:", error);
+        setCategory(data ? mapCategoryRow(data) : null);
+        setIsLoading(false);
+      });
+  }, [courseSlug]);
+
+  return { category, isLoading };
+}
+
 export function useCoursesByCategory(categorySlug: string | undefined) {
   const [courses, setCourses] = useState<Course[]>([]);
   const [isLoading, setIsLoading] = useState(true);
