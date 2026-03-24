@@ -53,7 +53,7 @@ export interface NavItem {
 export const utilityLinks: NavLink[] = [
   { label: "Events", href: "/news-events" },
   { label: "Gallery", href: "/gallery" },
-  { label: "Careers", href: "/career" },
+  { label: "Careers", href: "/careers" },
   { label: "Library", href: "/library" },
   { label: "Exam", href: "/exams" },
   { label: "IQAC", href: "/iqac" },
