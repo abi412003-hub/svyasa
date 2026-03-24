@@ -35,7 +35,8 @@ const CareersSection = ({ course }: CareersSectionProps) => {
   const isInView = useInView(sectionRef, { once: true, amount: 0.15 });
   const [expandedCard, setExpandedCard] = useState<number | null>(null);
 
-  const careers = course.careers.slice(0, 8);
+  const careers = course.careers.slice(0, 10);
+  const isBCA = course.slug.startsWith("bca-");
 
   return (
     <section ref={sectionRef} id="careers" className="py-24 md:py-32 relative overflow-hidden">
