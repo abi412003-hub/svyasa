@@ -353,16 +353,42 @@ export function useCoursesByCategory(categorySlug: string | undefined) {
     if (!categorySlug) { setIsLoading(false); return; }
     setIsLoading(true);
 
-    supabase
-      .from("courses")
-      .select("*")
-      .eq("category", categorySlug)
-      .eq("is_published", true)
-      .then(({ data, error }) => {
-        if (error) console.error("Courses by category error:", error);
-        setCourses((data || []).map(mapCourseRow));
+    const fetchCourses = async () => {
+      // First try: direct match on courses.category
+      const { data: direct } = await supabase
+        .from("courses")
+        .select("*")
+        .eq("category", categorySlug)
+        .eq("is_published", true);
+
+      if (direct && direct.length > 0) {
+        setCourses(direct.map(mapCourseRow));
         setIsLoading(false);
-      });
+        return;
+      }
+
+      // Fallback: look up the category's program_slugs and fetch by slug
+      const { data: cat } = await supabase
+        .from("categories")
+        .select("program_slugs")
+        .eq("slug", categorySlug)
+        .maybeSingle();
+
+      if (cat?.program_slugs && Array.isArray(cat.program_slugs) && cat.program_slugs.length > 0) {
+        const { data: bySlug, error } = await supabase
+          .from("courses")
+          .select("*")
+          .in("slug", cat.program_slugs as string[])
+          .eq("is_published", true);
+        if (error) console.error("Courses by category slugs error:", error);
+        setCourses((bySlug || []).map(mapCourseRow));
+      } else {
+        setCourses([]);
+      }
+      setIsLoading(false);
+    };
+
+    fetchCourses();
   }, [categorySlug]);
 
   return { courses, isLoading };
