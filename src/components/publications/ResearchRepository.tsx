@@ -1,6 +1,7 @@
 import { motion, useInView, Variants } from "framer-motion";
 import { useRef } from "react";
 import { BookOpen } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 30 },
