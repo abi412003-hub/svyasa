@@ -12,6 +12,7 @@ export interface FacultyProfile {
   designation: string;
   qualifications: string;
   photo?: string;
+  bio?: string;
   section: "leadership" | "staff" | "project";
   achievements?: string[];
   expertise?: string;
