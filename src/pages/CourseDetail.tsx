@@ -22,7 +22,7 @@ const CourseDetail = () => {
   const shouldReduceMotion = useReducedMotion();
   
   const { course, isLoading: courseLoading } = useCourseBySlug(slug);
-  const { category, isLoading: categoryLoading } = useCategoryForCourse(slug);
+  const { category, isLoading: categoryLoading } = useCategoryForCourse(slug, course?.category);
   const { courses: categoryCourses } = useCoursesByCategory(course?.category);
   const relatedCourses = useRelatedCourses(slug, course?.category, course?.relatedPrograms || []);
 
