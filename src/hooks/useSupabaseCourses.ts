@@ -140,10 +140,30 @@ function parseMarkdownEntry(text: string): { title: string; description: string 
   return null;
 }
 
+// Split a single markdown string containing multiple ### entries into individual items
+function splitMarkdownEntries(text: string): string[] {
+  const parts = text.split(/(?=###\s)/).filter(s => s.trim());
+  return parts.length > 1 ? parts : [text];
+}
+
+// Expand raw array: if a single string contains multiple ### entries, split them
+function expandRawArray(raw: any[]): any[] {
+  const expanded: any[] = [];
+  for (const item of raw) {
+    if (typeof item === "string" && (item.match(/###/g) || []).length > 1) {
+      expanded.push(...splitMarkdownEntries(item));
+    } else {
+      expanded.push(item);
+    }
+  }
+  return expanded;
+}
+
 // Transform highlights: handle structured objects, markdown strings, or plain strings
 function mapHighlights(raw: any): CourseHighlight[] {
   if (!Array.isArray(raw)) return [];
-  return raw.map((item: any, i: number) => {
+  const items = expandRawArray(raw);
+  return items.map((item: any, i: number) => {
     if (typeof item === "object" && item !== null && item.title) {
       return {
         number: item.number || String(i + 1).padStart(2, "0"),
@@ -163,7 +183,8 @@ function mapHighlights(raw: any): CourseHighlight[] {
 // Transform careers: handle structured objects, markdown strings, or plain strings
 function mapCareers(raw: any): CareerPath[] {
   if (!Array.isArray(raw)) return [];
-  return raw.map((item: any) => {
+  const items = expandRawArray(raw);
+  return items.map((item: any) => {
     if (typeof item === "object" && item !== null && item.title) {
       return {
         icon: item.icon || "briefcase",
