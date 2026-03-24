@@ -59,8 +59,10 @@ serve(async (req) => {
     const SPACE_ID = Deno.env.get("CONTENTFUL_SPACE_ID");
     if (!SPACE_ID) throw new Error("CONTENTFUL_SPACE_ID not configured");
 
-    const { action, contentType } = await req.json();
-    console.log(`[contentful-sync] action=${action} contentType=${contentType}`);
+    const { action, contentType: rawContentType } = await req.json();
+    // Remap: old frontend sends "course", new content type is "coursePage"
+    const contentType = rawContentType === "course" ? "coursePage" : rawContentType;
+    console.log(`[contentful-sync] action=${action} contentType=${contentType} (raw=${rawContentType})`);
 
     const headers = {
       Authorization: `Bearer ${LOVABLE_API_KEY}`,
