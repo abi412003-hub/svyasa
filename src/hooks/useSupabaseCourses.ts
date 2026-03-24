@@ -101,6 +101,28 @@ function mapEligibility(raw: any): Course["eligibility"] {
   };
 }
 
+// Transform highlights: handle both structured [{icon, title, ...}] and raw string arrays
+function mapHighlights(raw: any): CourseHighlight[] {
+  if (!Array.isArray(raw)) return [];
+  return raw.filter((item: any) => typeof item === "object" && item !== null && item.title).map((item: any, i: number) => ({
+    number: item.number || String(i + 1).padStart(2, "0"),
+    icon: item.icon || "sparkles",
+    title: item.title || "",
+    description: item.description || "",
+  }));
+}
+
+// Transform careers: handle both structured [{icon, title, ...}] and raw string arrays
+function mapCareers(raw: any): CareerPath[] {
+  if (!Array.isArray(raw)) return [];
+  return raw.filter((item: any) => typeof item === "object" && item !== null && item.title).map((item: any) => ({
+    icon: item.icon || "briefcase",
+    title: item.title || "",
+    description: item.description || "",
+    demand: item.demand || "growing",
+  }));
+}
+
 // Map Supabase snake_case row to camelCase Course interface
 function mapCourseRow(row: any): Course {
   return {
@@ -117,8 +139,8 @@ function mapCourseRow(row: any): Course {
     overview: mapOverview(row.overview),
     statCallout: row.stat_callout || null,
     eligibility: mapEligibility(row.eligibility),
-    highlights: Array.isArray(row.highlights) ? row.highlights as CourseHighlight[] : [],
-    careers: Array.isArray(row.careers) ? row.careers as CareerPath[] : [],
+    highlights: mapHighlights(row.highlights),
+    careers: mapCareers(row.careers),
     relatedPrograms: Array.isArray(row.related_programs) ? row.related_programs : [],
     fee: mapFee(row.fee),
     applyLink: row.apply_link || "",
