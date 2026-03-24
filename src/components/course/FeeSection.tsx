@@ -137,7 +137,7 @@ const FeeSection = ({ course }: FeeSectionProps) => {
                             <td key={i} className="px-5 py-5 text-center font-bold">
                               {hasNumber ? (
                                 <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent text-lg">
-                                  {cellValue.includes("$") || cellValue.includes("USD")
+                                  {fee.fullTable!.headers[i + 2]?.includes("USD") || cellValue.includes("$")
                                     ? `$${cellValue.replace(/[^0-9.,]/g, "")}`
                                     : `₹${cellValue.replace(/[^0-9,]/g, "")}`}
                                 </span>
