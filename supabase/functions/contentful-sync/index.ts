@@ -24,7 +24,10 @@ serve(async (req) => {
     const token = authHeader.replace("Bearer ", "");
     let authorized = false;
 
-    if (token) {
+    // Allow service-role key (used by internal/admin calls)
+    if (token === serviceRoleKey) {
+      authorized = true;
+    } else if (token) {
       const { data: { user } } = await supabase.auth.getUser(token);
       if (user) {
         const { data: roleData } = await supabase
