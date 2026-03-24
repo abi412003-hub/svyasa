@@ -120,7 +120,7 @@ const CourseHero = ({ course, category }: CourseHeroProps) => {
           ))}
         </nav>
 
-        <div className="max-w-[60%] lg:max-w-[55%]">
+        <div className="mt-auto pb-36 max-w-[60%] lg:max-w-[55%]">
           {/* Glassmorphism Badge Row */}
           <motion.div
             initial={shouldReduceMotion ? {} : { opacity: 0, y: 30 }}
