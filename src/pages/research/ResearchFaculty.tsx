@@ -278,6 +278,7 @@ export default function ResearchFaculty() {
             designation: d.designation || "",
             qualifications: d.qualifications || "",
             photo: d.photo_url || undefined,
+            bio: d.bio || undefined,
             section: mapCategoryToSection(d.faculty_category || ""),
             achievements: d.achievements ? d.achievements.split("\n").filter(Boolean) : undefined,
             expertise: (d.area_of_expertise as string[] | null)?.join(", ") || undefined,
