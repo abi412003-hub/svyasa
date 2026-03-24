@@ -70,13 +70,14 @@ const CareersSection = ({ course }: CareersSectionProps) => {
             style={{ background: "linear-gradient(90deg, hsl(25 84% 50%), hsl(42 65% 55%))" }}
           />
           <h2 className="font-heading text-3xl md:text-[2.75rem] lg:text-5xl font-bold text-white mb-4 leading-tight tracking-tight">
-            Where This Degree{" "}
-            <span className="bg-gradient-to-r from-[hsl(42,65%,55%)] to-[hsl(25,84%,55%)] bg-clip-text text-transparent">
-              Takes You
-            </span>
+            {isBCA ? (
+              <>Programme{" "}<span className="bg-gradient-to-r from-[hsl(42,65%,55%)] to-[hsl(25,84%,55%)] bg-clip-text text-transparent">Outcomes</span></>
+            ) : (
+              <>Where This Degree{" "}<span className="bg-gradient-to-r from-[hsl(42,65%,55%)] to-[hsl(25,84%,55%)] bg-clip-text text-transparent">Takes You</span></>
+            )}
           </h2>
           <p className="text-white/35 text-base md:text-lg font-light tracking-wide">
-            Career paths our graduates pursue across industries
+            {isBCA ? "Knowledge, skills and abilities students attain upon programme completion" : "Career paths our graduates pursue across industries"}
           </p>
         </motion.div>
 
