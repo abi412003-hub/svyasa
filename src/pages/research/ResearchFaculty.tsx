@@ -1,10 +1,30 @@
 import { motion, useInView, Variants, AnimatePresence } from "framer-motion";
-import { ChevronDown, X, Award, BookOpen, FlaskConical, Star, User } from "lucide-react";
-import { useRef, useState } from "react";
+import { ChevronDown, X, Award, BookOpen, FlaskConical, Star, User, Linkedin } from "lucide-react";
+import { useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Layout from "@/components/layout/Layout";
 import ResearchSubNav from "@/components/research/ResearchSubNav";
-import { facultyData, type FacultyProfile } from "./facultyData";
+import { supabase } from "@/integrations/supabase/client";
+
+export interface FacultyProfile {
+  id: string;
+  name: string;
+  designation: string;
+  qualifications: string;
+  photo?: string;
+  section: "leadership" | "staff" | "project";
+  achievements?: string[];
+  expertise?: string;
+  research?: string;
+  publications?: string[];
+  linkedin_url?: string;
+}
+
+function mapCategoryToSection(cat: string): "leadership" | "staff" | "project" {
+  if (cat === "Academic Leadership Board") return "leadership";
+  if (cat === "Project Staff") return "project";
+  return "staff";
+}
 
 /* ── Variants ── */
 const fadeUp: Variants = {
@@ -80,6 +100,11 @@ function FacultyModal({ member, onClose }: { member: FacultyProfile; onClose: ()
                   {member.name}
                 </h2>
                 <p className="text-white/70 text-sm">{member.designation}</p>
+                {member.linkedin_url && (
+                  <a href={member.linkedin_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-white/60 hover:text-white text-xs mt-1 transition-colors">
+                    <Linkedin size={12} /> LinkedIn
+                  </a>
+                )}
               </div>
             </div>
             {member.qualifications && (
@@ -233,10 +258,41 @@ function SectionHeading({ label, title, count }: { label: string; title: string;
 /* ── Page ── */
 export default function ResearchFaculty() {
   const [selected, setSelected] = useState<FacultyProfile | null>(null);
+  const [allFaculty, setAllFaculty] = useState<FacultyProfile[]>([]);
 
-  const leadership = facultyData.filter((f) => f.section === "leadership");
-  const staff = facultyData.filter((f) => f.section === "staff");
-  const project = facultyData.filter((f) => f.section === "project");
+  useEffect(() => {
+    async function fetchFaculty() {
+      const { data } = await supabase
+        .from("faculty_profiles")
+        .select("*")
+        .eq("is_published", true)
+        .in("department", ["Anvesana Research Labs", "Department of Life Sciences"])
+        .order("display_order", { ascending: true });
+
+      if (data) {
+        setAllFaculty(
+          data.map((d) => ({
+            id: d.id,
+            name: d.name,
+            designation: d.designation || "",
+            qualifications: d.qualifications || "",
+            photo: d.photo_url || undefined,
+            section: mapCategoryToSection(d.faculty_category || ""),
+            achievements: d.achievements ? d.achievements.split("\n").filter(Boolean) : undefined,
+            expertise: (d.area_of_expertise as string[] | null)?.join(", ") || undefined,
+            research: d.research || undefined,
+            publications: d.publications ? d.publications.split("\n").filter(Boolean) : undefined,
+            linkedin_url: d.linkedin_url || undefined,
+          }))
+        );
+      }
+    }
+    fetchFaculty();
+  }, []);
+
+  const leadership = allFaculty.filter((f) => f.section === "leadership");
+  const staff = allFaculty.filter((f) => f.section === "staff");
+  const project = allFaculty.filter((f) => f.section === "project");
 
   const sec1Ref = useRef<HTMLDivElement>(null);
   const sec2Ref = useRef<HTMLDivElement>(null);
@@ -301,7 +357,7 @@ export default function ResearchFaculty() {
             { n: leadership.length, label: "Academic Leadership" },
             { n: staff.length, label: "Faculty & Staff" },
             { n: project.length, label: "Project Staff" },
-            { n: facultyData.length, label: "Total Members" },
+            { n: allFaculty.length, label: "Total Members" },
           ].map((s) => (
             <div key={s.label} className="text-center sm:text-left">
               <p className="text-[hsl(var(--saffron))] font-['DM_Mono',monospace] text-2xl font-bold">{s.n}</p>
