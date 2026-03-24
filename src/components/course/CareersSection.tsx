@@ -155,7 +155,7 @@ const CareersSection = ({ course }: CareersSectionProps) => {
                           transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                           className="overflow-hidden"
                         >
-                          <p className="text-white/45 text-sm leading-relaxed mt-4 pt-4 border-t border-white/[0.06]">
+                          <p className="text-white/60 text-sm leading-relaxed mt-4 pt-4 border-t border-white/[0.08]">
                             {career.description}
                           </p>
                         </motion.div>
