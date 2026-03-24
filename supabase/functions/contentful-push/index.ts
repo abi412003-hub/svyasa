@@ -46,7 +46,8 @@ serve(async (req) => {
       "Content-Type": "application/vnd.contentful.management.v1+json",
     };
 
-    const { contentType } = await req.json();
+    const body = await req.json();
+    const { contentType, action } = body;
 
     // Department mapping for courses
     const deptMap: Record<string, string> = {
@@ -61,14 +62,12 @@ serve(async (req) => {
 
     // Helper to create/update entry
     async function upsertEntry(entryId: string, ctId: string, fields: Record<string, any>) {
-      // Check if exists
       const checkRes = await fetch(
         `${CMA_BASE}/spaces/${SPACE_ID}/environments/${ENV_ID}/entries/${entryId}`,
         { headers: { Authorization: `Bearer ${CMA_TOKEN}` } }
       );
 
       if (checkRes.ok) {
-        // Update
         const existing = await checkRes.json();
         const version = existing.sys.version;
         const updateRes = await fetch(
@@ -84,7 +83,6 @@ serve(async (req) => {
           console.error(`Update failed for ${entryId}: ${err}`);
           return { action: "update_failed", id: entryId, error: err };
         }
-        // Publish
         const updated = await updateRes.json();
         await fetch(
           `${CMA_BASE}/spaces/${SPACE_ID}/environments/${ENV_ID}/entries/${entryId}/published`,
@@ -98,7 +96,6 @@ serve(async (req) => {
         );
         return { action: "updated", id: entryId };
       } else {
-        // Create
         const createRes = await fetch(
           `${CMA_BASE}/spaces/${SPACE_ID}/environments/${ENV_ID}/entries/${entryId}`,
           {
@@ -112,7 +109,6 @@ serve(async (req) => {
           console.error(`Create failed for ${entryId}: ${err}`);
           return { action: "create_failed", id: entryId, error: err };
         }
-        // Publish
         const created = await createRes.json();
         await fetch(
           `${CMA_BASE}/spaces/${SPACE_ID}/environments/${ENV_ID}/entries/${entryId}/published`,
@@ -128,8 +124,105 @@ serve(async (req) => {
       }
     }
 
+    // Helper to build rich text from plain text
+    function makeRichText(text: string) {
+      if (!text) return {
+        "en-US": { nodeType: "document", data: {}, content: [{ nodeType: "paragraph", data: {}, content: [{ nodeType: "text", value: "", marks: [], data: {} }] }] }
+      };
+      return {
+        "en-US": {
+          nodeType: "document",
+          data: {},
+          content: text.split("\n").filter(Boolean).map((para: string) => ({
+            nodeType: "paragraph",
+            data: {},
+            content: [{ nodeType: "text", value: para, marks: [], data: {} }],
+          })),
+        },
+      };
+    }
+
     const results: any[] = [];
 
+    // ── Single faculty push (from admin editor) ──
+    if (action === "push-faculty") {
+      const fac = body.faculty;
+      if (!fac || !fac.name || !fac.slug) throw new Error("Faculty data with name and slug required");
+
+      const entryId = `faculty-${fac.slug.substring(0, 56).replace(/[^a-zA-Z0-9-_]/g, "-")}`;
+
+      const fields: Record<string, any> = {
+        name: { "en-US": fac.name },
+        slug: { "en-US": fac.slug },
+        designation: { "en-US": fac.designation || "" },
+        qualification: { "en-US": fac.qualifications || "" },
+        bio: makeRichText(fac.bio || ""),
+        researchInterests: { "en-US": fac.research_interests || [] },
+        areaOfExpertise: { "en-US": fac.area_of_expertise || [] },
+        facultyCategory: { "en-US": fac.faculty_category || "Faculty and Staff" },
+        order: { "en-US": fac.display_order || 999 },
+        email: { "en-US": fac.email || "" },
+        phone: { "en-US": fac.phone || "" },
+        googleScholarUrl: { "en-US": fac.google_scholar_url || "" },
+        orcidId: { "en-US": fac.orcid_id || "" },
+        linkedinUrl: { "en-US": fac.linkedin_url || "" },
+      };
+
+      // Rich text fields
+      if (fac.achievements) fields.achievements = makeRichText(fac.achievements);
+      if (fac.publications) fields.publications = makeRichText(fac.publications);
+      if (fac.research) fields.research = makeRichText(fac.research);
+      if (fac.responsibility) fields.responsibility = makeRichText(fac.responsibility);
+
+      const result = await upsertEntry(entryId, "faculty", fields);
+
+      // After pushing to Contentful, sync back to Supabase
+      if (result.action === "created" || result.action === "updated") {
+        const syncPayload = {
+          contentful_id: entryId,
+          name: fac.name,
+          slug: fac.slug,
+          designation: fac.designation || "",
+          department: fac.department || "",
+          qualifications: fac.qualifications || "",
+          bio: fac.bio || "",
+          photo_url: fac.photo_url || "",
+          email: fac.email || "",
+          phone: fac.phone || "",
+          google_scholar_url: fac.google_scholar_url || "",
+          orcid_id: fac.orcid_id || "",
+          linkedin_url: fac.linkedin_url || "",
+          achievements: fac.achievements || "",
+          publications: fac.publications || "",
+          research: fac.research || "",
+          responsibility: fac.responsibility || "",
+          research_interests: fac.research_interests || [],
+          area_of_expertise: fac.area_of_expertise || [],
+          display_order: fac.display_order || 999,
+          is_published: fac.is_published !== false,
+          faculty_category: fac.faculty_category || "Faculty and Staff",
+        };
+
+        // Upsert to Supabase using contentful_id as the conflict key
+        const { error: dbError } = await supabase
+          .from("faculty_profiles")
+          .upsert(syncPayload, { onConflict: "contentful_id" });
+
+        if (dbError) {
+          console.error("DB sync error:", dbError);
+          return new Response(
+            JSON.stringify({ ...result, db_sync: "failed", db_error: dbError.message }),
+            { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+          );
+        }
+      }
+
+      return new Response(JSON.stringify(result), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    // ── Bulk courses push ──
     if (contentType === "courses") {
       const { data: courses, error } = await supabase.from("courses").select("*");
       if (error) throw error;
@@ -137,19 +230,16 @@ serve(async (req) => {
       for (const course of courses || []) {
         const deptId = deptMap[course.domain_theme] || deptMap[course.category] || "dept-yoga";
 
-        // Build description from overview
         const overviewText = Array.isArray(course.overview)
           ? course.overview.map((o: any) => typeof o === "string" ? o : o.body || o.heading || "").join("\n\n")
           : "";
 
-        // Build eligibility text
         const eligText = course.eligibility
           ? typeof course.eligibility === "object"
             ? (course.eligibility as any).primary || ""
             : String(course.eligibility)
           : "";
 
-        // Build fee text
         const feeText = course.fee
           ? typeof course.fee === "object"
             ? ((course.fee as any).yearlyFees || []).map((f: any) => `${f.year}: ${f.amount}`).join(", ")
@@ -200,79 +290,39 @@ serve(async (req) => {
         const entryId = `course-${course.slug.substring(0, 60).replace(/[^a-zA-Z0-9-_]/g, "-")}`;
         const result = await upsertEntry(entryId, "course", fields);
         results.push(result);
-
-        // Rate limiting - Contentful CMA has limits
         await new Promise((r) => setTimeout(r, 200));
       }
     }
 
-    if (contentType === "faculty") {
-      // Fetch faculty from facultyData via DB (if synced) or use the static data approach
-      // First check if faculty_profiles has data
+    // ── Bulk faculty push ──
+    if (contentType === "faculty" && !action) {
       const { data: dbFaculty } = await supabase.from("faculty_profiles").select("*");
 
-      // Also fetch from the existing Contentful entries to avoid duplicates
-      // We'll push from DB courses table approach - get faculty from the request body
-      const { data: reqData } = await req.json().catch(() => ({ data: null }));
-
-      // Use a predefined faculty list from the database
-      // Since faculty is in static TS file, we'll accept them from the request
-      if (reqData?.facultyList) {
-        for (const fac of reqData.facultyList) {
+      if (dbFaculty?.length) {
+        for (const fac of dbFaculty) {
           const fields: Record<string, any> = {
             name: { "en-US": fac.name },
             slug: { "en-US": fac.slug || fac.id },
             designation: { "en-US": fac.designation || "" },
             qualification: { "en-US": fac.qualifications || "" },
-            bio: {
-              "en-US": {
-                nodeType: "document",
-                data: {},
-                content: [
-                  {
-                    nodeType: "paragraph",
-                    data: {},
-                    content: [
-                      { nodeType: "text", value: fac.research || fac.expertise || "", marks: [], data: {} },
-                    ],
-                  },
-                ],
-              },
-            },
-            researchInterests: { "en-US": fac.tags || [] },
-            facultyCategory: { "en-US": fac.section || "staff" },
-            order: { "en-US": 0 },
+            bio: makeRichText(fac.bio || ""),
+            researchInterests: { "en-US": fac.research_interests || [] },
+            areaOfExpertise: { "en-US": fac.area_of_expertise || [] },
+            facultyCategory: { "en-US": fac.faculty_category || "staff" },
+            order: { "en-US": fac.display_order || 999 },
+            email: { "en-US": fac.email || "" },
+            phone: { "en-US": fac.phone || "" },
+            googleScholarUrl: { "en-US": fac.google_scholar_url || "" },
+            orcidId: { "en-US": fac.orcid_id || "" },
+            linkedinUrl: { "en-US": fac.linkedin_url || "" },
           };
 
-          if (fac.achievements?.length) {
-            fields.achievements = {
-              "en-US": {
-                nodeType: "document",
-                data: {},
-                content: fac.achievements.map((a: string) => ({
-                  nodeType: "paragraph",
-                  data: {},
-                  content: [{ nodeType: "text", value: a, marks: [], data: {} }],
-                })),
-              },
-            };
-          }
+          if (fac.achievements) fields.achievements = makeRichText(fac.achievements);
+          if (fac.publications) fields.publications = makeRichText(fac.publications);
+          if (fac.research) fields.research = makeRichText(fac.research);
+          if (fac.responsibility) fields.responsibility = makeRichText(fac.responsibility);
 
-          if (fac.publications?.length) {
-            fields.publications = {
-              "en-US": {
-                nodeType: "document",
-                data: {},
-                content: fac.publications.map((p: string) => ({
-                  nodeType: "paragraph",
-                  data: {},
-                  content: [{ nodeType: "text", value: p, marks: [], data: {} }],
-                })),
-              },
-            };
-          }
-
-          const entryId = `faculty-${(fac.slug || fac.id).substring(0, 60).replace(/[^a-zA-Z0-9-_]/g, "-")}`;
+          const entryId = `faculty-${(fac.slug || fac.id).substring(0, 56).replace(/[^a-zA-Z0-9-_]/g, "-")}`;
           const result = await upsertEntry(entryId, "faculty", fields);
           results.push(result);
           await new Promise((r) => setTimeout(r, 200));
