@@ -2,7 +2,8 @@ import { useRef } from "react";
 import { motion, useReducedMotion, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import { Category, categories } from "@/data/courses";
+import { Category } from "@/data/courses";
+import { useAllCategories } from "@/hooks/useSupabaseCourses";
 
 interface ExploreOtherCategoriesProps {
   currentCategorySlug: string;
@@ -12,6 +13,7 @@ const ExploreOtherCategories = ({ currentCategorySlug }: ExploreOtherCategoriesP
   const shouldReduceMotion = useReducedMotion();
   const sectionRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
+  const { categories } = useAllCategories();
 
   const otherCategories = categories.filter(cat => cat.slug !== currentCategorySlug);
 
