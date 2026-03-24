@@ -50,8 +50,37 @@ serve(async (req) => {
     if (!SPACE_ID) throw new Error("CONTENTFUL_SPACE_ID not configured");
 
     const { action, contentType } = await req.json();
+    console.log(`[contentful-sync v2] action=${action} contentType=${contentType}`);
 
-    const headers = {
+    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+    const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
+    // Auth check - for sync action from service, accept service role key
+    const authHeader = req.headers.get("authorization") || "";
+    const token = authHeader.replace("Bearer ", "");
+    
+    // Try service role key match first
+    let authorized = (token === supabaseKey);
+    
+    // If not service role, try admin JWT
+    if (!authorized && token) {
+      const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+      if (user && !authError) {
+        const { data: roleData } = await supabase
+          .from("user_roles")
+          .select("role")
+          .eq("user_id", user.id)
+          .eq("role", "admin")
+          .single();
+        authorized = !!roleData;
+      }
+    }
+    
+    if (!authorized) {
+      console.log("[contentful-sync v2] Auth failed - token length:", token.length, "key length:", supabaseKey?.length);
+      throw new Error("Unauthorized - admin access required");
+    }
       Authorization: `Bearer ${LOVABLE_API_KEY}`,
       "X-Connection-Api-Key": CONTENTFUL_API_KEY,
     };
