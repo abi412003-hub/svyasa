@@ -82,7 +82,7 @@ const CareersSection = ({ course }: CareersSectionProps) => {
         </motion.div>
 
         {/* Career Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 max-w-6xl mx-auto">
+        <div className={`grid grid-cols-1 sm:grid-cols-2 ${isBCA ? "lg:grid-cols-3" : "lg:grid-cols-4"} gap-4 md:gap-5 max-w-6xl mx-auto`}>
           {careers.map((career, index) => {
             const IconComponent = getIconComponent(career.icon);
             const demand = getDemandStyles(career.demand);
