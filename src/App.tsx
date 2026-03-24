@@ -242,6 +242,7 @@ const App = () => (
           <Route path="/research/division-yoga-life-sciences" element={<DivisionYogaLifeSciences />} />
           <Route path="/research/division-yoga-physical-sciences" element={<DivisionYogaPhysicalSciences />} />
           <Route path="/research/division-yoga-management" element={<DivisionYogaManagement />} />
+          <Route path="/research/division-yoga-humanities" element={<DivisionYogaHumanities />} />
           
           {/* Important Links */}
           <Route path="/gallery" element={<Gallery />} />
