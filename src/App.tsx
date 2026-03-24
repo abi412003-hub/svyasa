@@ -55,6 +55,7 @@ import CompletedProjects from "./pages/research/CompletedProjects";
 import ResearchPublications from "./pages/research/ResearchPublications";
 import LabEvents from "./pages/research/LabEvents";
 import AdoptProject from "./pages/research/AdoptProject";
+import DivisionYogaLifeSciences from "./pages/research/DivisionYogaLifeSciences";
 import EdtechPartners from "./pages/EdtechPartners";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminLayout from "./components/admin/AdminLayout";
@@ -235,6 +236,7 @@ const App = () => (
           <Route path="/research/publications" element={<ResearchPublications />} />
           <Route path="/research/lab-events" element={<LabEvents />} />
           <Route path="/research/cpeb" element={<ResearchCS title="CPEB Project Proposal" />} />
+          <Route path="/research/division-yoga-life-sciences" element={<DivisionYogaLifeSciences />} />
           
           {/* Important Links */}
           <Route path="/gallery" element={<Gallery />} />

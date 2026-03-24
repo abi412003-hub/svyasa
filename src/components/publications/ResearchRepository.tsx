@@ -1,6 +1,7 @@
 import { motion, useInView, Variants } from "framer-motion";
 import { useRef } from "react";
 import { BookOpen } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -12,11 +13,11 @@ const stagger: Variants = {
 };
 
 const divisions = [
-  { name: "Division of Yoga and Life Sciences", papers: 469 },
-  { name: "Division of Yoga and Physical Sciences", papers: 105 },
-  { name: "Division of Yoga and Management", papers: 72 },
-  { name: "Division of Yoga and Humanities", papers: 107 },
-  { name: "Division of Yoga and Spirituality", papers: 42 },
+  { name: "Division of Yoga and Life Sciences", papers: 469, link: "/research/division-yoga-life-sciences" },
+  { name: "Division of Yoga and Physical Sciences", papers: 105, link: "" },
+  { name: "Division of Yoga and Management", papers: 72, link: "" },
+  { name: "Division of Yoga and Humanities", papers: 107, link: "" },
+  { name: "Division of Yoga and Spirituality", papers: 42, link: "" },
 ];
 
 const totalPapers = divisions.reduce((sum, d) => sum + d.papers, 0);
@@ -64,10 +65,17 @@ export default function ResearchRepository() {
                 </span>
               </p>
             </div>
-            <button className="mt-5 inline-flex items-center gap-2 bg-[hsl(var(--saffron))] text-white text-xs font-semibold px-5 py-2.5 rounded-full hover:bg-[hsl(var(--saffron-dark))] transition-colors w-fit">
-              <BookOpen size={14} />
-              Read More
-            </button>
+            {div.link ? (
+              <Link to={div.link} className="mt-5 inline-flex items-center gap-2 bg-[hsl(var(--saffron))] text-white text-xs font-semibold px-5 py-2.5 rounded-full hover:bg-[hsl(var(--saffron-dark))] transition-colors w-fit">
+                <BookOpen size={14} />
+                Read More
+              </Link>
+            ) : (
+              <button className="mt-5 inline-flex items-center gap-2 bg-[hsl(var(--saffron))] text-white text-xs font-semibold px-5 py-2.5 rounded-full hover:bg-[hsl(var(--saffron-dark))] transition-colors w-fit">
+                <BookOpen size={14} />
+                Read More
+              </button>
+            )}
           </motion.div>
         ))}
       </div>
