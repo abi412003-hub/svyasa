@@ -65,10 +65,17 @@ export default function ResearchRepository() {
                 </span>
               </p>
             </div>
-            <button className="mt-5 inline-flex items-center gap-2 bg-[hsl(var(--saffron))] text-white text-xs font-semibold px-5 py-2.5 rounded-full hover:bg-[hsl(var(--saffron-dark))] transition-colors w-fit">
-              <BookOpen size={14} />
-              Read More
-            </button>
+            {div.link ? (
+              <Link to={div.link} className="mt-5 inline-flex items-center gap-2 bg-[hsl(var(--saffron))] text-white text-xs font-semibold px-5 py-2.5 rounded-full hover:bg-[hsl(var(--saffron-dark))] transition-colors w-fit">
+                <BookOpen size={14} />
+                Read More
+              </Link>
+            ) : (
+              <button className="mt-5 inline-flex items-center gap-2 bg-[hsl(var(--saffron))] text-white text-xs font-semibold px-5 py-2.5 rounded-full hover:bg-[hsl(var(--saffron-dark))] transition-colors w-fit">
+                <BookOpen size={14} />
+                Read More
+              </button>
+            )}
           </motion.div>
         ))}
       </div>
