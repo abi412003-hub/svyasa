@@ -14,21 +14,46 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Link } from "react-router-dom";
 import svyasaLogo from "@/assets/svyasa-logo.svg";
 
-const footerLinks = {
-  "Quick Links": ["About Us", "Academics", "Research", "Admissions", "Campus Life"],
-  Programs: ["BSc Yoga", "MSc Yoga", "PhD Programs", "Certificate Courses", "Online Programs"],
-  Resources: ["Library", "Publications", "E-Learning", "Student Portal", "Career Services"],
-  Connect: ["Contact Us", "Campus Map", "FAQs", "Feedback", "Media"],
+const footerLinks: Record<string, { label: string; href: string }[]> = {
+  "Quick Links": [
+    { label: "About Us", href: "/about" },
+    { label: "Academics", href: "/admissions" },
+    { label: "Research", href: "/research" },
+    { label: "Admissions", href: "/admissions" },
+    { label: "Campus Life", href: "/life-at-svyasa" },
+  ],
+  Programs: [
+    { label: "Yoga Programs", href: "/programs/yoga-programmes" },
+    { label: "B.Tech", href: "/programs/btech" },
+    { label: "MBA", href: "/programs/mba" },
+    { label: "Ph.D Programs", href: "/courses/phd-computer-science" },
+    { label: "Distance Learning", href: "https://svyasadde.com/" },
+  ],
+  Resources: [
+    { label: "Library", href: "/library" },
+    { label: "Publications", href: "/publications" },
+    { label: "Exams", href: "/exams" },
+    { label: "Gallery", href: "/gallery" },
+    { label: "Careers", href: "/careers" },
+  ],
+  Connect: [
+    { label: "Contact Us", href: "/contact-us" },
+    { label: "News & Events", href: "/news-events" },
+    { label: "International Affairs", href: "/directorate-of-international-affairs" },
+    { label: "Training Programs", href: "/training" },
+    { label: "Edtech Partners", href: "/edtech-partners" },
+  ],
 };
 
 const socialLinks = [
-  { icon: Facebook, label: "Facebook", color: "hover:bg-blue-600" },
-  { icon: Instagram, label: "Instagram", color: "hover:bg-pink-600" },
-  { icon: Twitter, label: "Twitter", color: "hover:bg-sky-500" },
-  { icon: Youtube, label: "YouTube", color: "hover:bg-red-600" },
-  { icon: Linkedin, label: "LinkedIn", color: "hover:bg-blue-700" },
+  { icon: Facebook, label: "Facebook", color: "hover:bg-blue-600", href: "https://www.facebook.com/svyasauniversity" },
+  { icon: Instagram, label: "Instagram", color: "hover:bg-pink-600", href: "https://www.instagram.com/svyasauniversity" },
+  { icon: Twitter, label: "Twitter", color: "hover:bg-sky-500", href: "https://twitter.com/svyasa" },
+  { icon: Youtube, label: "YouTube", color: "hover:bg-red-600", href: "https://www.youtube.com/@svyasa" },
+  { icon: Linkedin, label: "LinkedIn", color: "hover:bg-blue-700", href: "https://www.linkedin.com/school/svyasa" },
 ];
 
 const Footer = () => {
