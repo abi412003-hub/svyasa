@@ -179,6 +179,7 @@ serve(async (req) => {
             phone: f.phone || "",
             google_scholar_url: f.googleScholarUrl || "",
             orcid_id: f.orcidId || "",
+            linkedin_url: f.linkedinUrl || "",
             display_order: f.order || 999,
             achievements: extractPlainText(f.achievements),
             area_of_expertise: f.areaOfExpertise || [],
