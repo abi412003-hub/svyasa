@@ -181,14 +181,14 @@ const MegaFooter = () => {
             <ul className="space-y-1.5">
               {gccPrograms.map((program, index) => (
                 <motion.li
-                  key={program}
+                  key={program.label}
                   initial={{ opacity: 0, x: -10 }}
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
                   transition={{ delay: 0.3 + index * 0.02 }}
                 >
-                  <span className="text-sm text-secondary-foreground/70 hover:text-gold transition-colors cursor-pointer">
-                    {program}
-                  </span>
+                  <Link to={program.href} className="text-sm text-secondary-foreground/70 hover:text-gold transition-colors">
+                    {program.label}
+                  </Link>
                 </motion.li>
               ))}
             </ul>
