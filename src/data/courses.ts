@@ -37,6 +37,7 @@ export interface Course {
   };
   highlights: CourseHighlight[];
   careers: CareerPath[];
+  learningJourney?: { semester: string; title: string; subjects: string[] }[];
   relatedPrograms: string[];
   fee: {
     registration: string;
