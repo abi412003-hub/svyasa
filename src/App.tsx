@@ -244,6 +244,7 @@ const App = () => (
           <Route path="/research/division-yoga-physical-sciences" element={<DivisionYogaPhysicalSciences />} />
           <Route path="/research/division-yoga-management" element={<DivisionYogaManagement />} />
           <Route path="/research/division-yoga-humanities" element={<DivisionYogaHumanities />} />
+          <Route path="/research/division-yoga-spirituality" element={<DivisionYogaSpirituality />} />
           
           {/* Important Links */}
           <Route path="/gallery" element={<Gallery />} />

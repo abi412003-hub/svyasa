@@ -17,7 +17,7 @@ const divisions = [
   { name: "Division of Yoga and Physical Sciences", papers: 105, link: "/research/division-yoga-physical-sciences" },
   { name: "Division of Yoga and Management", papers: 72, link: "/research/division-yoga-management" },
   { name: "Division of Yoga and Humanities", papers: 107, link: "/research/division-yoga-humanities" },
-  { name: "Division of Yoga and Spirituality", papers: 42, link: "" },
+  { name: "Division of Yoga and Spirituality", papers: 42, link: "/research/division-yoga-spirituality" },
 ];
 
 const totalPapers = divisions.reduce((sum, d) => sum + d.papers, 0);
