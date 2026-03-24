@@ -101,6 +101,28 @@ function mapEligibility(raw: any): Course["eligibility"] {
   };
 }
 
+// Transform highlights: handle both structured [{icon, title, ...}] and raw string arrays
+function mapHighlights(raw: any): CourseHighlight[] {
+  if (!Array.isArray(raw)) return [];
+  return raw.filter((item: any) => typeof item === "object" && item !== null && item.title).map((item: any, i: number) => ({
+    number: item.number || String(i + 1).padStart(2, "0"),
+    icon: item.icon || "sparkles",
+    title: item.title || "",
+    description: item.description || "",
+  }));
+}
+
+// Transform careers: handle both structured [{icon, title, ...}] and raw string arrays
+function mapCareers(raw: any): CareerPath[] {
+  if (!Array.isArray(raw)) return [];
+  return raw.filter((item: any) => typeof item === "object" && item !== null && item.title).map((item: any) => ({
+    icon: item.icon || "briefcase",
+    title: item.title || "",
+    description: item.description || "",
+    demand: item.demand || "growing",
+  }));
+}
+
 // Map Supabase snake_case row to camelCase Course interface
 function mapCourseRow(row: any): Course {
   return {
