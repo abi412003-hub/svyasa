@@ -227,15 +227,27 @@ serve(async (req) => {
 function extractPlainText(richText: any): string {
   if (!richText) return "";
   if (typeof richText === "string") return richText;
-  if (richText.content) {
+  if (richText.nodeType === "document" && richText.content) {
+    return richText.content
+      .map((node: any) => extractPlainText(node))
+      .filter(Boolean)
+      .join("\n");
+  }
+  if (richText.nodeType === "paragraph" && richText.content) {
     return richText.content
       .map((node: any) => {
         if (node.nodeType === "text") return node.value;
         if (node.content) return extractPlainText(node);
         return "";
       })
-      .join(" ")
-      .trim();
+      .join("");
+  }
+  if (richText.nodeType === "text") return richText.value || "";
+  if (richText.content) {
+    return richText.content
+      .map((node: any) => extractPlainText(node))
+      .filter(Boolean)
+      .join("\n");
   }
   return "";
 }
