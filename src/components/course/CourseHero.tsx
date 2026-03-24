@@ -98,7 +98,7 @@ const CourseHero = ({ course, category }: CourseHeroProps) => {
             { label: "Home", to: "/" },
             { label: "Programs", to: "/admissions" },
             { label: category.shortTitle, to: `/programs/${category.slug}` },
-            { label: course.shortTitle, to: null }
+            { label: course.title.length > course.shortTitle.length ? course.title : course.shortTitle, to: null }
           ].map((crumb, i) => (
             <motion.span
               key={i}
