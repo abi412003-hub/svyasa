@@ -115,6 +115,8 @@ const FeeSection = ({ course }: FeeSectionProps) => {
                         );
                       })}
                     </motion.tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
