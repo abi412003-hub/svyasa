@@ -115,50 +115,6 @@ const FeeSection = ({ course }: FeeSectionProps) => {
                         );
                       })}
                     </motion.tr>
-                    );
-                  })}
-                      ))}
-                    </motion.tr>
-                  ))}
-                  {/* Total Row */}
-                  {fee.fullTable!.totalRow && (() => {
-                    const headerCount = fee.fullTable!.headers.length;
-                    const totalCells = fee.fullTable!.totalRow!;
-                    // totalRow typically has fewer cells (e.g. "Total | 11,00,000 | 11,00,000 | 13,500")
-                    // We need to align amounts under the correct columns
-                    // First cell is "Total" label, rest are amounts that should align to amount columns (skipping Sl No & Particulars)
-                    const label = totalCells[0]?.replace(/\*/g, "").trim() || "Total";
-                    const amounts = totalCells.slice(1);
-                    // Amount columns start at index 2 (after Sl No and Particulars)
-                    const amountStartIdx = 2;
-                    
-                    return (
-                      <tr className="bg-secondary/5 border-t-2 border-secondary/20">
-                        {/* Span first two columns for "Total" label */}
-                        <td colSpan={2} className="px-5 py-5 font-bold text-foreground uppercase tracking-wide text-left">
-                          {label}
-                        </td>
-                        {/* Render amount cells aligned to their respective columns */}
-                        {Array.from({ length: headerCount - 2 }).map((_, i) => {
-                          const cellValue = amounts[i] || "";
-                          const hasNumber = /\d/.test(cellValue);
-                          return (
-                            <td key={i} className="px-5 py-5 text-center font-bold">
-                              {hasNumber ? (
-                                <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent text-lg">
-                                  {fee.fullTable!.headers[i + 2]?.includes("USD") || cellValue.includes("$")
-                                    ? `$${cellValue.replace(/[^0-9.,]/g, "")}`
-                                    : `₹${cellValue.replace(/[^0-9,]/g, "")}`}
-                                </span>
-                              ) : (
-                                <span className="text-muted-foreground">{cellValue}</span>
-                              )}
-                            </td>
-                          );
-                        })}
-                      </tr>
-                    );
-                  })()}
                 </tbody>
               </table>
             </div>
