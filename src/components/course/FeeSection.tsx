@@ -66,13 +66,15 @@ const FeeSection = ({ course }: FeeSectionProps) => {
             <div className="absolute inset-[1px] bg-card rounded-3xl" />
 
             <div className="relative overflow-x-auto rounded-3xl">
-              <table className="w-full min-w-[700px]">
+              <table className={`w-full ${fee.fullTable!.headers.length > 3 ? "min-w-[700px]" : ""}`}>
                 <thead>
                   <tr className="bg-gradient-to-r from-secondary to-secondary/90">
                     {fee.fullTable!.headers.map((header, i) => (
                       <th
                         key={i}
-                        className={`px-5 py-4 font-semibold text-white text-sm ${i === 0 ? "text-center w-16" : i === 1 ? "text-left" : "text-center"}`}
+                        className={`px-5 py-4 font-semibold text-white text-sm ${
+                          i === 0 ? "text-left" : "text-center"
+                        }`}
                       >
                         {i === 0 && <Wallet className="w-4 h-4 text-accent inline mr-1" />}
                         {header}
@@ -81,75 +83,40 @@ const FeeSection = ({ course }: FeeSectionProps) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {fee.fullTable!.rows.map((row, rIdx) => (
+                  {fee.fullTable!.rows.map((row, rIdx) => {
+                    const isTotal = row[0]?.toLowerCase().includes("total");
+                    return (
                     <motion.tr
                       key={rIdx}
                       initial={shouldReduceMotion ? {} : { opacity: 0, x: -10 }}
                       animate={isInView ? { opacity: 1, x: 0 } : {}}
                       transition={{ duration: 0.4, delay: 0.3 + rIdx * 0.1 }}
-                      className="group hover:bg-primary/[0.03] transition-colors"
+                      className={`group hover:bg-primary/[0.03] transition-colors ${isTotal ? "bg-secondary/5 border-t-2 border-secondary/20" : ""}`}
                     >
-                      {row.map((cell, cIdx) => (
+                      {row.map((cell, cIdx) => {
+                        const isAmountCell = cIdx > 0 && /[₹$\d]/.test(cell);
+                        return (
                         <td
                           key={cIdx}
                           className={`px-5 py-4 border-b border-border/50 text-sm ${
-                            cIdx === 0 ? "text-center text-muted-foreground font-medium" :
-                            cIdx === 1 ? "text-left text-foreground font-medium" :
-                            "text-center"
-                          }`}
+                            cIdx === 0 ? "text-left text-foreground font-medium" : "text-center"
+                          } ${isTotal ? "font-bold" : ""}`}
                         >
-                          {cIdx > 1 && cIdx < row.length - 1 ? (
-                            <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent font-bold text-base">
+                          {isAmountCell ? (
+                            <span className={`bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent font-bold ${isTotal ? "text-lg" : "text-base"}`}>
                               {fee.fullTable!.headers[cIdx]?.includes("USD") || cell.includes("$")
                                 ? `$${cell.replace(/[^0-9.,]/g, "")}`
-                                : /^\d/.test(cell) ? `₹${cell}` : cell}
+                                : /^\d/.test(cell.replace(/[₹,\s]/g, "")) ? (cell.includes("₹") ? cell : `₹${cell}`) : cell}
                             </span>
                           ) : (
-                            <span className="text-muted-foreground">{cell}</span>
+                            <span className={cIdx === 0 ? "" : "text-muted-foreground"}>{cell}</span>
                           )}
                         </td>
-                      ))}
+                        );
+                      })}
                     </motion.tr>
-                  ))}
-                  {/* Total Row */}
-                  {fee.fullTable!.totalRow && (() => {
-                    const headerCount = fee.fullTable!.headers.length;
-                    const totalCells = fee.fullTable!.totalRow!;
-                    // totalRow typically has fewer cells (e.g. "Total | 11,00,000 | 11,00,000 | 13,500")
-                    // We need to align amounts under the correct columns
-                    // First cell is "Total" label, rest are amounts that should align to amount columns (skipping Sl No & Particulars)
-                    const label = totalCells[0]?.replace(/\*/g, "").trim() || "Total";
-                    const amounts = totalCells.slice(1);
-                    // Amount columns start at index 2 (after Sl No and Particulars)
-                    const amountStartIdx = 2;
-                    
-                    return (
-                      <tr className="bg-secondary/5 border-t-2 border-secondary/20">
-                        {/* Span first two columns for "Total" label */}
-                        <td colSpan={2} className="px-5 py-5 font-bold text-foreground uppercase tracking-wide text-left">
-                          {label}
-                        </td>
-                        {/* Render amount cells aligned to their respective columns */}
-                        {Array.from({ length: headerCount - 2 }).map((_, i) => {
-                          const cellValue = amounts[i] || "";
-                          const hasNumber = /\d/.test(cellValue);
-                          return (
-                            <td key={i} className="px-5 py-5 text-center font-bold">
-                              {hasNumber ? (
-                                <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent text-lg">
-                                  {fee.fullTable!.headers[i + 2]?.includes("USD") || cellValue.includes("$")
-                                    ? `$${cellValue.replace(/[^0-9.,]/g, "")}`
-                                    : `₹${cellValue.replace(/[^0-9,]/g, "")}`}
-                                </span>
-                              ) : (
-                                <span className="text-muted-foreground">{cellValue}</span>
-                              )}
-                            </td>
-                          );
-                        })}
-                      </tr>
                     );
-                  })()}
+                  })}
                 </tbody>
               </table>
             </div>

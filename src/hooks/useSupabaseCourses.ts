@@ -19,6 +19,18 @@ function mapOverview(raw: any): string[] {
 function mapFee(raw: any): Course["fee"] {
   if (!raw) return { registration: "", yearlyFees: [] };
   if (raw.yearlyFees) return raw; // already in expected format
+  // If structured fullTable exists directly in DB JSON, pass it through
+  if (raw.fullTable) {
+    return {
+      registration: raw.registration || "",
+      yearlyFees: raw.yearlyFees || [],
+      fullTable: raw.fullTable,
+      foreignTable: raw.foreignTable,
+      partTimeTable: raw.partTimeTable,
+      applicationFee: raw.applicationFee || raw.application_fee,
+      perks: raw.perks,
+    };
+  }
   
   // If raw_table exists, parse the structured fee table
   if (raw.raw_table && typeof raw.raw_table === "string") {

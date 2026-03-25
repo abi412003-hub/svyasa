@@ -43,6 +43,8 @@ export interface Course {
     registration: string;
     yearlyFees: { year: string; amount: string }[];
     fullTable?: { headers: string[]; rows: string[][]; totalRow?: string[] };
+    foreignTable?: { headers: string[]; rows: string[][]; totalRow?: string[] };
+    partTimeTable?: { headers: string[]; rows: string[][]; totalRow?: string[] };
     applicationFee?: string;
     perks?: string;
   };
