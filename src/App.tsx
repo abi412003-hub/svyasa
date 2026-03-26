@@ -261,6 +261,7 @@ const App = () => (
           <Route path="/directorate-of-international-affairs" element={<DirectorateInternationalAffairs />} />
           <Route path="/news-events" element={<NewsEvents />} />
           <Route path="/guests" element={<Guests />} />
+          <Route path="/faculty" element={<Faculty />} />
           
           {/* Training Portal */}
           <Route path="/training" element={<TrainingLayout />}>
