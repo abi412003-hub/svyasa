@@ -73,6 +73,7 @@ import AdminFacultyEditor from "./pages/admin/AdminFacultyEditor";
 import DivisionPage from "./pages/DivisionPage";
 import SchoolPage from "./pages/SchoolPage";
 import Guests from "./pages/Guests";
+import Faculty from "./pages/Faculty";
 import NewsAdminLayout from "./components/news-admin/NewsAdminLayout";
 import NewsAdminDashboard from "./pages/news-admin/Dashboard";
 import NewsList from "./pages/news-admin/NewsList";
@@ -260,6 +261,7 @@ const App = () => (
           <Route path="/directorate-of-international-affairs" element={<DirectorateInternationalAffairs />} />
           <Route path="/news-events" element={<NewsEvents />} />
           <Route path="/guests" element={<Guests />} />
+          <Route path="/faculty" element={<Faculty />} />
           
           {/* Training Portal */}
           <Route path="/training" element={<TrainingLayout />}>
