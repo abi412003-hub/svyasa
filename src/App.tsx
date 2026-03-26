@@ -73,6 +73,7 @@ import AdminFacultyEditor from "./pages/admin/AdminFacultyEditor";
 import DivisionPage from "./pages/DivisionPage";
 import SchoolPage from "./pages/SchoolPage";
 import Guests from "./pages/Guests";
+import Faculty from "./pages/Faculty";
 import NewsAdminLayout from "./components/news-admin/NewsAdminLayout";
 import NewsAdminDashboard from "./pages/news-admin/Dashboard";
 import NewsList from "./pages/news-admin/NewsList";
