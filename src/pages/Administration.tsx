@@ -154,7 +154,7 @@ const ecCategories: ECCategory[] = [
         name: "Dr. Ramachandra G Bhat",
         designation: "Director at VMTR",
         description: "Eminent academician and Director at VMTR (Vivekananda Memorial Therapeutic Research), contributing expertise in yoga therapy research and evidence-based clinical practices.",
-        qualifications: "PhD; Director, Vivekananda Memorial Therapeutic Research; Extensive research publications in yoga therapy",
+        qualifications: "M.Sc, PhD",
         photo: ecRamachandraBhatPhoto,
         gender: "male",
         expertise: "Yoga therapy research, evidence-based practice, therapeutic applications of yoga",
