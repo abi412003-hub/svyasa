@@ -89,7 +89,7 @@ const ecCategories: ECCategory[] = [
         name: "Dr. H R Dayananda Swamy",
         designation: "Chancellor",
         description: "Chancellor of S-VYASA Deemed to be University and one of the Founding Members of the S-VYASA Movement, Dr. H R Dayananda Swamy has been a dedicated force behind the growth and stability of S-VYASA for over three decades. A commerce graduate from Mysore University, he further honed his expertise with an MBA in Finance from Bharathiar University, M.Sc. in Yoga, and a Ph.D. He combines deep financial acumen with a profound understanding of Yoga and institutional development.",
-        qualifications: "B.Com (Mysore University), MBA in Finance (Bharathiar University), M.Sc. in Yoga, Ph.D.",
+        qualifications: "B.Com, MBA, M.Sc. , Ph.D.",
         photo: chancellorDayanandaPhoto,
         gender: "male",
         achievements: [
