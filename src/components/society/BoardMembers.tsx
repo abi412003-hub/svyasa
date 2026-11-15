@@ -1,36 +1,55 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
+import nagendraImg from "@/assets/society/dr-hr-nagendra.jpg";
+import subrahmanyamImg from "@/assets/society/prof-subrahmanyam.jpg";
+import nagarathnaImg from "@/assets/society/dr-nagarathna.jpg";
+import prahladaImg from "@/assets/society/dr-prahlada-ramarao.jpg";
+import subhadraImg from "@/assets/society/subhadra-devi.jpg";
+import dayanandaImg from "@/assets/society/dr-dayananda-swamy.jpg";
+import mahadevappaImg from "@/assets/society/mahadevappa.jpg";
 
-// Board member data
-const boardMembers = [
+// Board member data (portraits from svyasa.edu.in/s-vyasa-society.php)
+const boardMembers: {
+  name: string;
+  designation: string;
+  image: string;
+  isPresident?: boolean;
+}[] = [
   {
     name: "Dr. H.R. Nagendra",
     designation: "President",
+    image: nagendraImg,
     isPresident: true,
   },
   {
     name: "Prof. K Subrahmanyam",
     designation: "Vice President",
+    image: subrahmanyamImg,
   },
   {
     name: "Dr. R Nagarathna",
     designation: "Vice President",
+    image: nagarathnaImg,
   },
   {
     name: "Dr. Prahlada Ramarao",
     designation: "Vice President",
+    image: prahladaImg,
   },
   {
     name: "Smt. Subhadra Devi",
     designation: "Vice President",
+    image: subhadraImg,
   },
   {
     name: "Dr. H R Dayananda Swamy",
     designation: "Secretary",
+    image: dayanandaImg,
   },
   {
     name: "Sri. B Mahadevappa",
     designation: "Treasurer",
+    image: mahadevappaImg,
   },
 ];
 
@@ -61,6 +80,7 @@ const BoardMemberCard = ({
 }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const [imageFailed, setImageFailed] = useState(false);
 
   return (
     <motion.div
@@ -94,18 +114,28 @@ const BoardMemberCard = ({
         <div className="relative mx-auto mb-4 w-32 h-32 md:w-40 md:h-40">
           <AnimatedRing isPresident={member.isPresident} />
 
-          {/* Photo placeholder with clip-path reveal */}
+          {/* Portrait with clip-path reveal (initials if the photo fails) */}
           <motion.div
             className="absolute inset-1 rounded-full overflow-hidden bg-muted flex items-center justify-center"
             initial={{ clipPath: "circle(0% at 50% 50%)" }}
             animate={isInView ? { clipPath: "circle(50% at 50% 50%)" } : {}}
             transition={{ duration: 0.8, delay: index * 0.15 + 0.3 }}
           >
-            <div className="w-full h-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
-              <span className="text-4xl font-heading text-primary/40">
-                {member.name.split(" ").map((n) => n[0]).join("")}
-              </span>
-            </div>
+            {imageFailed ? (
+              <div className="w-full h-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
+                <span className="text-4xl font-heading text-primary/40">
+                  {member.name.split(" ").map((n) => n[0]).join("")}
+                </span>
+              </div>
+            ) : (
+              <img
+                src={member.image}
+                alt={member.name}
+                loading="lazy"
+                onError={() => setImageFailed(true)}
+                className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+              />
+            )}
           </motion.div>
 
           {/* Glow effect on hover */}
