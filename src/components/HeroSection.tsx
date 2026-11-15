@@ -2,7 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { eventPhotos, EVENT_PHOTO_EYEBROW } from "@/data/eventPhotos";
 import { usePhotoSlideshow } from "@/hooks/usePhotoSlideshow";
-import { PhotoSlideshow, HeroProgress } from "@/components/hero/PhotoSlideshow";
+import { PhotoSlideshow } from "@/components/hero/PhotoSlideshow";
 
 const Particle = ({ delay }: { delay: number }) => (
   <motion.div
@@ -102,12 +102,6 @@ const HeroSection = ({ active = true }: { active?: boolean }) => {
           </motion.div>
         </div>
       </div>
-
-      <HeroProgress
-        photoIndex={photoIndex}
-        photoCount={eventPhotos.length}
-        className="absolute bottom-4 right-4 md:bottom-6 md:right-8 z-10 pointer-events-none"
-      />
     </section>
   );
 };

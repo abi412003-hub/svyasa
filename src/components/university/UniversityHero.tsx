@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { eventPhotos, EVENT_PHOTO_EYEBROW } from "@/data/eventPhotos";
 import { usePhotoSlideshow } from "@/hooks/usePhotoSlideshow";
-import { PhotoSlideshow, HeroProgress } from "@/components/hero/PhotoSlideshow";
+import { PhotoSlideshow } from "@/components/hero/PhotoSlideshow";
 
 const UniversityHero = ({ active = true }: { active?: boolean }) => {
   const { photoIndex } = usePhotoSlideshow(eventPhotos, active);
@@ -53,12 +53,6 @@ const UniversityHero = ({ active = true }: { active?: boolean }) => {
           </div>
         </motion.div>
       </AnimatePresence>
-
-      <HeroProgress
-        photoIndex={photoIndex}
-        photoCount={eventPhotos.length}
-        className="absolute bottom-3 md:bottom-3 inset-x-0 z-10 flex justify-center pointer-events-none"
-      />
     </section>
   );
 };

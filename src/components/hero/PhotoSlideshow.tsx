@@ -1,5 +1,5 @@
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { PHOTO_DURATION, type EventPhoto } from "@/data/eventPhotos";
+import { type EventPhoto } from "@/data/eventPhotos";
 
 const SLIDE_EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -64,36 +64,3 @@ export const PhotoSlideshow = ({ photos, index }: { photos: EventPhoto[]; index:
     </div>
   );
 };
-
-/** Slim progress indicator: one dot per photo; the current one fills while it shows. */
-export const HeroProgress = ({
-  photoIndex,
-  photoCount,
-  className = "absolute bottom-6 inset-x-0 z-10 flex justify-center pointer-events-none",
-}: {
-  photoIndex: number;
-  photoCount: number;
-  className?: string;
-}) => (
-  <div className={className}>
-    <div className="flex items-center gap-2">
-      {Array.from({ length: photoCount }).map((_, i) => {
-        const done = i < photoIndex;
-        const active = i === photoIndex;
-        return (
-          <div key={i} className="relative h-1 w-3 md:w-5 rounded-full bg-white/25 overflow-hidden">
-            {(done || active) && (
-              <motion.div
-                key={active ? `active-${photoIndex}` : `done-${i}`}
-                className="absolute inset-y-0 left-0 bg-gold"
-                initial={{ width: active ? "0%" : "100%" }}
-                animate={{ width: "100%" }}
-                transition={{ duration: active ? PHOTO_DURATION / 1000 : 0, ease: "linear" }}
-              />
-            )}
-          </div>
-        );
-      })}
-    </div>
-  </div>
-);
