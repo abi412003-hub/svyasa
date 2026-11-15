@@ -1,0 +1,13 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1794742511533,
+      "tag": "0000_restrict_selected_storage_writes_to_admins",
+      "breakpoints": true
+    }
+  ]
+}
