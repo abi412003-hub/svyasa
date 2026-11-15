@@ -37,11 +37,10 @@ const HeroSection = ({ active = true }: { active?: boolean }) => {
   return (
     <section className="relative h-screen min-h-[500px] md:h-[90vh] md:min-h-[600px] overflow-hidden bg-secondary">
       <div className="absolute inset-0">
-        {/* Photos fill the background, uncropped: top-aligned on small screens, right-aligned on large */}
+        {/* Photos fill the full width of the hero background */}
         <PhotoSlideshow
           photos={eventPhotos}
           index={photoIndex}
-          positionClassName="object-top lg:object-right"
         />
         {/* Shade behind the text */}
         <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/70 to-transparent lg:inset-y-0 lg:left-0 lg:right-auto lg:h-auto lg:w-3/5 lg:bg-gradient-to-r lg:from-black/65 lg:via-black/30 pointer-events-none" />

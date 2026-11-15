@@ -12,7 +12,7 @@ const UniversityHero = ({ active = true }: { active?: boolean }) => {
     <section className="relative h-[calc(100svh-180px)] min-h-[480px] max-h-[1000px] overflow-hidden bg-secondary">
       <h1 className="sr-only">S-VYASA Deemed to be University</h1>
 
-      {/* Golden Jubilee photos filling the background, uncropped */}
+      {/* Golden Jubilee photos filling the full width of the background */}
       <PhotoSlideshow photos={eventPhotos} index={photoIndex} />
 
       {/* Bottom shade so the caption stays readable */}
