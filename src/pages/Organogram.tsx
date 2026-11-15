@@ -12,7 +12,7 @@ const divisions = [
     schoolsLabel: "Schools & Centers",
     schools: [
       { name: "School of Yogic Sciences", slug: "school-of-yogic-sciences" },
-      { name: "Varahamihira Advanced Center for Vedic Technology and Research (VMAC)", slug: "vmac" },
+      { name: "Varahamihira Advanced Center for Vedic Technology and Research (VMAC-VTR)", slug: "vmac" },
     ],
   },
   {

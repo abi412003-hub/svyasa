@@ -12,12 +12,8 @@ const UniversityHero = ({ active = true }: { active?: boolean }) => {
     <section className="relative h-[calc(100svh-180px)] min-h-[480px] max-h-[1000px] overflow-hidden bg-secondary">
       <h1 className="sr-only">S-VYASA Deemed to be University</h1>
 
-      {/* Golden Jubilee photos, shown in full and scrolling through */}
-      <PhotoSlideshow
-        photos={eventPhotos}
-        index={photoIndex}
-        frameClassName="inset-x-4 top-5 bottom-48 md:inset-x-16 md:top-8 md:bottom-48"
-      />
+      {/* Golden Jubilee photos filling the background, uncropped */}
+      <PhotoSlideshow photos={eventPhotos} index={photoIndex} />
 
       {/* Bottom shade so the caption stays readable */}
       <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black/70 to-transparent pointer-events-none" />

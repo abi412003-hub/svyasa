@@ -37,14 +37,14 @@ const HeroSection = ({ active = true }: { active?: boolean }) => {
   return (
     <section className="relative h-screen min-h-[500px] md:h-[90vh] md:min-h-[600px] overflow-hidden bg-secondary">
       <div className="absolute inset-0">
-        {/* Photos shown in full: above the text on small screens, beside it on large */}
+        {/* Photos fill the background, uncropped: top-aligned on small screens, right-aligned on large */}
         <PhotoSlideshow
           photos={eventPhotos}
           index={photoIndex}
-          frameClassName="left-3 right-3 top-4 bottom-[54%] lg:left-[50%] lg:right-10 lg:top-12 lg:bottom-20"
+          positionClassName="object-top lg:object-right"
         />
         {/* Shade behind the text */}
-        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/70 to-transparent lg:inset-y-0 lg:left-0 lg:right-auto lg:h-auto lg:w-1/2 lg:bg-gradient-to-r lg:from-black/50 pointer-events-none" />
+        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/70 to-transparent lg:inset-y-0 lg:left-0 lg:right-auto lg:h-auto lg:w-3/5 lg:bg-gradient-to-r lg:from-black/65 lg:via-black/30 pointer-events-none" />
       </div>
 
       {/* Floating Particles */}
@@ -113,13 +113,6 @@ const HeroSection = ({ active = true }: { active?: boolean }) => {
                 className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-glow-saffron hover:scale-105 transition-all duration-300 text-sm md:text-lg px-5 md:px-8"
               >
                 Explore Programs
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="bg-transparent border-2 border-primary-foreground/50 text-primary-foreground hover:bg-primary-foreground/10 hover:border-primary-foreground transition-all duration-300 text-sm md:text-lg px-5 md:px-8"
-              >
-                Virtual Tour
               </Button>
             </motion.div>
           </motion.div>

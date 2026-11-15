@@ -278,7 +278,7 @@ export const navItems: NavItem[] = [
             ],
           },
           {
-            name: "VMAC",
+            name: "VMAC-VTR",
             href: "/divisions/yoga-spirituality/schools/vmac",
             italic: true,
             courses: [

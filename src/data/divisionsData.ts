@@ -52,6 +52,7 @@ export const divisionsData: Division[] = [
           "The School of Yogic Sciences offers comprehensive programs that explore the theoretical foundations and practical dimensions of Yoga. Students engage with classical texts, modern research methodologies, and immersive yogic practices.",
         programs: [
           "B.Sc. Yoga & Vedic Wellness",
+          "B.Sc. Yoga Therapy",
           "M.Sc. Yoga Therapy",
           "M.A. Yoga Darshanam",
           "Ph.D. Yoga",
@@ -62,19 +63,12 @@ export const divisionsData: Division[] = [
           "International exchange programs and collaborations",
           "Annual yoga symposia and research conferences",
         ],
-        faculty: [
-          { id: "sys-1", name: "Dr. H R Nagendra", designation: "Chancellor & Professor", qualifications: "Ph.D. Yoga", expertise: "Yoga therapy and consciousness studies" },
-          { id: "sys-2", name: "Dr. R Nagarathna", designation: "Pro-Chancellor & HOD", qualifications: "MD Yoga", expertise: "Integrative yoga medicine and lifestyle disorders" },
-          { id: "sys-3", name: "Dr. Prahalada N", designation: "Associate Professor", qualifications: "Ph.D. Yoga", expertise: "Yoga for psychological well-being" },
-          { id: "sys-4", name: "Dr. Suchitra S", designation: "Assistant Professor", qualifications: "M.Sc. Yoga", expertise: "Pranayama and stress management" },
-          { id: "sys-5", name: "Dr. Ranjitha R", designation: "Assistant Professor", qualifications: "Ph.D. Yoga", expertise: "Yoga and endocrinology" },
-        ],
       },
       {
-        name: "Varahamihira Advanced Center for Vedic Technology and Research (VMAC)",
+        name: "Varahamihira Advanced Center for Vedic Technology and Research (VMAC-VTR)",
         slug: "vmac",
         description:
-          "VMAC is an advanced research center dedicated to uncovering the scientific basis of Vedic knowledge systems, including Jyotisha, Vastu, Ayurveda, and traditional cosmological sciences, and their applications in contemporary life.",
+          "VMAC-VTR is an advanced research center dedicated to uncovering the scientific basis of Vedic knowledge systems, including Jyotisha, Vastu, Ayurveda, and traditional cosmological sciences, and their applications in contemporary life.",
         programs: [
           "Certificate in Vedic Sciences",
           "Research Fellowship in Vedic Technology",
@@ -86,7 +80,7 @@ export const divisionsData: Division[] = [
           "Publication of peer-reviewed Vedic science research",
         ],
         faculty: [
-          { id: "vmac-1", name: "Dr. Subramanya P", designation: "Director, VMAC", qualifications: "Ph.D. Vedic Sciences", expertise: "Jyotisha, Vastu and ancient Indian cosmological sciences" },
+          { id: "vmac-1", name: "Dr. Subramanya P", designation: "Director, VMAC-VTR", qualifications: "Ph.D. Vedic Sciences", expertise: "Jyotisha, Vastu and ancient Indian cosmological sciences" },
           { id: "vmac-2", name: "Dr. Srinivasa Rao", designation: "Senior Research Fellow", qualifications: "M.Sc. Sanskrit", expertise: "Computational Vedic studies and Ayurvedic philosophy" },
         ],
       },
@@ -127,14 +121,10 @@ export const divisionsData: Division[] = [
         ],
         faculty: [
           { id: "ynm-1083", name: "Dr. Saoji Apar Avinash", designation: "Faculty", qualifications: "BNYS, Ph.D.", expertise: "Yoga and Naturopathic Medicine", photo: "/faculty/ssynm/1083-dr-saoji-apar-avinash.jpg?v=2" },
-          { id: "ynm-1245", name: "Dr. Jincy Sundaran", designation: "Faculty", qualifications: "BNYS, Ph.D.", expertise: "Naturopathy and Yogic Sciences", photo: "/faculty/ssynm/1245-dr-jincy-sundaran.jpg?v=2" },
           { id: "ynm-1161", name: "Dr. Titty George", designation: "Faculty", qualifications: "BNYS, Ph.D.", expertise: "Yoga and Naturopathic Medicine", photo: "/faculty/ssynm/1161-dr-titty-george.jpg?v=2" },
-          { id: "ynm-1201", name: "Dr. Ranjitha R", designation: "Faculty", qualifications: "BNYS, Ph.D.", expertise: "Naturopathic and Yogic Therapies", photo: "/faculty/ssynm/1201-dr-ranjitha-r.jpg?v=2" },
           { id: "ynm-1210", name: "Dr. Arundhati Goley", designation: "Faculty", qualifications: "BNYS, Ph.D.", expertise: "Yoga and Naturopathic Medicine", photo: "/faculty/ssynm/1210-dr-arundhati-goley.jpg?v=2" },
           { id: "ynm-1234", name: "Dr. Ankita Mishra", designation: "Faculty", qualifications: "BNYS, Ph.D.", expertise: "Naturopathy and Yoga Therapy", photo: "/faculty/ssynm/1234-dr-ankita-mishra.jpg?v=2" },
-          { id: "ynm-1253", name: "Dr. Sharad Shivajirao Chaudhari", designation: "Faculty", qualifications: "BNYS, Ph.D.", expertise: "Yogic Sciences and Naturopathic Medicine", photo: "/faculty/ssynm/1253-dr-sharad-chaudhari.jpg?v=2" },
           { id: "ynm-1261", name: "Dr. Moulya K Appanna", designation: "Faculty", qualifications: "BNYS, Ph.D.", expertise: "Naturopathy and Yoga", photo: "/faculty/ssynm/1261-dr-moulya-k-appanna.jpg?v=2" },
-          { id: "ynm-1287", name: "Dr. Anusuya U S", designation: "Faculty", qualifications: "BNYS, Ph.D.", expertise: "Yoga and Naturopathic Medicine", photo: "/faculty/ssynm/1287-dr-anusuya-us.jpg" },
           { id: "ynm-1298", name: "Dr. Ranjini Murthy P", designation: "Faculty", qualifications: "BNYS, Ph.D.", expertise: "Naturopathic and Yogic Sciences", photo: "/faculty/ssynm/1298-dr-ranjini-murthy-p.jpg" },
           { id: "ynm-1307", name: "Dr. K J Sridevi", designation: "Faculty", qualifications: "BNYS, Ph.D.", expertise: "Yoga and Naturopathic Medicine", photo: "/faculty/ssynm/1307-dr-kj-sridevi.jpg" },
           { id: "ynm-1312", name: "Dr. Navya", designation: "Faculty", qualifications: "BNYS, Ph.D.", expertise: "Naturopathic and Yogic Sciences", photo: "/faculty/ssynm/1312-dr-navya.jpg" },

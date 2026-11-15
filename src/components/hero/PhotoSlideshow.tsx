@@ -4,19 +4,21 @@ import { PHOTO_DURATION, type EventPhoto } from "@/data/eventPhotos";
 const SLIDE_EASE = [0.22, 1, 0.36, 1] as const;
 
 /**
- * Photo layer for the heroes. Each photo is shown in full (never cropped),
- * inside `frameClassName`, over a blurred + darkened copy of itself that fills
- * the hero. Photos slide in from the right and out to the left, then hold
- * with a gentle zoom.
+ * Full-background photo layer for the heroes (where the video used to be).
+ * Each photo fills as much of the hero as it can while staying whole (never
+ * cropped); the leftover space is filled by a blurred, darkened copy of the
+ * same photo. Photos slide in from the right and out to the left, then hold
+ * with a gentle zoom. `positionClassName` (object-position) places the photo
+ * inside the hero, e.g. "object-right" to keep the left side free for text.
  */
 export const PhotoSlideshow = ({
   photos,
   index,
-  frameClassName = "inset-x-4 top-6 bottom-36 md:inset-x-16 md:top-8 md:bottom-44",
+  positionClassName = "object-center",
 }: {
   photos: EventPhoto[];
   index: number;
-  frameClassName?: string;
+  positionClassName?: string;
 }) => {
   const reduceMotion = useReducedMotion();
   const current = photos[index];
@@ -39,12 +41,12 @@ export const PhotoSlideshow = ({
         />
       </AnimatePresence>
 
-      {/* Full, uncropped photo sliding through the frame */}
-      <div className={`absolute ${frameClassName}`}>
+      {/* Full, uncropped photo filling the hero background */}
+      <div className="absolute inset-0">
         <AnimatePresence initial={false}>
           <motion.div
             key={index}
-            className="absolute inset-0 flex items-center justify-center"
+            className="absolute inset-0"
             initial={reduceMotion ? { opacity: 0 } : { x: "70%", opacity: 0, scale: 0.9 }}
             animate={{ x: 0, opacity: 1, scale: 1 }}
             exit={reduceMotion ? { opacity: 0 } : { x: "-70%", opacity: 0, scale: 0.9 }}
@@ -53,7 +55,7 @@ export const PhotoSlideshow = ({
             <motion.img
               src={current.src}
               alt={current.caption}
-              className="block max-w-full max-h-full w-auto h-auto object-contain rounded-xl md:rounded-2xl shadow-2xl ring-1 ring-white/20"
+              className={`block w-full h-full object-contain drop-shadow-[0_0_40px_rgba(0,0,0,0.5)] ${positionClassName}`}
               initial={false}
               animate={reduceMotion ? undefined : { scale: [0.97, 1] }}
               transition={{ duration: holdSeconds, ease: "easeOut" }}
