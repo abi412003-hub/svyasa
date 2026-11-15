@@ -7,17 +7,15 @@ const SLIDE_EASE = [0.22, 1, 0.36, 1] as const;
  * Photo layer for the heroes. Each photo is shown in full (never cropped),
  * inside `frameClassName`, over a blurred + darkened copy of itself that fills
  * the hero. Photos slide in from the right and out to the left, then hold
- * with a gentle zoom. The whole layer fades out while `show` is false.
+ * with a gentle zoom.
  */
 export const PhotoSlideshow = ({
   photos,
   index,
-  show,
   frameClassName = "inset-x-4 top-6 bottom-36 md:inset-x-16 md:top-8 md:bottom-44",
 }: {
   photos: EventPhoto[];
   index: number;
-  show: boolean;
   frameClassName?: string;
 }) => {
   const reduceMotion = useReducedMotion();
@@ -25,13 +23,7 @@ export const PhotoSlideshow = ({
   const holdSeconds = (PHOTO_DURATION + 1100) / 1000;
 
   return (
-    <motion.div
-      className="absolute inset-0 overflow-hidden"
-      initial={false}
-      animate={{ opacity: show ? 1 : 0 }}
-      transition={{ duration: 1.2, ease: "easeInOut" }}
-      aria-hidden={!show}
-    >
+    <div className="absolute inset-0 overflow-hidden">
       {/* Blurred backdrop of the same photo, filling the hero */}
       <AnimatePresence initial={false}>
         <motion.img
@@ -69,20 +61,16 @@ export const PhotoSlideshow = ({
           </motion.div>
         </AnimatePresence>
       </div>
-    </motion.div>
+    </div>
   );
 };
 
-/** Slim progress indicator: one dot per photo, then one bar for the video. */
+/** Slim progress indicator: one dot per photo; the current one fills while it shows. */
 export const HeroProgress = ({
-  isVideo,
-  videoProgress,
   photoIndex,
   photoCount,
   className = "absolute bottom-6 inset-x-0 z-10 flex justify-center pointer-events-none",
 }: {
-  isVideo: boolean;
-  videoProgress: number;
   photoIndex: number;
   photoCount: number;
   className?: string;
@@ -90,8 +78,8 @@ export const HeroProgress = ({
   <div className={className}>
     <div className="flex items-center gap-2">
       {Array.from({ length: photoCount }).map((_, i) => {
-        const done = isVideo || i < photoIndex;
-        const active = !isVideo && i === photoIndex;
+        const done = i < photoIndex;
+        const active = i === photoIndex;
         return (
           <div key={i} className="relative h-1 w-3 md:w-5 rounded-full bg-white/25 overflow-hidden">
             {(done || active) && (
@@ -106,12 +94,6 @@ export const HeroProgress = ({
           </div>
         );
       })}
-      <div className="relative h-1 w-16 md:w-24 rounded-full bg-white/25 overflow-hidden">
-        <div
-          className="absolute inset-y-0 left-0 bg-gold"
-          style={{ width: `${isVideo ? videoProgress * 100 : 0}%` }}
-        />
-      </div>
     </div>
   </div>
 );
