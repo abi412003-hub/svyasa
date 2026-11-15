@@ -1,6 +1,6 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, GraduationCap, Sparkles, Star } from "lucide-react";
+import { ArrowLeft, Compass, FlaskConical, GraduationCap, Leaf, Orbit, ScrollText, Sparkles, Star } from "lucide-react";
 import Layout from "@/components/layout/Layout";
 import { getSchoolBySlug } from "@/data/divisionsData";
 import SchoolFacultySection from "@/components/SchoolFacultySection";
@@ -118,6 +118,71 @@ const SchoolPage = () => {
           </div>
         </div>
       </section>
+
+      {/* Research laboratories (e.g. Rutambhara at VMAC-VTR) */}
+      {school.labsSection && (
+        <section className="relative py-16 md:py-20 bg-secondary overflow-hidden">
+          <div className="absolute inset-0 opacity-[0.07] bg-[radial-gradient(circle_at_20%_20%,hsl(var(--gold)),transparent_45%),radial-gradient(circle_at_85%_80%,hsl(var(--primary)),transparent_45%)]" />
+          <div className="container mx-auto px-4 max-w-5xl relative">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="mb-10"
+            >
+              <p className="text-gold text-xs md:text-sm uppercase tracking-[0.25em] font-medium mb-3 flex items-center gap-2">
+                <FlaskConical className="w-4 h-4" /> Research Laboratories
+              </p>
+              <h2 className="font-heading text-3xl md:text-4xl font-bold text-white mb-2">
+                {school.labsSection.title}
+              </h2>
+              <p className="text-gold-light italic mb-5">{school.labsSection.tagline}</p>
+              <div className="w-20 h-0.5 bg-gold mb-6" />
+              <p className="text-white/75 leading-relaxed max-w-3xl">{school.labsSection.description}</p>
+            </motion.div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {school.labsSection.labs.map((lab, i) => {
+                const Icon = { Orbit, Compass, Leaf, ScrollText }[lab.icon];
+                return (
+                  <motion.div
+                    key={lab.name}
+                    custom={i}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                    variants={fadeUp}
+                    className="group rounded-2xl p-6 bg-white/[0.06] border border-white/10 hover:border-gold/40 hover:bg-white/[0.09] transition-colors"
+                  >
+                    <div className="flex items-start gap-4">
+                      <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${division.color} flex items-center justify-center shrink-0 shadow-lg`}>
+                        <Icon className="w-6 h-6 text-white" />
+                      </div>
+                      <div>
+                        <h3 className="font-heading text-lg font-semibold text-white mb-2 group-hover:text-gold-light transition-colors">
+                          {lab.name}
+                        </h3>
+                        <p className="text-white/70 text-sm leading-relaxed mb-4">{lab.description}</p>
+                        <div className="flex flex-wrap gap-2">
+                          {lab.focus.map((f) => (
+                            <span
+                              key={f}
+                              className="px-2.5 py-1 rounded-full text-[11px] font-medium bg-gold/15 text-gold-light border border-gold/25"
+                            >
+                              {f}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Faculty */}
       {school.faculty && school.faculty.length > 0 && (

@@ -1,5 +1,4 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { eventPhotos, EVENT_PHOTO_EYEBROW } from "@/data/eventPhotos";
 import { usePhotoSlideshow } from "@/hooks/usePhotoSlideshow";
@@ -35,15 +34,12 @@ const HeroSection = ({ active = true }: { active?: boolean }) => {
   const photo = eventPhotos[photoIndex];
 
   return (
-    <section className="relative h-screen min-h-[500px] md:h-[90vh] md:min-h-[600px] overflow-hidden bg-secondary">
+    // Phones: full screen, photo on top. Tablet/desktop: 3:2, close to the photos' own shape, so they show whole.
+    <section className="relative h-[calc(100svh-72px)] min-h-[500px] md:h-auto md:min-h-0 md:aspect-[3/2] overflow-hidden bg-secondary">
       <div className="absolute inset-0">
-        {/* Photos fill the full width of the hero background */}
-        <PhotoSlideshow
-          photos={eventPhotos}
-          index={photoIndex}
-        />
-        {/* Shade behind the text */}
-        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/70 to-transparent lg:inset-y-0 lg:left-0 lg:right-auto lg:h-auto lg:w-3/5 lg:bg-gradient-to-r lg:from-black/65 lg:via-black/30 pointer-events-none" />
+        <PhotoSlideshow photos={eventPhotos} index={photoIndex} />
+        {/* Shade along the bottom, behind the text */}
+        <div className="absolute inset-x-0 bottom-0 h-1/2 md:h-2/5 bg-gradient-to-t from-black/85 via-black/45 to-transparent pointer-events-none" />
       </div>
 
       {/* Floating Particles */}
@@ -54,29 +50,15 @@ const HeroSection = ({ active = true }: { active?: boolean }) => {
       </div>
 
       {/* Content */}
-      <div className="relative h-full container mx-auto px-4 flex items-end lg:items-center pb-16 lg:pb-0">
-        <div className="w-full max-w-3xl lg:max-w-[calc(50%-2rem)]">
+      {/* Content: kept at the very bottom of the photo, below the faces */}
+      <div className="relative h-full container mx-auto px-4 flex items-end pb-24 md:pb-8 lg:pb-10">
+        <div className="w-full max-w-3xl">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
             <h1 className="sr-only">S-VYASA Deemed to be University</h1>
-
-            {/* Badges */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="flex flex-wrap gap-2 mb-4 md:mb-6"
-            >
-              <span className="px-3 py-1 md:px-4 md:py-1.5 bg-gold/20 backdrop-blur-sm text-gold-light text-xs md:text-sm font-medium rounded-full border border-gold/30">
-                NAAC 'A+' Grade
-              </span>
-              <span className="px-3 py-1 md:px-4 md:py-1.5 bg-gold/20 backdrop-blur-sm text-gold-light text-xs md:text-sm font-medium rounded-full border border-gold/30">
-                UGC Recognized
-              </span>
-            </motion.div>
 
             {/* Photo caption, changing with each photo */}
             <AnimatePresence mode="wait">
@@ -86,26 +68,23 @@ const HeroSection = ({ active = true }: { active?: boolean }) => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -16 }}
                 transition={{ duration: 0.7, ease: "easeInOut" }}
-                className="border-l-2 border-gold pl-4 md:pl-6 mb-6 md:mb-8"
+                className="border-l-2 border-gold pl-4 md:pl-5 mb-4 md:mb-5"
               >
-                <p className="text-gold-light text-[11px] md:text-xs uppercase tracking-[0.25em] font-medium mb-2 text-shadow">
+                <p className="text-gold-light text-[11px] md:text-xs uppercase tracking-[0.25em] font-medium mb-1.5 text-shadow">
                   {EVENT_PHOTO_EYEBROW}
                 </p>
-                <p className="font-heading text-2xl sm:text-3xl md:text-4xl font-bold text-primary-foreground text-shadow-lg leading-tight">
+                <p className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold text-primary-foreground text-shadow-lg leading-tight">
                   {photo.caption}
-                </p>
-                <p className="mt-2 text-primary-foreground/70 text-sm tabular-nums">
-                  {String(photoIndex + 1).padStart(2, "0")} / {String(eventPhotos.length).padStart(2, "0")}
                 </p>
               </motion.div>
             </AnimatePresence>
 
-            {/* CTA Buttons */}
+            {/* CTA + badges */}
             <motion.div
               initial={{ opacity: 0, y: 20, scale: 0.9 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ delay: 0.8, type: "spring", stiffness: 200 }}
-              className="flex flex-wrap gap-4"
+              className="flex flex-wrap items-center gap-3 md:gap-4"
             >
               <Button
                 size="lg"
@@ -113,6 +92,12 @@ const HeroSection = ({ active = true }: { active?: boolean }) => {
               >
                 Explore Programs
               </Button>
+              <span className="px-3 py-1 md:px-4 md:py-1.5 bg-gold/20 backdrop-blur-sm text-gold-light text-xs md:text-sm font-medium rounded-full border border-gold/30">
+                NAAC 'A+' Grade
+              </span>
+              <span className="px-3 py-1 md:px-4 md:py-1.5 bg-gold/20 backdrop-blur-sm text-gold-light text-xs md:text-sm font-medium rounded-full border border-gold/30">
+                UGC Recognized
+              </span>
             </motion.div>
           </motion.div>
         </div>
@@ -121,17 +106,8 @@ const HeroSection = ({ active = true }: { active?: boolean }) => {
       <HeroProgress
         photoIndex={photoIndex}
         photoCount={eventPhotos.length}
-        className="absolute bottom-4 right-4 md:bottom-8 md:right-8 z-10 pointer-events-none"
+        className="absolute bottom-4 right-4 md:bottom-6 md:right-8 z-10 pointer-events-none"
       />
-
-      {/* Scroll Indicator */}
-      <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
-        animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 2, repeat: Infinity }}
-      >
-        <ChevronDown size={32} className="text-primary-foreground/60" />
-      </motion.div>
     </section>
   );
 };

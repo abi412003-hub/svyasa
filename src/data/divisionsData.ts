@@ -7,6 +7,21 @@ export interface FacultyMember {
   photo?: string;
 }
 
+export interface ResearchLab {
+  name: string;
+  description: string;
+  /** lucide-react icon name used on the lab card */
+  icon: "Orbit" | "Compass" | "Leaf" | "ScrollText";
+  focus: string[];
+}
+
+export interface LabsSection {
+  title: string;
+  tagline: string;
+  description: string;
+  labs: ResearchLab[];
+}
+
 export interface School {
   name: string;
   slug: string;
@@ -14,6 +29,8 @@ export interface School {
   programs: string[];
   highlights: string[];
   faculty?: FacultyMember[];
+  /** Optional research-laboratories section shown on the school page */
+  labsSection?: LabsSection;
 }
 
 export interface Division {
@@ -79,6 +96,43 @@ export const divisionsData: Division[] = [
           "Collaborative projects with national and international institutions",
           "Publication of peer-reviewed Vedic science research",
         ],
+        // Draft copy built from VMAC-VTR's stated research areas — to be confirmed by the centre.
+        labsSection: {
+          title: "Rutambhara – Advanced Research Laboratories",
+          tagline: "Truth-bearing wisdom, tested with modern science",
+          description:
+            "Named after ṛtambharā prajñā — the “truth-bearing wisdom” of the Yoga Sūtras (I.48) — Rutambhara houses the advanced research laboratories of VMAC-VTR. The laboratories bring modern instrumentation, computation and rigorous research methods to Vedic knowledge systems, studying their principles scientifically and translating validated insights into applications for contemporary life.",
+          labs: [
+            {
+              name: "Jyotisha & Astronomical Computation Lab",
+              icon: "Orbit",
+              description:
+                "Computational study of Jyotisha and classical Indian astronomy — modelling traditional calculations and comparing them with modern astronomical data.",
+              focus: ["Computational Jyotisha", "Classical astronomy", "Data-driven validation"],
+            },
+            {
+              name: "Vastu & Spatial Sciences Lab",
+              icon: "Compass",
+              description:
+                "Research on Vastu principles of space, orientation and the built environment, and their measurable effects on comfort and well-being.",
+              focus: ["Vastu principles", "Built environment", "Well-being studies"],
+            },
+            {
+              name: "Ayurveda & Vedic Health Sciences Lab",
+              icon: "Leaf",
+              description:
+                "Investigates Ayurvedic and Vedic concepts of health using modern research methodology, bridging traditional understanding and contemporary health science.",
+              focus: ["Ayurvedic concepts", "Vedic health sciences", "Integrative research"],
+            },
+            {
+              name: "Vedic Knowledge Systems & Digital Heritage Lab",
+              icon: "ScrollText",
+              description:
+                "Computational Vedic studies — digitising, analysing and interpreting classical texts and cosmological sciences for research and teaching.",
+              focus: ["Computational Vedic studies", "Text & manuscript analysis", "Cosmological sciences"],
+            },
+          ],
+        },
         faculty: [
           { id: "vmac-1", name: "Dr. Subramanya P", designation: "Director, VMAC-VTR", qualifications: "Ph.D. Vedic Sciences", expertise: "Jyotisha, Vastu and ancient Indian cosmological sciences" },
           { id: "vmac-2", name: "Dr. Srinivasa Rao", designation: "Senior Research Fellow", qualifications: "M.Sc. Sanskrit", expertise: "Computational Vedic studies and Ayurvedic philosophy" },

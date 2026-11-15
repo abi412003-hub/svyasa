@@ -1,4 +1,3 @@
-import type React from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { PHOTO_DURATION, type EventPhoto } from "@/data/eventPhotos";
 
@@ -6,16 +5,15 @@ const SLIDE_EASE = [0.22, 1, 0.36, 1] as const;
 
 /**
  * Full-background photo layer for the heroes (where the video used to be).
- * Each photo covers the full width and height of the hero; each photo's
- * `focus` point keeps the people in frame when the wide hero trims the top
- * and bottom. Photos slide in from the right and out to the left, then hold
- * with a gentle zoom. A blurred copy of the photo sits behind the slide so
- * there is never an empty edge mid-transition.
+ * Each photo is fitted whole (never cropped or zoomed in). The heroes use a
+ * 3:2 shape on tablet/desktop, close to the photos' own shape, so a photo
+ * spans (nearly) the full width; any small leftover margin is filled by a
+ * blurred copy of the same photo. On phones the photo sits at the top.
+ * Photos slide in from the right and out to the left.
  */
 export const PhotoSlideshow = ({ photos, index }: { photos: EventPhoto[]; index: number }) => {
   const reduceMotion = useReducedMotion();
   const current = photos[index];
-  const holdSeconds = (PHOTO_DURATION + 1100) / 1000;
 
   return (
     <div className="absolute inset-0 overflow-hidden">
@@ -34,26 +32,21 @@ export const PhotoSlideshow = ({ photos, index }: { photos: EventPhoto[]; index:
         />
       </AnimatePresence>
 
-      {/* Photo covering the full width of the hero background */}
+      {/* Whole photo, fitted to the hero background */}
       <div className="absolute inset-0">
         <AnimatePresence initial={false}>
           <motion.div
             key={index}
-            className="absolute inset-0 overflow-hidden"
+            className="absolute inset-0"
             initial={reduceMotion ? { opacity: 0 } : { x: "60%", opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             exit={reduceMotion ? { opacity: 0 } : { x: "-60%", opacity: 0 }}
             transition={{ duration: 1.1, ease: SLIDE_EASE }}
           >
-            <motion.img
+            <img
               src={current.src}
               alt={current.caption}
-              // Phones: whole photo across the full width at the top. Tablet/desktop: cover the hero, kept on the faces.
-              className="block w-full h-full object-contain object-top md:object-cover md:[object-position:var(--focus)]"
-              style={{ "--focus": current.focus, transformOrigin: current.focus } as React.CSSProperties}
-              initial={false}
-              animate={reduceMotion ? undefined : { scale: [1, 1.05] }}
-              transition={{ duration: holdSeconds, ease: "linear" }}
+              className="block w-full h-full object-contain object-top md:object-center"
             />
           </motion.div>
         </AnimatePresence>
