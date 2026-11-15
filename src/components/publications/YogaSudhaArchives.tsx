@@ -1,6 +1,8 @@
 import { motion, useInView, AnimatePresence } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
-import { FileText, Download, X, ExternalLink, Eye, Loader2 } from "lucide-react";
+import { useRef, useState, useEffect, type ReactNode } from "react";
+import { FileText, Download, X, ExternalLink, Eye, Loader2, BookOpen, Microscope } from "lucide-react";
+import { OPEN_ARCHIVE_EVENT, type ArchiveKind } from "./archiveEvents";
+import { researchByYear, researchYears, researchPapers, type ResearchPaper } from "@/data/researchPapers";
 
 // Edge Function proxy — serves PDFs with proper headers, bypassing Chrome CORS blocks
 const PROXY = (storagePath: string) =>
@@ -51,12 +53,12 @@ const monthColors: Record<string, string> = {
   March: "from-green-500 to-emerald-600",
   April: "from-yellow-500 to-amber-600",
   May: "from-purple-500 to-violet-600",
-  June: "from-cyan-500 to-teal-600",
+  June: "from-cyan-500 to-sky-600",
   July: "from-orange-500 to-red-600",
   August: "from-indigo-500 to-blue-600",
   September: "from-amber-500 to-orange-600",
   October: "from-rose-500 to-pink-600",
-  November: "from-teal-500 to-cyan-600",
+  November: "from-emerald-500 to-cyan-600",
   December: "from-violet-500 to-purple-600",
 };
 
@@ -303,17 +305,93 @@ const EditionCard = ({
   );
 };
 
+// ─── Research Paper Card (same cover format as the Yoga Sudha editions) ──────
+const researchColors = Object.values(monthColors);
+
+const categoryShort: Record<ResearchPaper["category"], string> = {
+  "Yoga & Life Sciences": "Life Sciences",
+  "Yoga & Humanities": "Humanities",
+  "Yoga & Spirituality": "Spirituality",
+  "Featured Research": "Featured",
+};
+
+const ResearchCard = ({ paper, index }: { paper: ResearchPaper; index: number }) => {
+  const colorClass = researchColors[researchPapers.indexOf(paper) % researchColors.length];
+
+  return (
+    <motion.a
+      href={paper.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group block cursor-pointer"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+      transition={{ duration: 0.4, delay: index * 0.05 }}
+      title={paper.title}
+    >
+      <div className="relative bg-card rounded-xl overflow-hidden shadow-medium transition-all duration-300 group-hover:-translate-y-2 group-hover:shadow-large">
+        {/* Link badge */}
+        <div className="absolute top-3 right-3 z-10 bg-white/90 backdrop-blur-sm rounded-full p-1.5 shadow-sm">
+          <ExternalLink className="w-4 h-4 text-primary" />
+        </div>
+
+        {/* Paper cover */}
+        <div className={`aspect-[3/4] bg-gradient-to-br ${colorClass} p-4 flex flex-col items-center justify-between transition-transform duration-300 group-hover:scale-105 relative`}>
+          <div className="text-center">
+            <div className="w-10 h-10 mx-auto mb-1 rounded-full bg-white/20 flex items-center justify-center">
+              <Microscope className="w-5 h-5 text-white" />
+            </div>
+            <h4 className="text-white text-[11px] font-medium uppercase tracking-wider">{categoryShort[paper.category]}</h4>
+          </div>
+          <p className="text-white font-heading text-sm leading-snug text-center line-clamp-5">{paper.title}</p>
+          <div className="text-center">
+            <p className="text-white/75 text-[11px] leading-tight line-clamp-2">{paper.journal}</p>
+            <p className="text-white/60 text-xs mt-1">{paper.year}</p>
+          </div>
+
+          {/* Hover overlay */}
+          <div className="absolute inset-0 bg-black/55 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+            <div className="flex flex-col items-center gap-2 text-white">
+              <ExternalLink className="w-7 h-7" />
+              <span className="text-xs font-medium">Read on PubMed</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Gold border animation */}
+        <motion.div
+          className="absolute bottom-0 left-0 h-1 bg-gold"
+          initial={{ width: 0 }}
+          whileHover={{ width: "100%" }}
+          transition={{ duration: 0.3 }}
+        />
+
+        {/* Authors label */}
+        <div className="p-3 bg-card">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-foreground font-medium text-xs truncate">{paper.authors}</span>
+            <ExternalLink className="w-3.5 h-3.5 shrink-0 text-muted-foreground group-hover:text-primary transition-colors" />
+          </div>
+        </div>
+      </div>
+    </motion.a>
+  );
+};
+
 // ─── Year Section ─────────────────────────────────────────────────────────────
 const YearSection = ({
+  id,
   year,
-  months,
-  isActive,
-  onPreview,
+  count,
+  unit,
+  children,
 }: {
+  id: string;
   year: string;
-  months: string[];
-  isActive: boolean;
-  onPreview: (url: string) => void;
+  count: number;
+  unit: string;
+  children: ReactNode;
 }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
@@ -321,8 +399,8 @@ const YearSection = ({
   return (
     <motion.div
       ref={ref}
-      id={`year-${year}`}
-      className="mb-12"
+      id={id}
+      className="mb-12 scroll-mt-28"
       initial={{ opacity: 0 }}
       animate={isInView ? { opacity: 1 } : {}}
       transition={{ duration: 0.5 }}
@@ -341,36 +419,69 @@ const YearSection = ({
           transition={{ duration: 0.6, delay: 0.2 }}
           style={{ originX: 0 }}
         />
-        <span className="text-sm text-muted-foreground">{months.length} edition{months.length > 1 ? "s" : ""}</span>
+        <span className="text-sm text-muted-foreground">{count} {unit}{count > 1 ? "s" : ""}</span>
       </motion.div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-        <AnimatePresence mode="popLayout">
-          {months.map((month, index) => (
-            <EditionCard
-              key={`${year}-${month}`}
-              month={month}
-              year={year}
-              index={index}
-              onPreview={onPreview}
-            />
-          ))}
-        </AnimatePresence>
+        <AnimatePresence mode="popLayout">{children}</AnimatePresence>
       </div>
     </motion.div>
   );
+};
+
+const archiveCopy: Record<ArchiveKind, { title: string; subtitle: string }> = {
+  "yoga-sudha": {
+    title: "Yoga Sudha Archives",
+    subtitle: "Browse decades of yogic wisdom, research insights, and university milestones.",
+  },
+  research: {
+    title: "Research Paper Archives",
+    subtitle:
+      "Peer-reviewed studies from S-VYASA University and Arogyadhama on yoga, Ayurveda, and integrative medicine. Click any paper to open it on PubMed.",
+  },
 };
 
 // ─── Main Section ─────────────────────────────────────────────────────────────
 const YogaSudhaArchives = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [kind, setKind] = useState<ArchiveKind>(() =>
+    typeof window !== "undefined" && window.location.hash === "#research-papers" ? "research" : "yoga-sudha",
+  );
   const [activeYear, setActiveYear] = useState<string | null>(null);
   const [preview, setPreview] = useState<{ url: string; month: string; year: string } | null>(null);
+  const yearList = kind === "research" ? researchYears : years;
+  const copy = archiveCopy[kind];
+
+  // The "Browse Archives" dropdown (and #research-papers links) switch the archive shown here.
+  useEffect(() => {
+    const onOpen = (e: Event) => {
+      setKind((e as CustomEvent<ArchiveKind>).detail);
+      setActiveYear(null);
+    };
+    const onHash = () => {
+      if (window.location.hash !== "#research-papers") return;
+      setKind("research");
+      setActiveYear(null);
+      window.setTimeout(() => document.getElementById("archives")?.scrollIntoView({ block: "start" }), 300);
+    };
+    window.addEventListener(OPEN_ARCHIVE_EVENT, onOpen);
+    window.addEventListener("hashchange", onHash);
+    onHash();
+    return () => {
+      window.removeEventListener(OPEN_ARCHIVE_EVENT, onOpen);
+      window.removeEventListener("hashchange", onHash);
+    };
+  }, []);
+
+  const switchKind = (next: ArchiveKind) => {
+    setKind(next);
+    setActiveYear(null);
+  };
 
   const scrollToYear = (year: string) => {
     setActiveYear(year);
-    document.getElementById(`year-${year}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    document.getElementById(`year-${kind}-${year}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   const handlePreview = (url: string) => {
@@ -390,7 +501,7 @@ const YogaSudhaArchives = () => {
   };
 
   return (
-    <section id="archives" ref={ref} className="py-20 md:py-28 bg-background relative overflow-hidden">
+    <section id="archives" ref={ref} className="py-20 md:py-28 bg-background relative overflow-hidden scroll-mt-20">
       {/* Watermark */}
       <div className="absolute right-0 top-1/4 w-96 h-96 opacity-[0.03] pointer-events-none">
         <svg viewBox="0 0 200 200" className="w-full h-full fill-primary">
@@ -404,13 +515,42 @@ const YogaSudhaArchives = () => {
       <div className="container mx-auto px-4">
         {/* Heading */}
         <div className="text-center mb-12">
+          {/* Archive switch: Yoga Sudha editions / Research papers */}
+          <div className="inline-flex p-1 mb-8 rounded-full bg-card border border-secondary/15 shadow-sm" role="tablist">
+            {([
+              { value: "yoga-sudha", label: "Yoga Sudha Archives", Icon: BookOpen },
+              { value: "research", label: "Research Papers", Icon: Microscope },
+            ] as const).map(({ value, label, Icon }) => (
+              <button
+                key={value}
+                role="tab"
+                aria-selected={kind === value}
+                onClick={() => switchKind(value)}
+                className={`relative flex items-center gap-2 px-4 sm:px-5 py-2 rounded-full text-sm font-medium transition-colors ${
+                  kind === value ? "text-primary-foreground" : "text-secondary hover:text-primary"
+                }`}
+              >
+                {kind === value && (
+                  <motion.span
+                    layoutId="archive-kind-pill"
+                    className="absolute inset-0 rounded-full bg-primary shadow-md"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
+                )}
+                <Icon className="relative w-4 h-4" />
+                <span className="relative">{label}</span>
+              </button>
+            ))}
+          </div>
+
           <motion.h2
+            key={copy.title}
             className="font-heading text-4xl md:text-5xl text-foreground mb-4"
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
             transition={{ duration: 0.6 }}
           >
-            {"Yoga Sudha Archives".split(" ").map((word, i) => (
+            {copy.title.split(" ").map((word, i) => (
               <motion.span
                 key={i}
                 className="inline-block mr-3"
@@ -429,12 +569,13 @@ const YogaSudhaArchives = () => {
             transition={{ duration: 0.6, delay: 0.3 }}
           />
           <motion.p
+            key={copy.subtitle}
             className="text-muted-foreground mt-4 max-w-2xl mx-auto"
             initial={{ opacity: 0, y: 15 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-            Browse decades of yogic wisdom, research insights, and university milestones.
+            {copy.subtitle}
           </motion.p>
         </div>
 
@@ -445,9 +586,9 @@ const YogaSudhaArchives = () => {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, delay: 0.5 }}
         >
-          {years.map((year, index) => (
+          {yearList.map((year, index) => (
             <motion.button
-              key={year}
+              key={`${kind}-${year}`}
               onClick={() => scrollToYear(year)}
               className={`px-5 py-2 rounded-full font-medium text-sm transition-all duration-300 ${
                 activeYear === year
@@ -469,15 +610,39 @@ const YogaSudhaArchives = () => {
         <div className="relative">
           <div className="hidden lg:block absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-gold via-primary to-gold/30" />
           <div className="lg:pl-12">
-            {years.map((year) => (
-              <YearSection
-                key={year}
-                year={year}
-                months={archiveData[year]}
-                isActive={activeYear === year}
-                onPreview={handlePreview}
-              />
-            ))}
+            {kind === "yoga-sudha"
+              ? years.map((year) => (
+                  <YearSection
+                    key={`yoga-sudha-${year}`}
+                    id={`year-yoga-sudha-${year}`}
+                    year={year}
+                    count={archiveData[year].length}
+                    unit="edition"
+                  >
+                    {archiveData[year].map((month, index) => (
+                      <EditionCard
+                        key={`${year}-${month}`}
+                        month={month}
+                        year={year}
+                        index={index}
+                        onPreview={handlePreview}
+                      />
+                    ))}
+                  </YearSection>
+                ))
+              : researchYears.map((year) => (
+                  <YearSection
+                    key={`research-${year}`}
+                    id={`year-research-${year}`}
+                    year={year}
+                    count={researchByYear[year].length}
+                    unit="paper"
+                  >
+                    {researchByYear[year].map((paper, index) => (
+                      <ResearchCard key={paper.title} paper={paper} index={index} />
+                    ))}
+                  </YearSection>
+                ))}
           </div>
         </div>
       </div>

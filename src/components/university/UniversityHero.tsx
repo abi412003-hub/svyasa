@@ -4,8 +4,8 @@ import { eventPhotos, EVENT_PHOTO_EYEBROW } from "@/data/eventPhotos";
 import { useVideoThenPhotos } from "@/hooks/useVideoThenPhotos";
 import { PhotoSlideshow, HeroProgress } from "@/components/hero/PhotoSlideshow";
 
-const UniversityHero = () => {
-  const { videoRef, isVideo, photoIndex, videoProgress, videoProps } = useVideoThenPhotos(eventPhotos);
+const UniversityHero = ({ active = true }: { active?: boolean }) => {
+  const { videoRef, isVideo, photoIndex, videoProgress, videoProps } = useVideoThenPhotos(eventPhotos, active);
   const current = eventPhotos[photoIndex];
 
   return (
@@ -15,7 +15,6 @@ const UniversityHero = () => {
       <motion.video
         ref={videoRef}
         src={heroVideo}
-        autoPlay
         muted
         playsInline
         preload="auto"
@@ -26,7 +25,12 @@ const UniversityHero = () => {
         transition={{ duration: 1.2, ease: "easeInOut" }}
       />
 
-      <PhotoSlideshow photos={eventPhotos} index={photoIndex} show={!isVideo} />
+      <PhotoSlideshow
+        photos={eventPhotos}
+        index={photoIndex}
+        show={!isVideo}
+        frameClassName="inset-x-4 top-5 bottom-48 md:inset-x-16 md:top-8 md:bottom-48"
+      />
 
       {/* Overlays: even darkening for the video, bottom gradient for photos */}
       <motion.div
@@ -36,7 +40,7 @@ const UniversityHero = () => {
         transition={{ duration: 1.2 }}
       />
       <motion.div
-        className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/20"
+        className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black/70 to-transparent pointer-events-none"
         initial={false}
         animate={{ opacity: isVideo ? 0 : 1 }}
         transition={{ duration: 1.2 }}

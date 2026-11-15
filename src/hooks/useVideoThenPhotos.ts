@@ -4,23 +4,34 @@ import { PHOTO_DURATION } from "@/data/eventPhotos";
 export type HeroPhase = "video" | "photos";
 
 /**
- * Drives a hero that plays a background video once, then steps through
- * `photoCount` photos (PHOTO_DURATION each), then restarts the video.
- * If the video can't play (error / autoplay blocked) it goes straight to photos.
+ * Drives a hero that first steps through `photos` (PHOTO_DURATION each), then
+ * plays the background video once, then starts the photos again.
+ * Nothing advances until `active` is true (e.g. after the page loader is gone).
+ * If the video can't play (error / autoplay blocked) it goes back to the photos.
  */
-export function useVideoThenPhotos(photos: { src: string }[]) {
+export function useVideoThenPhotos(photos: { src: string }[], active = true) {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [phase, setPhase] = useState<HeroPhase>("video");
+  const [phase, setPhase] = useState<HeroPhase>("photos");
   const [photoIndex, setPhotoIndex] = useState(0);
   const [videoProgress, setVideoProgress] = useState(0);
   const photoCount = photos.length;
 
   const startPhotos = useCallback(() => {
+    videoRef.current?.pause();
     setPhotoIndex(0);
     setPhase("photos");
   }, []);
 
-  // Preload the photos so the first one is ready the moment the video ends.
+  const startVideo = useCallback(() => {
+    const video = videoRef.current;
+    setVideoProgress(0);
+    setPhase("video");
+    if (!video) return;
+    video.currentTime = 0;
+    video.play().catch(() => startPhotos());
+  }, [startPhotos]);
+
+  // Preload the photos so every slide is ready when its turn comes.
   useEffect(() => {
     photos.forEach(({ src }) => {
       const img = new Image();
@@ -28,38 +39,21 @@ export function useVideoThenPhotos(photos: { src: string }[]) {
     });
   }, [photos]);
 
-  // If autoplay is blocked, skip straight to the photo slideshow.
+  // Photo slideshow timer; after the last photo, play the video.
   useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    const attempt = video.play();
-    if (attempt && typeof attempt.catch === "function") {
-      attempt.catch(() => startPhotos());
-    }
-  }, [startPhotos]);
-
-  // Photo slideshow timer; after the last photo, go back to the video.
-  useEffect(() => {
-    if (phase !== "photos") return;
+    if (!active || phase !== "photos") return;
     const timer = window.setTimeout(() => {
-      if (photoIndex < photoCount - 1) {
-        setPhotoIndex((i) => i + 1);
-        return;
-      }
-      const video = videoRef.current;
-      setVideoProgress(0);
-      setPhase("video");
-      if (video) {
-        video.currentTime = 0;
-        video.play().catch(() => startPhotos());
-      }
+      if (photoIndex < photoCount - 1) setPhotoIndex((i) => i + 1);
+      else startVideo();
     }, PHOTO_DURATION);
     return () => window.clearTimeout(timer);
-  }, [phase, photoIndex, photoCount, startPhotos]);
+  }, [active, phase, photoIndex, photoCount, startVideo]);
 
   const videoProps = {
     onEnded: startPhotos,
-    onError: startPhotos,
+    onError: () => {
+      if (phase === "video") startPhotos();
+    },
     onTimeUpdate: () => {
       const video = videoRef.current;
       if (video && video.duration) setVideoProgress(video.currentTime / video.duration);

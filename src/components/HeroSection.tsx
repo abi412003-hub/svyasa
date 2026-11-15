@@ -47,9 +47,9 @@ const slides = [
   },
 ];
 
-const HeroSection = () => {
-  // Video plays once, then the Golden Jubilee photos, then the video again.
-  const { videoRef, isVideo, photoIndex, videoProgress, videoProps } = useVideoThenPhotos(eventPhotos);
+const HeroSection = ({ active = true }: { active?: boolean }) => {
+  // Golden Jubilee photos first, then the campus video, then the photos again.
+  const { videoRef, isVideo, photoIndex, videoProgress, videoProps } = useVideoThenPhotos(eventPhotos, active);
   const [slideIndex, setSlideIndex] = useState(0);
   const hasShownSecond = useRef(false);
 
@@ -87,7 +87,6 @@ const HeroSection = () => {
         <motion.video
           ref={videoRef}
           src={heroVideo}
-          autoPlay
           muted
           playsInline
           preload="auto"
@@ -97,13 +96,23 @@ const HeroSection = () => {
           animate={{ opacity: isVideo ? 1 : 0 }}
           transition={{ duration: 1.2, ease: "easeInOut" }}
         />
-        {/* Golden Jubilee photo slideshow after the video */}
-        <PhotoSlideshow photos={eventPhotos} index={photoIndex} show={!isVideo} />
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-hero-pattern" />
-        {/* Extra shade behind the text while photos show */}
+        {/* Video overlay */}
         <motion.div
-          className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10 md:bg-gradient-to-r md:from-black/75 md:via-black/30 md:to-transparent"
+          className="absolute inset-0 bg-hero-pattern"
+          initial={false}
+          animate={{ opacity: isVideo ? 1 : 0 }}
+          transition={{ duration: 1.2 }}
+        />
+        {/* Golden Jubilee photos (full, uncropped): above the text on small screens, beside it on large */}
+        <PhotoSlideshow
+          photos={eventPhotos}
+          index={photoIndex}
+          show={!isVideo}
+          frameClassName="left-3 right-3 top-4 bottom-[54%] lg:left-[50%] lg:right-10 lg:top-12 lg:bottom-20"
+        />
+        {/* Shade behind the text while photos show */}
+        <motion.div
+          className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/70 to-transparent lg:inset-y-0 lg:left-0 lg:right-auto lg:h-auto lg:w-1/2 lg:bg-gradient-to-r lg:from-black/50 pointer-events-none"
           initial={false}
           animate={{ opacity: isVideo ? 0 : 1 }}
           transition={{ duration: 1.2 }}
@@ -118,8 +127,12 @@ const HeroSection = () => {
       </div>
 
       {/* Content */}
-      <div className="relative h-full container mx-auto px-4 flex items-end md:items-center pb-16 md:pb-0">
-        <div className="max-w-3xl w-full">
+      <div
+        className={`relative h-full container mx-auto px-4 flex ${
+          isVideo ? "items-end md:items-center pb-16 md:pb-0" : "items-end lg:items-center pb-16 lg:pb-0"
+        }`}
+      >
+        <div className={`w-full ${isVideo ? "max-w-3xl" : "max-w-3xl lg:max-w-[calc(50%-2rem)]"}`}>
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -166,10 +179,11 @@ const HeroSection = () => {
                   transition={{ duration: 0.7, ease: "easeInOut" }}
                   className="border-l-2 border-gold pl-4 md:pl-6 mb-6 md:mb-8"
                 >
+                  <h1 className="sr-only">S-VYASA Deemed to be University</h1>
                   <p className="text-gold-light text-[11px] md:text-xs uppercase tracking-[0.25em] font-medium mb-2 text-shadow">
                     {EVENT_PHOTO_EYEBROW}
                   </p>
-                  <p className="font-heading text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-primary-foreground text-shadow-lg leading-tight">
+                  <p className="font-heading text-2xl sm:text-3xl md:text-4xl font-bold text-primary-foreground text-shadow-lg leading-tight">
                     {photo.caption}
                   </p>
                   <p className="mt-2 text-primary-foreground/70 text-sm tabular-nums">

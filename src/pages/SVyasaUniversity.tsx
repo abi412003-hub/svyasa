@@ -38,7 +38,7 @@ const SVyasaUniversity = () => {
         <MegaMenuHeader />
         <Breadcrumb items={breadcrumbItems} />
         <main>
-          <UniversityHero />
+          <UniversityHero active={!isLoading} />
           <UniversityTimeline />
           <UniversityVisionMission />
           <UniversityUnique />

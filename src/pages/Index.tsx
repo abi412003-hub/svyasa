@@ -50,7 +50,7 @@ const Index = () => {
         <ScrollProgress />
         <MegaMenuHeader />
         <main>
-          <HeroSection />
+          <HeroSection active={!isLoading} />
           <StatsSection />
           <AnnouncementsTicker />
           <ProgramsSection />

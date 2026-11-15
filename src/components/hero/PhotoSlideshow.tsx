@@ -1,62 +1,79 @@
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { PHOTO_DURATION, type EventPhoto } from "@/data/eventPhotos";
 
-/** Full-bleed photo layer: crossfade + slow Ken Burns zoom/pan. Renders nothing while `show` is false. */
+const SLIDE_EASE = [0.22, 1, 0.36, 1] as const;
+
+/**
+ * Photo layer for the heroes. Each photo is shown in full (never cropped),
+ * inside `frameClassName`, over a blurred + darkened copy of itself that fills
+ * the hero. Photos slide in from the right and out to the left, then hold
+ * with a gentle zoom. The whole layer fades out while `show` is false.
+ */
 export const PhotoSlideshow = ({
   photos,
   index,
   show,
+  frameClassName = "inset-x-4 top-6 bottom-36 md:inset-x-16 md:top-8 md:bottom-44",
 }: {
   photos: EventPhoto[];
   index: number;
   show: boolean;
+  frameClassName?: string;
 }) => {
   const reduceMotion = useReducedMotion();
   const current = photos[index];
-  const panDirection = index % 2 === 0 ? 1 : -1;
-  const seconds = (PHOTO_DURATION + 1200) / 1000;
+  const holdSeconds = (PHOTO_DURATION + 1100) / 1000;
 
   return (
-    <AnimatePresence>
-      {show && (
-        <motion.div
-          key={index}
-          className="absolute inset-0 overflow-hidden"
+    <motion.div
+      className="absolute inset-0 overflow-hidden"
+      initial={false}
+      animate={{ opacity: show ? 1 : 0 }}
+      transition={{ duration: 1.2, ease: "easeInOut" }}
+      aria-hidden={!show}
+    >
+      {/* Blurred backdrop of the same photo, filling the hero */}
+      <AnimatePresence initial={false}>
+        <motion.img
+          key={`backdrop-${index}`}
+          src={current.src}
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover scale-110 blur-2xl brightness-[0.45] saturate-125"
+          style={{ objectPosition: current.focus }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 1.2, ease: "easeInOut" }}
-        >
-          <motion.img
-            src={current.src}
-            alt={current.caption}
-            className="w-full h-full object-cover"
-            style={{ objectPosition: current.focus, transformOrigin: current.focus }}
-            initial={
-              reduceMotion
-                ? false
-                : {
-                    scale: 1,
-                    x: `${-1.5 * panDirection}%`,
-                    filter: index === 0 ? "blur(12px)" : "blur(0px)",
-                  }
-            }
-            animate={
-              reduceMotion ? undefined : { scale: 1.12, x: `${1.5 * panDirection}%`, filter: "blur(0px)" }
-            }
-            transition={{
-              scale: { duration: seconds, ease: "linear" },
-              x: { duration: seconds, ease: "linear" },
-              filter: { duration: 1.2, ease: "easeOut" },
-            }}
-          />
-        </motion.div>
-      )}
-    </AnimatePresence>
+        />
+      </AnimatePresence>
+
+      {/* Full, uncropped photo sliding through the frame */}
+      <div className={`absolute ${frameClassName}`}>
+        <AnimatePresence initial={false}>
+          <motion.div
+            key={index}
+            className="absolute inset-0 flex items-center justify-center"
+            initial={reduceMotion ? { opacity: 0 } : { x: "70%", opacity: 0, scale: 0.9 }}
+            animate={{ x: 0, opacity: 1, scale: 1 }}
+            exit={reduceMotion ? { opacity: 0 } : { x: "-70%", opacity: 0, scale: 0.9 }}
+            transition={{ duration: 1.1, ease: SLIDE_EASE }}
+          >
+            <motion.img
+              src={current.src}
+              alt={current.caption}
+              className="block max-w-full max-h-full w-auto h-auto object-contain rounded-xl md:rounded-2xl shadow-2xl ring-1 ring-white/20"
+              initial={false}
+              animate={reduceMotion ? undefined : { scale: [0.97, 1] }}
+              transition={{ duration: holdSeconds, ease: "easeOut" }}
+            />
+          </motion.div>
+        </AnimatePresence>
+      </div>
+    </motion.div>
   );
 };
 
-/** Slim progress indicator: one bar for the video, one dot per photo. */
+/** Slim progress indicator: one dot per photo, then one bar for the video. */
 export const HeroProgress = ({
   isVideo,
   videoProgress,
@@ -72,14 +89,8 @@ export const HeroProgress = ({
 }) => (
   <div className={className}>
     <div className="flex items-center gap-2">
-      <div className="relative h-1 w-16 md:w-24 rounded-full bg-white/25 overflow-hidden">
-        <div
-          className="absolute inset-y-0 left-0 bg-gold"
-          style={{ width: `${isVideo ? videoProgress * 100 : 100}%` }}
-        />
-      </div>
       {Array.from({ length: photoCount }).map((_, i) => {
-        const done = !isVideo && i < photoIndex;
+        const done = isVideo || i < photoIndex;
         const active = !isVideo && i === photoIndex;
         return (
           <div key={i} className="relative h-1 w-3 md:w-5 rounded-full bg-white/25 overflow-hidden">
@@ -95,6 +106,12 @@ export const HeroProgress = ({
           </div>
         );
       })}
+      <div className="relative h-1 w-16 md:w-24 rounded-full bg-white/25 overflow-hidden">
+        <div
+          className="absolute inset-y-0 left-0 bg-gold"
+          style={{ width: `${isVideo ? videoProgress * 100 : 0}%` }}
+        />
+      </div>
     </div>
   </div>
 );
