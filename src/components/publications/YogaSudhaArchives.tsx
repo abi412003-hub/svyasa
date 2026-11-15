@@ -33,9 +33,38 @@ const storagePdfMap: Record<string, string> = {
   "2024-December":  PROXY("publications/yoga-sudha/2024/yoga_sudha_dec_2024.pdf"),
 };
 
+// Editions hosted in the shared Yoga Sudha Google Drive folder
+// (drive.google.com/drive/folders/1CooftxWcdooPHzscM4MRQ5H5JYUKl-tK) — year+month → Drive file id.
+// They open in Google Drive's PDF viewer inside the preview modal.
+const drivePdfMap: Record<string, string> = {
+  "2025-December":  "1F-0gKyACHvzSduV8VPfRl8Gt7XaBP4_m",
+  "2026-January":   "17umIs2wu-AnUTjl3VINbqzlF3RoX03OO",
+  "2026-February":  "1CigkIIdHogxr3jqXLyfOgR5hufcMWOST",
+  "2026-March":     "1frhoUABF4_XflgNmjLH2BBhnIKUKHODR",
+  "2026-April":     "1b4WylCk3UKkxIT8vf3zNb0K8xwfCz5r8",
+  "2026-May":       "1v7epnbKEJKx4Uwhv9pkRLBGgFZQeBLYO",
+  "2026-June":      "1PV4u8VWowuOtY9bPwiyXN70jr5rS2k7_",
+  "2026-July":      "1hCzt5fN-yswz4pvLzQQ90jHE1Uj8vcN-",
+  "2026-August":    "1AltoQ159GCQxjdsYko_NqIAQsxbpC50z",
+  "2026-September": "1oRDms7JP9g1RBNg_g7MopBEWbJbkeeDo",
+  "2026-October":   "1AhTf0eR1ZNgv-QuhQasEXKWtcesMZrut",
+  "2026-November":  "1ZaVV5-Mbe-mkVlou4d2qw8z7BdUIr1DJ",
+};
+
+type PdfSource = { kind: "storage"; url: string } | { kind: "drive"; id: string };
+
+/** Where an edition's PDF lives (Supabase storage via the proxy, or Google Drive), if anywhere. */
+const getPdfSource = (year: string, month: string): PdfSource | null => {
+  const key = `${year}-${month}`;
+  if (storagePdfMap[key]) return { kind: "storage", url: storagePdfMap[key] };
+  if (drivePdfMap[key]) return { kind: "drive", id: drivePdfMap[key] };
+  return null;
+};
+
 // Archive data structure
 const archiveData: Record<string, string[]> = {
-  "2025": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November"],
+  "2026": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November"],
+  "2025": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
   "2024": ["April", "May", "June", "July", "September", "October", "November", "December"],
   "2022": ["January", "February", "March", "April"],
   "2021": ["January", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
@@ -101,19 +130,36 @@ function usePdfBlobUrl(proxyUrl: string | null) {
 
 // ─── PDF Preview Modal ────────────────────────────────────────────────────────
 const PdfPreviewModal = ({
-  proxyUrl,
+  source,
   month,
   year,
   onClose,
 }: {
-  proxyUrl: string;
+  source: PdfSource;
   month: string;
   year: string;
   onClose: () => void;
 }) => {
-  const { blobUrl, loading, error } = usePdfBlobUrl(proxyUrl);
+  // Storage editions are fetched into a blob: URL; Drive editions use Google Drive's own viewer.
+  const { blobUrl, loading: blobLoading, error } = usePdfBlobUrl(source.kind === "storage" ? source.url : null);
+  const [driveLoaded, setDriveLoaded] = useState(false);
+  const drive =
+    source.kind === "drive"
+      ? {
+          preview: `https://drive.google.com/file/d/${source.id}/preview`,
+          view: `https://drive.google.com/file/d/${source.id}/view`,
+          download: `https://drive.usercontent.google.com/download?id=${source.id}&export=download&confirm=t`,
+        }
+      : null;
+  const loading = drive ? !driveLoaded : blobLoading;
+  const viewerUrl = drive ? drive.preview : blobUrl;
+  const openUrl = drive ? drive.view : blobUrl;
 
   const handleDownload = () => {
+    if (drive) {
+      window.open(drive.download, "_blank", "noopener");
+      return;
+    }
     if (!blobUrl) return;
     const a = document.createElement("a");
     a.href = blobUrl;
@@ -154,10 +200,10 @@ const PdfPreviewModal = ({
               </div>
             </div>
             <div className="flex items-center gap-2">
-              {blobUrl && (
+              {openUrl && (
                 <>
                   <a
-                    href={blobUrl}
+                    href={openUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
@@ -186,7 +232,7 @@ const PdfPreviewModal = ({
           {/* Body */}
           <div className="flex-1 bg-muted/30 relative">
             {loading && (
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-muted-foreground">
+              <div className="absolute inset-0 z-10 bg-card flex flex-col items-center justify-center gap-3 text-muted-foreground">
                 <Loader2 className="w-8 h-8 animate-spin text-primary" />
                 <p className="text-sm">Loading PDF…</p>
               </div>
@@ -197,11 +243,13 @@ const PdfPreviewModal = ({
                 <p className="text-sm">Could not load PDF. Please try downloading instead.</p>
               </div>
             )}
-            {blobUrl && (
+            {viewerUrl && (
               <iframe
-                src={blobUrl}
+                src={viewerUrl}
                 className="w-full h-full border-0"
                 title={`Yoga Sudha ${month} ${year}`}
+                allow="autoplay"
+                onLoad={() => setDriveLoaded(true)}
               />
             )}
           </div>
@@ -221,15 +269,14 @@ const EditionCard = ({
   month: string;
   year: string;
   index: number;
-  onPreview: (url: string) => void;
+  onPreview: (month: string, year: string) => void;
 }) => {
-  const pdfPath = storagePdfMap[`${year}-${month}`] ?? null;
   const fallbackPath = `/img/pdf/yoga-sudha-${month.toLowerCase()}-${year}.pdf`;
   const colorClass = monthColors[month] || "from-primary to-gold";
-  const hasStorage = !!pdfPath;
+  const hasStorage = !!getPdfSource(year, month);
 
   const handleClick = () => {
-    if (hasStorage) onPreview(pdfPath!);
+    if (hasStorage) onPreview(month, year);
   };
 
   return (
@@ -449,7 +496,7 @@ const YogaSudhaArchives = () => {
     typeof window !== "undefined" && window.location.hash === "#research-papers" ? "research" : "yoga-sudha",
   );
   const [activeYear, setActiveYear] = useState<string | null>(null);
-  const [preview, setPreview] = useState<{ url: string; month: string; year: string } | null>(null);
+  const [preview, setPreview] = useState<{ source: PdfSource; month: string; year: string } | null>(null);
   const yearList = kind === "research" ? researchYears : years;
   const copy = archiveCopy[kind];
 
@@ -484,20 +531,9 @@ const YogaSudhaArchives = () => {
     document.getElementById(`year-${kind}-${year}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  const handlePreview = (url: string) => {
-    // Extract month/year from the encoded path parameter in the proxy URL
-    const pathParam = decodeURIComponent(new URL(url).searchParams.get("path") ?? "");
-    const filename = pathParam.split("/").pop()?.replace(".pdf", "") ?? "";
-    // e.g. yoga_sudha_jan_2025 → parts[2]=jan, parts[3]=2025
-    const parts = filename.split("_");
-    const monthAbbr = parts[2] ?? "";
-    const year = parts[3] ?? "";
-    const monthMap: Record<string, string> = {
-      jan: "January", feb: "February", mar: "March", apr: "April",
-      may: "May", june: "June", july: "July", aug: "August",
-      sept: "September", oct: "October", nov: "November", dec: "December",
-    };
-    setPreview({ url, month: monthMap[monthAbbr] ?? monthAbbr, year });
+  const handlePreview = (month: string, year: string) => {
+    const source = getPdfSource(year, month);
+    if (source) setPreview({ source, month, year });
   };
 
   return (
@@ -650,7 +686,8 @@ const YogaSudhaArchives = () => {
       {/* Modal */}
       {preview && (
         <PdfPreviewModal
-          proxyUrl={preview.url}
+          key={`${preview.year}-${preview.month}`}
+          source={preview.source}
           month={preview.month}
           year={preview.year}
           onClose={() => setPreview(null)}
