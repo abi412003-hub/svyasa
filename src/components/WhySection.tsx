@@ -6,7 +6,7 @@ const features = [
   {
     icon: Globe,
     title: "Global Recognition",
-    description: "Internationally accredited programs with partnerships across 40+ countries",
+    description: "Internationally accredited programs with partnerships across 120+ countries",
   },
   {
     icon: Award,
@@ -16,7 +16,7 @@ const features = [
   {
     icon: Microscope,
     title: "Research Excellence",
-    description: "600+ published research papers in international peer-reviewed journals",
+    description: "15,000+ published research papers in international peer-reviewed journals",
   },
   {
     icon: Users,

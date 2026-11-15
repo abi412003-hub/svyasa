@@ -4,8 +4,8 @@ import { GraduationCap, BookOpen, Globe, Award } from "lucide-react";
 
 const stats = [
   { icon: GraduationCap, value: 100000, suffix: "+", label: "Students Passed" },
-  { icon: BookOpen, value: 962, suffix: "+", label: "Research Papers" },
-  { icon: Globe, value: 40, suffix: "+", label: "Countries" },
+  { icon: BookOpen, value: 15000, suffix: "+", label: "Research Papers" },
+  { icon: Globe, value: 120, suffix: "+", label: "Countries" },
   { icon: Award, value: 24, suffix: "+", label: "Years of Excellence" },
 ];
 

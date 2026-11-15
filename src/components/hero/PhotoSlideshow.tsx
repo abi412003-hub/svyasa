@@ -32,21 +32,31 @@ export const PhotoSlideshow = ({ photos, index }: { photos: EventPhoto[]; index:
         />
       </AnimatePresence>
 
-      {/* Whole photo, fitted to the hero background */}
+      {/* Whole photo, fitted to the hero background, with softly faded edges */}
       <div className="absolute inset-0">
         <AnimatePresence initial={false}>
           <motion.div
             key={index}
-            className="absolute inset-0"
+            className="absolute inset-0 flex justify-center items-start md:items-center"
             initial={reduceMotion ? { opacity: 0 } : { x: "60%", opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             exit={reduceMotion ? { opacity: 0 } : { x: "-60%", opacity: 0 }}
             transition={{ duration: 1.1, ease: SLIDE_EASE }}
           >
+            {/* The image box matches the visible photo, so the edge fades sit exactly on the photo's
+                edges: bottom edge on phones (photo at the top), left/right edges on tablet/desktop. */}
             <img
               src={current.src}
               alt={current.caption}
-              className="block w-full h-full object-contain object-top md:object-center"
+              className={[
+                "block object-contain",
+                "w-full h-auto max-h-full",
+                "md:h-full md:w-auto md:max-w-full",
+                "[mask-image:linear-gradient(to_bottom,#000_78%,transparent)]",
+                "[-webkit-mask-image:linear-gradient(to_bottom,#000_78%,transparent)]",
+                "md:[mask-image:linear-gradient(to_right,transparent,#000_10%,#000_90%,transparent)]",
+                "md:[-webkit-mask-image:linear-gradient(to_right,transparent,#000_10%,#000_90%,transparent)]",
+              ].join(" ")}
             />
           </motion.div>
         </AnimatePresence>
