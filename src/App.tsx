@@ -17,6 +17,7 @@ import GlobalCityCampus from "./pages/GlobalCityCampus";
 import FacilityPrashantiCampus from "./pages/FacilityPrashantiCampus";
 import Admissions from "./pages/Admissions";
 import ContactUs from "./pages/ContactUs";
+import ApplyNow from "./pages/ApplyNow";
 import LifeAtSvyasa from "./pages/LifeAtSvyasa";
 import NewsEvents from "./pages/NewsEvents";
 import Gallery from "./pages/Gallery";
@@ -126,6 +127,9 @@ const App = () => (
           <Route path="/facility-prashanti-campus" element={<FacilityPrashantiCampus />} />
           <Route path="/life-at-svyasa" element={<LifeAtSvyasa />} />
           <Route path="/contact-us" element={<ContactUs />} />
+          <Route path="/contact" element={<Navigate to="/contact-us" replace />} />
+          <Route path="/apply" element={<Navigate to="/apply/global-city-campus" replace />} />
+          <Route path="/apply/:campus" element={<ApplyNow />} />
           
           {/* Legacy course redirects → dynamic /courses/:slug */}
           <Route path="/bca" element={<Navigate to="/programs/bca" replace />} />

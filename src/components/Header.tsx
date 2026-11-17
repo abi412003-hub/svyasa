@@ -4,6 +4,7 @@ import { Menu, X, ChevronDown, Phone, Mail, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import svyasaLogo from "@/assets/svyasa-logo.svg";
+import { useHoverIntent } from "@/hooks/useHoverIntent";
 
 const navItems = [
   {
@@ -31,6 +32,7 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
+  const hover = useHoverIntent(activeSubmenu, setActiveSubmenu);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -108,8 +110,7 @@ const Header = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5 + index * 0.1 }}
                   className="relative"
-                  onMouseEnter={() => setActiveSubmenu(item.label)}
-                  onMouseLeave={() => setActiveSubmenu(null)}
+                  {...(item.submenu ? hover.triggerProps(item.label) : {})}
                 >
                   {'href' in item && item.href ? (
                     <Link 
@@ -130,7 +131,12 @@ const Header = () => {
                       )}
                     </Link>
                   ) : (
-                    <button className="px-4 py-2 flex items-center gap-1 text-foreground hover:text-primary transition-colors group">
+                    <button
+                      type="button"
+                      aria-expanded={activeSubmenu === item.label}
+                      onClick={() => item.submenu && hover.toggle(item.label)}
+                      className="nav-trigger px-4 py-2 flex items-center gap-1 text-foreground hover:text-primary transition-colors group"
+                    >
                       <span className="relative">
                         {item.label}
                         <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />

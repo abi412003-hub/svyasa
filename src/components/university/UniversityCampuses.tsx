@@ -81,11 +81,11 @@ const UniversityCampuses = () => (
                 ))}
               </div>
 
-              <Link to={campus.link}>
-                <Button variant="outline" size="sm" className="rounded-full">
+              <Button asChild variant="outline" size="sm" className="rounded-full">
+                <Link to={campus.link}>
                   Explore Campus →
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             </div>
           </motion.div>
         ))}

@@ -12,14 +12,14 @@ const AdmissionsQuickActions = ({ onOpenFeeModal }: QuickActionsProps) => {
   const actionButtons = [
     {
       label: "Apply now for S-VYASA Global City Campus",
-      href: "https://applynow.svyasa.edu.in/",
-      external: true,
+      href: "/apply/global-city-campus",
+      external: false,
       variant: "primary" as const,
     },
     {
       label: "Apply now for Prashanti Campus",
-      href: "https://admissions.svyasa.edu.in/",
-      external: true,
+      href: "/apply/prashanti-campus",
+      external: false,
       variant: "primary" as const,
     },
     {

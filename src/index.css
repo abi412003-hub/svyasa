@@ -405,3 +405,100 @@
     scroll-behavior: auto;
   }
 }
+
+/* ───────────────────────────────────────────────────────────────
+   Buttons: scale up on hover (mouse only), press feedback on tap,
+   and single-tap activation on touch devices (no double-tap zoom /
+   hover-first tap). Elements that already animate their own scale
+   (Tailwind hover:scale-*, framer-motion whileHover) are skipped so
+   the effect is never doubled.
+   ─────────────────────────────────────────────────────────────── */
+a,
+button,
+[role="button"],
+input[type="submit"],
+summary {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+:is(
+    button,
+    [role="button"],
+    input[type="submit"],
+    a.btn,
+    a[class*="rounded-full"][class*="px-"],
+    a[class*="rounded-xl"][class*="px-"][class*="py-"],
+    a[class*="rounded-lg"][class*="px-"][class*="py-"]
+  ):not(
+    .nav-trigger,
+    .no-scale,
+    .card-lift,
+    [role="tab"],
+    [role="menuitem"],
+    [role="option"],
+    [role="switch"],
+    [role="checkbox"],
+    [role="radio"],
+    [role="combobox"],
+    [data-radix-collection-item],
+    [class*="hover:scale-"],
+    [class*="aspect-"],
+    [style*="scale("],
+    :disabled
+  ) {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity,
+    box-shadow, transform, filter, scale;
+  transition-duration: 200ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  :is(
+      button,
+      [role="button"],
+      input[type="submit"],
+      a.btn,
+      a[class*="rounded-full"][class*="px-"],
+      a[class*="rounded-xl"][class*="px-"][class*="py-"],
+      a[class*="rounded-lg"][class*="px-"][class*="py-"]
+    ):not(
+      .nav-trigger,
+      .no-scale,
+      .card-lift,
+      [role="tab"],
+      [role="menuitem"],
+      [role="option"],
+      [role="switch"],
+      [role="checkbox"],
+      [role="radio"],
+      [role="combobox"],
+      [data-radix-collection-item],
+      [class*="hover:scale-"],
+      [class*="aspect-"],
+      [style*="scale("],
+      :disabled
+    ):hover {
+    scale: 1.05;
+  }
+
+  :is(button, a.btn, a[class*="rounded-full"][class*="px-"]).w-full:not(
+      .nav-trigger,
+      .no-scale,
+      [class*="hover:scale-"],
+      [style*="scale("],
+      :disabled
+    ):hover {
+    scale: 1.02;
+  }
+}
+
+:is(
+    button,
+    [role="button"],
+    input[type="submit"],
+    a.btn,
+    a[class*="rounded-full"][class*="px-"]
+  ):not(.nav-trigger, .no-scale, [role="tab"], [data-radix-collection-item], [style*="scale("], :disabled):active {
+  scale: 0.97;
+}

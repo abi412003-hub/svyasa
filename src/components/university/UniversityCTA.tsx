@@ -47,16 +47,16 @@ const UniversityCTA = () => (
         transition={{ delay: 0.2 }}
         className="flex flex-wrap justify-center gap-4"
       >
-        <a href="https://applynow.svyasa.edu.in/" target="_blank" rel="noopener noreferrer">
-          <Button size="lg" className="bg-gold text-secondary-foreground rounded-full px-8 hover:bg-gold/90">
+        <Button asChild size="lg" className="bg-gold text-secondary-foreground rounded-full px-8 hover:bg-gold/90">
+          <Link to="/apply/global-city-campus">
             Apply Now
-          </Button>
-        </a>
-        <Link to="/admissions">
-          <Button size="lg" variant="outline" className="border-white text-white rounded-full px-8 hover:bg-white/10">
+          </Link>
+        </Button>
+        <Button asChild size="lg" variant="outline" className="bg-transparent border-white text-white rounded-full px-8 hover:bg-white/10">
+          <Link to="/admissions">
             Explore Programs
-          </Button>
-        </Link>
+          </Link>
+        </Button>
       </motion.div>
     </div>
   </section>

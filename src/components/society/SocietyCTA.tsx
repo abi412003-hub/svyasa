@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
+import { Link } from "react-router-dom";
 
 // Sparkle particle
 const SparkleParticle = ({ delay }: { delay: number }) => (
@@ -76,10 +77,7 @@ const CTAButton = ({
   const isPrimary = variant === "primary";
 
   return (
-    <motion.a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
+    <motion.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{
@@ -89,11 +87,10 @@ const CTAButton = ({
         damping: 20,
       }}
       viewport={{ once: true }}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.98 }}
       className="inline-block"
     >
       <Button
+        asChild
         size="lg"
         className={`relative overflow-hidden group ${
           isPrimary
@@ -101,32 +98,31 @@ const CTAButton = ({
             : "bg-transparent border-2 border-white text-white hover:bg-white/10"
         }`}
       >
-        {/* Pulse glow effect for primary buttons */}
-        {isPrimary && (
-          <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-gold/20 to-transparent"
-            animate={{
-              x: ["-100%", "100%"],
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              repeatDelay: 1,
-            }}
-          />
-        )}
+        <Link to={href}>
+          {/* Shimmer effect for primary buttons */}
+          {isPrimary && (
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-r from-gold/20 to-transparent"
+              animate={{
+                x: ["-100%", "100%"],
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                repeatDelay: 1,
+              }}
+            />
+          )}
 
-        <span className="relative flex items-center gap-2">
-          {children}
-          <motion.span
-            animate={{ x: [0, 4, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-          >
-            <ArrowRight className="w-4 h-4" />
-          </motion.span>
-        </span>
+          <span className="relative flex items-center gap-2">
+            {children}
+            <motion.span animate={{ x: [0, 4, 0] }} transition={{ duration: 1.5, repeat: Infinity }}>
+              <ArrowRight className="w-4 h-4" />
+            </motion.span>
+          </span>
+        </Link>
       </Button>
-    </motion.a>
+    </motion.div>
   );
 };
 
@@ -194,7 +190,7 @@ const SocietyCTA = () => {
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <CTAButton
-              href="https://applynow.svyasa.edu.in/"
+              href="/apply/global-city-campus"
               delay={0.3}
               variant="primary"
             >
@@ -202,7 +198,7 @@ const SocietyCTA = () => {
             </CTAButton>
 
             <CTAButton
-              href="https://applynow.svyasa.edu.in/"
+              href="/apply/prashanti-campus"
               delay={0.4}
               variant="secondary"
             >
@@ -210,7 +206,7 @@ const SocietyCTA = () => {
             </CTAButton>
 
             <CTAButton
-              href="/contact"
+              href="/contact-us"
               delay={0.5}
               variant="secondary"
             >

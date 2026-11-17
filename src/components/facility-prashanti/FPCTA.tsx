@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 // Floating sparkle particles
 const SparkleParticles = () => {
@@ -77,17 +78,17 @@ const FPCTA = () => {
   const buttons = [
     {
       label: "Apply now for S-VYASA Global City Campus",
-      href: "https://applynow.svyasa.edu.in/",
-      external: true,
+      href: "/apply/global-city-campus",
+      external: false,
     },
     {
       label: "Apply now for Prashanti Campus",
-      href: "/prashanti-campus",
+      href: "/apply/prashanti-campus",
       external: false,
     },
     {
       label: "Contact Us",
-      href: "/contact",
+      href: "/contact-us",
       external: false,
     },
   ];
@@ -152,12 +153,7 @@ const FPCTA = () => {
                 size="lg"
                 className="relative group bg-white text-primary hover:bg-white/90 font-poppins font-semibold px-8 py-6 text-base shadow-lg"
               >
-                <a
-                  href={button.href}
-                  target={button.external ? "_blank" : undefined}
-                  rel={button.external ? "noopener noreferrer" : undefined}
-                  className="flex items-center gap-2"
-                >
+                <Link to={button.href} className="flex items-center gap-2">
                   {/* Persistent pulse glow */}
                   <motion.span
                     className="absolute inset-0 rounded-md bg-white/20"
@@ -178,7 +174,7 @@ const FPCTA = () => {
                   >
                     <ArrowRight className="w-4 h-4" />
                   </motion.span>
-                </a>
+                </Link>
               </Button>
             </motion.div>
           ))}

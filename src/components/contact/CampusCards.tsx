@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { MapPin, Phone, Mail, ArrowRight, Smartphone } from "lucide-react";
 import gccCampusImage from "@/assets/gcc-campus.jpg";
+import prashantiAerialImage from "@/assets/prashanti-kutiram-aerial.webp";
 
 const CampusCards = () => {
   const campuses = [
@@ -16,7 +17,8 @@ const CampusCards = () => {
     },
     {
       name: "Prashanti Kutiram Campus",
-      image: "https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=800&q=80",
+      image: prashantiAerialImage,
+      light: true,
       address: "Prashanti Kutiram, Vivekananda Road, Kalluballu Post, Jigani, Anekal, Bengaluru – 560105, INDIA",
       mobile: ["+91-8762996815", "+91-7676749929", "+91-8088503565", "+91-7022024777"],
       landline: "080-2263 9968",
@@ -74,12 +76,20 @@ const CampusCards = () => {
               {/* Campus Image */}
               <div className="relative h-48 overflow-hidden">
                 <motion.div
-                  className="absolute inset-0 bg-cover bg-center"
+                  className={`absolute inset-0 bg-cover bg-center ${"light" in campus ? "brightness-110 saturate-[1.05]" : ""}`}
                   style={{ backgroundImage: `url('${campus.image}')` }}
+                  role="img"
+                  aria-label={`${campus.name} aerial view`}
                   whileHover={{ scale: 1.05 }}
                   transition={{ duration: 0.4 }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-navy/60 to-transparent" />
+                <div
+                  className={`absolute inset-0 ${
+                    "light" in campus
+                      ? "bg-gradient-to-t from-white/45 via-white/10 to-transparent"
+                      : "bg-gradient-to-t from-navy/60 to-transparent"
+                  }`}
+                />
               </div>
 
               {/* Content */}

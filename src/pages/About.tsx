@@ -33,8 +33,7 @@ const About = () => {
   };
 
   const breadcrumbItems = [
-    { label: "About Us", href: "/about" },
-    { label: "S-VYASA University" },
+    { label: "About Us" },
   ];
 
   return (

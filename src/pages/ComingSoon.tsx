@@ -87,17 +87,17 @@ const ComingSoon = () => {
 
             {/* Actions */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/">
-                <Button variant="outline" className="gap-2">
+              <Button asChild variant="outline" className="gap-2">
+                <Link to="/">
                   <ArrowLeft className="w-4 h-4" />
-                  Back to Home
-                </Button>
-              </Link>
-              <a href="https://applynow.svyasa.edu.in/" target="_blank" rel="noopener noreferrer">
-                <Button className="bg-primary text-primary-foreground">
+                    Back to Home
+                </Link>
+              </Button>
+              <Button asChild className="bg-primary text-primary-foreground">
+                <Link to="/apply/global-city-campus">
                   Apply Now
-                </Button>
-              </a>
+                </Link>
+              </Button>
             </div>
           </motion.div>
         </div>

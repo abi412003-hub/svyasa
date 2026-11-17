@@ -167,11 +167,11 @@ export default function AdminFacultyEditor() {
   return (
     <div className="p-6 lg:p-10 max-w-4xl mx-auto">
       <div className="flex items-center gap-3 mb-8">
-        <Link to="/admin/faculty">
-          <Button variant="ghost" size="icon" className="text-gray-400 hover:text-gray-700">
+        <Button asChild variant="ghost" size="icon" className="text-gray-400 hover:text-gray-700">
+          <Link to="/admin/faculty">
             <ArrowLeft size={18} />
-          </Button>
-        </Link>
+          </Link>
+        </Button>
         <h1 className="text-xl font-bold text-gray-900">{isNew ? "Add Faculty" : `Edit: ${form.name}`}</h1>
       </div>
 
@@ -316,9 +316,11 @@ export default function AdminFacultyEditor() {
           <Button onClick={handleSave} disabled={saving} className="bg-amber-500 hover:bg-amber-600 text-white gap-2">
             <Save size={16} /> {saving ? "Saving..." : isNew ? "Create" : "Save Changes"}
           </Button>
-          <Link to="/admin/faculty">
-            <Button variant="outline" className="border-gray-300 text-gray-600">Cancel</Button>
-          </Link>
+          <Button asChild variant="outline" className="border-gray-300 text-gray-600">
+            <Link to="/admin/faculty">
+              Cancel
+            </Link>
+          </Button>
         </div>
       </div>
     </div>

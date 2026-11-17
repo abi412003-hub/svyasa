@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Phone, Mail, MessageCircle, ArrowUp, X, ChevronUp, ChevronDown } from "lucide-react";
 import SalesAgentWidget from "@/components/SalesAgentWidget";
+import { Link } from "react-router-dom";
 
 const FloatingActions = () => {
   const [showBackToTop, setShowBackToTop] = useState(false);
@@ -156,15 +157,12 @@ const FloatingActions = () => {
       className="md:hidden fixed bottom-0 left-0 right-0 bg-card border-t border-border shadow-large z-40"
     >
       <div className="flex items-center justify-around py-3 px-2 gap-1">
-        <motion.a
-          href="https://applynow.svyasa.edu.in/"
-          target="_blank"
-          rel="noopener noreferrer"
-          whileTap={{ scale: 0.95 }}
-          className="flex-1 py-2.5 bg-primary text-primary-foreground rounded-lg text-center text-xs font-medium"
+        <Link
+          to="/apply/global-city-campus"
+          className="flex-1 py-2.5 bg-primary text-primary-foreground rounded-lg text-center text-xs font-medium active:scale-95 transition-transform"
         >
           Apply Now
-        </motion.a>
+        </Link>
         <motion.a
           href="tel:+919070907066"
           whileTap={{ scale: 0.95 }}

@@ -78,16 +78,16 @@ const TrainingHome = () => {
             transition={{ delay: 0.8 }}
             className="flex flex-wrap justify-center gap-4"
           >
-            <Link to="/training/courses">
-              <Button size="lg" className="bg-primary text-primary-foreground rounded-full px-8">
+            <Button asChild size="lg" className="bg-primary text-primary-foreground rounded-full px-8">
+              <Link to="/training/courses">
                 View Courses
-              </Button>
-            </Link>
-            <Link to="/training/admissions">
-              <Button size="lg" variant="outline" className="border-white text-white rounded-full px-8 hover:bg-white/10">
+              </Link>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="bg-transparent border-white text-white rounded-full px-8 hover:bg-white/10">
+              <Link to="/training/admissions">
                 Enrol Now
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           </motion.div>
 
           <motion.div
@@ -227,11 +227,11 @@ const TrainingHome = () => {
             <Building2 className="w-10 h-10 text-primary mx-auto mb-4" />
             <h2 className="font-heading text-3xl font-bold text-foreground mb-3">Training for Government & PSUs</h2>
             <p className="text-muted-foreground mb-6">Custom programs for DOPT, ONGC, Power Grid, and more</p>
-            <Link to="/training/institutions-psu">
-              <Button className="bg-primary text-primary-foreground rounded-full px-8">
+            <Button asChild className="bg-primary text-primary-foreground rounded-full px-8">
+              <Link to="/training/institutions-psu">
                 Request Institutional Training
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           </motion.div>
         </div>
       </section>

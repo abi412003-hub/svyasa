@@ -1,23 +1,23 @@
 import { motion } from "framer-motion";
-import { ExternalLink, Phone, Sparkles } from "lucide-react";
+import { ArrowRight, Phone, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const LifeCTA = () => {
   const buttons = [
     {
       label: "Apply now for S-VYASA Global City Campus",
-      href: "https://applynow.svyasa.edu.in/",
-      external: true,
+      href: "/apply/global-city-campus",
+      primary: true,
     },
     {
       label: "Apply now for Prashanti Campus",
-      href: "https://admissions.svyasa.edu.in/",
-      external: true,
+      href: "/apply/prashanti-campus",
+      primary: true,
     },
     {
       label: "Contact Us",
       href: "/contact-us",
-      external: false,
+      primary: false,
       icon: Phone,
     },
   ];
@@ -112,17 +112,15 @@ const LifeCTA = () => {
                 bounce: 0.4,
               }}
             >
-              {button.external ? (
-                <a
-                  href={button.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
+              {button.primary ? (
+                <Link
+                  to={button.href}
                   className="inline-flex items-center gap-2 px-8 py-4 bg-white text-navy rounded-full font-semibold
                              hover:scale-105 hover:shadow-xl transition-all duration-300 pulse-glow"
                 >
                   {button.label}
-                  <ExternalLink className="w-4 h-4" />
-                </a>
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
               ) : (
                 <Link
                   to={button.href}

@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ChevronDown, Phone, Mail, ExternalLink } from "lucide-react";
+import { Menu, X, ChevronDown, Phone, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import svyasaLogo from "@/assets/svyasa-logo.svg";
+import { useHoverIntent } from "@/hooks/useHoverIntent";
 
 const navLinks = [
-  { label: "Home", href: "/training" },
+  { label: "Home", href: "/" },
+  { label: "Training Home", href: "/training" },
   { label: "About", href: "/training/about" },
   {
     label: "Courses",
@@ -30,19 +32,20 @@ const navLinks = [
 const TrainingHeader = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
+  const hover = useHoverIntent(openMenu, setOpenMenu);
   const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
     setMobileOpen(false);
-    setDropdownOpen(false);
+    setOpenMenu(null);
   }, [location.pathname]);
 
   return (
@@ -63,21 +66,13 @@ const TrainingHeader = () => {
               <Mail className="w-3 h-3" /> training@svyasa.edu.in
             </a>
           </div>
-          <a
-            href="https://svyasa.edu.in"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1 text-white/80 hover:text-gold transition-colors"
-          >
-            ← Visit Main University Site <ExternalLink className="w-3 h-3" />
-          </a>
         </div>
       </motion.div>
 
       {/* Logo Bar */}
       <div className={`bg-card border-b border-border/50 transition-all duration-300 ${isScrolled ? "py-2" : "py-3"}`}>
         <div className="container mx-auto px-4 flex items-center justify-between">
-          <Link to="/training" className="flex items-center gap-3">
+          <Link to="/" className="flex items-center gap-3" aria-label="S-VYASA home">
             <img src={svyasaLogo} alt="S-VYASA" className={`transition-all ${isScrolled ? "h-8" : "h-10"}`} />
             <div className="hidden sm:block">
               <span className="text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded-full font-medium">
@@ -86,60 +81,69 @@ const TrainingHeader = () => {
             </div>
           </Link>
           <div className="hidden md:flex items-center gap-2">
-            <Link to="/training/admissions">
-              <Button size="sm" className="bg-primary text-primary-foreground rounded-full px-5 text-xs">
-                Enrol Now
-              </Button>
-            </Link>
-            <Link to="/training/contact">
-              <Button size="sm" variant="outline" className="border-secondary text-secondary rounded-full px-5 text-xs">
-                Contact
-              </Button>
-            </Link>
+            <Button asChild size="sm" className="bg-primary text-primary-foreground rounded-full px-5 text-xs">
+              <Link to="/training/admissions">Enrol Now</Link>
+            </Button>
+            <Button asChild size="sm" variant="outline" className="border-secondary text-secondary rounded-full px-5 text-xs">
+              <Link to="/training/contact">Contact</Link>
+            </Button>
           </div>
-          <button className="md:hidden p-2" onClick={() => setMobileOpen(true)}>
+          <button type="button" aria-label="Open menu" className="md:hidden p-2" onClick={() => setMobileOpen(true)}>
             <Menu className="w-6 h-6 text-foreground" />
           </button>
         </div>
       </div>
 
       {/* Navigation Bar */}
-      <div className={`sticky top-0 z-40 bg-secondary shadow-md transition-all ${isScrolled ? "" : ""}`}>
+      <div className="sticky top-0 z-40 bg-secondary shadow-md">
         <div className="container mx-auto px-4">
-          <nav className="hidden md:flex items-center gap-0">
+          <nav className="hidden md:flex items-center gap-0 flex-wrap">
             {navLinks.map((item) => (
               <div
                 key={item.label}
                 className="relative"
-                onMouseEnter={() => item.dropdown && setDropdownOpen(true)}
-                onMouseLeave={() => item.dropdown && setDropdownOpen(false)}
+                {...(item.dropdown ? hover.triggerProps(item.label) : {})}
               >
-                <Link
-                  to={item.href}
-                  className={`px-3 py-3 text-xs font-medium transition-colors flex items-center gap-1 ${
-                    location.pathname === item.href || (item.dropdown && location.pathname.startsWith("/training/courses"))
-                      ? "text-gold"
-                      : "text-white/80 hover:text-gold"
-                  }`}
-                >
-                  {item.label}
-                  {item.dropdown && <ChevronDown className="w-3 h-3" />}
-                </Link>
+                <div className="flex items-center">
+                  <Link
+                    to={item.href}
+                    className={`pl-3 ${item.dropdown ? "pr-1" : "pr-3"} py-3 text-xs font-medium transition-colors flex items-center gap-1 ${
+                      location.pathname === item.href || (item.dropdown && location.pathname.startsWith("/training/courses"))
+                        ? "text-gold"
+                        : "text-white/80 hover:text-gold"
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                  {item.dropdown && (
+                    <button
+                      type="button"
+                      aria-label={`Show ${item.label} menu`}
+                      aria-expanded={openMenu === item.label}
+                      onClick={() => hover.toggle(item.label)}
+                      className="nav-trigger pr-3 pl-1 py-3 text-white/80 hover:text-gold"
+                    >
+                      <ChevronDown className={`w-3 h-3 transition-transform ${openMenu === item.label ? "rotate-180" : ""}`} />
+                    </button>
+                  )}
+                </div>
 
                 {/* Dropdown */}
                 {item.dropdown && (
                   <AnimatePresence>
-                    {dropdownOpen && (
+                    {openMenu === item.label && (
                       <motion.div
                         initial={{ opacity: 0, y: -5 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -5 }}
                         className="absolute top-full left-0 bg-card shadow-large rounded-lg border border-border/50 py-2 min-w-[260px] z-50"
+                        {...hover.panelProps()}
                       >
                         {item.dropdown.map((sub) => (
                           <Link
                             key={sub.href}
                             to={sub.href}
+                            onClick={hover.close}
                             className="block px-4 py-2 text-xs text-muted-foreground hover:text-primary hover:bg-muted/50 transition-colors"
                           >
                             {sub.label}
@@ -167,8 +171,10 @@ const TrainingHeader = () => {
           >
             <div className="p-4">
               <div className="flex justify-between items-center mb-8">
-                <img src={svyasaLogo} alt="S-VYASA" className="h-8 brightness-0 invert" />
-                <button onClick={() => setMobileOpen(false)} className="p-2 text-white">
+                <Link to="/" onClick={() => setMobileOpen(false)} aria-label="S-VYASA home">
+                  <img src={svyasaLogo} alt="S-VYASA" className="h-8 brightness-0 invert" />
+                </Link>
+                <button type="button" aria-label="Close menu" onClick={() => setMobileOpen(false)} className="p-2 text-white">
                   <X className="w-6 h-6" />
                 </button>
               </div>
@@ -178,6 +184,7 @@ const TrainingHeader = () => {
                     {item.dropdown ? (
                       <>
                         <button
+                          type="button"
                           onClick={() => setMobileExpanded(mobileExpanded === item.label ? null : item.label)}
                           className="w-full flex justify-between items-center py-3 text-white border-b border-white/10"
                         >
@@ -219,9 +226,11 @@ const TrainingHeader = () => {
                 ))}
               </nav>
               <div className="mt-6 space-y-3">
-                <Link to="/training/admissions" onClick={() => setMobileOpen(false)}>
-                  <Button className="w-full bg-primary text-primary-foreground">Enrol Now</Button>
-                </Link>
+                <Button asChild className="w-full bg-primary text-primary-foreground">
+                  <Link to="/training/admissions" onClick={() => setMobileOpen(false)}>
+                    Enrol Now
+                  </Link>
+                </Button>
               </div>
             </div>
           </motion.div>

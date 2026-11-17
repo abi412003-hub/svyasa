@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const AboutCTA = () => {
   const ref = useRef(null);
@@ -10,15 +11,15 @@ const AboutCTA = () => {
   const buttons = [
     {
       label: "Apply now for S-VYASA Global City Campus",
-      href: "https://applynow.svyasa.edu.in/",
+      href: "/apply/global-city-campus",
     },
     {
       label: "Apply now for Prashanti Campus",
-      href: "#",
+      href: "/apply/prashanti-campus",
     },
     {
       label: "Contact Us",
-      href: "/contact",
+      href: "/contact-us",
     },
   ];
 
@@ -107,14 +108,7 @@ const AboutCTA = () => {
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ delay: 0.3 + index * 0.1, type: "spring" }}
               >
-                <motion.a
-                  href={button.href}
-                  target={button.href.startsWith("http") ? "_blank" : undefined}
-                  rel={button.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <Button
+                <Button asChild
                     size="lg"
                     className={`${
                       index === 2
@@ -122,10 +116,11 @@ const AboutCTA = () => {
                         : "bg-primary-foreground text-primary hover:bg-primary-foreground/90"
                     } shadow-large hover:shadow-glow-gold transition-all duration-300 group px-6`}
                   >
+                  <Link to={button.href}>
                     {button.label}
                     <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                  </Button>
-                </motion.a>
+                  </Link>
+                </Button>
               </motion.div>
             ))}
           </motion.div>

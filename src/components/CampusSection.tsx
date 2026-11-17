@@ -2,18 +2,44 @@ import { useRef, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { X, ChevronDown, ChevronUp, Leaf, Building2 } from "lucide-react";
 
+import jubileeEnsemble from "@/assets/events/golden-jubilee-cultural-evening/01-fifty-years-of-dharma-ensemble.jpg";
+import jubileeBharatanatyam from "@/assets/events/golden-jubilee-cultural-evening/03-bharatanatyam-solo.jpg";
+import jubileeLotusDance from "@/assets/events/golden-jubilee-cultural-evening/04-lotus-dance.jpg";
+import jubileeKrishnaRadha from "@/assets/events/golden-jubilee-cultural-evening/05-krishna-radha-dance.jpg";
+import jubileeGroup from "@/assets/events/golden-jubilee-cultural-evening/11-golden-jubilee-group-photo.jpg";
+import shivaTandava from "@/assets/events/sunil-kumar-sharma-visit/16-shiva-tandava.jpg";
+import labVisit from "@/assets/events/sunil-kumar-sharma-visit/12-research-lab-visit.jpg";
+import physiologyLab from "@/assets/events/sunil-kumar-sharma-visit/14-physiology-lab.jpg";
+import campusWelcome from "@/assets/events/mohan-yadav-visit/01-campus-welcome.jpg";
+import lampLighting from "@/assets/events/mohan-yadav-visit/02-lamp-lighting.jpg";
+
 const B = "https://spkbypslhjqvnvnujpwd.supabase.co/storage/v1/object/public/site-images";
 
 const prashantiImages = [
-  { src: `${B}/prashanti/cultural/1771447412651-ob42mcgqoh.jpeg`, label: "Cultural Events" },
-  { src: `${B}/prashanti/cultural/1771447413860-mfcklh3heef.jpeg`, label: "Cultural Events" },
-  { src: `${B}/prashanti/cultural/1771447414693-0tfil5ur9d8i.jpeg`, label: "Cultural Events" },
+  { src: jubileeEnsemble, label: "Golden Jubilee Celebrations" },
+  { src: `${B}/prashanti/cultural/1771447411756-dpw9nmpgzw8.jpeg`, label: "Cultural Events" },
+  { src: shivaTandava, label: "Student Performances" },
+  { src: `${B}/prashanti/research-lab/1771452097564-dfbavyjyz0b.jpeg`, label: "Research Labs" },
+  { src: `${B}/prashanti/sports/1771447351461-9fyd0ukwwzb.jpeg`, label: "Sports" },
+  { src: jubileeGroup, label: "Campus Community" },
 ];
 
 const prashantiExtra = [
-  { src: `${B}/prashanti/cultural/1771447412651-ob42mcgqoh.jpeg`, label: "Yoga Practice" },
-  { src: `${B}/prashanti/cultural/1771447413860-mfcklh3heef.jpeg`, label: "Meditation Hall" },
-  { src: `${B}/prashanti/cultural/1771447414693-0tfil5ur9d8i.jpeg`, label: "Campus Grounds" },
+  { src: jubileeBharatanatyam, label: "Classical Dance" },
+  { src: jubileeLotusDance, label: "Cultural Events" },
+  { src: jubileeKrishnaRadha, label: "Cultural Events" },
+  { src: `${B}/prashanti/cultural/1771447412651-ob42mcgqoh.jpeg`, label: "Cultural Events" },
+  { src: `${B}/prashanti/cultural/1771447413860-mfcklh3heef.jpeg`, label: "Cultural Events" },
+  { src: `${B}/prashanti/cultural/1771447414693-0tfil5ur9d8i.jpeg`, label: "Cultural Events" },
+  { src: labVisit, label: "Research Labs" },
+  { src: physiologyLab, label: "Physiology Lab" },
+  { src: `${B}/prashanti/research-lab/1771452098240-jcoytp1o0t.jpeg`, label: "Research Labs" },
+  { src: `${B}/prashanti/research-lab/1771452098771-z81aqh7xwbn.jpeg`, label: "Research Labs" },
+  { src: `${B}/prashanti/sports/1771447352240-q7m69zjkhtn.jpeg`, label: "Sports" },
+  { src: `${B}/prashanti/sports/1771447364302-va4e77vb9i9.jpg`, label: "Sports" },
+  { src: `${B}/prashanti/sports/1771447365455-51wlkewffe6.jpeg`, label: "Sports" },
+  { src: campusWelcome, label: "Distinguished Visitors" },
+  { src: lampLighting, label: "Golden Jubilee Celebrations" },
 ];
 
 const gccImages = [

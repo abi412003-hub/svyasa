@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const slides = [
   {
@@ -183,14 +184,14 @@ const PKHero = () => {
             size="lg"
             className="bg-primary hover:bg-primary/90 text-white text-lg px-8 py-6 rounded-full shadow-lg relative overflow-hidden group pulse-glow"
           >
-            <a href="https://applynow.svyasa.edu.in/" target="_blank" rel="noopener noreferrer">
+            <Link to="/apply/prashanti-campus">
               <span className="relative z-10">Admissions 2025 — Apply Now</span>
               <motion.span
                 className="absolute inset-0 bg-white/20 rounded-full"
                 animate={{ scale: [1, 1.5], opacity: [0.5, 0] }}
                 transition={{ duration: 2, repeat: Infinity }}
               />
-            </a>
+            </Link>
           </Button>
         </motion.div>
       </div>

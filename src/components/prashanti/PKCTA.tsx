@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 // Floating golden sparkle particles
 const SparkleParticles = () => {
@@ -70,13 +71,13 @@ const PKCTA = () => {
   const buttons = [
     {
       label: "Apply now for S-VYASA Global City Campus",
-      href: "https://applynow.svyasa.edu.in/",
-      external: true,
+      href: "/apply/global-city-campus",
+      external: false,
     },
     {
       label: "Apply now for Prashanti Campus",
-      href: "https://applynow.svyasa.edu.in/",
-      external: true,
+      href: "/apply/prashanti-campus",
+      external: false,
     },
     {
       label: "Contact Us",
@@ -140,11 +141,7 @@ const PKCTA = () => {
                       : "bg-white text-primary hover:bg-white/90"
                   }`}
                 >
-                  <a
-                    href={button.href}
-                    target={button.external ? "_blank" : undefined}
-                    rel={button.external ? "noopener noreferrer" : undefined}
-                  >
+                  <Link to={button.href}>
                     <span className="relative z-10">{button.label}</span>
                     {/* Pulse animation */}
                     <motion.span
@@ -152,7 +149,7 @@ const PKCTA = () => {
                       animate={{ scale: [1, 1.3], opacity: [0.3, 0] }}
                       transition={{ duration: 2, repeat: Infinity }}
                     />
-                  </a>
+                  </Link>
                 </Button>
               </motion.div>
             ))}

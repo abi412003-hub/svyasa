@@ -29,7 +29,7 @@ const Breadcrumb = ({ items }: BreadcrumbProps) => {
             </Link>
           </motion.li>
 
-          {items.map((item, index) => (
+          {items.filter((item) => item.href !== "/").map((item, index) => (
             <motion.li
               key={item.label}
               initial={{ opacity: 0, x: -20 }}

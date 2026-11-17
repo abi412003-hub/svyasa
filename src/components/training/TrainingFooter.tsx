@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { ExternalLink } from "lucide-react";
 import svyasaLogo from "@/assets/svyasa-logo.svg";
 
 const TrainingFooter = () => (
@@ -10,11 +9,14 @@ const TrainingFooter = () => (
         <div className="grid md:grid-cols-3 gap-10">
           {/* Left */}
           <div>
-            <img src={svyasaLogo} alt="S-VYASA" className="h-10 brightness-0 invert mb-3" />
+            <Link to="/" aria-label="S-VYASA home" className="inline-block">
+              <img src={svyasaLogo} alt="S-VYASA" className="h-10 brightness-0 invert mb-3" />
+            </Link>
             <p className="text-white/60 text-sm mb-4">Short-Term & Professional Training Programs</p>
             <nav className="space-y-1.5">
               {[
-                { label: "Home", href: "/training" },
+                { label: "Home", href: "/" },
+                { label: "Training Home", href: "/training" },
                 { label: "Courses", href: "/training/courses" },
                 { label: "Admissions", href: "/training/admissions" },
                 { label: "Contact", href: "/training/contact" },
@@ -39,14 +41,6 @@ const TrainingFooter = () => (
 
           {/* Right */}
           <div className="text-right md:text-left">
-            <a
-              href="https://svyasa.edu.in"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-gold hover:text-gold/80 transition-colors text-sm font-medium mb-4"
-            >
-              Visit Main University Site <ExternalLink className="w-3 h-3" />
-            </a>
             <div className="flex gap-3 justify-end md:justify-start mt-2">
               <Link to="/training/faqs" className="text-white/50 text-xs hover:text-white/80 transition-colors">
                 Privacy

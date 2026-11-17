@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 // Golden sparkle particles
 const SparkleParticles = () => {
@@ -139,14 +140,14 @@ const GCCCTA = () => {
               className="relative bg-white text-primary hover:bg-white/90 text-base md:text-lg px-6 md:px-8 py-6 rounded-full shadow-lg group overflow-hidden"
               asChild
             >
-              <a href="https://applynow.svyasa.edu.in/" target="_blank" rel="noopener noreferrer">
+              <Link to="/apply/global-city-campus">
                 <span className="relative z-10">Apply now for S-VYASA Global City Campus</span>
                 <motion.span
                   className="absolute inset-0 bg-accent/20"
                   animate={{ scale: [1, 1.5], opacity: [0.3, 0] }}
                   transition={{ duration: 2, repeat: Infinity }}
                 />
-              </a>
+              </Link>
             </Button>
           </motion.div>
 
@@ -161,14 +162,14 @@ const GCCCTA = () => {
               className="relative bg-white text-primary hover:bg-white/90 text-base md:text-lg px-6 md:px-8 py-6 rounded-full shadow-lg group overflow-hidden"
               asChild
             >
-              <a href="https://applynow.svyasa.edu.in/" target="_blank" rel="noopener noreferrer">
+              <Link to="/apply/prashanti-campus">
                 <span className="relative z-10">Apply now for Prashanti Campus</span>
                 <motion.span
                   className="absolute inset-0 bg-accent/20"
                   animate={{ scale: [1, 1.5], opacity: [0.3, 0] }}
                   transition={{ duration: 2, repeat: Infinity, delay: 0.3 }}
                 />
-              </a>
+              </Link>
             </Button>
           </motion.div>
 
@@ -184,9 +185,9 @@ const GCCCTA = () => {
               className="relative border-2 border-white text-white hover:bg-white hover:text-primary text-base md:text-lg px-6 md:px-8 py-6 rounded-full group overflow-hidden"
               asChild
             >
-              <a href="/contact">
+              <Link to="/contact-us">
                 <span className="relative z-10">Contact Us</span>
-              </a>
+              </Link>
             </Button>
           </motion.div>
         </div>

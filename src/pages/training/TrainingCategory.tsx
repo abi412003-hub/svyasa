@@ -57,9 +57,11 @@ const TrainingCategory = () => {
             <p className="text-muted-foreground text-sm mb-4 max-w-xl mx-auto">
               These programs are conducted as capacity-building / in-service training. Contact us for custom program design and scheduling.
             </p>
-            <Link to="/training/institutions-psu">
-              <Button className="bg-primary text-primary-foreground rounded-full">Contact for Institutional Training</Button>
-            </Link>
+            <Button asChild className="bg-primary text-primary-foreground rounded-full">
+              <Link to="/training/institutions-psu">
+                Contact for Institutional Training
+              </Link>
+            </Button>
           </div>
         </section>
       )}
@@ -116,9 +118,11 @@ const TrainingCategory = () => {
                   </div>
 
                   <div className="mt-5 flex flex-wrap gap-3 items-center">
-                    <Link to="/training/admissions">
-                      <Button size="sm" className="bg-primary text-primary-foreground rounded-full">Enrol Now</Button>
-                    </Link>
+                    <Button asChild size="sm" className="bg-primary text-primary-foreground rounded-full">
+                      <Link to="/training/admissions">
+                        Enrol Now
+                      </Link>
+                    </Button>
                     <p className="text-[10px] text-muted-foreground italic">
                       This is a short-term certificate/training program, not a degree or diploma.
                     </p>

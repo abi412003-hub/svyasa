@@ -140,9 +140,11 @@ const TrainingAdmissions = () => (
         </div>
 
         <div className="mt-8 flex flex-wrap gap-4">
-          <Link to="/training/courses">
-            <Button className="bg-primary text-primary-foreground rounded-full px-8">Enrol Now</Button>
-          </Link>
+          <Button asChild className="bg-primary text-primary-foreground rounded-full px-8">
+            <Link to="/training/courses">
+              Enrol Now
+            </Link>
+          </Button>
           <Button variant="outline" className="border-secondary text-secondary rounded-full px-8">
             <Download className="w-4 h-4 mr-2" /> Download Brochure
           </Button>

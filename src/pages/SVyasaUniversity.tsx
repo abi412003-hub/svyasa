@@ -7,12 +7,17 @@ import ScrollProgress from "@/components/society/ScrollProgress";
 import Breadcrumb from "@/components/Breadcrumb";
 import UniversityHero from "@/components/university/UniversityHero";
 import UniversityTimeline from "@/components/university/UniversityTimeline";
-import UniversityVisionMission from "@/components/university/UniversityVisionMission";
-import UniversityUnique from "@/components/university/UniversityUnique";
 import UniversityAccreditations from "@/components/university/UniversityAccreditations";
 import UniversityKeyFacts from "@/components/university/UniversityKeyFacts";
 import UniversityCampuses from "@/components/university/UniversityCampuses";
-import UniversityCTA from "@/components/university/UniversityCTA";
+import AboutIntro from "@/components/about/AboutIntro";
+import FounderSpotlight from "@/components/about/FounderSpotlight";
+import WhyVyasa from "@/components/about/WhyVyasa";
+import LeadershipQuotes from "@/components/about/LeadershipQuotes";
+import VisionMission from "@/components/about/VisionMission";
+import Objectives from "@/components/about/Objectives";
+import Achievements from "@/components/about/Achievements";
+import AboutCTA from "@/components/about/AboutCTA";
 
 const SVyasaUniversity = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -38,14 +43,21 @@ const SVyasaUniversity = () => {
         <MegaMenuHeader />
         <Breadcrumb items={breadcrumbItems} />
         <main>
+          {/* Same section order as svyasa.edu.in/s-vyasa-university.php */}
           <UniversityHero active={!isLoading} />
+          <AboutIntro />
+          <FounderSpotlight />
+          <WhyVyasa />
+          <LeadershipQuotes />
+          <VisionMission />
+          <Objectives />
+          <Achievements />
+          {/* Additional detail */}
           <UniversityTimeline />
-          <UniversityVisionMission />
-          <UniversityUnique />
           <UniversityAccreditations />
           <UniversityKeyFacts />
           <UniversityCampuses />
-          <UniversityCTA />
+          <AboutCTA />
         </main>
         <MegaFooter />
         <FloatingActions />

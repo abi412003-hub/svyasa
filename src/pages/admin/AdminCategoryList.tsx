@@ -78,11 +78,11 @@ const AdminCategoryList = () => {
               <Upload size={14} /> {seeding ? "Importing…" : "Import from Static Data"}
             </Button>
           )}
-          <Link to="/admin/categories/new">
-            <Button className="gap-2 bg-amber-500 hover:bg-amber-600 text-white font-semibold">
+          <Button asChild className="gap-2 bg-amber-500 hover:bg-amber-600 text-white font-semibold">
+            <Link to="/admin/categories/new">
               <Plus size={14} /> Add Category
-            </Button>
-          </Link>
+            </Link>
+          </Button>
         </div>
       </div>
 

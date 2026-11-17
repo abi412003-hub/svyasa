@@ -1,13 +1,15 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { Award, CheckCircle, Star, FileCheck } from "lucide-react";
 import { trustBadges } from "./mandatoryDisclosureData";
+import logoUgc from "@/assets/logo-ugc.png";
+import logoAicte from "@/assets/logo-aicte.png";
+import logoNaac from "@/assets/logo-naac.png";
 
-const badgeIcons: Record<string, React.ElementType> = {
-  ugc: Award,
-  aicte: CheckCircle,
-  naac: Star,
-  aishe: FileCheck,
+/** Official logos for each regulator. AISHE publishes no standalone logo, so it gets a text badge. */
+const badgeLogos: Record<string, string> = {
+  ugc: logoUgc,
+  aicte: logoAicte,
+  naac: logoNaac,
 };
 
 const MDTrustStrip = () => {
@@ -23,7 +25,7 @@ const MDTrustStrip = () => {
       <div className="container mx-auto px-4">
         <div className="flex flex-wrap justify-center gap-8 md:gap-12 lg:gap-16">
           {trustBadges.map((badge, i) => {
-            const Icon = badgeIcons[badge.id] || Award;
+            const logo = badgeLogos[badge.id];
 
             return (
               <motion.div
@@ -40,10 +42,24 @@ const MDTrustStrip = () => {
                 className="group flex flex-col items-center gap-3 text-white cursor-default"
               >
                 <motion.div
-                  whileHover={{ boxShadow: "0 0 20px rgba(212, 168, 67, 0.4)" }}
-                  className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center transition-all duration-300"
+                  whileHover={{ boxShadow: "0 0 20px rgba(212, 168, 67, 0.5)" }}
+                  className="w-20 h-20 bg-white rounded-full flex items-center justify-center overflow-hidden ring-2 ring-gold/40 shadow-lg transition-all duration-300"
                 >
-                  <Icon className="w-8 h-8 text-gold" />
+                  {logo ? (
+                    <img
+                      src={logo}
+                      alt={`${badge.id.toUpperCase()} logo`}
+                      loading="lazy"
+                      className="w-[78%] h-[78%] object-contain"
+                    />
+                  ) : (
+                    <span className="flex flex-col items-center leading-none" aria-hidden="true">
+                      <span className="font-heading font-bold text-navy text-lg tracking-wide">
+                        {badge.id.toUpperCase()}
+                      </span>
+                      <span className="mt-1 h-0.5 w-8 bg-gradient-to-r from-primary to-gold rounded-full" />
+                    </span>
+                  )}
                 </motion.div>
                 <motion.span
                   initial={{ opacity: 0, y: 10 }}

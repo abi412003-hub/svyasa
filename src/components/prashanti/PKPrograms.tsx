@@ -1,6 +1,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 // SVG Lotus icon with line-draw animation
 const LotusIcon = () => (
@@ -156,14 +157,14 @@ const PKPrograms = () => {
                 size="lg"
                 className="bg-primary hover:bg-primary/90 text-white px-8 py-6 rounded-full shadow-lg relative overflow-hidden group pulse-glow"
               >
-                <a href="https://applynow.svyasa.edu.in/" target="_blank" rel="noopener noreferrer">
+                <Link to="/apply/prashanti-campus">
                   <span className="relative z-10">Apply now</span>
                   <motion.span
                     className="absolute inset-0 bg-white/20 rounded-full"
                     animate={{ scale: [1, 1.3], opacity: [0.4, 0] }}
                     transition={{ duration: 2, repeat: Infinity }}
                   />
-                </a>
+                </Link>
               </Button>
             </motion.div>
           </motion.div>

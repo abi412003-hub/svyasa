@@ -6,6 +6,7 @@ import { Link, useLocation } from "react-router-dom";
 import svyasaLogo from "@/assets/svyasa-logo.svg";
 import { navItems, utilityLinks, NavItem, NavColumn, CourseGroup, NavLink, Division, DivisionSchool } from "@/config/navigation";
 import SearchOverlay from "./SearchOverlay";
+import { useHoverIntent } from "@/hooks/useHoverIntent";
 
 // Utility Bar Component
 const UtilityBar = ({ isVisible }: { isVisible: boolean }) => (
@@ -720,21 +721,16 @@ const MobileMenu = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
 
             {/* Mobile CTA buttons */}
             <div className="mt-8 space-y-3">
-              <a
-                href="https://applynow.svyasa.edu.in/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block"
-              >
-                <Button className="w-full bg-primary text-primary-foreground">
+              <Button asChild className="w-full bg-primary text-primary-foreground">
+                <Link to="/apply/global-city-campus" onClick={onClose}>
                   ADMISSIONS
-                </Button>
-              </a>
-              <Link to="/contact-us" onClick={onClose}>
-                <Button variant="outline" className="w-full border-white text-white hover:bg-white/10">
+                </Link>
+              </Button>
+              <Button asChild variant="outline" className="w-full bg-transparent border-white text-white hover:bg-white/10">
+                <Link to="/contact-us" onClick={onClose}>
                   CONTACT US
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             </div>
           </div>
         </motion.div>
@@ -748,7 +744,7 @@ const MegaMenuHeader = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const hover = useHoverIntent(activeDropdown, setActiveDropdown);
   const location = useLocation();
 
   useEffect(() => {
@@ -764,19 +760,6 @@ const MegaMenuHeader = () => {
     setActiveDropdown(null);
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
-
-  const handleMouseEnter = (label: string) => {
-    if (dropdownTimeoutRef.current) {
-      clearTimeout(dropdownTimeoutRef.current);
-    }
-    setActiveDropdown(label);
-  };
-
-  const handleMouseLeave = () => {
-    dropdownTimeoutRef.current = setTimeout(() => {
-      setActiveDropdown(null);
-    }, 150);
-  };
 
   return (
     <>
@@ -830,8 +813,7 @@ const MegaMenuHeader = () => {
                 <div
                   key={item.label}
                   className="relative"
-                  onMouseEnter={() => handleMouseEnter(item.label)}
-                  onMouseLeave={handleMouseLeave}
+                  {...hover.triggerProps(item.label)}
                 >
                   {item.href ? (
                     <Link
@@ -841,7 +823,13 @@ const MegaMenuHeader = () => {
                       {item.label}
                     </Link>
                   ) : (
-                    <button className="px-2 py-2 flex items-center gap-0.5 text-xs text-foreground hover:text-primary transition-colors whitespace-nowrap">
+                    <button
+                      type="button"
+                      aria-expanded={activeDropdown === item.label}
+                      aria-haspopup="true"
+                      onClick={() => hover.toggle(item.label)}
+                      className="nav-trigger px-2 py-2 flex items-center gap-0.5 text-xs text-foreground hover:text-primary transition-colors whitespace-nowrap"
+                    >
                       <span>{item.label}</span>
                       <ChevronDown
                         size={14}
@@ -871,28 +859,21 @@ const MegaMenuHeader = () => {
 
               {/* CTA Buttons */}
               <div className="hidden lg:flex items-center gap-2">
-                <motion.a
-                  href="https://applynow.svyasa.edu.in/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ scale: 1.02 }}
+                <Button
+                  asChild
+                  size="sm"
+                  className="bg-primary text-primary-foreground rounded-full px-6 pulse-glow"
                 >
-                  <Button
-                    size="sm"
-                    className="bg-primary text-primary-foreground rounded-full px-6 pulse-glow"
-                  >
-                    ADMISSIONS
-                  </Button>
-                </motion.a>
-                <Link to="/contact-us">
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="border-secondary text-secondary rounded-full px-6"
-                  >
-                    CONTACT US
-                  </Button>
-                </Link>
+                  <Link to="/apply/global-city-campus">ADMISSIONS</Link>
+                </Button>
+                <Button
+                  asChild
+                  size="sm"
+                  variant="outline"
+                  className="border-secondary text-secondary rounded-full px-6"
+                >
+                  <Link to="/contact-us">CONTACT US</Link>
+                </Button>
               </div>
 
               {/* Mobile menu button */}
@@ -912,9 +893,9 @@ const MegaMenuHeader = () => {
             key={item.label}
             item={item}
             isOpen={activeDropdown === item.label}
-            onMouseEnter={() => handleMouseEnter(item.label)}
-            onMouseLeave={handleMouseLeave}
-            onLinkClick={() => setActiveDropdown(null)}
+            onMouseEnter={() => hover.keepOpen()}
+            onMouseLeave={() => hover.requestClose()}
+            onLinkClick={hover.close}
           />
         ))}
       </motion.header>

@@ -72,11 +72,11 @@ export default function AdminFacultyList() {
           <h1 className="text-2xl font-bold text-gray-900">Faculty Profiles</h1>
           <p className="text-gray-500 text-sm mt-1">{faculty.length} profiles • Research & Schools</p>
         </div>
-        <Link to="/admin/faculty/new">
-          <Button className="bg-amber-500 hover:bg-amber-600 text-white gap-2">
+        <Button asChild className="bg-amber-500 hover:bg-amber-600 text-white gap-2">
+          <Link to="/admin/faculty/new">
             <Plus size={16} /> Add Faculty
-          </Button>
-        </Link>
+          </Link>
+        </Button>
       </div>
 
       <div className="flex flex-wrap items-center gap-3 mb-6">
@@ -147,11 +147,11 @@ export default function AdminFacultyList() {
                       {f.is_published ? "Published" : "Draft"}
                     </Badge>
                     <div className="flex gap-1">
-                      <Link to={`/admin/faculty/${f.id}`}>
-                        <Button variant="ghost" size="icon" className="h-8 w-8 text-gray-400 hover:text-amber-600">
+                      <Button asChild variant="ghost" size="icon" className="h-8 w-8 text-gray-400 hover:text-amber-600">
+                        <Link to={`/admin/faculty/${f.id}`}>
                           <Edit2 size={14} />
-                        </Button>
-                      </Link>
+                        </Link>
+                      </Button>
                       <Button
                         variant="ghost"
                         size="icon"

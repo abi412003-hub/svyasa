@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Check, Loader2, Send } from "lucide-react";
 import { z } from "zod";
 import { toast } from "sonner";
+import { sendForm } from "@/lib/sendForm";
 
 const contactSchema = z.object({
   fullName: z.string().trim().min(2, "Name must be at least 2 characters").max(100, "Name is too long"),
@@ -47,14 +48,36 @@ const ContactForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+    const honeypot = (e.currentTarget as HTMLFormElement).elements.namedItem("website") as HTMLInputElement | null;
+
     try {
       contactSchema.parse(formData);
       setErrors({});
       setSubmitState("loading");
 
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const campusLabels: Record<string, string> = {
+        global: "Global City Campus",
+        prashanti: "Prashanti Campus",
+        both: "Both Campuses",
+      };
+      try {
+        await sendForm(
+          "contact",
+          {
+            name: formData.fullName,
+            email: formData.email,
+            phone: formData.phone,
+            campus: campusLabels[formData.campus] ?? formData.campus,
+            programInterest: formData.program,
+            message: formData.message,
+          },
+          honeypot?.value,
+        );
+      } catch (err) {
+        setSubmitState("idle");
+        toast.error(err instanceof Error ? err.message : "Could not send your message.");
+        return;
+      }
 
       setSubmitState("success");
       toast.success("Message sent successfully! We'll get back to you soon.");
@@ -176,6 +199,9 @@ const ContactForm = () => {
           viewport={{ once: true }}
           className="max-w-2xl mx-auto space-y-6"
         >
+          {/* Honeypot: hidden from people, filled in by spam bots */}
+          <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
+
           {/* Text Inputs */}
           {inputFields.map((field, index) => (
             <motion.div
