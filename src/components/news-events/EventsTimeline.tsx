@@ -1,5 +1,5 @@
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
-import { useState, useMemo, useRef } from "react";
+import { useState, useMemo, useRef, useEffect, forwardRef } from "react";
 import { createPortal } from "react-dom";
 import { Loader2, ImageOff, Images } from "lucide-react";
 import { format, parseISO, isValid } from "date-fns";
@@ -40,11 +40,151 @@ const localEvents: EventItemUI[] = jubileeEvents.map((e) => ({
   photos: e.photos.map((p, i) => ({ id: `${e.slug}-${i}`, src: p.src, alt: p.caption, category: p.caption })),
 }));
 
+const useMediaQuery = (query: string) => {
+  const [matches, setMatches] = useState(() =>
+    typeof window !== "undefined" ? window.matchMedia(query).matches : false,
+  );
+  useEffect(() => {
+    const mql = window.matchMedia(query);
+    const onChange = () => setMatches(mql.matches);
+    onChange();
+    mql.addEventListener("change", onChange);
+    return () => mql.removeEventListener("change", onChange);
+  }, [query]);
+  return matches;
+};
+
+/** Auto-scrolling, seamlessly looping photo strip. Pauses on hover/touch, supports drag and swipe. */
+const HighlightsReel = ({ photos, onOpen }: { photos: GalleryPhoto[]; onOpen: (index: number) => void }) => {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const paused = useRef(false);
+  const drag = useRef<{ x: number; left: number; moved: boolean } | null>(null);
+  const suppressClick = useRef(false);
+  const resumeTimer = useRef<number>();
+
+  useEffect(() => {
+    const el = trackRef.current;
+    if (!el || photos.length === 0) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const SPEED = 45; // px per second
+    let pos = el.scrollLeft;
+    let last = performance.now();
+    let raf = 0;
+
+    const tick = (now: number) => {
+      const dt = Math.min(now - last, 64);
+      last = now;
+      const first = el.children[0] as HTMLElement | undefined;
+      const clone = el.children[photos.length] as HTMLElement | undefined;
+      const loop = first && clone ? clone.offsetLeft - first.offsetLeft : 0;
+
+      if (paused.current || drag.current) {
+        pos = el.scrollLeft;
+      } else {
+        pos += (SPEED * dt) / 1000;
+      }
+      if (loop > 0) {
+        if (pos >= loop) pos -= loop;
+        else if (pos < 0) pos += loop;
+      }
+      if (!paused.current && !drag.current) el.scrollLeft = pos;
+      else if (loop > 0 && Math.abs(el.scrollLeft - pos) > 1) el.scrollLeft = pos; // wrap during manual scroll
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [photos.length]);
+
+  const pause = () => {
+    window.clearTimeout(resumeTimer.current);
+    paused.current = true;
+  };
+  const resumeSoon = (ms = 0) => {
+    window.clearTimeout(resumeTimer.current);
+    resumeTimer.current = window.setTimeout(() => (paused.current = false), ms);
+  };
+
+  const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.pointerType !== "mouse" || e.button !== 0) return;
+    drag.current = { x: e.clientX, left: trackRef.current?.scrollLeft ?? 0, moved: false };
+  };
+  const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    const d = drag.current;
+    const el = trackRef.current;
+    if (!d || !el) return;
+    const dx = e.clientX - d.x;
+    if (Math.abs(dx) > 5) d.moved = true;
+    if (d.moved) el.scrollLeft = d.left - dx;
+  };
+  const endDrag = () => {
+    if (drag.current?.moved) suppressClick.current = true;
+    drag.current = null;
+  };
+
+  const loopPhotos = [...photos, ...photos];
+
+  return (
+    <div className="relative -mx-5 md:-mx-6">
+      <div
+        ref={trackRef}
+        onMouseEnter={pause}
+        onMouseLeave={() => {
+          endDrag();
+          resumeSoon();
+        }}
+        onTouchStart={pause}
+        onTouchEnd={() => resumeSoon(2500)}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={endDrag}
+        onFocus={pause}
+        onBlur={() => resumeSoon()}
+        className="scrollbar-hide flex gap-4 overflow-x-auto px-5 md:px-6 py-5 cursor-grab active:cursor-grabbing select-none [mask-image:linear-gradient(to_right,transparent,black_4%,black_96%,transparent)]"
+      >
+        {loopPhotos.map((p, i) => {
+          const isClone = i >= photos.length;
+          return (
+            <button
+              key={`${p.id}-${i}`}
+              type="button"
+              tabIndex={isClone ? -1 : 0}
+              aria-hidden={isClone || undefined}
+              onClick={() => {
+                if (suppressClick.current) {
+                  suppressClick.current = false;
+                  return;
+                }
+                onOpen(i % photos.length);
+              }}
+              onDragStart={(e) => e.preventDefault()}
+              className="no-scale group relative shrink-0 w-56 h-36 md:w-72 md:h-48 rounded-xl overflow-hidden bg-muted shadow-md ring-0 ring-primary/0 transition-all duration-500 ease-out hover:z-10 hover:scale-[1.07] hover:shadow-2xl hover:ring-2 hover:ring-primary/70 focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-primary"
+              aria-label={`Open photo: ${p.alt}`}
+            >
+              <img
+                src={p.src}
+                alt={isClone ? "" : p.alt}
+                loading="lazy"
+                draggable={false}
+                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-125"
+              />
+              <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 via-black/30 to-transparent p-2.5 pt-8 text-left text-xs leading-tight text-white line-clamp-2 transition-transform duration-500 group-hover:-translate-y-0.5">
+                {p.alt}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
 const EventsTimeline = () => {
   const { data: items, loading } = useSupabaseEvents();
   const [searchQuery, setSearchQuery] = useState("");
   const [lightbox, setLightbox] = useState<{ photos: GalleryPhoto[]; index: number } | null>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
 
   const { scrollYProgress } = useScroll({
     target: timelineRef,
@@ -110,27 +250,7 @@ const EventsTimeline = () => {
           </div>
           <p className="text-sm text-muted-foreground">{highlightPhotos.length} photos · November 2026</p>
         </div>
-        <div className="flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory [scrollbar-width:thin]">
-          {highlightPhotos.map((p, i) => (
-            <button
-              key={p.id}
-              type="button"
-              onClick={() => openPhotos(highlightPhotos, i)}
-              className="no-scale group relative shrink-0 snap-start w-48 h-32 md:w-60 md:h-40 rounded-xl overflow-hidden bg-muted focus-visible:ring-2 focus-visible:ring-primary"
-              aria-label={`Open photo: ${p.alt}`}
-            >
-              <img
-                src={p.src}
-                alt={p.alt}
-                loading="lazy"
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-              />
-              <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-2 text-left text-[11px] leading-tight text-white line-clamp-2">
-                {p.alt}
-              </span>
-            </button>
-          ))}
-        </div>
+        <HighlightsReel photos={highlightPhotos} onOpen={(i) => openPhotos(highlightPhotos, i)} />
       </motion.section>
 
       {/* Search */}
@@ -164,19 +284,37 @@ const EventsTimeline = () => {
           <motion.div className="absolute top-0 left-0 w-full bg-primary origin-top" style={{ height: lineHeight }} />
         </div>
 
-        <div className="space-y-12">
-          <AnimatePresence mode="popLayout">
-            {filtered.map((event, index) => (
-              <EventCard
-                key={event.id}
-                event={event}
-                index={index}
-                isLeft={index % 2 === 0}
-                onOpen={() => openPhotos(event.photos)}
-              />
+        {isDesktop ? (
+          /* Two staggered columns: the right column starts half a card lower, so cards interlock
+             along the centre line instead of each one leaving an empty half-row beside it. */
+          <div className="grid grid-cols-2 gap-x-24 max-w-5xl mx-auto [perspective:1400px]">
+            {[0, 1].map((col) => (
+              // Card height ≈ 0.75 × column width (4:3 photo) + ~104px caption, so this offset is half a card.
+              <div key={col} className={`space-y-12 ${col === 1 ? "pt-[calc(37.5%+52px)]" : ""}`}>
+                <AnimatePresence mode="popLayout">
+                  {filtered.map((event, index) =>
+                    index % 2 === col ? (
+                      <EventCard
+                        key={event.id}
+                        event={event}
+                        side={col === 0 ? "left" : "right"}
+                        onOpen={() => openPhotos(event.photos)}
+                      />
+                    ) : null,
+                  )}
+                </AnimatePresence>
+              </div>
             ))}
-          </AnimatePresence>
-        </div>
+          </div>
+        ) : (
+          <div className="space-y-10 [perspective:1000px]">
+            <AnimatePresence mode="popLayout">
+              {filtered.map((event) => (
+                <EventCard key={event.id} event={event} side="mobile" onOpen={() => openPhotos(event.photos)} />
+              ))}
+            </AnimatePresence>
+          </div>
+        )}
       </div>
 
       {!loading && filtered.length === 0 && (
@@ -200,37 +338,56 @@ const EventsTimeline = () => {
   );
 };
 
-const EventCard = ({
-  event,
-  index,
-  isLeft,
-  onOpen,
-}: {
+type EventCardProps = {
   event: EventItemUI;
-  index: number;
-  isLeft: boolean;
+  side: "left" | "right" | "mobile";
   onOpen: () => void;
-}) => {
+};
+
+// forwardRef: AnimatePresence mode="popLayout" measures each child through its ref.
+const EventCard = forwardRef<HTMLDivElement, EventCardProps>(({ event, side, onOpen }, ref) => {
   const hasPhotos = event.photos.length > 0;
+  // Cards fly in from their own edge of the screen, tilted away in 3D, then swing flat into the centre plane.
+  const dir = side === "left" ? -1 : 1;
+  const travel = side === "mobile" ? 90 : 220;
+
+  // Dot sits on the centre line: half the 6rem column gap beyond the card's inner edge.
+  const dotPos = side === "left" ? "-right-12" : side === "right" ? "-left-12" : "-left-8";
+  const connector =
+    side === "left" ? "left-full w-12" : side === "right" ? "right-full w-12" : "right-full w-8";
+
   return (
     <motion.div
-      layout
-      initial={{ opacity: 0, x: isLeft ? -60 : 60 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, scale: 0.9 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.5, delay: (index % 6) * 0.1 }}
-      className={`relative flex items-center ${isLeft ? "lg:flex-row-reverse" : ""} lg:justify-center`}
+      ref={ref}
+      initial={{ opacity: 0, x: dir * travel, rotateY: dir * -38, scale: 0.82, filter: "blur(6px)" }}
+      whileInView={{ opacity: 1, x: 0, rotateY: 0, scale: 1, filter: "blur(0px)" }}
+      exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.25 } }}
+      viewport={{ once: true, amount: 0.25 }}
+      transition={{ type: "spring", stiffness: 70, damping: 15, mass: 0.9 }}
+      style={{ transformOrigin: side === "left" ? "right center" : "left center" }}
+      className={`relative ${side === "mobile" ? "ml-12" : ""}`}
     >
-      <motion.div
+      {/* Connector + dot on the timeline */}
+      <motion.span
+        aria-hidden="true"
+        initial={{ scaleX: 0 }}
+        whileInView={{ scaleX: 1 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.45, duration: 0.4, ease: "easeOut" }}
+        style={{ transformOrigin: side === "left" ? "left" : "right" }}
+        className={`absolute top-10 h-0.5 bg-primary/40 ${connector}`}
+      />
+      <motion.span
+        aria-hidden="true"
         initial={{ scale: 0 }}
         whileInView={{ scale: 1 }}
         viewport={{ once: true }}
-        transition={{ delay: 0.2, type: "spring", bounce: 0.5 }}
-        className="absolute w-4 h-4 bg-primary rounded-full border-4 border-white shadow-md z-10 left-4 lg:left-1/2 lg:-translate-x-1/2"
+        transition={{ delay: 0.6, type: "spring", bounce: 0.6 }}
+        style={{ x: side === "left" ? "50%" : "-50%", y: "-50%" }}
+        className={`absolute top-10 z-10 w-4 h-4 bg-primary rounded-full border-4 border-white shadow-[0_0_0_4px_hsl(var(--primary)/0.2)] ${dotPos}`}
       />
 
-      <div className={`ml-12 lg:ml-0 lg:w-5/12 ${isLeft ? "lg:mr-auto lg:pr-12" : "lg:ml-auto lg:pl-12"}`}>
+      <div>
         <button
           type="button"
           onClick={onOpen}
@@ -240,12 +397,18 @@ const EventCard = ({
         >
           <div className="relative aspect-[4/3] overflow-hidden bg-muted">
             {event.thumbnailUrl ? (
-              <img
-                src={event.thumbnailUrl}
-                alt={event.title}
-                loading="lazy"
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-              />
+              <div className="w-full h-full transition-transform duration-700 ease-out group-hover:scale-110">
+                <motion.img
+                  src={event.thumbnailUrl}
+                  alt={event.title}
+                  loading="lazy"
+                  initial={{ scale: 1.35 }}
+                  whileInView={{ scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                  className="w-full h-full object-cover"
+                />
+              </div>
             ) : (
               <div className="absolute inset-0 flex items-center justify-center">
                 <ImageOff className="w-8 h-8 opacity-20" />
@@ -274,6 +437,7 @@ const EventCard = ({
       </div>
     </motion.div>
   );
-};
+});
+EventCard.displayName = "EventCard";
 
 export default EventsTimeline;

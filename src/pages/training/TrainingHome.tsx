@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { trainingCategories, trainingCourses } from "@/data/trainingData";
 import { useState } from "react";
 import { CODE_SITE } from "@/config/links";
+import trainingHeroBg from "@/assets/yoga-wellness-4.jpg";
 
 const categoryIcons: Record<string, React.ElementType> = {
   "Flower2": Flower2,
@@ -35,7 +36,19 @@ const TrainingHome = () => {
     <>
       {/* Hero */}
       <section className="relative min-h-[100vh] flex items-center justify-center bg-secondary overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.04]">
+        {/* Background photo: a live S-VYASA group training session, with a slow Ken Burns drift */}
+        <motion.img
+          src={trainingHeroBg}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover object-center"
+          initial={{ scale: 1.15 }}
+          animate={{ scale: 1.03 }}
+          transition={{ duration: 14, ease: "easeOut" }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[hsl(var(--secondary)/0.9)] via-[hsl(var(--secondary)/0.72)] to-[hsl(var(--secondary)/0.96)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,hsl(var(--secondary)/0.55)_75%)]" />
+        <div className="absolute inset-0 opacity-[0.06]">
           {[...Array(4)].map((_, i) => (
             <motion.div
               key={i}
