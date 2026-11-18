@@ -181,7 +181,6 @@ const HighlightsReel = ({ photos, onOpen }: { photos: GalleryPhoto[]; onOpen: (i
 
 const EventsTimeline = () => {
   const { data: items, loading } = useSupabaseEvents();
-  const [searchQuery, setSearchQuery] = useState("");
   const [lightbox, setLightbox] = useState<{ photos: GalleryPhoto[]; index: number } | null>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
   const isDesktop = useMediaQuery("(min-width: 1024px)");
@@ -218,10 +217,7 @@ const EventsTimeline = () => {
     return merged.sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
   }, [items]);
 
-  const filtered = useMemo(
-    () => events.filter((e) => e.title.toLowerCase().includes(searchQuery.toLowerCase())),
-    [events, searchQuery],
-  );
+  const filtered = events;
 
   const highlightPhotos: GalleryPhoto[] = useMemo(
     () => jubileePhotos.map((p) => ({ id: p.id, src: p.src, alt: p.caption, category: p.caption })),
@@ -252,21 +248,6 @@ const EventsTimeline = () => {
         </div>
         <HighlightsReel photos={highlightPhotos} onOpen={(i) => openPhotos(highlightPhotos, i)} />
       </motion.section>
-
-      {/* Search */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="flex gap-4 bg-white p-4 rounded-xl shadow-md"
-      >
-        <input
-          type="text"
-          placeholder="Search events…"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full px-4 py-3 border-b-2 border-border focus:border-primary outline-none transition-colors bg-transparent"
-        />
-      </motion.div>
 
       {loading && (
         <div className="flex items-center justify-center gap-3 py-6 text-muted-foreground">
@@ -320,7 +301,7 @@ const EventsTimeline = () => {
       {!loading && filtered.length === 0 && (
         <div className="flex flex-col items-center justify-center py-16 gap-3 text-muted-foreground">
           <ImageOff className="w-10 h-10 opacity-30" />
-          <p>{searchQuery ? "No events matching your search." : "No events found"}</p>
+          <p>No events found</p>
         </div>
       )}
 
