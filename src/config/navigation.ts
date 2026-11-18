@@ -399,7 +399,7 @@ export const navItems: NavItem[] = [
         courses: [
           { label: "Research at S-VYASA", href: "/research" },
           { label: "Research Publications", href: "/research/publications" },
-          { label: "CARIM", href: "/divisions/anvesana/schools/carim" },
+          { label: "CARIM", href: "/research/carim" },
         ],
       },
     ],

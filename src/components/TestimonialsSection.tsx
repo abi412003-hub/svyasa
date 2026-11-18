@@ -2,6 +2,14 @@ import { useRef, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, Award } from "lucide-react";
 import hasmukh from "@/assets/alumni-hasmukh-adhia.jpg";
+import pranav from "@/assets/alumni/pranav.jpg";
+import shriloy from "@/assets/alumni/shriloy-mohanty.jpg";
+import reshma from "@/assets/alumni/reshma.jpg";
+import nishita from "@/assets/alumni/nishita.jpg";
+import pranab from "@/assets/alumni/pranab.jpg";
+import bhavit from "@/assets/alumni/bhavit.jpg";
+import aniruddha from "@/assets/alumni/aniruddha.jpg";
+import goutham from "@/assets/alumni/goutham.jpg";
 
 const alumni = [
   {
@@ -11,33 +19,62 @@ const alumni = [
     image: hasmukh,
     achievement: "PhD from S-VYASA. Served as Finance Secretary of India and played a pivotal role in landmark economic reforms including GST implementation.",
   },
+  // Alumni and photos from svyasa.edu.in/alumni-members.php
   {
-    name: "Smitha Mallaiah, M.Sc.",
-    role: "Sr. Mind-Body Intervention Specialist, MD Anderson Cancer Center, Houston",
-    field: "Yoga Therapy",
-    image: "https://ui-avatars.com/api/?name=Smitha+Mallaiah&background=92400e&color=fff&size=400&bold=true",
-    achievement: "M.Sc. Yoga Therapy from S-VYASA. Established the first yoga therapy clinic at MD Anderson. Program Director, SVYASA Houston.",
+    name: "Dr Pranav Khawale",
+    role: "Assistant Professor, National Institute of Naturopathy, Ministry of AYUSH, Pune",
+    field: "Naturopathy & Yoga",
+    image: pranav,
+    achievement: "S-VYASA graduate (BNYS). Now teaching at the National Institute of Naturopathy, Ministry of AYUSH, Pune, Maharashtra.",
   },
   {
-    name: "Dr. Vijaya Kavuri, Ph.D.",
-    role: "Asst. Professor, SVYASA & Joint Director of Research, VYASA-LA, California",
+    name: "Dr Shriloy Mohanty",
+    role: "Senior Medical Officer & Public Relation Officer, Dept of AYUSH, AIIMS Rishikesh",
+    field: "Integrative Medicine",
+    image: shriloy,
+    achievement: "S-VYASA graduate (BNYS, PhD). Now Senior Medical Officer and Public Relation Officer in the Department of AYUSH at AIIMS Rishikesh.",
+  },
+  {
+    name: "Dr Reshma",
+    role: "Assistant Professor, National Institute of Naturopathy, Ministry of AYUSH, Pune",
+    field: "Naturopathy & Yoga",
+    image: reshma,
+    achievement: "S-VYASA graduate (BNYS, M.Sc. Yoga) and PhD scholar. Now Assistant Professor at the National Institute of Naturopathy, Ministry of AYUSH, Pune.",
+  },
+  {
+    name: "Dr Nishita Jasti",
+    role: "Research Associate, Department of Integrative Medicine, NIMHANS, Bengaluru",
+    field: "Integrative Medicine Research",
+    image: nishita,
+    achievement: "S-VYASA graduate (BNYS, M.Sc. Yoga) and PhD scholar. Now a Research Associate in the Department of Integrative Medicine at NIMHANS, Bengaluru.",
+  },
+  {
+    name: "Dr Pranab Das",
+    role: "Medical Officer, Dept of AYUSH, AIIMS Bathinda",
+    field: "Clinical AYUSH",
+    image: pranab,
+    achievement: "S-VYASA graduate (BNYS, M.Sc. Yoga). Now Medical Officer in the Department of AYUSH at AIIMS Bathinda.",
+  },
+  {
+    name: "Dr Bhavit Bansal",
+    role: "Senior Research Fellow, Central Council for Research in Yoga & Naturopathy, New Delhi",
     field: "Yoga Research",
-    image: "https://ui-avatars.com/api/?name=Vijaya+Kavuri&background=1e3a5f&color=fff&size=400&bold=true",
-    achievement: "Ph.D. in Yoga from SVYASA. 10+ years of yoga therapy research in Los Angeles.",
+    image: bhavit,
+    achievement: "S-VYASA graduate (BNYS). Now a Senior Research Fellow at the Central Council for Research in Yoga & Naturopathy, New Delhi.",
   },
   {
-    name: "Mr. Prosenjit Mopdar",
-    role: "Professor of Yoga, Atmiya Educational Institutions",
-    field: "Yoga Education",
-    image: "https://ui-avatars.com/api/?name=Prosenjit+Mopdar&background=166534&color=fff&size=400&bold=true",
-    achievement: "M.Sc. Yoga Therapy graduate of S-VYASA.",
+    name: "Dr Aniruddha Arya",
+    role: "PhD Scholar, Sri Ramachandra Centre for Sports Science, SRIHER",
+    field: "Sports Science",
+    image: aniruddha,
+    achievement: "S-VYASA graduate (BNYS), with an M.Sc. in Musculoskeletal Sport Science (UK). Now a PhD scholar at the Sri Ramachandra Centre for Sports Science.",
   },
   {
-    name: "Ms. Priyanka",
-    role: "Yoga Therapist, AIIMS, New Delhi",
-    field: "Clinical Yoga Therapy",
-    image: "https://ui-avatars.com/api/?name=Priyanka&background=7c3aed&color=fff&size=400&bold=true",
-    achievement: "M.Sc. Yoga Therapy graduate of S-VYASA.",
+    name: "Dr S Goutham",
+    role: "PhD Scholar in Integrative Medicine, NIMHANS, Bengaluru",
+    field: "Integrative Medicine",
+    image: goutham,
+    achievement: "S-VYASA graduate (BNYS, M.Sc. Yoga Therapy). Now pursuing a PhD in Integrative Medicine at NIMHANS, Bengaluru.",
   },
 ];
 

@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
+import researchLabHero from "@/assets/research-lab-hero.jpg";
 
 /* ── Variants ── */
 const fadeUp: Variants = {
@@ -108,13 +109,22 @@ export default function ResearchPublications() {
       <ResearchSubNav />
       {/* ── Hero Banner ── */}
       <section
-        className="relative flex flex-col items-center justify-center h-[45vh] sm:h-[38vh] overflow-hidden"
-        style={{
-          background:
-            "linear-gradient(160deg, hsl(210 60% 12%) 0%, hsl(210 52% 23%) 50%, hsl(180 45% 25%) 100%)",
-        }}
+        className="relative flex flex-col items-center justify-center h-[45vh] sm:h-[38vh] overflow-hidden bg-[hsl(var(--navy))]"
       >
-        <div className="absolute inset-0 bg-black/55" />
+        {/* S-VYASA research lab photo, behind a navy-to-teal wash so the heading stays readable */}
+        <img
+          src={researchLabHero}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(160deg, hsl(210 60% 12% / 0.88) 0%, hsl(210 52% 23% / 0.78) 50%, hsl(180 45% 25% / 0.72) 100%)",
+          }}
+        />
 
         <div className="absolute top-6 left-6 md:left-8 flex items-center gap-2 text-white/60 text-xs z-10">
           <Link to="/" className="hover:text-white transition-colors">Home</Link>

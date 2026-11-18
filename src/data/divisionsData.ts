@@ -499,7 +499,7 @@ export const divisionsData: Division[] = [
     icon: "🔬",
     highlights: [
       "Collaborations with ICMR, WHO, and international research bodies",
-      "900+ peer-reviewed publications",
+      "1,500+ peer-reviewed publications",
       "Cutting-edge neuroscience, biochemistry, and clinical trial labs",
       "Interdisciplinary research teams spanning yoga, medicine, and psychology",
     ],

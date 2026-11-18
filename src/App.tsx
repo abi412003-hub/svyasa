@@ -49,6 +49,7 @@ import TrainingFAQs from "./pages/training/TrainingFAQs";
 import TrainingContact from "./pages/training/TrainingContact";
 import ImageManager from "./pages/ImageManager";
 import ResearchAbout from "./pages/research/ResearchAbout";
+import CARIM from "./pages/research/CARIM";
 import ResearchComingSoon from "./pages/research/ResearchComingSoon";
 import OngoingProjects from "./pages/research/OngoingProjects";
 import ResearchFacility from "./pages/research/ResearchFacility";
@@ -238,6 +239,8 @@ const App = () => (
           
           {/* Research */}
           <Route path="/research" element={<ResearchAbout />} />
+          <Route path="/research/carim" element={<CARIM />} />
+          <Route path="/divisions/anvesana/schools/carim" element={<Navigate to="/research/carim" replace />} />
           <Route path="/research/facility" element={<ResearchFacility />} />
           <Route path="/research/faculty" element={<ResearchFaculty />} />
           <Route path="/research/ongoing-projects" element={<OngoingProjects />} />

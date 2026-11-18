@@ -82,10 +82,7 @@ const CTASection = () => {
             transition={{ delay: 0.1 }}
             className="font-heading text-2xl md:text-4xl lg:text-5xl font-bold text-primary-foreground mb-4 md:mb-6 text-shadow-lg"
           >
-            Begin Your Journey of{" "}
-            <span className="underline decoration-wavy decoration-primary-foreground/50">
-              Transformation
-            </span>
+            Begin Your Journey of Transformation
           </motion.h2>
 
           <motion.p
@@ -117,19 +114,6 @@ const CTASection = () => {
                   Apply Now
                   <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                 </Link>
-              </Button>
-            </motion.div>
-
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <Button
-                size="lg"
-                variant="outline"
-                className="bg-transparent border-2 border-primary-foreground text-primary-foreground hover:bg-primary-foreground/10 text-base md:text-lg px-6 md:px-8"
-              >
-                Download Brochure
               </Button>
             </motion.div>
           </motion.div>

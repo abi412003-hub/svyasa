@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { motion, useInView } from "framer-motion";
 import { ArrowRight, FileText, Users, FlaskConical } from "lucide-react";
+import researchLabHero from "@/assets/research-lab-hero.jpg";
 
 const researchStats = [
   { icon: Users, value: "100,000+", label: "Students Passed" },
@@ -55,7 +56,7 @@ const ResearchSection = () => {
               <motion.img
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.5 }}
-                src="https://spkbypslhjqvnvnujpwd.supabase.co/storage/v1/object/public/site-images/prashanti/research-lab/1771452099298-q9sj0vt197n.jpeg"
+                src={researchLabHero}
                 alt="Research Lab"
                 className="w-full h-[400px] object-cover"
               />

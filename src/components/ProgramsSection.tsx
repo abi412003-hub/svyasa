@@ -29,6 +29,62 @@ const categoryImageMap: Record<string, string> = Object.fromEntries(
   Object.entries(programCardImages).map(([path, src]) => [path.split("/").pop()!.replace(/\.jpg$/, ""), src]),
 );
 
+/**
+ * Program card: the photo fills the whole card and fades into a light
+ * gradient at the bottom, where the title and details sit.
+ */
+const ProgramCard = ({
+  image,
+  title,
+  text,
+  badge,
+  cta,
+  Icon,
+}: {
+  image?: string;
+  title: string;
+  text: string;
+  badge: string;
+  cta: string;
+  Icon: React.ElementType;
+}) => (
+  <motion.div
+    whileHover={{ y: -6 }}
+    transition={{ type: "spring", stiffness: 300 }}
+    className="group relative h-[320px] rounded-2xl overflow-hidden shadow-soft hover:shadow-large transition-shadow duration-300 cursor-pointer border border-border bg-card"
+  >
+    {image && (
+      <img
+        src={image}
+        alt={title}
+        loading="lazy"
+        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+      />
+    )}
+    {/* Light gradient: photo clear at the top, soft white behind the text */}
+    <div className="absolute inset-0 bg-gradient-to-t from-white via-white/90 via-45% to-white/0" />
+
+    {/* Icon badge */}
+    <div className="absolute top-3 right-3 w-9 h-9 rounded-xl bg-white/85 backdrop-blur-sm shadow-sm flex items-center justify-center">
+      <Icon className="w-4 h-4 text-primary" />
+    </div>
+
+    <div className="absolute inset-x-0 bottom-0 p-5 flex flex-col">
+      <h3 className="font-heading text-xl font-bold text-foreground mb-1.5 group-hover:text-primary transition-colors leading-tight">
+        {title}
+      </h3>
+      <p className="text-foreground/75 text-sm mb-4 leading-relaxed line-clamp-2">{text}</p>
+      <div className="flex items-center justify-between pt-3 border-t border-foreground/10">
+        <span className="text-xs font-medium text-foreground/70 bg-white/80 px-2 py-1 rounded-full">{badge}</span>
+        <span className="inline-flex items-center gap-1.5 text-primary font-semibold text-sm group-hover:gap-2.5 transition-all">
+          <span>{cta}</span>
+          <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+        </span>
+      </div>
+    </div>
+  </motion.div>
+);
+
 const CARD_WIDTH = 260;
 const GAP = 20;
 const SCROLL_AMOUNT = (CARD_WIDTH + GAP) * 3;
@@ -159,45 +215,14 @@ const ProgramsSection = () => {
                 transition={{ delay: Math.min(index * 0.06, 0.6), duration: 0.4 }}
               >
                 <Link to={`/programs/${cat.slug}`}>
-                  <motion.div
-                    whileHover={{ y: -6, scale: 1.01 }}
-                    transition={{ type: "spring", stiffness: 300 }}
-                    className="group bg-card rounded-2xl overflow-hidden h-full shadow-soft hover:shadow-large transition-all duration-300 cursor-pointer border border-border flex flex-col"
-                  >
-                    {/* Smaller image strip */}
-                    <div className="relative h-20 overflow-hidden shrink-0">
-                      <img
-                        src={categoryImageMap[cat.slug]}
-                        loading="lazy"
-                        alt={cat.shortTitle}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                      {/* Icon badge */}
-                      <div className="absolute bottom-2 right-2 w-8 h-8 rounded-lg bg-white/20 backdrop-blur-sm flex items-center justify-center">
-                        <Icon className="w-4 h-4 text-white" />
-                      </div>
-                    </div>
-
-                    {/* Bigger content area */}
-                    <div className="p-5 flex flex-col flex-1">
-                      <h3 className="font-heading text-lg font-bold text-foreground mb-2 group-hover:text-primary transition-colors leading-tight">
-                        {cat.shortTitle}
-                      </h3>
-                      <p className="text-muted-foreground text-sm mb-4 leading-relaxed flex-1">
-                        {cat.subtitle}
-                      </p>
-                      <div className="flex items-center justify-between pt-3 border-t border-border">
-                        <span className="text-xs font-medium text-muted-foreground bg-muted px-2 py-1 rounded-full">
-                          {cat.programSlugs.length} {cat.programSlugs.length === 1 ? "Program" : "Programs"}
-                        </span>
-                        <span className="inline-flex items-center gap-1.5 text-primary font-semibold text-sm group-hover:gap-2.5 transition-all">
-                          <span>Explore</span>
-                          <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-                        </span>
-                      </div>
-                    </div>
-                  </motion.div>
+                  <ProgramCard
+                    image={categoryImageMap[cat.slug]}
+                    title={cat.shortTitle}
+                    text={cat.subtitle}
+                    badge={`${cat.programSlugs.length} ${cat.programSlugs.length === 1 ? "Program" : "Programs"}`}
+                    cta="Explore"
+                    Icon={Icon}
+                  />
                 </Link>
               </motion.div>
             );
@@ -247,41 +272,14 @@ const ProgramsSection = () => {
                 transition={{ delay: Math.min(0.5 + index * 0.06, 1.2), duration: 0.4 }}
               >
                 <Link to={`/programs/yoga-programmes`}>
-                  <motion.div
-                    whileHover={{ y: -6, scale: 1.01 }}
-                    transition={{ type: "spring", stiffness: 300 }}
-                    className="group bg-card rounded-2xl overflow-hidden h-full shadow-soft hover:shadow-large transition-all duration-300 cursor-pointer border border-border flex flex-col"
-                  >
-                    <div className="relative h-20 overflow-hidden shrink-0">
-                      <img
-                        src={getYogaImage(course.slug) || "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=400&q=80"}
-                        alt={course.shortTitle}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                      <div className="absolute bottom-2 right-2 w-8 h-8 rounded-lg bg-white/20 backdrop-blur-sm flex items-center justify-center">
-                        <Leaf className="w-4 h-4 text-white" />
-                      </div>
-                    </div>
-
-                    <div className="p-5 flex flex-col flex-1">
-                      <h3 className="font-heading text-lg font-bold text-foreground mb-2 group-hover:text-primary transition-colors leading-tight">
-                        {course.shortTitle}
-                      </h3>
-                      <p className="text-muted-foreground text-sm mb-4 leading-relaxed flex-1 line-clamp-2">
-                        {course.hookLine}
-                      </p>
-                      <div className="flex items-center justify-between pt-3 border-t border-border">
-                        <span className="text-xs font-medium text-muted-foreground bg-muted px-2 py-1 rounded-full">
-                          {course.duration}
-                        </span>
-                        <span className="inline-flex items-center gap-1.5 text-primary font-semibold text-sm group-hover:gap-2.5 transition-all">
-                          <span>Details</span>
-                          <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-                        </span>
-                      </div>
-                    </div>
-                  </motion.div>
+                  <ProgramCard
+                    image={getYogaImage(course.slug) || categoryImageMap["yoga-programmes"]}
+                    title={course.shortTitle}
+                    text={course.hookLine}
+                    badge={course.duration}
+                    cta="Details"
+                    Icon={Leaf}
+                  />
                 </Link>
               </motion.div>
             ))}
