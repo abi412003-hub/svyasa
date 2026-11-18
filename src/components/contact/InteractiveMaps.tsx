@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import { GLOBAL_CITY_CAMPUS, PRASHANTI_KUTIRAM } from "@/config/campusLocations";
 
 const InteractiveMaps = () => {
   const [activeTab, setActiveTab] = useState<"global" | "prashanti">("global");
@@ -7,11 +8,13 @@ const InteractiveMaps = () => {
   const maps = {
     global: {
       title: "Global City Campus",
-      embedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3889.0397456565985!2d77.50539!3d12.908889!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae3f2c8d4e09bf%3A0x6b4d0a0a3f58d06e!2sSattva%20Global%20City!5e0!3m2!1sen!2sin!4v1234567890",
+      embedUrl: GLOBAL_CITY_CAMPUS.embedUrl,
+      mapTitle: GLOBAL_CITY_CAMPUS.mapTitle,
     },
     prashanti: {
       title: "Prashanti Kutiram Campus",
-      embedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3890.5678901234567!2d77.6189!3d12.8023!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae6c8f2a9b6c5d%3A0x1234567890abcdef!2sPrashanti%20Kutiram!5e0!3m2!1sen!2sin!4v1234567890",
+      embedUrl: PRASHANTI_KUTIRAM.embedUrl,
+      mapTitle: PRASHANTI_KUTIRAM.mapTitle,
     },
   };
 
@@ -111,7 +114,7 @@ const InteractiveMaps = () => {
                   allowFullScreen
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
-                  title={`${maps[activeTab].title} Map`}
+                  title={maps[activeTab].mapTitle}
                   className="w-full h-full"
                 />
               </motion.div>

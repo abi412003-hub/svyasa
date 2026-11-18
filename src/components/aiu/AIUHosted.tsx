@@ -1,6 +1,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { MapPin, ExternalLink } from "lucide-react";
+import { GLOBAL_CITY_CAMPUS } from "@/config/campusLocations";
 
 const AIUHosted = () => {
   const ref = useRef(null);
@@ -38,7 +39,7 @@ const AIUHosted = () => {
             </div>
 
             <motion.a
-              href="https://maps.app.goo.gl/cApSxP6kDMvkp6Q4A"
+              href={GLOBAL_CITY_CAMPUS.directionsUrl}
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.02 }}
@@ -64,7 +65,8 @@ const AIUHosted = () => {
           >
             <div className="rounded-2xl overflow-hidden shadow-xl">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.889073477889!2d77.72580857594957!3d12.920055415877396!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae13f3f8e8e8e7%3A0x8f8f8f8f8f8f8f8f!2sSattva%20Global%20City!5e0!3m2!1sen!2sin!4v1234567890"
+                src={GLOBAL_CITY_CAMPUS.embedUrl}
+                title={GLOBAL_CITY_CAMPUS.mapTitle}
                 width="100%"
                 height="350"
                 style={{ border: 0 }}

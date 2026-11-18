@@ -1,6 +1,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Download, Phone, MapPin, Sparkles } from "lucide-react";
+import { GLOBAL_CITY_CAMPUS } from "@/config/campusLocations";
 
 const AIUJoinUs = () => {
   const ref = useRef(null);
@@ -28,7 +29,7 @@ const AIUJoinUs = () => {
     },
     {
       label: "Directions to Venue",
-      href: "https://maps.app.goo.gl/cApSxP6kDMvkp6Q4A",
+      href: GLOBAL_CITY_CAMPUS.directionsUrl,
       icon: MapPin,
       variant: "outline",
       external: true,

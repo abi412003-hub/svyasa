@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { MapPin, Phone, Mail, ArrowRight, Smartphone } from "lucide-react";
 import gccCampusImage from "@/assets/gcc-campus.jpg";
 import prashantiAerialImage from "@/assets/prashanti-kutiram-aerial.webp";
+import { GLOBAL_CITY_CAMPUS, PRASHANTI_KUTIRAM } from "@/config/campusLocations";
 
 const CampusCards = () => {
   const campuses = [
@@ -12,7 +13,7 @@ const CampusCards = () => {
       mobile: ["+91-9070907066", "+91-9070907099"],
       landline: "080-22639998",
       email: "info@svyasa.edu.in",
-      mapUrl: "https://maps.app.goo.gl/a2xnnRABVzQQnHvWA",
+      mapUrl: GLOBAL_CITY_CAMPUS.directionsUrl,
       direction: "left" as const,
     },
     {
@@ -23,7 +24,7 @@ const CampusCards = () => {
       mobile: ["+91-8762996815", "+91-7676749929", "+91-8088503565", "+91-7022024777"],
       landline: "080-2263 9968",
       emails: ["info@svyasa.edu.in", "admissions@svyasa.org"],
-      mapUrl: "https://maps.app.goo.gl/xZnMUxhGfGBW3WsT9",
+      mapUrl: PRASHANTI_KUTIRAM.directionsUrl,
       direction: "right" as const,
     },
   ];

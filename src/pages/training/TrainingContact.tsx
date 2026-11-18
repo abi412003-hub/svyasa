@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useState } from "react";
+import { PRASHANTI_KUTIRAM } from "@/config/campusLocations";
 
 const TrainingContact = () => {
   const [form, setForm] = useState({ name: "", email: "", phone: "", subject: "", message: "" });
@@ -102,14 +103,14 @@ const TrainingContact = () => {
                 {/* Map */}
                 <div className="rounded-xl overflow-hidden border border-border/50 h-[250px]">
                   <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3889.4!2d77.6!3d12.85!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sS-VYASA+University!5e0!3m2!1sen!2sin!4v1"
+                    src={PRASHANTI_KUTIRAM.embedUrl}
                     width="100%"
                     height="100%"
                     style={{ border: 0 }}
                     allowFullScreen
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
-                    title="S-VYASA University Location"
+                    title={PRASHANTI_KUTIRAM.mapTitle}
                   />
                 </div>
               </div>

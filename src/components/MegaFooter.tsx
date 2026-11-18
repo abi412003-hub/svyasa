@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import svyasaLogo from "@/assets/svyasa-footer-logo.png";
+import { GLOBAL_CITY_CAMPUS, PRASHANTI_KUTIRAM } from "@/config/campusLocations";
 
 const gccPrograms = [
   { label: "BCA", href: "/programs/bca" },
@@ -128,7 +129,7 @@ const MegaFooter = () => {
                   <span>Sattva Global City, Mysore Road, RR Nagar, Bengaluru - 560059</span>
                 </div>
                 <a 
-                  href="https://maps.google.com" 
+                  href={GLOBAL_CITY_CAMPUS.directionsUrl} 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1 text-gold text-xs hover:underline"
@@ -159,7 +160,7 @@ const MegaFooter = () => {
                   <span>Vivekananda Road, Jigani, Anekal, Bengaluru – 560105</span>
                 </div>
                 <a 
-                  href="https://maps.google.com" 
+                  href={PRASHANTI_KUTIRAM.directionsUrl} 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1 text-gold text-xs hover:underline"
