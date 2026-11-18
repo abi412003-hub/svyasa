@@ -67,7 +67,7 @@ const HeroSection = ({ active = true }: { active?: boolean }) => {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -16 }}
-                transition={{ duration: 0.7, ease: "easeInOut" }}
+                transition={{ duration: 0.4, ease: "easeInOut" }}
                 className="border-l-2 border-gold pl-4 md:pl-5 mb-4 md:mb-5"
               >
                 <p className="text-gold-light text-[11px] md:text-xs uppercase tracking-[0.25em] font-medium mb-1.5 text-shadow">

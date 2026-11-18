@@ -5,7 +5,7 @@ import { ArrowRight, FileText, Users, FlaskConical } from "lucide-react";
 
 const researchStats = [
   { icon: Users, value: "100,000+", label: "Students Passed" },
-  { icon: FileText, value: "15,000+", label: "Research Papers" },
+  { icon: FileText, value: "1,500+", label: "Research Papers" },
   { icon: FlaskConical, value: "24+", label: "Years of Excellence" },
 ];
 

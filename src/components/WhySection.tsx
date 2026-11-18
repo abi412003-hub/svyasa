@@ -16,7 +16,7 @@ const features = [
   {
     icon: Microscope,
     title: "Research Excellence",
-    description: "15,000+ published research papers in international peer-reviewed journals",
+    description: "1,500+ published research papers in international peer-reviewed journals",
   },
   {
     icon: Users,

@@ -28,7 +28,7 @@ export const PhotoSlideshow = ({ photos, index }: { photos: EventPhoto[]; index:
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 1.2, ease: "easeInOut" }}
+          transition={{ duration: 0.6, ease: "easeInOut" }}
         />
       </AnimatePresence>
 
@@ -41,7 +41,7 @@ export const PhotoSlideshow = ({ photos, index }: { photos: EventPhoto[]; index:
             initial={reduceMotion ? { opacity: 0 } : { x: "60%", opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             exit={reduceMotion ? { opacity: 0 } : { x: "-60%", opacity: 0 }}
-            transition={{ duration: 1.1, ease: SLIDE_EASE }}
+            transition={{ duration: 0.6, ease: SLIDE_EASE }}
           >
             {/* The image box matches the visible photo, so the edge fades sit exactly on the photo's
                 edges: bottom edge on phones (photo at the top), left/right edges on tablet/desktop. */}

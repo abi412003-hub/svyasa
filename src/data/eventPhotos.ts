@@ -9,7 +9,7 @@ import svyasaMemento from "@/assets/university-hero/08-svyasa-memento.jpg";
 import floralTribute from "@/assets/university-hero/09-floral-tribute.jpg";
 
 /** How long each photo stays on screen in the hero slideshows (ms). */
-export const PHOTO_DURATION = 5000;
+export const PHOTO_DURATION = 3000;
 
 export const EVENT_PHOTO_EYEBROW = "Golden Jubilee of Prashanti Kutiram · 13 November 2026";
 
