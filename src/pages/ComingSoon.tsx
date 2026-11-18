@@ -94,7 +94,7 @@ const ComingSoon = () => {
                 </Link>
               </Button>
               <Button asChild className="bg-primary text-primary-foreground">
-                <Link to="/apply/global-city-campus">
+                <Link to="/apply/global-city-campus#apply-form">
                   Apply Now
                 </Link>
               </Button>

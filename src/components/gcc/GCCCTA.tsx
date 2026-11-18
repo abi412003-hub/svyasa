@@ -140,7 +140,7 @@ const GCCCTA = () => {
               className="relative bg-white text-primary hover:bg-white/90 text-base md:text-lg px-6 md:px-8 py-6 rounded-full shadow-lg group overflow-hidden"
               asChild
             >
-              <Link to="/apply/global-city-campus">
+              <Link to="/apply/global-city-campus#apply-form">
                 <span className="relative z-10">Apply now for S-VYASA Global City Campus</span>
                 <motion.span
                   className="absolute inset-0 bg-accent/20"
@@ -162,7 +162,7 @@ const GCCCTA = () => {
               className="relative bg-white text-primary hover:bg-white/90 text-base md:text-lg px-6 md:px-8 py-6 rounded-full shadow-lg group overflow-hidden"
               asChild
             >
-              <Link to="/apply/prashanti-campus">
+              <Link to="/apply/prashanti-campus#apply-form">
                 <span className="relative z-10">Apply now for Prashanti Campus</span>
                 <motion.span
                   className="absolute inset-0 bg-accent/20"

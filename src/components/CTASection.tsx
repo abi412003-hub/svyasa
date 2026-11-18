@@ -113,7 +113,7 @@ const CTASection = () => {
                 size="lg"
                 className="no-scale bg-primary-foreground text-primary hover:bg-primary-foreground/90 shadow-large hover:shadow-glow-gold text-base md:text-lg px-6 md:px-8 group"
               >
-                <Link to="/admissions">
+                <Link to="/apply/global-city-campus#apply-form">
                   Apply Now
                   <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                 </Link>

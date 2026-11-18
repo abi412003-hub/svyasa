@@ -11,11 +11,11 @@ const AboutCTA = () => {
   const buttons = [
     {
       label: "Apply now for S-VYASA Global City Campus",
-      href: "/apply/global-city-campus",
+      href: "/apply/global-city-campus#apply-form",
     },
     {
       label: "Apply now for Prashanti Campus",
-      href: "/apply/prashanti-campus",
+      href: "/apply/prashanti-campus#apply-form",
     },
     {
       label: "Contact Us",

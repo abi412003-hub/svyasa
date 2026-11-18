@@ -157,7 +157,7 @@ const PKPrograms = () => {
                 size="lg"
                 className="bg-primary hover:bg-primary/90 text-white px-8 py-6 rounded-full shadow-lg relative overflow-hidden group pulse-glow"
               >
-                <Link to="/apply/prashanti-campus">
+                <Link to="/apply/prashanti-campus#apply-form">
                   <span className="relative z-10">Apply now</span>
                   <motion.span
                     className="absolute inset-0 bg-white/20 rounded-full"

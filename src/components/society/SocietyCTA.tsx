@@ -190,7 +190,7 @@ const SocietyCTA = () => {
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <CTAButton
-              href="/apply/global-city-campus"
+              href="/apply/global-city-campus#apply-form"
               delay={0.3}
               variant="primary"
             >
@@ -198,7 +198,7 @@ const SocietyCTA = () => {
             </CTAButton>
 
             <CTAButton
-              href="/apply/prashanti-campus"
+              href="/apply/prashanti-campus#apply-form"
               delay={0.4}
               variant="secondary"
             >

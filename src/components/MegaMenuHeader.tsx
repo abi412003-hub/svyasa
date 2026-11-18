@@ -722,7 +722,7 @@ const MobileMenu = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
             {/* Mobile CTA buttons */}
             <div className="mt-8 space-y-3">
               <Button asChild className="w-full bg-primary text-primary-foreground">
-                <Link to="/apply/global-city-campus" onClick={onClose}>
+                <Link to="/apply/global-city-campus#apply-form" onClick={onClose}>
                   ADMISSIONS
                 </Link>
               </Button>
@@ -864,7 +864,7 @@ const MegaMenuHeader = () => {
                   size="sm"
                   className="bg-primary text-primary-foreground rounded-full px-6 pulse-glow"
                 >
-                  <Link to="/apply/global-city-campus">ADMISSIONS</Link>
+                  <Link to="/apply/global-city-campus#apply-form">ADMISSIONS</Link>
                 </Button>
                 <Button
                   asChild

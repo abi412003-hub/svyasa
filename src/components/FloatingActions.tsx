@@ -158,7 +158,7 @@ const FloatingActions = () => {
     >
       <div className="flex items-center justify-around py-3 px-2 gap-1">
         <Link
-          to="/apply/global-city-campus"
+          to="/apply/global-city-campus#apply-form"
           className="flex-1 py-2.5 bg-primary text-primary-foreground rounded-lg text-center text-xs font-medium active:scale-95 transition-transform"
         >
           Apply Now

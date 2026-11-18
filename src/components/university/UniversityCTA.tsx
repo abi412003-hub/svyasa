@@ -48,7 +48,7 @@ const UniversityCTA = () => (
         className="flex flex-wrap justify-center gap-4"
       >
         <Button asChild size="lg" className="bg-gold text-secondary-foreground rounded-full px-8 hover:bg-gold/90">
-          <Link to="/apply/global-city-campus">
+          <Link to="/apply/global-city-campus#apply-form">
             Apply Now
           </Link>
         </Button>

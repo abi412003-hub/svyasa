@@ -386,10 +386,11 @@ const ApplyNow = () => {
 
             {/* Application form */}
             <motion.div
+              id="apply-form"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="bg-white rounded-2xl shadow-xl border border-border p-6 md:p-10"
+              className="bg-white rounded-2xl shadow-xl border border-border p-6 md:p-10 scroll-mt-24 order-first lg:order-none"
             >
               {status === "sent" ? (
                 <div className="text-center py-10" role="status">
@@ -423,6 +424,26 @@ const ApplyNow = () => {
                     <p className="text-sm text-muted-foreground">
                       Fields marked <span className="text-destructive">*</span> are required. It takes about 3 minutes.
                     </p>
+                    <div className="mt-5">
+                      <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-2">
+                        Applying to
+                      </p>
+                      <div className="inline-flex flex-wrap gap-1 rounded-2xl sm:rounded-full bg-muted p-1" aria-label="Choose campus">
+                        {(Object.keys(CAMPUSES) as CampusSlug[]).map((slug) => (
+                          <Link
+                            key={slug}
+                            to={`/apply/${slug}#apply-form`}
+                            replace
+                            aria-current={slug === campus ? "page" : undefined}
+                            className={`no-scale px-4 py-2 rounded-full text-sm font-semibold transition-colors ${
+                              slug === campus ? "bg-primary text-white shadow" : "text-muted-foreground hover:text-navy"
+                            }`}
+                          >
+                            {CAMPUSES[slug].short}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
                   </div>
 
                   {/* Honeypot: hidden from people, filled in by spam bots */}
