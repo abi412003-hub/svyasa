@@ -14,6 +14,8 @@ import {
   Globe,
 } from "lucide-react";
 import { useRef } from "react";
+import HoneypotField from "@/components/HoneypotField";
+import { useSendForm } from "@/hooks/useSendForm";
 import { Link } from "react-router-dom";
 
 /* ── Variants ── */
@@ -49,6 +51,7 @@ const researchAreas = [
 
 /* ── Page ── */
 export default function AdoptProject() {
+  const { sending: sendingInquiry, submit: submitInquiry } = useSendForm("adopt-research");
   const introRef = useRef<HTMLDivElement>(null);
   const benefitsRef = useRef<HTMLDivElement>(null);
   const contactRef = useRef<HTMLDivElement>(null);
@@ -364,14 +367,20 @@ export default function AdoptProject() {
             >
               <h3 className="font-semibold text-[hsl(var(--navy))] text-lg mb-6">Send an Inquiry</h3>
               <form
-                onSubmit={(e) => {
-                  e.preventDefault();
+                onSubmit={async (e) => {
                   const form = e.currentTarget;
                   const data = new FormData(form);
-                  window.location.href = `mailto:research@svyasa.edu.in?subject=Adopt a Research Project Inquiry&body=Name: ${data.get("name")}%0AEmail: ${data.get("email")}%0APhone: ${data.get("phone")}%0A%0AMessage:%0A${data.get("message")}`;
+                  const field = (k: string) => String(data.get(k) ?? "");
+                  const ok = await submitInquiry(
+                    e,
+                    { name: field("name"), email: field("email"), phone: field("phone"), message: field("message") },
+                    "Thank you! Our research team will get back to you soon.",
+                  );
+                  if (ok) form.reset();
                 }}
                 className="space-y-5"
               >
+                <HoneypotField />
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
                     <label className="block text-xs font-semibold text-[hsl(var(--navy))] mb-1.5 uppercase tracking-wide">
@@ -423,9 +432,10 @@ export default function AdoptProject() {
                 </div>
                 <button
                   type="submit"
-                  className="w-full bg-[hsl(var(--navy))] text-white font-semibold py-3.5 rounded-lg hover:bg-[hsl(var(--teal))] transition-colors text-sm tracking-wide"
+                  disabled={sendingInquiry}
+                  className="w-full bg-[hsl(var(--navy))] text-white font-semibold py-3.5 rounded-lg hover:bg-[hsl(var(--teal))] transition-colors text-sm tracking-wide disabled:opacity-60"
                 >
-                  Send Inquiry →
+                  {sendingInquiry ? "Sending…" : "Send Inquiry →"}
                 </button>
               </form>
             </motion.div>

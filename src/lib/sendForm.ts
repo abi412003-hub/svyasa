@@ -1,4 +1,14 @@
-export type FormType = "apply-gcc" | "apply-prashanti" | "edtech-partner" | "contact";
+export type FormType =
+  | "apply-gcc"
+  | "apply-prashanti"
+  | "edtech-partner"
+  | "contact"
+  | "international"
+  | "subscribe"
+  | "training-contact"
+  | "training-enquiry"
+  | "training-institution"
+  | "adopt-research";
 
 /**
  * Sends a website form to /api/send-mail (a Vercel function), which emails it

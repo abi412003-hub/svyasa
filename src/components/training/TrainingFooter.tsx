@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import svyasaLogo from "@/assets/svyasa-logo.svg";
+import { CODE_SITE } from "@/config/links";
 
 const TrainingFooter = () => (
   <footer>
@@ -32,7 +33,9 @@ const TrainingFooter = () => (
           <div className="text-center md:text-left">
             <p className="text-white/40 text-xs uppercase tracking-widest mb-2">Online delivery supported by</p>
             <h4 className="text-gold font-heading font-semibold text-lg mb-1">
-              Centre for Open & Distance Education (CODE)
+              <a href={CODE_SITE} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                Centre for Open & Distance Education (CODE)
+              </a>
             </h4>
             <p className="text-white/60 text-sm">
               S-VYASA University (Deemed-to-be University under UGC)

@@ -5,8 +5,38 @@ import { Menu, X, ChevronDown, Phone, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import svyasaLogo from "@/assets/svyasa-logo.svg";
 import { useHoverIntent } from "@/hooks/useHoverIntent";
+import { CODE_SITE } from "@/config/links";
 
-const navLinks = [
+type NavItem = {
+  label: string;
+  href: string;
+  external?: boolean;
+  dropdown?: { label: string; href: string }[];
+};
+
+/** Internal routes use the router; external sites open in a new tab. */
+const NavItemLink = ({
+  item,
+  className,
+  onClick,
+  children,
+}: {
+  item: NavItem;
+  className?: string;
+  onClick?: () => void;
+  children: React.ReactNode;
+}) =>
+  item.external ? (
+    <a href={item.href} target="_blank" rel="noopener noreferrer" className={className} onClick={onClick}>
+      {children}
+    </a>
+  ) : (
+    <Link to={item.href} className={className} onClick={onClick}>
+      {children}
+    </Link>
+  );
+
+const navLinks: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "Training Home", href: "/training" },
   { label: "About", href: "/training/about" },
@@ -21,7 +51,7 @@ const navLinks = [
       { label: "All Courses", href: "/training/courses" },
     ],
   },
-  { label: "Delivery (CODE)", href: "/training/delivery" },
+  { label: "Delivery (CODE)", href: CODE_SITE, external: true },
   { label: "Admissions", href: "/training/admissions" },
   { label: "Institutions & PSUs", href: "/training/institutions-psu" },
   { label: "Faculty", href: "/training/faculty" },
@@ -105,8 +135,8 @@ const TrainingHeader = () => {
                 {...(item.dropdown ? hover.triggerProps(item.label) : {})}
               >
                 <div className="flex items-center">
-                  <Link
-                    to={item.href}
+                  <NavItemLink
+                    item={item}
                     className={`pl-3 ${item.dropdown ? "pr-1" : "pr-3"} py-3 text-xs font-medium transition-colors flex items-center gap-1 ${
                       location.pathname === item.href || (item.dropdown && location.pathname.startsWith("/training/courses"))
                         ? "text-gold"
@@ -114,7 +144,7 @@ const TrainingHeader = () => {
                     }`}
                   >
                     {item.label}
-                  </Link>
+                  </NavItemLink>
                   {item.dropdown && (
                     <button
                       type="button"
@@ -214,13 +244,13 @@ const TrainingHeader = () => {
                         </AnimatePresence>
                       </>
                     ) : (
-                      <Link
-                        to={item.href}
+                      <NavItemLink
+                        item={item}
                         onClick={() => setMobileOpen(false)}
                         className="block py-3 text-white border-b border-white/10"
                       >
                         {item.label}
-                      </Link>
+                      </NavItemLink>
                     )}
                   </div>
                 ))}

@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 import { Facebook, Twitter, Linkedin, Instagram, Youtube, Check, Loader2 } from "lucide-react";
 import { socialLinks, countries, programs } from "./diaData";
 import { toast } from "@/hooks/use-toast";
+import { sendForm } from "@/lib/sendForm";
 
 const iconMap: Record<string, React.ElementType> = {
   facebook: Facebook,
@@ -27,19 +28,37 @@ const DIAForm = () => {
   });
   const [focusedField, setFocusedField] = useState<string | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const honeypot = (e.currentTarget.elements.namedItem("website") as HTMLInputElement | null)?.value;
     setIsSubmitting(true);
-    
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    toast({
-      title: "Message Sent!",
-      description: "Thank you for your interest. We'll be in touch soon.",
-    });
+    try {
+      await sendForm(
+        "international",
+        {
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          country: formData.country,
+          programInterest: formData.program,
+          message: formData.message,
+        },
+        honeypot,
+      );
+      setIsSubmitted(true);
+      toast({
+        title: "Message Sent!",
+        description: "Thank you for your interest. We'll be in touch soon.",
+      });
+    } catch (err) {
+      toast({
+        variant: "destructive",
+        title: "Could not send your message",
+        description: err instanceof Error ? err.message : "Please try again.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleInputChange = (field: string, value: string) => {
@@ -105,6 +124,9 @@ const DIAForm = () => {
         </motion.div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-5">
+          {/* Honeypot: hidden from people, filled in by spam bots */}
+          <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
+
           {/* Name */}
           <div className="relative">
             <input

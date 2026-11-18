@@ -1,13 +1,15 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Flower2, Leaf, Building2, Sparkles, Award, FlaskConical, MonitorSmartphone, Globe, ChevronDown, ArrowRight, Clock, MapPin, Send } from "lucide-react";
+import { Flower2, Leaf, Building2, Sparkles, Award, FlaskConical, MonitorSmartphone, Globe, ChevronDown, ArrowRight, Clock, MapPin, Send, Loader2 } from "lucide-react";
+import HoneypotField from "@/components/HoneypotField";
+import { useSendForm } from "@/hooks/useSendForm";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { trainingCategories, trainingCourses } from "@/data/trainingData";
 import { useState } from "react";
-import { toast } from "sonner";
+import { CODE_SITE } from "@/config/links";
 
 const categoryIcons: Record<string, React.ElementType> = {
   "Flower2": Flower2,
@@ -19,10 +21,12 @@ const categoryIcons: Record<string, React.ElementType> = {
 const TrainingHome = () => {
   const [formData, setFormData] = useState({ name: "", email: "", phone: "", course: "", message: "" });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    toast.success("Enquiry submitted! We'll get back within 24 hours.");
-    setFormData({ name: "", email: "", phone: "", course: "", message: "" });
+  const { sending, submit } = useSendForm("training-enquiry");
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const course = trainingCourses.find((c) => c.id === formData.course)?.title ?? formData.course;
+    const ok = await submit(e, { ...formData, course }, "Enquiry submitted! We'll get back within 24 hours.");
+    if (ok) setFormData({ name: "", email: "", phone: "", course: "", message: "" });
   };
 
   const featuredCourses = trainingCourses.slice(0, 6);
@@ -177,9 +181,14 @@ const TrainingHome = () => {
           <p className="text-white/80 text-lg md:text-xl max-w-3xl mx-auto mb-4">
             Delivered online through <span className="text-gold font-semibold">CODE</span> — Centre for Open & Distance Education, S-VYASA University
           </p>
-          <Link to="/training/delivery" className="text-gold text-sm hover:underline inline-flex items-center gap-1">
+          <a
+            href={CODE_SITE}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gold text-sm hover:underline inline-flex items-center gap-1"
+          >
             Learn about CODE <ArrowRight className="w-3 h-3" />
-          </Link>
+          </a>
         </div>
       </section>
 
@@ -245,6 +254,7 @@ const TrainingHome = () => {
           </motion.div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
+            <HoneypotField />
             <Input placeholder="Full Name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} required />
             <Input type="email" placeholder="Email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} required />
             <Input type="tel" placeholder="Phone" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} required />
@@ -257,8 +267,9 @@ const TrainingHome = () => {
               </SelectContent>
             </Select>
             <Textarea placeholder="Message (optional)" value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} rows={3} />
-            <Button type="submit" className="w-full bg-primary text-primary-foreground rounded-full">
-              <Send className="w-4 h-4 mr-2" /> Submit Enquiry
+            <Button type="submit" disabled={sending} className="w-full bg-primary text-primary-foreground rounded-full">
+              {sending ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Send className="w-4 h-4 mr-2" />}
+              {sending ? "Sending…" : "Submit Enquiry"}
             </Button>
           </form>
         </div>

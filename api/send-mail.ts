@@ -14,13 +14,29 @@ import nodemailer from "nodemailer";
 
 // ── Validation and email formatting (exported for tests) ──────────────
 
-export type FormType = "apply-gcc" | "apply-prashanti" | "edtech-partner" | "contact";
+export type FormType =
+  | "apply-gcc"
+  | "apply-prashanti"
+  | "edtech-partner"
+  | "contact"
+  | "international"
+  | "subscribe"
+  | "training-contact"
+  | "training-enquiry"
+  | "training-institution"
+  | "adopt-research";
 
 export const FORMS: Record<FormType, { title: string; toEnv: string }> = {
   "apply-gcc": { title: "Application – S-VYASA Global City Campus", toEnv: "MAIL_TO_APPLY" },
   "apply-prashanti": { title: "Application – Prashanti Kutiram Campus", toEnv: "MAIL_TO_APPLY" },
   "edtech-partner": { title: "Edtech Partnership Enquiry", toEnv: "MAIL_TO_EDTECH" },
   contact: { title: "Contact Enquiry", toEnv: "MAIL_TO_CONTACT" },
+  international: { title: "International Affairs Enquiry", toEnv: "MAIL_TO" },
+  subscribe: { title: "Yoga Sudha Subscription", toEnv: "MAIL_TO" },
+  "training-contact": { title: "Training Programs – Contact", toEnv: "MAIL_TO" },
+  "training-enquiry": { title: "Training Programs – Course Enquiry", toEnv: "MAIL_TO" },
+  "training-institution": { title: "Institutional / PSU Training Request", toEnv: "MAIL_TO" },
+  "adopt-research": { title: "Adopt a Research Project Enquiry", toEnv: "MAIL_TO" },
 };
 
 const MAX_FIELDS = 30;
@@ -68,8 +84,9 @@ export function validatePayload(body: unknown): ValidationResult {
     if (text) clean[key] = text;
   }
 
-  const name = clean.name ?? clean.fullName ?? "";
   const email = clean.email ?? "";
+  // Subscriptions only collect an email address.
+  const name = clean.name ?? clean.fullName ?? (formType === "subscribe" ? email : "");
   if (!name) return { ok: false, error: "Name is required." };
   if (!EMAIL_RE.test(email)) return { ok: false, error: "A valid email address is required." };
 

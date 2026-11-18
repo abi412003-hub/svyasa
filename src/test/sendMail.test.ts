@@ -85,6 +85,38 @@ describe("buildEmail", () => {
   });
 });
 
+describe("site-wide forms", () => {
+  const newTypes = [
+    "international",
+    "subscribe",
+    "training-contact",
+    "training-enquiry",
+    "training-institution",
+    "adopt-research",
+  ] as const;
+
+  it.each(newTypes)("accepts %s and sends it to MAIL_TO", (formType) => {
+    const r = validatePayload({ formType, fields: { name: "Asha", email: "asha@example.com", message: "Hi" } });
+    expect(r.ok).toBe(true);
+    expect(recipientFor(formType, { MAIL_TO: "inbox@example.com", MAIL_TO_APPLY: "x@example.com" })).toBe(
+      "inbox@example.com",
+    );
+  });
+
+  it("lets a newsletter subscription through with only an email", () => {
+    const r = validatePayload({ formType: "subscribe", fields: { email: "reader@example.com" } });
+    expect(r.ok).toBe(true);
+    if (r.ok) {
+      expect(r.payload.name).toBe("reader@example.com");
+      expect(buildEmail(r.payload).subject).toContain("Yoga Sudha Subscription");
+    }
+  });
+
+  it("still requires a name for other email-only submissions", () => {
+    expect(validatePayload({ formType: "international", fields: { email: "a@example.com" } }).ok).toBe(false);
+  });
+});
+
 describe("recipientFor", () => {
   it("prefers the per-form address, then MAIL_TO", () => {
     expect(recipientFor("edtech-partner", { MAIL_TO: "a@x.in", MAIL_TO_EDTECH: "b@x.in" })).toBe("b@x.in");

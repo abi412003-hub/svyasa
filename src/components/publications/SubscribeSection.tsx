@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Mail, Sparkles } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { sendForm } from "@/lib/sendForm";
 
 // Floating lotus petal component
 const FloatingPetal = ({ delay, startX }: { delay: number; startX: number }) => (
@@ -33,22 +34,28 @@ const SubscribeSection = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email) return;
+    const honeypot = (e.currentTarget.elements.namedItem("website") as HTMLInputElement | null)?.value;
 
     setIsSubmitting(true);
-    
-    // Simulate submission (placeholder for actual logic)
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    
-    toast({
-      title: "Thank you for subscribing!",
-      description: "You'll receive Yoga Sudha updates in your inbox.",
-    });
-    
-    setEmail("");
-    setIsSubmitting(false);
+    try {
+      await sendForm("subscribe", { email, list: "Yoga Sudha monthly edition" }, honeypot);
+      toast({
+        title: "Thank you for subscribing!",
+        description: "You'll receive Yoga Sudha updates in your inbox.",
+      });
+      setEmail("");
+    } catch (err) {
+      toast({
+        variant: "destructive",
+        title: "Could not subscribe",
+        description: err instanceof Error ? err.message : "Please try again.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -128,6 +135,8 @@ const SubscribeSection = () => {
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
+            {/* Honeypot: hidden from people, filled in by spam bots */}
+            <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
             <div className="relative flex-1">
               <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
               <Input

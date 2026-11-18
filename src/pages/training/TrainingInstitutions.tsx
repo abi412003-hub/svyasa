@@ -1,12 +1,13 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Building2, CheckCircle2, Handshake, Send } from "lucide-react";
+import { Building2, CheckCircle2, Handshake, Send, Loader2 } from "lucide-react";
+import HoneypotField from "@/components/HoneypotField";
+import { useSendForm } from "@/hooks/useSendForm";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { institutionalPartners } from "@/data/trainingData";
 import { useState } from "react";
-import { toast } from "sonner";
 
 const offerings = [
   "Customised training modules aligned to organizational goals",
@@ -19,10 +20,15 @@ const offerings = [
 const TrainingInstitutions = () => {
   const [form, setForm] = useState({ org: "", person: "", email: "", phone: "", requirement: "" });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    toast.success("Your request has been submitted. Our team will contact you shortly.");
-    setForm({ org: "", person: "", email: "", phone: "", requirement: "" });
+  const { sending, submit } = useSendForm("training-institution");
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const ok = await submit(
+      e,
+      { name: form.person, organization: form.org, email: form.email, phone: form.phone, requirement: form.requirement },
+      "Your request has been submitted. Our team will contact you shortly.",
+    );
+    if (ok) setForm({ org: "", person: "", email: "", phone: "", requirement: "" });
   };
 
   return (
@@ -97,13 +103,15 @@ const TrainingInstitutions = () => {
         <div className="container mx-auto px-4 max-w-xl">
           <h2 className="font-heading text-2xl font-bold text-foreground text-center mb-8">Contact for Institutional Training</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
+            <HoneypotField />
             <Input placeholder="Organization Name" value={form.org} onChange={(e) => setForm({ ...form, org: e.target.value })} required />
             <Input placeholder="Contact Person" value={form.person} onChange={(e) => setForm({ ...form, person: e.target.value })} required />
             <Input type="email" placeholder="Email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required />
             <Input type="tel" placeholder="Phone" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} required />
             <Textarea placeholder="Training Requirement" value={form.requirement} onChange={(e) => setForm({ ...form, requirement: e.target.value })} rows={4} required />
-            <Button type="submit" className="w-full bg-primary text-primary-foreground rounded-full">
-              <Send className="w-4 h-4 mr-2" /> Submit Request
+            <Button type="submit" disabled={sending} className="w-full bg-primary text-primary-foreground rounded-full">
+              {sending ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Send className="w-4 h-4 mr-2" />}
+              {sending ? "Sending…" : "Submit Request"}
             </Button>
           </form>
         </div>

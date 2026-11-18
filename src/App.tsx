@@ -40,7 +40,8 @@ import TrainingHome from "./pages/training/TrainingHome";
 import TrainingAbout from "./pages/training/TrainingAbout";
 import TrainingCourses from "./pages/training/TrainingCourses";
 import TrainingCategory from "./pages/training/TrainingCategory";
-import TrainingDelivery from "./pages/training/TrainingDelivery";
+import ExternalRedirect from "./components/ExternalRedirect";
+import { CODE_SITE } from "./config/links";
 import TrainingAdmissions from "./pages/training/TrainingAdmissions";
 import TrainingInstitutions from "./pages/training/TrainingInstitutions";
 import TrainingFaculty from "./pages/training/TrainingFaculty";
@@ -273,7 +274,7 @@ const App = () => (
             <Route path="about" element={<TrainingAbout />} />
             <Route path="courses" element={<TrainingCourses />} />
             <Route path="courses/:category" element={<TrainingCategory />} />
-            <Route path="delivery" element={<TrainingDelivery />} />
+            <Route path="delivery" element={<ExternalRedirect to={CODE_SITE} label="CODE – svyasadde.com" />} />
             <Route path="admissions" element={<TrainingAdmissions />} />
             <Route path="institutions-psu" element={<TrainingInstitutions />} />
             <Route path="faculty" element={<TrainingFaculty />} />

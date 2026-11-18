@@ -1,20 +1,33 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Phone, Mail, MapPin, Clock, Send } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, Send, Loader2 } from "lucide-react";
+import HoneypotField from "@/components/HoneypotField";
+import { useSendForm } from "@/hooks/useSendForm";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useState } from "react";
-import { toast } from "sonner";
 
 const TrainingContact = () => {
   const [form, setForm] = useState({ name: "", email: "", phone: "", subject: "", message: "" });
+  const { sending, submit } = useSendForm("training-contact");
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    toast.success("Message sent! We'll respond shortly.");
-    setForm({ name: "", email: "", phone: "", subject: "", message: "" });
+  const subjectLabels: Record<string, string> = {
+    general: "General",
+    course: "Course Enquiry",
+    institutional: "Institutional Training",
+    technical: "Technical Support",
+    other: "Other",
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const ok = await submit(
+      e,
+      { ...form, subject: subjectLabels[form.subject] ?? form.subject },
+      "Message sent! We'll respond shortly.",
+    );
+    if (ok) setForm({ name: "", email: "", phone: "", subject: "", message: "" });
   };
 
   return (
@@ -37,6 +50,7 @@ const TrainingContact = () => {
             <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
               <h2 className="font-heading text-2xl font-bold text-foreground mb-6">Send an Enquiry</h2>
               <form onSubmit={handleSubmit} className="space-y-4">
+                <HoneypotField />
                 <Input placeholder="Full Name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
                 <Input type="email" placeholder="Email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required />
                 <Input type="tel" placeholder="Phone" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} required />
@@ -51,8 +65,9 @@ const TrainingContact = () => {
                   </SelectContent>
                 </Select>
                 <Textarea placeholder="Your message..." value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} rows={4} required />
-                <Button type="submit" className="w-full bg-primary text-primary-foreground rounded-full">
-                  <Send className="w-4 h-4 mr-2" /> Send Message
+                <Button type="submit" disabled={sending} className="w-full bg-primary text-primary-foreground rounded-full">
+                  {sending ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Send className="w-4 h-4 mr-2" />}
+                  {sending ? "Sending…" : "Send Message"}
                 </Button>
               </form>
             </motion.div>
