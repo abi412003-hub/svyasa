@@ -125,7 +125,7 @@ const ResearchSection = () => {
             </div>
 
             {/* CTA */}
-            <Link to="/research/about">
+            <Link to="/research/publications">
               <motion.span
                 whileHover={{ scale: 1.02 }}
                 className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-navy to-teal text-secondary-foreground rounded-full font-medium group relative overflow-hidden"

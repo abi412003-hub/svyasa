@@ -98,7 +98,7 @@ const slides: Slide[] = [
     key: "research",
     title: "Research Papers",
     subtitle: "Peer-reviewed Research from S-VYASA University & Arogyadhama",
-    badge: "1,000+ Papers in PubMed • 50+ Years",
+    badge: "1,500+ Research Papers • 50+ Years",
     description:
       "S-VYASA University and Arogyadhama have built one of the world's largest evidence bases for integrative and yoga-based medicine. Drawing on decades of clinical experience and the ancient wisdom of Yoga and Ayurveda, our peer-reviewed studies span Yoga & Life Sciences, Humanities and Spirituality — published across 30+ international journals.",
     cover: {

@@ -3,8 +3,6 @@ import { motion, useInView } from "framer-motion";
 import { Bell, ArrowRight, ExternalLink } from "lucide-react";
 
 const announcements = [
-  { title: "Admissions Open for 2025-26 Academic Year", isNew: true },
-  { title: "International Yoga Day Celebrations - June 21st", isNew: true },
   { title: "Research Grant Awarded for Yoga & Mental Health Study", isNew: false },
   { title: "Campus Placement Drive - Top Wellness Companies", isNew: false },
   { title: "New PhD Program in Yoga Neuroscience Launched", isNew: true },

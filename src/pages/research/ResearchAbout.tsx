@@ -321,7 +321,7 @@ function StatsSection() {
   const [ref, visible] = useScrollReveal(0.3);
 
   const stats = [
-    { target: 862, suffix: "+", label: "Research Publications" },
+    { target: 1500, suffix: "+", label: "Research Publications" },
     { target: 30, suffix: "+", label: "Years of Research" },
     { target: 5, suffix: "", label: "Advanced Laboratories" },
     { target: 34, suffix: "+", label: "Global Collaborations" },

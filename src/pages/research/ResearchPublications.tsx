@@ -33,7 +33,7 @@ const stagger: Variants = {
 
 /* ── Data ── */
 const stats = [
-  { value: "862+", label: "Total Publications", icon: BookOpen, color: "text-[hsl(var(--teal))]" },
+  { value: "1,500+", label: "Total Publications", icon: BookOpen, color: "text-[hsl(var(--teal))]" },
   { value: "1985–2024", label: "Spanning 4 Decades", icon: Clock, color: "text-[hsl(var(--saffron))]" },
   { value: "100+", label: "Intl. Collaborations", icon: Globe, color: "text-[hsl(var(--navy))]" },
   { value: "PubMed / Scopus", label: "Indexed In", icon: TrendingUp, color: "text-[hsl(var(--teal))]" },
@@ -177,10 +177,10 @@ export default function ResearchPublications() {
             variants={fadeUp}
             className="font-['Playfair_Display',serif] text-3xl md:text-4xl text-[hsl(var(--navy))] font-bold mb-6"
           >
-            862+ Publications on Yoga Research
+            1,500+ Publications on Yoga Research
           </motion.h2>
           <motion.p variants={fadeUp} className="text-[hsl(var(--muted-foreground))] leading-relaxed text-base max-w-3xl mb-12">
-            S-VYASA has been at the forefront of scientific yoga research since 1985, producing over 862
+            S-VYASA has been at the forefront of scientific yoga research since 1985, producing over 1,500
             peer-reviewed publications in national and international journals. Our research spans nearly
             four decades and covers a wide spectrum of disciplines — from molecular biology and
             neuroscience to psychology and clinical therapy — all centered on understanding and validating
@@ -405,7 +405,7 @@ export default function ResearchPublications() {
                   Complete Publication Database
                 </h2>
                 <p className="text-white/70 text-sm leading-relaxed max-w-lg">
-                  Access the comprehensive list of all 862+ research publications on yoga from S-VYASA
+                  Access the comprehensive list of all 1,500+ research publications on yoga from S-VYASA
                   (1985–2023).
                 </p>
               </div>

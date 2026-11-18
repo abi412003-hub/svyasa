@@ -23,20 +23,11 @@ const iconMap: Record<string, React.ElementType> = {
   "dsc-dlitt": Crown,
 };
 
-const categoryImageMap: Record<string, string> = {
-  bca: "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=400&q=80",
-  bba: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=400&q=80",
-  bcom: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&q=80",
-  btech: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&q=80",
-  bsc: "https://images.unsplash.com/photo-1576086213369-97a306d36557?w=400&q=80",
-  mca: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&q=80",
-  mba: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80",
-  msc: "https://spkbypslhjqvnvnujpwd.supabase.co/storage/v1/object/public/site-images/prashanti/research-lab/1771452099298-q9sj0vt197n.jpeg",
-  "yoga-programmes": "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=400&q=80",
-  "allied-sciences": "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&q=80",
-  "phd-programmes": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&q=80",
-  "dsc-dlitt": "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=400&q=80",
-};
+// One image per programme category, matching what the card is about (src/assets/program-cards/<slug>.jpg).
+const programCardImages = import.meta.glob<string>("/src/assets/program-cards/*.jpg", { eager: true, import: "default" });
+const categoryImageMap: Record<string, string> = Object.fromEntries(
+  Object.entries(programCardImages).map(([path, src]) => [path.split("/").pop()!.replace(/\.jpg$/, ""), src]),
+);
 
 const CARD_WIDTH = 260;
 const GAP = 20;
@@ -176,7 +167,8 @@ const ProgramsSection = () => {
                     {/* Smaller image strip */}
                     <div className="relative h-20 overflow-hidden shrink-0">
                       <img
-                        src={categoryImageMap[cat.slug] || "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=400&q=80"}
+                        src={categoryImageMap[cat.slug]}
+                        loading="lazy"
                         alt={cat.shortTitle}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                       />

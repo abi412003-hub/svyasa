@@ -59,7 +59,7 @@ const stats = [
     isStars: true,
   },
   {
-    value: 284,
+    value: 1500,
     suffix: "+",
     label: "Research Papers Published",
   },
