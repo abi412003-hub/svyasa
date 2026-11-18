@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const CTASection = () => {
   const ref = useRef(null);
@@ -108,11 +109,14 @@ const CTASection = () => {
               whileTap={{ scale: 0.98 }}
             >
               <Button
+                asChild
                 size="lg"
-                className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 shadow-large hover:shadow-glow-gold text-base md:text-lg px-6 md:px-8 group"
+                className="no-scale bg-primary-foreground text-primary hover:bg-primary-foreground/90 shadow-large hover:shadow-glow-gold text-base md:text-lg px-6 md:px-8 group"
               >
-                Apply Now
-                <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                <Link to="/admissions">
+                  Apply Now
+                  <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                </Link>
               </Button>
             </motion.div>
 
