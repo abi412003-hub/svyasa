@@ -15,7 +15,6 @@ import AnnouncementsTicker from "@/components/AnnouncementsTicker";
 import ResearchSection from "@/components/ResearchSection";
 import CampusSection from "@/components/CampusSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
-import EventsSection from "@/components/EventsSection";
 import AffiliationsSection from "@/components/AffiliationsSection";
 import CTASection from "@/components/CTASection";
 
@@ -54,7 +53,6 @@ const Index = () => {
           <StatsSection />
           <AnnouncementsTicker />
           <ProgramsSection />
-          <EventsSection />
           <WhySection />
           <ResearchSection />
           <CampusSection />

@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { Bell, ArrowRight, ExternalLink } from "lucide-react";
+import { Bell, ExternalLink } from "lucide-react";
 
 const announcements = [
   { title: "Research Grant Awarded for Yoga & Mental Health Study", isNew: false },
@@ -32,21 +32,6 @@ const AnnouncementsTicker = () => {
               Announcements
             </h3>
           </motion.div>
-
-          <motion.a
-            initial={{ opacity: 0, x: 20 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            href="#"
-            className="flex items-center gap-2 text-gold text-sm font-medium group"
-          >
-            <span>View All</span>
-            <motion.span
-              animate={{ x: [0, 5, 0] }}
-              transition={{ duration: 1, repeat: Infinity }}
-            >
-              <ArrowRight size={16} />
-            </motion.span>
-          </motion.a>
         </div>
       </div>
 
@@ -58,7 +43,7 @@ const AnnouncementsTicker = () => {
 
         <motion.div
           animate={{ x: [0, "-50%"] }}
-          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+          transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
           className="flex gap-6 whitespace-nowrap"
         >
           {[...announcements, ...announcements].map((item, index) => (

@@ -145,7 +145,8 @@ const TestimonialsSection = () => {
           </motion.div>
 
           {/* Card */}
-          <div className="relative min-h-[320px] md:min-h-[280px]">
+          {/* The card sizes to its content so longer descriptions never spill below it */}
+          <div className="relative">
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentIndex}
@@ -153,7 +154,7 @@ const TestimonialsSection = () => {
                 animate={{ opacity: 1, rotateY: 0 }}
                 exit={{ opacity: 0, rotateY: 90 }}
                 transition={{ duration: 0.5 }}
-                className="absolute inset-0 bg-card rounded-3xl shadow-large pt-10 pb-8 px-8 md:px-12"
+                className="bg-card rounded-3xl shadow-large pt-12 pb-8 px-6 md:px-12"
               >
                 <div className="flex flex-col md:flex-row items-center gap-8 h-full">
                   {/* Avatar */}
