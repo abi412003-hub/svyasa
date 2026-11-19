@@ -1,5 +1,5 @@
-import { useRef, useState } from "react";
-import { motion, useScroll, useTransform, useInView } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ChevronLeft, ChevronRight, Expand } from "lucide-react";
 import Layout from "@/components/layout/Layout";
 import GalleryLightbox from "@/components/gallery/GalleryLightbox";
@@ -116,10 +116,15 @@ const guests: GuestEntry[] = [
 // ─── Recent distinguished guests (Golden Jubilee of Prashanti Kutiram) ────────
 interface FeaturedGuest {
   id: string;
+  /** Small label above the heading (default "Distinguished Guest"). */
+  eyebrow?: string;
   name: string;
-  designation: string;
-  event: string;
-  photos: { src: string; alt: string }[];
+  designation?: string;
+  event?: string;
+  /** Bullet list shown under the heading (used by the year sections). */
+  highlights?: string[];
+  /** `caption` is printed on the photo and used in the full-screen viewer. */
+  photos: { src: string; alt: string; caption?: string }[];
 }
 
 const featuredGuests: FeaturedGuest[] = [
@@ -229,82 +234,91 @@ const Hero = () => {
   );
 };
 
-// ─── Individual photo card ─────────────────────────────────────────────────────
-const GuestCard = ({ guest, index, onOpen }: { guest: GuestEntry; index: number; onOpen: () => void }) => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-60px" });
+// ─── Shared helpers ────────────────────────────────────────────────────────────
+const prefersReducedMotion = () =>
+  typeof window !== "undefined" && !!window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 
-  const entrances = [
-    { x: -80, y: 0 }, { x: 0, y: 80 }, { x: 80, y: 0 },
-    { x: -60, y: 60 }, { x: 60, y: 60 }, { x: 0, y: -60 },
-    { x: -80, y: 30 }, { x: 80, y: 30 },
-  ];
-  const entrance = entrances[index % entrances.length];
-  return (
-    <motion.div ref={ref}
-      initial={{ opacity: 0, x: entrance.x, y: entrance.y, scale: 0.88 }}
-      animate={isInView ? { opacity: 1, x: 0, y: 0, scale: 1 } : {}}
-      transition={{ duration: 0.85, delay: (index % 4) * 0.1, ease: [0.22, 1, 0.36, 1] }}
-      className="group relative overflow-hidden rounded-2xl shadow-xl cursor-zoom-in focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/50"
-      role="button"
-      tabIndex={0}
-      aria-label={`Enlarge photo: ${guest.caption}`}
-      onClick={onOpen}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          onOpen();
-        }
-      }}
-    >
-      <span className="absolute top-3 right-3 z-20 w-8 h-8 rounded-full bg-black/45 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-        <Expand className="w-4 h-4" />
-      </span>
-      <motion.div whileHover={{ scale: 1.02 }}
-        transition={{ type: "spring", stiffness: 250, damping: 22 }}
-        className="w-full h-full">
-        <div className="relative overflow-hidden">
-          <motion.img src={guest.image} alt={guest.caption}
-            className="w-full h-auto block"
-            whileHover={{ scale: 1.1 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/5" />
-          <motion.div className="absolute inset-0 pointer-events-none"
-            style={{ background: "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.09) 50%, transparent 60%)" }}
-            initial={{ x: "-100%" }} whileHover={{ x: "160%" }}
-            transition={{ duration: 0.75, ease: "easeInOut" }}
-          />
-          <div className="absolute bottom-0 left-0 right-0 z-10 p-2 md:p-5">
-            <motion.p className="text-white font-semibold text-[10px] sm:text-xs md:text-sm leading-snug drop-shadow-lg"
-              initial={{ y: 12, opacity: 0.7 }} whileHover={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.35 }}>
-              {guest.caption}
-            </motion.p>
-          </div>
-        </div>
-      </motion.div>
-    </motion.div>
-  );
+/** Pauses an auto-scroller while the visitor touches it, resuming a few seconds after. */
+const useTouchPause = (resumeAfterMs = 4000) => {
+  const [touching, setTouching] = useState(false);
+  const timer = useRef<number>();
+  useEffect(() => () => window.clearTimeout(timer.current), []);
+  return {
+    touching,
+    handlers: {
+      onTouchStart: () => {
+        window.clearTimeout(timer.current);
+        setTouching(true);
+      },
+      onTouchEnd: () => {
+        window.clearTimeout(timer.current);
+        timer.current = window.setTimeout(() => setTouching(false), resumeAfterMs);
+      },
+    },
+  };
 };
 
-// ─── Featured guest: details + horizontally scrollable photo strip ─────────────
+// ─── Featured guest: details + auto-advancing photo strip ──────────────────────
+const STRIP_GAP_PX = 16;
+const STRIP_INTERVAL_MS = 3500;
+
 const FeaturedGuestSection = ({
   guest,
   index,
   onOpen,
+  paused,
 }: {
   guest: FeaturedGuest;
   index: number;
   onOpen: (photoIndex: number) => void;
+  paused: boolean;
 }) => {
   const stripRef = useRef<HTMLDivElement>(null);
+  const [reduced] = useState(prefersReducedMotion);
+  const [hovering, setHovering] = useState(false);
+  const [focused, setFocused] = useState(false);
+  const { touching, handlers } = useTouchPause();
+  const [active, setActive] = useState(0);
+  const [restart, setRestart] = useState(0);
   const reversed = index % 2 === 1;
-  const scrollStrip = (dir: -1 | 1) => {
-    const strip = stripRef.current;
-    if (strip) strip.scrollBy({ left: dir * strip.clientWidth * 0.85, behavior: "smooth" });
-  };
   const multiple = guest.photos.length > 1;
+
+  const stepWidth = () => {
+    const first = stripRef.current?.firstElementChild as HTMLElement | null;
+    return first ? first.offsetWidth + STRIP_GAP_PX : 0;
+  };
+
+  const goTo = (i: number) => {
+    const strip = stripRef.current;
+    if (!strip) return;
+    const n = guest.photos.length;
+    strip.scrollTo({ left: (((i % n) + n) % n) * stepWidth(), behavior: "smooth" });
+    setRestart((r) => r + 1); // manual navigation restarts the auto-advance timer
+  };
+
+  const handleScroll = () => {
+    const strip = stripRef.current;
+    const step = stepWidth();
+    if (!strip || !step) return;
+    const atEnd = strip.scrollLeft + strip.clientWidth >= strip.scrollWidth - 4;
+    setActive(atEnd ? guest.photos.length - 1 : Math.round(strip.scrollLeft / step));
+  };
+
+  // Auto-advance to the next photo; loop back to the first at the end.
+  useEffect(() => {
+    if (!multiple || reduced || paused || hovering || focused || touching) return;
+    const id = window.setInterval(() => {
+      const strip = stripRef.current;
+      if (!strip || document.hidden) return;
+      // Only move while the strip is on screen.
+      const rect = strip.getBoundingClientRect();
+      if (rect.bottom <= 0 || rect.top >= window.innerHeight) return;
+      const atEnd = strip.scrollLeft + strip.clientWidth >= strip.scrollWidth - 4;
+      if (atEnd) strip.scrollTo({ left: 0, behavior: "smooth" });
+      else strip.scrollBy({ left: stepWidth(), behavior: "smooth" });
+    }, STRIP_INTERVAL_MS);
+    return () => window.clearInterval(id);
+  }, [multiple, reduced, paused, hovering, focused, touching, restart]);
 
   return (
     <motion.article
@@ -319,25 +333,46 @@ const FeaturedGuestSection = ({
     >
       <div className="min-w-0">
         <p className="uppercase text-[11px] font-semibold tracking-[0.25em] mb-2" style={{ color: "hsl(var(--primary))" }}>
-          Distinguished Guest
+          {guest.eyebrow ?? "Distinguished Guest"}
         </p>
         <h3 id={`guest-${guest.id}`} className="text-2xl md:text-3xl font-bold text-foreground leading-tight">
           {guest.name}
         </h3>
-        <p className="mt-1 font-semibold text-sm md:text-base" style={{ color: "hsl(var(--primary))" }}>
-          {guest.designation}
-        </p>
+        {guest.designation && (
+          <p className="mt-1 font-semibold text-sm md:text-base" style={{ color: "hsl(var(--primary))" }}>
+            {guest.designation}
+          </p>
+        )}
         <div className="w-14 h-1 rounded-full bg-gold my-4" />
-        <p className="text-muted-foreground text-sm md:text-base leading-relaxed">{guest.event}</p>
+        {guest.event && <p className="text-muted-foreground text-sm md:text-base leading-relaxed">{guest.event}</p>}
+        {guest.highlights && (
+          <ul className="space-y-2 text-sm text-muted-foreground">
+            {guest.highlights.map((h) => (
+              <li key={h} className="flex gap-2.5">
+                <span className="mt-2 w-1.5 h-1.5 rounded-full shrink-0" style={{ background: "hsl(var(--primary))" }} />
+                <span>{h}</span>
+              </li>
+            ))}
+          </ul>
+        )}
         <p className="mt-4 text-xs text-muted-foreground">
           {guest.photos.length} photo{multiple ? "s" : ""} · click a photo to enlarge
         </p>
       </div>
 
-      <div className="relative min-w-0">
+      <div
+        className="relative min-w-0"
+        onMouseEnter={() => setHovering(true)}
+        onMouseLeave={() => setHovering(false)}
+        onFocusCapture={() => setFocused(true)}
+        onBlurCapture={() => setFocused(false)}
+        {...handlers}
+      >
         <div
           ref={stripRef}
-          className="flex gap-4 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          data-guest-strip={guest.id}
+          onScroll={handleScroll}
+          className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           {guest.photos.map((photo, i) => (
             <button
@@ -355,32 +390,57 @@ const FeaturedGuestSection = ({
                 loading="lazy"
                 className="w-full aspect-[3/2] object-cover transition-transform duration-700 group-hover:scale-105"
               />
-              <span className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              <span
+                className={`absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent transition-opacity ${
+                  photo.caption ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+                }`}
+              />
               <span className="absolute top-3 right-3 w-9 h-9 rounded-full bg-black/45 text-white flex items-center justify-center opacity-80 group-hover:opacity-100 transition-opacity">
                 <Expand className="w-4 h-4" />
               </span>
+              {photo.caption && (
+                <span className="absolute bottom-0 left-0 right-0 p-3 md:p-5 text-left text-white font-semibold text-xs md:text-sm leading-snug drop-shadow-lg">
+                  {photo.caption}
+                </span>
+              )}
             </button>
           ))}
         </div>
 
         {multiple && (
-          <div className="mt-3 flex justify-end gap-2">
-            <button
-              type="button"
-              onClick={() => scrollStrip(-1)}
-              aria-label={`Previous photos of ${guest.name}`}
-              className="w-10 h-10 rounded-full border border-border bg-background text-foreground flex items-center justify-center hover:bg-primary hover:text-white hover:border-primary transition-colors"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-            <button
-              type="button"
-              onClick={() => scrollStrip(1)}
-              aria-label={`Next photos of ${guest.name}`}
-              className="w-10 h-10 rounded-full border border-border bg-background text-foreground flex items-center justify-center hover:bg-primary hover:text-white hover:border-primary transition-colors"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
+          <div className="mt-3 flex items-center justify-between gap-3">
+            <div className="flex items-center gap-1.5" role="group" aria-label={`Photos of ${guest.name}`}>
+              {guest.photos.map((photo, i) => (
+                <button
+                  key={photo.src}
+                  type="button"
+                  onClick={() => goTo(i)}
+                  aria-label={`Show photo ${i + 1} of ${guest.photos.length}`}
+                  aria-current={i === active ? "true" : undefined}
+                  className={`h-2 rounded-full transition-all ${
+                    i === active ? "w-6 bg-primary" : "w-2 bg-border hover:bg-primary/50"
+                  }`}
+                />
+              ))}
+            </div>
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => goTo(active - 1)}
+                aria-label={`Previous photo of ${guest.name}`}
+                className="w-10 h-10 rounded-full border border-border bg-background text-foreground flex items-center justify-center hover:bg-primary hover:text-white hover:border-primary transition-colors"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              <button
+                type="button"
+                onClick={() => goTo(active + 1)}
+                aria-label={`Next photo of ${guest.name}`}
+                className="w-10 h-10 rounded-full border border-border bg-background text-foreground flex items-center justify-center hover:bg-primary hover:text-white hover:border-primary transition-colors"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
           </div>
         )}
       </div>
@@ -388,14 +448,40 @@ const FeaturedGuestSection = ({
   );
 };
 
-// ─── Main page ─────────────────────────────────────────────────────────────────
-const gridPhotos: GalleryPhoto[] = guests.map((g) => ({
-  id: g.id,
-  src: g.image,
-  alt: g.caption,
-  category: g.year ? `${g.caption} · ${g.year}` : g.caption,
-}));
+// ─── Older guests grouped by year (same format as the recent guests) ───────────
+const toYearSection = (id: string, name: string, entries: GuestEntry[]): FeaturedGuest => ({
+  id,
+  eyebrow: "Moments in History",
+  name,
+  highlights: entries.map((g) => g.caption),
+  photos: entries.map((g) => ({
+    src: g.image,
+    alt: g.caption,
+    caption: g.year ? `${g.caption} · ${g.year}` : g.caption,
+  })),
+});
 
+const yearSections: FeaturedGuest[] = (() => {
+  const byYear = new Map<string, GuestEntry[]>();
+  for (const g of guests) byYear.set(g.year, [...(byYear.get(g.year) ?? []), g]);
+
+  const dated = [...byYear.entries()].filter(([y]) => y).sort(([a], [b]) => Number(b) - Number(a));
+  const multiYears = dated.filter(([, list]) => list.length > 1);
+  // Years with a single photo are combined so every section has photos to scroll through.
+  const singleYears = dated.filter(([, list]) => list.length === 1);
+
+  const sections = multiYears.map(([year, list]) => toYearSection(`year-${year}`, year, list));
+  if (singleYears.length) {
+    const years = singleYears.map(([y]) => Number(y));
+    const label = `Earlier Years (${Math.min(...years)} – ${Math.max(...years)})`;
+    sections.push(toYearSection("year-earlier", label, singleYears.flatMap(([, list]) => list)));
+  }
+  const undated = byYear.get("") ?? [];
+  if (undated.length) sections.push(toYearSection("year-more", "More Distinguished Guests", undated));
+  return sections;
+})();
+
+// ─── Main page ─────────────────────────────────────────────────────────────────
 export default function Guests() {
   const [lightbox, setLightbox] = useState<LightboxState>(null);
 
@@ -406,7 +492,7 @@ export default function Guests() {
         id: `${guest.id}-${i}`,
         src: p.src,
         alt: p.alt,
-        category: `${guest.name} — ${guest.designation}`,
+        category: p.caption ?? [guest.name, guest.designation].filter(Boolean).join(" — "),
       })),
     });
 
@@ -428,16 +514,22 @@ export default function Guests() {
 
           <div className="space-y-14 md:space-y-20">
             {featuredGuests.map((guest, i) => (
-              <FeaturedGuestSection key={guest.id} guest={guest} index={i} onOpen={(p) => openFeatured(guest, p)} />
+              <FeaturedGuestSection
+                key={guest.id}
+                guest={guest}
+                index={i}
+                paused={lightbox !== null}
+                onOpen={(p) => openFeatured(guest, p)}
+              />
             ))}
           </div>
         </div>
       </section>
 
-      <section className="py-10 md:py-16 bg-background">
-        <div className="container mx-auto px-3 md:px-4 max-w-7xl">
+      <section className="py-12 md:py-20 bg-background">
+        <div className="container mx-auto px-4 max-w-7xl">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }} transition={{ duration: 0.7 }} className="mb-8 md:mb-12 text-center">
+            viewport={{ once: true }} transition={{ duration: 0.7 }} className="mb-10 md:mb-16 text-center">
             <p className="uppercase text-xs font-semibold tracking-[0.25em] mb-3"
               style={{ color: "hsl(var(--primary))" }}>
               Moments in History
@@ -445,9 +537,15 @@ export default function Guests() {
             <h2 className="text-2xl md:text-4xl font-bold text-foreground">Captured in Time</h2>
           </motion.div>
 
-          <div className="grid grid-cols-2 gap-2 md:gap-5">
-            {guests.map((guest, i) => (
-              <GuestCard key={guest.id} guest={guest} index={i} onOpen={() => setLightbox({ photos: gridPhotos, index: i })} />
+          <div className="space-y-14 md:space-y-20">
+            {yearSections.map((section, i) => (
+              <FeaturedGuestSection
+                key={section.id}
+                guest={section}
+                index={i}
+                paused={lightbox !== null}
+                onOpen={(p) => openFeatured(section, p)}
+              />
             ))}
           </div>
         </div>
