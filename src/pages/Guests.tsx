@@ -258,9 +258,10 @@ const useTouchPause = (resumeAfterMs = 4000) => {
   };
 };
 
-// ─── Featured guest: details + auto-advancing photo strip ──────────────────────
+// ─── Featured guest: details + continuously gliding photo strip ────────────────
 const STRIP_GAP_PX = 16;
-const STRIP_INTERVAL_MS = 3500;
+/** Glide speed of the photo strips, in pixels per second. */
+const STRIP_SPEED_PX_S = 45;
 
 const FeaturedGuestSection = ({
   guest,
@@ -279,9 +280,14 @@ const FeaturedGuestSection = ({
   const [focused, setFocused] = useState(false);
   const { touching, handlers } = useTouchPause();
   const [active, setActive] = useState(0);
-  const [restart, setRestart] = useState(0);
+  const [navigating, setNavigating] = useState(false);
+  const navTimer = useRef<number>();
   const reversed = index % 2 === 1;
   const multiple = guest.photos.length > 1;
+  // With several photos the list is rendered twice so the glide loops seamlessly.
+  const looping = multiple && !reduced;
+
+  useEffect(() => () => window.clearTimeout(navTimer.current), []);
 
   const stepWidth = () => {
     const first = stripRef.current?.firstElementChild as HTMLElement | null;
@@ -292,33 +298,50 @@ const FeaturedGuestSection = ({
     const strip = stripRef.current;
     if (!strip) return;
     const n = guest.photos.length;
+    // Hold the glide briefly so the jump to the chosen photo can finish.
+    window.clearTimeout(navTimer.current);
+    setNavigating(true);
+    navTimer.current = window.setTimeout(() => setNavigating(false), 1500);
     strip.scrollTo({ left: (((i % n) + n) % n) * stepWidth(), behavior: "smooth" });
-    setRestart((r) => r + 1); // manual navigation restarts the auto-advance timer
   };
 
   const handleScroll = () => {
     const strip = stripRef.current;
     const step = stepWidth();
     if (!strip || !step) return;
-    const atEnd = strip.scrollLeft + strip.clientWidth >= strip.scrollWidth - 4;
-    setActive(atEnd ? guest.photos.length - 1 : Math.round(strip.scrollLeft / step));
+    const n = guest.photos.length;
+    setActive(Math.round(strip.scrollLeft / step) % n);
   };
 
-  // Auto-advance to the next photo; loop back to the first at the end.
+  // Glide continuously, one photo after another, looping back seamlessly.
   useEffect(() => {
-    if (!multiple || reduced || paused || hovering || focused || touching) return;
-    const id = window.setInterval(() => {
+    if (!looping || paused || hovering || focused || touching || navigating) return;
+    let frame = 0;
+    let last = performance.now();
+    let carry = 0;
+    const tick = (now: number) => {
+      const dt = Math.min(now - last, 64);
+      last = now;
       const strip = stripRef.current;
-      if (!strip || document.hidden) return;
-      // Only move while the strip is on screen.
-      const rect = strip.getBoundingClientRect();
-      if (rect.bottom <= 0 || rect.top >= window.innerHeight) return;
-      const atEnd = strip.scrollLeft + strip.clientWidth >= strip.scrollWidth - 4;
-      if (atEnd) strip.scrollTo({ left: 0, behavior: "smooth" });
-      else strip.scrollBy({ left: stepWidth(), behavior: "smooth" });
-    }, STRIP_INTERVAL_MS);
-    return () => window.clearInterval(id);
-  }, [multiple, reduced, paused, hovering, focused, touching, restart]);
+      if (strip && !document.hidden) {
+        const rect = strip.getBoundingClientRect();
+        // Only move while the strip is on screen.
+        if (rect.bottom > 0 && rect.top < window.innerHeight) {
+          carry += (STRIP_SPEED_PX_S * dt) / 1000;
+          const px = Math.floor(carry);
+          if (px > 0) {
+            carry -= px;
+            strip.scrollLeft += px;
+            const period = stepWidth() * guest.photos.length;
+            if (period > 0 && strip.scrollLeft >= period) strip.scrollLeft -= period;
+          }
+        }
+      }
+      frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, [looping, paused, hovering, focused, touching, navigating, guest.photos.length]);
 
   return (
     <motion.article
@@ -326,8 +349,10 @@ const FeaturedGuestSection = ({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-      className={`grid lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] gap-6 lg:gap-10 items-center ${
-        reversed ? "lg:[&>*:first-child]:order-2" : ""
+      className={`grid gap-6 lg:gap-10 items-center ${
+        reversed
+          ? "lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] lg:[&>*:first-child]:order-2"
+          : "lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]"
       }`}
       aria-labelledby={`guest-${guest.id}`}
     >
@@ -364,7 +389,8 @@ const FeaturedGuestSection = ({
         className="relative min-w-0"
         onMouseEnter={() => setHovering(true)}
         onMouseLeave={() => setHovering(false)}
-        onFocusCapture={() => setFocused(true)}
+        // Only keyboard focus pauses the glide (a mouse click shouldn't freeze it).
+        onFocusCapture={(e) => setFocused((e.target as HTMLElement).matches(":focus-visible"))}
         onBlurCapture={() => setFocused(false)}
         {...handlers}
       >
@@ -372,21 +398,28 @@ const FeaturedGuestSection = ({
           ref={stripRef}
           data-guest-strip={guest.id}
           onScroll={handleScroll}
-          className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className={`flex gap-4 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${
+            looping ? "" : "snap-x snap-mandatory"
+          }`}
         >
-          {guest.photos.map((photo, i) => (
+          {(looping ? [...guest.photos, ...guest.photos] : guest.photos).map((photo, k) => {
+            const i = k % guest.photos.length;
+            const copy = k >= guest.photos.length;
+            return (
             <button
-              key={photo.src}
+              key={`${photo.src}-${k}`}
               type="button"
               onClick={() => onOpen(i)}
-              aria-label={`Enlarge photo: ${photo.alt}`}
+              tabIndex={copy ? -1 : undefined}
+              aria-hidden={copy || undefined}
+              aria-label={copy ? undefined : `Enlarge photo: ${photo.alt}`}
               className={`group relative shrink-0 snap-start overflow-hidden rounded-2xl shadow-xl cursor-zoom-in focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/50 ${
-                multiple ? "w-[85%] sm:w-[70%]" : "w-full"
+                multiple ? "w-[80%] sm:w-[58%]" : "w-full"
               }`}
             >
               <img
                 src={photo.src}
-                alt={photo.alt}
+                alt={copy ? "" : photo.alt}
                 loading="lazy"
                 className="w-full aspect-[3/2] object-cover transition-transform duration-700 group-hover:scale-105"
               />
@@ -404,7 +437,8 @@ const FeaturedGuestSection = ({
                 </span>
               )}
             </button>
-          ))}
+            );
+          })}
         </div>
 
         {multiple && (
