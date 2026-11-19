@@ -6,7 +6,11 @@ import GalleryLightbox from "@/components/gallery/GalleryLightbox";
 import type { GalleryPhoto } from "@/components/gallery/galleryData";
 import guestsHero from "@/assets/guests/guest-modi-golden-jubilee.webp";
 
-import imgModiJubilee from "@/assets/guests/guest-modi-golden-jubilee.webp";
+import imgModiBookRelease from "@/assets/guests/guest-modi-book-release.webp";
+import imgModiStage from "@/assets/guests/guest-modi-stage.webp";
+import imgModiPeta from "@/assets/guests/guest-modi-peta.webp";
+import imgModiMemento from "@/assets/guests/guest-modi-memento.webp";
+import imgModiNamaste from "@/assets/guests/guest-modi-namaste.webp";
 import imgMohanYadav1 from "@/assets/guests/guest-mohan-yadav-1.jpg";
 import imgMohanYadav2 from "@/assets/guests/guest-mohan-yadav-2.jpg";
 import imgSunilSharma1 from "@/assets/guests/guest-sunil-sharma-1.jpg";
@@ -133,9 +137,13 @@ const featuredGuests: FeaturedGuest[] = [
     name: "Shri Narendra Modi",
     designation: "Hon'ble Prime Minister of India",
     event:
-      "Chief Guest at the Golden Jubilee of Prashanti Kutiram & Birth Centenary Commemoration of Mananeeya H. V. Sheshadri Ji — releasing the H. V. Sheshadri literature series.",
+      "Chief Guest at the Golden Jubilee of Prashanti Kutiram & Birth Centenary Commemoration of Mananeeya H. V. Sheshadri Ji, 13 November 2026 — released the H. V. Sheshadri literature series, was felicitated with the Mysore peta by Dr. H R Nagendra and received the Golden Jubilee memento.",
     photos: [
-      { src: imgModiJubilee, alt: "Shri Narendra Modi releasing the H. V. Sheshadri literature series at Prashanti Kutiram" },
+      { src: imgModiBookRelease, alt: "Shri Narendra Modi with Dr. H R Nagendra, releasing 'Mother Awaits' and 'Yugavatara' of the H. V. Sheshadri literature series" },
+      { src: imgModiStage, alt: "Shri Narendra Modi with dignitaries on stage at Prashanti Kutiram for the book release" },
+      { src: imgModiPeta, alt: "Dr. H R Nagendra felicitating Shri Narendra Modi with the Mysore peta and a golden shawl" },
+      { src: imgModiMemento, alt: "Shri Narendra Modi receiving the Golden Jubilee of Prashanti Kutiram memento of Swami Vivekananda" },
+      { src: imgModiNamaste, alt: "Shri Narendra Modi in the Mysore peta offering namaste beside Dr. H R Nagendra" },
     ],
   },
   {
