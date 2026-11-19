@@ -49,30 +49,8 @@ const ProgramCatalog = () => {
   // Group programs by campus and level for section headers
   const groupedPrograms = useMemo(() => {
     const groups: { title: string; programs: Program[] }[] = [];
-    
-    // Global Campus - Undergraduate
-    const globalUG = filteredPrograms.filter(
-      (p) => p.campus === "global" && p.level === "undergraduate"
-    );
-    if (globalUG.length > 0) {
-      groups.push({ title: "Undergraduate — Global City Campus", programs: globalUG });
-    }
 
-    // Global Campus - Postgraduate
-    const globalPG = filteredPrograms.filter(
-      (p) => p.campus === "global" && p.level === "postgraduate"
-    );
-    if (globalPG.length > 0) {
-      groups.push({ title: "Postgraduate — Global City Campus", programs: globalPG });
-    }
-
-    // Global Campus - Ph.D
-    const globalPhD = filteredPrograms.filter(
-      (p) => p.campus === "global" && p.level === "phd"
-    );
-    if (globalPhD.length > 0) {
-      groups.push({ title: "Ph.D — Global City Campus", programs: globalPhD });
-    }
+    // Prashanti Campus programmes are listed first, Global City Campus last.
 
     // Prashanti Campus - Undergraduate
     const prashantiUG = filteredPrograms.filter(
@@ -108,6 +86,30 @@ const ProgramCatalog = () => {
     const distance = filteredPrograms.filter((p) => p.level === "distance");
     if (distance.length > 0) {
       groups.push({ title: "Distance Learning Programs", programs: distance });
+    }
+
+    // Global Campus - Undergraduate
+    const globalUG = filteredPrograms.filter(
+      (p) => p.campus === "global" && p.level === "undergraduate"
+    );
+    if (globalUG.length > 0) {
+      groups.push({ title: "Undergraduate — Global City Campus", programs: globalUG });
+    }
+
+    // Global Campus - Postgraduate
+    const globalPG = filteredPrograms.filter(
+      (p) => p.campus === "global" && p.level === "postgraduate"
+    );
+    if (globalPG.length > 0) {
+      groups.push({ title: "Postgraduate — Global City Campus", programs: globalPG });
+    }
+
+    // Global Campus - Ph.D
+    const globalPhD = filteredPrograms.filter(
+      (p) => p.campus === "global" && p.level === "phd"
+    );
+    if (globalPhD.length > 0) {
+      groups.push({ title: "Ph.D — Global City Campus", programs: globalPhD });
     }
 
     return groups;

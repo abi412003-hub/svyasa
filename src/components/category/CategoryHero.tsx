@@ -154,9 +154,9 @@ const CategoryHero = ({ category, programCount, onExploreClick }: CategoryHeroPr
             <Button
               asChild
               variant="outline"
-              className="border-white text-white hover:bg-white hover:text-secondary rounded-xl px-6 py-2.5">
-              
-              <Link to={applyLink} className="text-secondary">
+              className="bg-white/10 backdrop-blur-sm border-2 border-white/80 text-white hover:bg-gold hover:border-gold hover:text-secondary rounded-xl px-6 py-2.5 transition-all">
+
+              <Link to={applyLink}>
                 Apply Now
               </Link>
             </Button>
