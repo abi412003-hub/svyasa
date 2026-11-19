@@ -61,8 +61,13 @@ const TrainingInstitutions = () => {
                 transition={{ delay: i * 0.1 }}
                 className="bg-card rounded-xl p-5 text-center border border-border/50"
               >
-                <div className="w-14 h-14 rounded-full bg-secondary text-white flex items-center justify-center mx-auto mb-3 text-lg font-bold">
-                  {p.name.slice(0, 2)}
+                <div className="h-16 flex items-center justify-center mx-auto mb-3">
+                  <img
+                    src={p.logo}
+                    alt={`${p.full} logo`}
+                    loading="lazy"
+                    className="max-h-16 max-w-full object-contain"
+                  />
                 </div>
                 <h3 className="font-semibold text-foreground text-sm">{p.name}</h3>
                 <p className="text-muted-foreground text-[10px] mt-0.5">{p.full}</p>

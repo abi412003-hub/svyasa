@@ -1,5 +1,10 @@
 // Training portal course data
 
+import doptLogo from "@/assets/partners/dopt.png";
+import ongcLogo from "@/assets/partners/ongc.png";
+import powergridLogo from "@/assets/partners/powergrid.png";
+import cdotLogo from "@/assets/partners/cdot.gif";
+
 export interface TrainingCourse {
   id: string;
   title: string;
@@ -405,10 +410,10 @@ export const faqData = [
 ];
 
 export const institutionalPartners = [
-  { name: "DOPT", full: "Department of Personnel & Training, Govt. of India" },
-  { name: "ONGC", full: "Oil and Natural Gas Corporation" },
-  { name: "Power Grid", full: "Power Grid Corporation of India" },
-  { name: "CDOT", full: "Centre for Development of Telematics" },
+  { name: "DOPT", full: "Department of Personnel & Training, Govt. of India", logo: doptLogo },
+  { name: "ONGC", full: "Oil and Natural Gas Corporation", logo: ongcLogo },
+  { name: "Power Grid", full: "Power Grid Corporation of India", logo: powergridLogo },
+  { name: "CDOT", full: "Centre for Development of Telematics", logo: cdotLogo },
 ];
 
 export const facultyData = {

@@ -18,9 +18,29 @@ import TestimonialsSection from "@/components/TestimonialsSection";
 import AffiliationsSection from "@/components/AffiliationsSection";
 import CTASection from "@/components/CTASection";
 
+// The intro animation only plays when a visitor first lands on the home page.
+// Clicking "Home" from another page (or returning later in the session) goes
+// straight to the hero slideshow.
+const LANDED_ON_HOME = typeof window !== "undefined" && window.location.pathname === "/";
+let introPlayed = false;
+
+const shouldPlayIntro = () => {
+  if (!LANDED_ON_HOME || introPlayed) return false;
+  try {
+    return !sessionStorage.getItem("svyasa-visited");
+  } catch {
+    return false;
+  }
+};
+
 const Index = () => {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(shouldPlayIntro);
   const [isContentReady, setIsContentReady] = useState(false);
+
+  // Never replay the intro after the first visit to the home page.
+  useEffect(() => {
+    introPlayed = true;
+  }, []);
 
   useEffect(() => {
     // Mark content as ready once images are preloaded
@@ -33,6 +53,7 @@ const Index = () => {
   }, []);
 
   const handleLoaderComplete = () => {
+    introPlayed = true;
     setIsLoading(false);
   };
 
