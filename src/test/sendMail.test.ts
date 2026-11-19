@@ -85,6 +85,38 @@ describe("buildEmail", () => {
   });
 });
 
+describe("course application form", () => {
+  it("accepts the in-site Register form payload and emails all programme details", () => {
+    const r = validatePayload({
+      formType: "apply-prashanti",
+      website: "",
+      fields: {
+        name: "Asha Rao",
+        email: "asha@example.com",
+        mobileNumber: "+91 9876543210",
+        state: "Karnataka",
+        city: "Bengaluru",
+        campus: "Prashanti Kutiram Campus",
+        degreeType: "Under Graduation",
+        programName: "Physiotherapy Programmes",
+        courseName: "Bachelor of Physiotherapy (BPT)",
+        courseDuration: "5 Years",
+        instituteName: "",
+        coursePage: "https://svyasa-new.online/courses/bachelor-of-physiotherapy",
+      },
+    });
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    expect(r.spam).toBe(false);
+    expect(r.payload.fields.instituteName).toBeUndefined();
+    const mail = buildEmail(r.payload);
+    expect(mail.subject).toContain("Prashanti Kutiram Campus");
+    expect(mail.html).toContain("Bachelor of Physiotherapy (BPT)");
+    expect(mail.html).toContain("Mobile Number");
+    expect(recipientFor("apply-prashanti", { MAIL_TO: "inbox@example.com" })).toBe("inbox@example.com");
+  });
+});
+
 describe("site-wide forms", () => {
   const newTypes = [
     "international",

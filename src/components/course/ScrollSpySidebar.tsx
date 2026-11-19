@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface ScrollSpySidebarProps {
+  /** In-site application form path */
   applyLink: string;
   shortTitle: string;
 }
@@ -103,9 +105,9 @@ const ScrollSpySidebar = ({ applyLink, shortTitle }: ScrollSpySidebarProps) => {
               size="sm"
               className="bg-gradient-to-r from-primary to-accent text-white rounded-xl text-[11px] px-3 py-1 h-auto shadow-sm"
             >
-              <a href={applyLink} target="_blank" rel="noopener noreferrer">
+              <Link to={applyLink}>
                 Apply
-              </a>
+              </Link>
             </Button>
           </motion.div>
         )}
@@ -127,10 +129,10 @@ const ScrollSpySidebar = ({ applyLink, shortTitle }: ScrollSpySidebarProps) => {
           size="sm"
           className="bg-gradient-to-r from-primary to-accent text-white rounded-xl shadow-lg shadow-primary/30"
         >
-          <a href={applyLink} target="_blank" rel="noopener noreferrer">
+          <Link to={applyLink}>
             Apply Now
             <ArrowRight className="ml-1 h-3.5 w-3.5" />
-          </a>
+          </Link>
         </Button>
       </motion.div>
     </>

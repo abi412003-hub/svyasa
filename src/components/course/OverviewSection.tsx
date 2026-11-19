@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { getApplyPath } from "@/lib/applyLink";
 import { motion, useReducedMotion, useInView } from "framer-motion";
 import { Clock, GraduationCap, MapPin, ClipboardCheck, IndianRupee, Phone, Quote, ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -155,10 +156,10 @@ const OverviewSection = ({ course }: OverviewSectionProps) => {
                       asChild
                       className="w-full bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white rounded-2xl py-3 text-base shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all hover:scale-[1.02]"
                     >
-                      <a href={course.applyLink} target="_blank" rel="noopener noreferrer">
+                      <Link to={getApplyPath(course)}>
                         Apply Now
                         <ArrowRight className="ml-2 h-5 w-5" />
-                      </a>
+                      </Link>
                     </Button>
                     <Button
                       asChild

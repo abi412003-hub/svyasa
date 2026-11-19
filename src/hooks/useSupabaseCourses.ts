@@ -3,6 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import type { Course, Category, CourseHighlight, CareerPath } from "@/data/courses";
 import {
   staticCategories,
+  staticCourses,
   getStaticCourse,
   getStaticCategory,
   getStaticCategoryForCourse,
@@ -512,4 +513,46 @@ export function useAllCategories() {
   }, []);
 
   return { categories, isLoading };
+}
+
+/**
+ * Everything the application form needs: all published categories and courses
+ * (Supabase merged with the static academics content).
+ */
+export function useApplyCatalog() {
+  const [catalog, setCatalog] = useState<{ categories: Category[]; courses: Course[]; isLoading: boolean }>({
+    categories: [],
+    courses: [],
+    isLoading: true,
+  });
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const [catRes, courseRes] = await Promise.all([
+        supabase.from("categories").select("*").eq("is_published", true),
+        supabase.from("courses").select("*").eq("is_published", true),
+      ]);
+      if (catRes.error) console.error("Apply catalog categories error:", catRes.error);
+      if (courseRes.error) console.error("Apply catalog courses error:", courseRes.error);
+
+      const dbCategories = (catRes.data || []).map(mapCategoryRow);
+      const dbCategorySlugs = new Set(dbCategories.map((c) => c.slug));
+      const categories = [
+        ...dbCategories.map((c) => getStaticCategory(c.slug) ?? c),
+        ...staticCategories.filter((c) => !dbCategorySlugs.has(c.slug)),
+      ];
+
+      const dbCourses = withStaticOverrides((courseRes.data || []).map(mapCourseRow));
+      const dbCourseSlugs = new Set(dbCourses.map((c) => c.slug));
+      const courses = [...dbCourses, ...staticCourses.filter((c) => !dbCourseSlugs.has(c.slug))];
+
+      if (!cancelled) setCatalog({ categories, courses, isLoading: false });
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  return catalog;
 }

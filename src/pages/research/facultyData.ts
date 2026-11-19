@@ -250,17 +250,6 @@ export const facultyData: FacultyProfile[] = [
     section: "staff",
   },
   {
-    id: "kavya",
-    name: "Ms. Kavya Urs",
-    designation: "Research Assistant",
-    qualifications: "B.Sc. Horticulture, M.Sc. Yoga Therapy",
-    photo: `${BASE}/11/95.jpg`,
-    section: "staff",
-    expertise: "Women health and wellness",
-    research:
-      "Present project: JIVA WATER PROJECT — studying modulations in biochemical parameters due to JIVA water on healthy individuals. Testing effect of energised water on biochemical parameters, DNA damage, oxidative stress, and body composition using Gas Discharge Visualization (GDV).",
-  },
-  {
     id: "basavaraj",
     name: "Mr. Basavaraj",
     designation: "Section Officer",

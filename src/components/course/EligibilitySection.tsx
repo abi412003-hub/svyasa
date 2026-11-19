@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from "react";
+import { getApplyPath } from "@/lib/applyLink";
 import { motion, AnimatePresence, useReducedMotion, useInView } from "framer-motion";
 import { CheckCircle, HelpCircle, ArrowRight, RefreshCw, Check, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -286,9 +287,9 @@ const EligibilitySection = ({ course }: EligibilitySectionProps) => {
                           <h4 className="text-2xl font-bold text-emerald-400 mb-2">You're eligible! 🎉</h4>
                           <p className="text-white/70 mb-8">Great news! You meet all the requirements.</p>
                           <Button asChild className="w-full bg-gradient-to-r from-primary to-accent text-white rounded-2xl py-3 shadow-lg">
-                            <a href={course.applyLink} target="_blank" rel="noopener noreferrer">
+                            <Link to={getApplyPath(course)}>
                               Apply Now <ArrowRight className="ml-2 h-4 w-4" />
-                            </a>
+                            </Link>
                           </Button>
                         </>
                       ) : (

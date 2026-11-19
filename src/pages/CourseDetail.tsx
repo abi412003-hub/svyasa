@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { getApplyPath } from "@/lib/applyLink";
 import { useParams, Link } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
 import Layout from "@/components/layout/Layout";
@@ -101,7 +102,7 @@ const CourseDetail = () => {
       <FeeSection course={course} />
       <CourseCTA course={course} />
       <RelatedPrograms relatedCourses={relatedCourses} />
-      <ScrollSpySidebar applyLink={course.applyLink} shortTitle={course.shortTitle} />
+      <ScrollSpySidebar applyLink={getApplyPath(course)} shortTitle={course.shortTitle} />
       <CompareWidget currentCourse={course} categoryCourses={categoryCourses} />
       <div className="h-16 lg:hidden" />
     </Layout>

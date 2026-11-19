@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { getApplyPath } from "@/lib/applyLink";
 import { motion, useReducedMotion, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -88,10 +89,10 @@ const CourseCTA = ({ course }: CourseCTAProps) => {
             asChild
             className="bg-gradient-to-r from-primary to-accent text-white hover:from-primary/90 hover:to-accent/90 rounded-2xl px-10 py-4 text-lg font-semibold hover:scale-105 transition-all shadow-xl shadow-primary/30 group"
           >
-            <a href={course.applyLink} target="_blank" rel="noopener noreferrer">
+            <Link to={getApplyPath(course)}>
               Apply Now
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-            </a>
+            </Link>
           </Button>
 
           <Button

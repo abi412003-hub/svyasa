@@ -2,21 +2,29 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Eye, Target } from "lucide-react";
 import { missionPoints } from "./iicData";
+import visionMissionBg from "@/assets/campus-2.jpg";
 
 const IICVisionMission = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="vision-mission" ref={ref} className="py-16 bg-cream scroll-mt-24">
-      <div className="container mx-auto px-4">
+    <section id="vision-mission" ref={ref} className="relative overflow-hidden py-16 bg-cream scroll-mt-24">
+      {/* Background photo under a light cream wash */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: `url(${visionMissionBg})` }}
+      />
+      <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-br from-cream/90 via-white/80 to-cream/90" />
+      <div className="relative container mx-auto px-4">
         <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {/* Vision Card */}
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6 }}
-            className="bg-white rounded-2xl p-8 shadow-lg border-l-4 border-primary"
+            className="bg-white/95 backdrop-blur-sm rounded-2xl p-8 shadow-lg border-l-4 border-primary"
           >
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
@@ -40,7 +48,7 @@ const IICVisionMission = () => {
             initial={{ opacity: 0, x: 40 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="bg-white rounded-2xl p-8 shadow-lg border-l-4 border-navy"
+            className="bg-white/95 backdrop-blur-sm rounded-2xl p-8 shadow-lg border-l-4 border-navy"
           >
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}

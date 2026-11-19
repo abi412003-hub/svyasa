@@ -1,4 +1,6 @@
 import { useRef } from "react";
+import { getApplyPath } from "@/lib/applyLink";
+import { Link } from "react-router-dom";
 import { motion, useReducedMotion, useInView } from "framer-motion";
 import { Info, ArrowRight, Wallet, Gift } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -245,10 +247,10 @@ const FeeSection = ({ course }: FeeSectionProps) => {
             asChild
             className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white rounded-2xl px-10 py-3 text-base shadow-lg shadow-primary/20 hover:shadow-primary/40 hover:scale-105 transition-all"
           >
-            <a href={course.applyLink} target="_blank" rel="noopener noreferrer">
+            <Link to={getApplyPath(course)}>
               Apply Now
               <ArrowRight className="ml-2 h-5 w-5" />
-            </a>
+            </Link>
           </Button>
         </motion.div>
       </div>

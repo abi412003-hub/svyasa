@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { getApplyPath } from "@/lib/applyLink";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Clock, MapPin, ArrowRight, Download, ChevronDown, HelpCircle, Sparkles } from "lucide-react";
@@ -191,10 +192,10 @@ const CourseHero = ({ course, category }: CourseHeroProps) => {
               asChild
               className="relative bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white rounded-2xl px-8 py-3 text-base group shadow-xl shadow-primary/30 hover:shadow-primary/50 transition-all hover:scale-105"
             >
-              <a href={course.applyLink} target="_blank" rel="noopener noreferrer">
+              <Link to={getApplyPath(course)}>
                 Apply Now
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1.5 transition-transform" />
-              </a>
+              </Link>
             </Button>
             <Button
               asChild

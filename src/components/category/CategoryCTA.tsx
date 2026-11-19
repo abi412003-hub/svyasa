@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { getCategoryApplyPath } from "@/lib/applyLink";
 import { motion, useReducedMotion, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -13,9 +14,7 @@ const CategoryCTA = ({ category }: CategoryCTAProps) => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.3 });
 
-  const applyLink = category.campusType === "prashanti"
-    ? "https://svyasauniversity.dhi-edu.com/svyasa_svyasa/#/instructionPage;formName=pre_admission_registration;tenantId=svyasa_svyasa"
-    : "https://applynow.svyasa.edu.in/";
+  const applyLink = getCategoryApplyPath(category);
 
   const campusLink = category.campusType === "prashanti"
     ? "/prashanti-campus"
@@ -77,9 +76,9 @@ const CategoryCTA = ({ category }: CategoryCTAProps) => {
             asChild
             className="bg-white text-secondary hover:bg-cream rounded-xl px-8 py-3 text-base font-medium hover:scale-105 transition-transform"
           >
-            <a href={applyLink} target="_blank" rel="noopener noreferrer">
+            <Link to={applyLink}>
               Apply Now
-            </a>
+            </Link>
           </Button>
 
           <Button

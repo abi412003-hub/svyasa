@@ -185,7 +185,6 @@ const labs: LabData[] = [
     ],
     faculty: [
       { name: "Mr. Satya Prakash Sharma", designation: "Statistician, MSc", photo: "https://www.svyasa.edu.in/admin/photo/1/faculty/11/98.jpg" },
-      { name: "Ms. Kavya Urs", designation: "Research Assistant, MSc", photo: "https://www.svyasa.edu.in/admin/photo/1/faculty/11/95.jpg" },
     ],
     accentColor: "hsl(var(--saffron))",
     bgColor: "bg-white",

@@ -11,6 +11,17 @@ import { trainingCategories, trainingCourses } from "@/data/trainingData";
 import { useState } from "react";
 import { CODE_SITE } from "@/config/links";
 import trainingHeroBg from "@/assets/yoga-wellness-4.jpg";
+import yogaWellnessCardBg from "@/assets/yoga-wellness-2.jpg";
+import ayurvedaCardBg from "@/assets/course-images/yoga-vedic-01.jpg";
+import governmentCardBg from "@/assets/gcc-campus.jpg";
+import signatureCardBg from "@/assets/prashanti-kutiram-aerial.webp";
+
+const categoryImages: Record<string, string> = {
+  "yoga-wellness": yogaWellnessCardBg,
+  ayurveda: ayurvedaCardBg,
+  "government-psu": governmentCardBg,
+  signature: signatureCardBg,
+};
 
 const categoryIcons: Record<string, React.ElementType> = {
   "Flower2": Flower2,
@@ -138,14 +149,26 @@ const TrainingHome = () => {
                 >
                   <Link
                     to={`/training/courses/${cat.slug}`}
-                    className="block bg-secondary rounded-xl p-6 hover:shadow-large hover:border-primary border-2 border-transparent transition-all duration-300 group"
+                    className="relative block overflow-hidden bg-secondary rounded-xl p-6 hover:shadow-large hover:border-primary border-2 border-transparent transition-all duration-300 group"
                   >
+                    {categoryImages[cat.slug] && (
+                      <img
+                        src={categoryImages[cat.slug]}
+                        alt=""
+                        aria-hidden="true"
+                        loading="lazy"
+                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                    )}
+                    <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-br from-secondary/95 via-secondary/80 to-secondary/50" />
+                    <div className="relative">
                     <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center mb-4">
                       {Icon && <Icon className="w-6 h-6 text-primary" />}
                     </div>
                     <h3 className="font-heading text-lg font-bold text-white mb-1">{cat.title}</h3>
                     <p className="text-white/50 text-sm">{cat.count}</p>
                     <ArrowRight className="w-4 h-4 text-gold mt-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </div>
                   </Link>
                 </motion.div>
               );

@@ -1,4 +1,5 @@
 import { motion, useReducedMotion } from "framer-motion";
+import { getCategoryApplyPath } from "@/lib/applyLink";
 import { Link } from "react-router-dom";
 import { ChevronDown, Clock, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -56,9 +57,7 @@ const CategoryHero = ({ category, programCount, onExploreClick }: CategoryHeroPr
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const applyLink = category.campusType === "prashanti" ?
-  "https://svyasauniversity.dhi-edu.com/svyasa_svyasa/#/instructionPage;formName=pre_admission_registration;tenantId=svyasa_svyasa" :
-  "https://applynow.svyasa.edu.in/";
+  const applyLink = getCategoryApplyPath(category);
 
   return (
     <section className="relative h-[60vh] min-h-[500px] overflow-hidden">
@@ -157,9 +156,9 @@ const CategoryHero = ({ category, programCount, onExploreClick }: CategoryHeroPr
               variant="outline"
               className="border-white text-white hover:bg-white hover:text-secondary rounded-xl px-6 py-2.5">
               
-              <a href={applyLink} target="_blank" rel="noopener noreferrer" className="text-secondary">
+              <Link to={applyLink} className="text-secondary">
                 Apply Now
-              </a>
+              </Link>
             </Button>
           </motion.div>
         </div>
