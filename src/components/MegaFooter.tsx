@@ -46,14 +46,14 @@ const prashanthiPrograms = [
   { label: "MD Yoga", href: "/courses/doctor-of-medicine-yoga" },
   { label: "M.A. Yoga Darshanam", href: "/courses/master-of-arts-yoga-darshanam" },
   { label: "Ph.D Yoga", href: "/courses/phd-yoga" },
-  { label: "Aerial Yoga", href: "/courses/aerial-yoga" },
+  { label: "Aerial Yoga", href: "/courses/aerial-yoga-teacher-training" },
   { label: "YIC", href: "/courses/yoga-instructor-course" },
   { label: "Ayurveda Lifestyle Management", href: "/courses/ayurveda-lifestyle-management" },
   { label: "SMET", href: "/courses/self-management-excessive-tension" },
-  { label: "B.Sc. Yoga (Distance)", href: "https://svyasadde.com/bsc/" },
-  { label: "M.Sc. Yoga (Distance)", href: "https://svyasadde.com/msc/" },
-  { label: "YIC (Distance)", href: "https://svyasadde.com/yic/" },
-  { label: "DYT (Distance)", href: "https://svyasadde.com/dyt/" },
+  { label: "B.Sc. Yoga (Distance)", href: "/courses/bsc-yoga-distance" },
+  { label: "M.Sc. Yoga (Distance)", href: "/courses/msc-yoga-distance" },
+  { label: "YIC (Distance)", href: "/courses/yic-distance" },
+  { label: "DYT (Distance)", href: "/courses/dyt-distance" },
 ];
 
 const socialLinks = [

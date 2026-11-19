@@ -19,7 +19,7 @@ const OverviewSection = ({ course }: OverviewSectionProps) => {
     { icon: GraduationCap, label: "Degree", value: course.degree, gradient: "from-secondary/20 to-teal/10" },
     { icon: MapPin, label: "Campus", value: course.campusType === "gcc" ? "Global City Campus" : "Prashanti Kutiram", gradient: "from-accent/20 to-gold/10" },
     { icon: ClipboardCheck, label: "Eligibility", value: course.eligibility.primary.length > 40 ? course.eligibility.primary.slice(0, 40) + "..." : course.eligibility.primary, gradient: "from-teal/20 to-primary/10" },
-    { icon: IndianRupee, label: "Registration", value: "₹25,000", gradient: "from-gold/20 to-accent/10" },
+    { icon: IndianRupee, label: "Registration", value: course.fee?.registration || "₹25,000", gradient: "from-gold/20 to-accent/10" },
   ];
 
   return (

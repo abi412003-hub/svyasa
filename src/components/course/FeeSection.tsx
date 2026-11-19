@@ -56,6 +56,15 @@ const FeeSection = ({ course }: FeeSectionProps) => {
 
         {/* Full Multi-Column Table */}
         {hasFullTable ? (
+          <div className="space-y-10">
+          {[
+            { table: fee.fullTable!, label: fee.foreignTable ? "Indian Students" : "" },
+            ...(fee.foreignTable && fee.foreignTable.rows.length > 0 ? [{ table: fee.foreignTable, label: "International Students" }] : []),
+          ].map(({ table, label }) => (
+          <div key={label || "fee-table"}>
+          {label && (
+            <h3 className="font-heading text-xl font-bold text-foreground mb-4 text-center">{label}</h3>
+          )}
           <motion.div
             initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -66,10 +75,10 @@ const FeeSection = ({ course }: FeeSectionProps) => {
             <div className="absolute inset-[1px] bg-card rounded-3xl" />
 
             <div className="relative overflow-x-auto rounded-3xl">
-              <table className={`w-full ${fee.fullTable!.headers.length > 3 ? "min-w-[700px]" : ""}`}>
+              <table className={`w-full ${table.headers.length > 3 ? "min-w-[700px]" : ""}`}>
                 <thead>
                   <tr className="bg-gradient-to-r from-secondary to-secondary/90">
-                    {fee.fullTable!.headers.map((header, i) => (
+                    {table.headers.map((header, i) => (
                       <th
                         key={i}
                         className={`px-5 py-4 font-semibold text-white text-sm ${
@@ -83,7 +92,7 @@ const FeeSection = ({ course }: FeeSectionProps) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {fee.fullTable!.rows.map((row, rIdx) => {
+                  {table.rows.map((row, rIdx) => {
                     const isTotal = row[0]?.toLowerCase().includes("total");
                     return (
                     <motion.tr
@@ -104,7 +113,7 @@ const FeeSection = ({ course }: FeeSectionProps) => {
                         >
                           {isAmountCell ? (
                             <span className={`bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent font-bold ${isTotal ? "text-lg" : "text-base"}`}>
-                              {fee.fullTable!.headers[cIdx]?.includes("USD") || cell.includes("$")
+                              {table.headers[cIdx]?.includes("USD") || cell.includes("$")
                                 ? `$${cell.replace(/[^0-9.,]/g, "")}`
                                 : /^\d/.test(cell.replace(/[₹,\s]/g, "")) ? (cell.includes("₹") ? cell : `₹${cell}`) : cell}
                             </span>
@@ -121,6 +130,9 @@ const FeeSection = ({ course }: FeeSectionProps) => {
               </table>
             </div>
           </motion.div>
+          </div>
+          ))}
+          </div>
         ) : (
           /* Simple 2-column fallback */
           <motion.div

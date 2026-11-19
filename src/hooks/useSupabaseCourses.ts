@@ -1,6 +1,32 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import type { Course, Category, CourseHighlight, CareerPath } from "@/data/courses";
+import {
+  staticCategories,
+  getStaticCourse,
+  getStaticCategory,
+  getStaticCategoryForCourse,
+  withStaticOverrides,
+} from "@/data/academicsContent";
+
+// Fetch published courses by slug (DB), merge static courses, keep the given slug order.
+async function fetchCoursesBySlugs(slugs: string[]): Promise<Course[]> {
+  const dbSlugs = slugs.filter((s) => !getStaticCourse(s));
+  let dbCourses: Course[] = [];
+  if (dbSlugs.length > 0) {
+    const { data, error } = await supabase
+      .from("courses")
+      .select("*")
+      .in("slug", dbSlugs)
+      .eq("is_published", true);
+    if (error) console.error("Courses by slugs error:", error);
+    dbCourses = (data || []).map(mapCourseRow);
+  }
+  const bySlug = new Map(dbCourses.map((c) => [c.slug, c]));
+  return slugs
+    .map((s) => getStaticCourse(s) ?? bySlug.get(s))
+    .filter((c): c is Course => Boolean(c));
+}
 
 // Transform DB overview [{heading, body}] to string[]
 function mapOverview(raw: any): string[] {
@@ -262,8 +288,10 @@ export function useCourseBySlug(slug: string | undefined) {
 
   useEffect(() => {
     if (!slug) { setIsLoading(false); return; }
+    const staticCourse = getStaticCourse(slug);
+    if (staticCourse) { setCourse(staticCourse); setIsLoading(false); return; }
     setIsLoading(true);
-    
+
     supabase
       .from("courses")
       .select("*")
@@ -286,6 +314,8 @@ export function useCategoryBySlug(slug: string | undefined) {
 
   useEffect(() => {
     if (!slug) { setIsLoading(false); return; }
+    const staticCategory = getStaticCategory(slug);
+    if (staticCategory) { setCategory(staticCategory); setIsLoading(false); return; }
     setIsLoading(true);
 
     supabase
@@ -312,6 +342,8 @@ export function useCategoryForCourse(courseSlug: string | undefined, courseCateg
 
   useEffect(() => {
     if (!courseSlug) { setIsLoading(false); return; }
+    const staticCategory = getStaticCategoryForCourse(courseSlug, courseCategorySlug);
+    if (staticCategory) { setCategory(staticCategory); setIsLoading(false); return; }
     setIsLoading(true);
 
     const fetchCategory = async () => {
@@ -366,6 +398,14 @@ export function useCoursesByCategory(categorySlug: string | undefined) {
     setIsLoading(true);
 
     const fetchCourses = async () => {
+      // Static category: resolve its program slugs (static + DB)
+      const staticCategory = getStaticCategory(categorySlug);
+      if (staticCategory) {
+        setCourses(await fetchCoursesBySlugs(staticCategory.programSlugs));
+        setIsLoading(false);
+        return;
+      }
+
       // First try: direct match on courses.category
       const { data: direct } = await supabase
         .from("courses")
@@ -374,7 +414,7 @@ export function useCoursesByCategory(categorySlug: string | undefined) {
         .eq("is_published", true);
 
       if (direct && direct.length > 0) {
-        setCourses(direct.map(mapCourseRow));
+        setCourses(withStaticOverrides(direct.map(mapCourseRow)));
         setIsLoading(false);
         return;
       }
@@ -393,7 +433,7 @@ export function useCoursesByCategory(categorySlug: string | undefined) {
           .in("slug", cat.program_slugs as string[])
           .eq("is_published", true);
         if (error) console.error("Courses by category slugs error:", error);
-        setCourses((bySlug || []).map(mapCourseRow));
+        setCourses(withStaticOverrides((bySlug || []).map(mapCourseRow)));
       } else {
         setCourses([]);
       }
@@ -415,18 +455,21 @@ export function useRelatedCourses(slug: string | undefined, category: string | u
     const fetchRelated = async () => {
       let results: Course[] = [];
 
-      // First, fetch explicitly related programs
+      // First, fetch explicitly related programs (static or DB)
       if (relatedSlugs.length > 0) {
-        const { data } = await supabase
-          .from("courses")
-          .select("*")
-          .in("slug", relatedSlugs)
-          .eq("is_published", true);
-        if (data) results = data.map(mapCourseRow);
+        results = await fetchCoursesBySlugs(relatedSlugs);
+      }
+
+      // Static category: fill from its own program list
+      const staticCategory = getStaticCategory(category);
+      if (results.length < limit && staticCategory) {
+        const exclude = new Set([slug, ...results.map((c) => c.slug)]);
+        const more = await fetchCoursesBySlugs(staticCategory.programSlugs.filter((s) => !exclude.has(s)));
+        results = [...results, ...more];
       }
 
       // If not enough, fill from same category
-      if (results.length < limit) {
+      if (results.length < limit && !staticCategory) {
         const excludeSlugs = [slug, ...relatedSlugs];
         const { data } = await supabase
           .from("courses")
@@ -458,7 +501,12 @@ export function useAllCategories() {
       .eq("is_published", true)
       .then(({ data, error }) => {
         if (error) console.error("Categories fetch error:", error);
-        setCategories((data || []).map(mapCategoryRow));
+        const dbCategories = (data || []).map(mapCategoryRow);
+        const dbSlugs = new Set(dbCategories.map((c) => c.slug));
+        setCategories([
+          ...dbCategories.map((c) => getStaticCategory(c.slug) ?? c),
+          ...staticCategories.filter((c) => !dbSlugs.has(c.slug)),
+        ]);
         setIsLoading(false);
       });
   }, []);

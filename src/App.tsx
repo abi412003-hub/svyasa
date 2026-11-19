@@ -191,7 +191,16 @@ const App = () => (
           
           {/* D.Sc., D.Litt */}
           <Route path="/dlit" element={<Navigate to="/courses/dsc-dlitt" replace />} />
-          
+
+          {/* Academics section landing pages (official URL names) */}
+          <Route path="/undergraduate" element={<Navigate to="/programs/undergraduate" replace />} />
+          <Route path="/postgraduate" element={<Navigate to="/programs/postgraduate" replace />} />
+          <Route path="/physiotherapy" element={<Navigate to="/programs/physiotherapy" replace />} />
+          <Route path="/master-of-physiotherapy" element={<Navigate to="/courses/master-of-physiotherapy" replace />} />
+          <Route path="/distance-learning" element={<Navigate to="/programs/distance-learning" replace />} />
+          <Route path="/yoga-acadamic-program" element={<Navigate to="/programs/yoga-programmes" replace />} />
+          <Route path="/phd-acadamic-programs" element={<Navigate to="/programs/phd-programmes" replace />} />
+
           {/* Yoga Programs redirects */}
           <Route path="/yoga-programs" element={<Navigate to="/programs/yoga-programmes" replace />} />
           <Route path="/ayurveda-lifestyle-management-course" element={<Navigate to="/courses/ayurveda-lifestyle-management" replace />} />
@@ -208,7 +217,7 @@ const App = () => (
           <Route path="/phd-yoga" element={<Navigate to="/courses/phd-yoga" replace />} />
           <Route path="/self-management-of-excessive-tension" element={<Navigate to="/courses/self-management-excessive-tension" replace />} />
           <Route path="/division-of-yoga-and-humanities" element={<Navigate to="/courses/division-yoga-humanities" replace />} />
-          <Route path="/aerial-yoga-teacher-training-course" element={<Navigate to="/courses/aerial-yoga" replace />} />
+          <Route path="/aerial-yoga-teacher-training-course" element={<Navigate to="/courses/aerial-yoga-teacher-training" replace />} />
           <Route path="/personality-development-camp" element={<ComingSoon />} />
           <Route path="/personality-development-camp-for-children" element={<ComingSoon />} />
           <Route path="/himalaya-yoga-olympiad" element={<ComingSoon />} />
@@ -216,7 +225,7 @@ const App = () => (
           <Route path="/spec" element={<ComingSoon />} />
           
           {/* Ph.D Programs redirects */}
-          <Route path="/phd-programs" element={<Navigate to="/programs/phd" replace />} />
+          <Route path="/phd-programs" element={<Navigate to="/programs/phd-programmes" replace />} />
           <Route path="/doctor-of-philosophy-in-computer-science" element={<Navigate to="/courses/phd-computer-science" replace />} />
           <Route path="/doctor-of-philosophy-in-computer-science-and-engineering" element={<Navigate to="/courses/phd-computer-science-engineering" replace />} />
           <Route path="/doctor-of-philosophy-in-management-and-commerce" element={<Navigate to="/courses/phd-commerce-management" replace />} />
