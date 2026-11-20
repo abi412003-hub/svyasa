@@ -1,5 +1,6 @@
-import { motion, useInView, Variants, AnimatePresence } from "framer-motion";
-import { ChevronDown, X, Award, BookOpen, FlaskConical, Star, User, Linkedin, Search, Filter } from "lucide-react";
+import { motion, useInView, Variants } from "framer-motion";
+import { ChevronDown, Search, Filter, User } from "lucide-react";
+import { FacultyAvatar, FacultyProfileModal } from "@/components/faculty/FacultyProfileModal";
 import { useRef, useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import Layout from "@/components/layout/Layout";
@@ -32,112 +33,6 @@ const stagger: Variants = {
   visible: { transition: { staggerChildren: 0.05 } },
 };
 
-function avatarUrl(name: string) {
-  return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=1a3d6b&color=fff&size=160&bold=true`;
-}
-
-function FacultyAvatar({ photo, name, size = "lg" }: { photo?: string; name: string; size?: "sm" | "md" | "lg" | "xl" }) {
-  const [err, setErr] = useState(false);
-  const sizeClass = { sm: "w-12 h-12", md: "w-16 h-16", lg: "w-24 h-24", xl: "w-36 h-36" }[size];
-  const src = (!photo || err) ? avatarUrl(name) : photo;
-  return <img src={src} alt={name} className={`${sizeClass} rounded-full object-cover border-2 border-border`} onError={() => setErr(true)} />;
-}
-
-/* ── Faculty Modal ── */
-function FacultyModal({ member, onClose }: { member: FacultyProfile; onClose: () => void }) {
-  return (
-    <AnimatePresence>
-      <motion.div
-        key="backdrop"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className="fixed inset-0 bg-black/60 z-50 flex items-center justify-end"
-        onClick={onClose}
-      >
-        <motion.aside
-          key="drawer"
-          initial={{ x: "100%" }}
-          animate={{ x: 0 }}
-          exit={{ x: "100%" }}
-          transition={{ type: "spring", damping: 30, stiffness: 300 }}
-          className="relative bg-white h-full w-full max-w-xl overflow-y-auto shadow-2xl"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <div className="sticky top-0 z-10 px-8 pt-8 pb-6" style={{ background: "linear-gradient(160deg, hsl(210 60% 12%), hsl(180 45% 22%))" }}>
-            <button onClick={onClose} className="absolute top-5 right-5 text-white/60 hover:text-white transition-colors p-1"><X size={22} /></button>
-            <div className="flex items-center gap-5">
-              <div className="rounded-full overflow-hidden border-2 border-white/30 w-20 h-20 shrink-0">
-                <FacultyAvatar photo={member.photo} name={member.name} size="lg" />
-              </div>
-              <div>
-                <p className="text-[hsl(var(--saffron-light))] text-xs font-semibold uppercase tracking-widest mb-1">{member.category}</p>
-                <h2 className="text-white font-['Playfair_Display',serif] text-xl font-bold leading-snug mb-1">{member.name}</h2>
-                <p className="text-white/70 text-sm">{member.designation}</p>
-                {member.department && <p className="text-white/50 text-xs mt-0.5">{member.department}</p>}
-                {member.linkedin_url && (
-                  <a href={member.linkedin_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-white/60 hover:text-white text-xs mt-1 transition-colors">
-                    <Linkedin size={12} /> LinkedIn
-                  </a>
-                )}
-              </div>
-            </div>
-            {member.qualifications && (
-              <div className="mt-4 flex flex-wrap gap-2">
-                <span className="inline-flex items-center gap-1.5 bg-white/10 text-white/80 text-xs px-3 py-1.5 rounded-full border border-white/20">
-                  <Star size={11} />{member.qualifications}
-                </span>
-              </div>
-            )}
-          </div>
-          <div className="px-8 py-8 space-y-8">
-            {member.bio && (
-              <div>
-                <div className="flex items-center gap-2 mb-3"><User className="text-[hsl(var(--teal))]" size={18} /><h3 className="font-semibold text-[hsl(var(--navy))] text-base">About</h3></div>
-                <p className="text-sm text-muted-foreground leading-relaxed">{member.bio}</p>
-              </div>
-            )}
-            {member.achievements && member.achievements.length > 0 && (
-              <div>
-                <div className="flex items-center gap-2 mb-4"><Award className="text-[hsl(var(--saffron))]" size={18} /><h3 className="font-semibold text-[hsl(var(--navy))] text-base">Achievements</h3></div>
-                <ul className="space-y-2.5">{member.achievements.map((a, i) => (
-                  <li key={i} className="flex items-start gap-2.5 text-sm text-muted-foreground leading-relaxed"><span className="mt-2 w-1.5 h-1.5 rounded-full bg-[hsl(var(--saffron))] shrink-0" />{a}</li>
-                ))}</ul>
-              </div>
-            )}
-            {member.expertise && (
-              <div>
-                <div className="flex items-center gap-2 mb-3"><FlaskConical className="text-[hsl(var(--teal))]" size={18} /><h3 className="font-semibold text-[hsl(var(--navy))] text-base">Area of Expertise</h3></div>
-                <p className="text-sm text-muted-foreground leading-relaxed">{member.expertise}</p>
-              </div>
-            )}
-            {member.research && (
-              <div>
-                <div className="flex items-center gap-2 mb-3"><FlaskConical className="text-[hsl(var(--navy))]" size={18} /><h3 className="font-semibold text-[hsl(var(--navy))] text-base">Research</h3></div>
-                <p className="text-sm text-muted-foreground leading-relaxed">{member.research}</p>
-              </div>
-            )}
-            {member.publications && member.publications.length > 0 && (
-              <div>
-                <div className="flex items-center gap-2 mb-4"><BookOpen className="text-[hsl(var(--teal))]" size={18} /><h3 className="font-semibold text-[hsl(var(--navy))] text-base">Publications</h3></div>
-                <ul className="space-y-3">{member.publications.map((p, i) => (
-                  <li key={i} className="flex items-start gap-2.5 text-sm text-muted-foreground leading-relaxed border-l-2 border-[hsl(var(--teal))]/30 pl-3">{p}</li>
-                ))}</ul>
-              </div>
-            )}
-            {!member.bio && !member.achievements && !member.expertise && !member.research && !member.publications && (
-              <div className="text-center py-12 text-muted-foreground">
-                <User className="mx-auto mb-3 opacity-30" size={40} />
-                <p className="text-sm">Full profile details coming soon.</p>
-              </div>
-            )}
-          </div>
-        </motion.aside>
-      </motion.div>
-    </AnimatePresence>
-  );
-}
-
 /* ── Faculty Card ── */
 function FacultyCard({ member, onClick, large = false }: { member: FacultyProfile; onClick: () => void; large?: boolean }) {
   if (large) {
@@ -150,7 +45,7 @@ function FacultyCard({ member, onClick, large = false }: { member: FacultyProfil
       >
         <div className="pt-8 pb-6 px-6 flex flex-col items-center text-center">
           <div className="rounded-full overflow-hidden border-4 border-[hsl(var(--cream))] group-hover:border-[hsl(var(--saffron))]/30 transition-colors w-36 h-36 mb-4 shadow-md">
-            <FacultyAvatar photo={member.photo} name={member.name} size="xl" />
+            <FacultyAvatar photo={member.photo} name={member.name} size="fill" />
           </div>
           <h3 className="font-['Playfair_Display',serif] text-lg text-[hsl(var(--navy))] font-bold leading-tight mb-1">{member.name}</h3>
           <p className="text-[hsl(var(--teal))] text-sm font-medium mb-1">{member.designation}</p>
@@ -373,7 +268,12 @@ export default function Faculty() {
         )}
       </div>
 
-      {selected && <FacultyModal member={selected} onClose={() => setSelected(null)} />}
+      {selected && (
+        <FacultyProfileModal
+          member={{ ...selected, groupLabel: selected.category || "Faculty" }}
+          onClose={() => setSelected(null)}
+        />
+      )}
     </Layout>
   );
 }

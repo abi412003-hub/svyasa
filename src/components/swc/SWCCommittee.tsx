@@ -1,5 +1,6 @@
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { FacultyProfileModal } from "@/components/faculty/FacultyProfileModal";
 
 const committeeMembers = [
   {
@@ -43,7 +44,15 @@ const AnimatedRing = ({ gradient, size }: { gradient: string; size: number }) =>
   </motion.div>
 );
 
-const MemberCard = ({ member, index }: { member: typeof committeeMembers[0]; index: number }) => {
+const MemberCard = ({
+  member,
+  index,
+  onOpen,
+}: {
+  member: typeof committeeMembers[0];
+  index: number;
+  onOpen: () => void;
+}) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
   const size = member.isFeatured ? 200 : 160;
@@ -51,7 +60,17 @@ const MemberCard = ({ member, index }: { member: typeof committeeMembers[0]; ind
   return (
     <motion.div
       ref={ref}
-      className={`text-center ${member.isFeatured ? "col-span-full mb-8" : ""}`}
+      role="button"
+      tabIndex={0}
+      aria-label={`View profile of ${member.name}`}
+      onClick={onOpen}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onOpen();
+        }
+      }}
+      className={`text-center cursor-pointer rounded-2xl focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/40 ${member.isFeatured ? "col-span-full mb-8" : ""}`}
       initial={{ opacity: 0, y: 30 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.6, delay: member.delay }}
@@ -120,6 +139,7 @@ const MemberCard = ({ member, index }: { member: typeof committeeMembers[0]; ind
 };
 
 const SWCCommittee = () => {
+  const [selected, setSelected] = useState<typeof committeeMembers[0] | null>(null);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
@@ -167,17 +187,30 @@ const SWCCommittee = () => {
         <div className="max-w-3xl mx-auto">
           {/* Featured member */}
           {committeeMembers.filter(m => m.isFeatured).map((member, index) => (
-            <MemberCard key={member.name} member={member} index={index} />
+            <MemberCard key={member.name} member={member} index={index} onOpen={() => setSelected(member)} />
           ))}
 
           {/* Other members row */}
           <div className="grid sm:grid-cols-2 gap-8">
             {committeeMembers.filter(m => !m.isFeatured).map((member, index) => (
-              <MemberCard key={member.name} member={member} index={index} />
+              <MemberCard key={member.name} member={member} index={index} onOpen={() => setSelected(member)} />
             ))}
           </div>
         </div>
       </div>
+      {selected && (
+        <FacultyProfileModal
+          member={{
+            id: selected.name,
+            name: selected.name,
+            designation: selected.designation,
+            department: selected.department,
+            photo: selected.image,
+            groupLabel: "Student Welfare Committee",
+          }}
+          onClose={() => setSelected(null)}
+        />
+      )}
     </section>
   );
 };

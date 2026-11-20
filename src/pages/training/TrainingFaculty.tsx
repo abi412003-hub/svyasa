@@ -1,14 +1,28 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
+import { FacultyProfileModal } from "@/components/faculty/FacultyProfileModal";
 import { Link } from "react-router-dom";
 import { facultyData } from "@/data/trainingData";
 
-const FacultyCard = ({ person, delay }: { person: { name: string; designation: string; brief: string; tags: string[] }; delay: number }) => (
+type TrainingPerson = { name: string; designation: string; brief: string; tags: string[] };
+
+const FacultyCard = ({ person, delay, onOpen }: { person: TrainingPerson; delay: number; onOpen: () => void }) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
     transition={{ delay }}
-    className="bg-card rounded-xl border border-border/50 p-5 hover:shadow-medium transition-shadow"
+    role="button"
+    tabIndex={0}
+    aria-label={`View profile of ${person.name}`}
+    onClick={onOpen}
+    onKeyDown={(e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        onOpen();
+      }
+    }}
+    className="bg-card rounded-xl border border-border/50 p-5 hover:shadow-medium hover:border-primary/40 transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/40"
   >
     <div className="w-14 h-14 rounded-full bg-secondary text-white flex items-center justify-center text-lg font-bold mb-3">
       {person.name.split(" ").map((w) => w[0]).join("").slice(0, 2)}
@@ -30,7 +44,10 @@ const sections = [
   { title: "Industry & PSU Trainers", subtitle: "Specializing in government and corporate wellness", data: facultyData.industry },
 ];
 
-const TrainingFaculty = () => (
+const TrainingFaculty = () => {
+  const [selected, setSelected] = useState<{ person: TrainingPerson; group: string } | null>(null);
+
+  return (
   <>
     <section className="py-20 bg-secondary">
       <div className="container mx-auto px-4 text-center">
@@ -50,13 +67,32 @@ const TrainingFaculty = () => (
           <p className="text-muted-foreground text-sm mb-8">{section.subtitle}</p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {section.data.map((person, i) => (
-              <FacultyCard key={person.name} person={person} delay={i * 0.08} />
+              <FacultyCard
+                key={person.name}
+                person={person}
+                delay={i * 0.08}
+                onOpen={() => setSelected({ person, group: section.title })}
+              />
             ))}
           </div>
         </div>
       </section>
     ))}
+    {selected && (
+      <FacultyProfileModal
+        member={{
+          id: selected.person.name,
+          name: selected.person.name,
+          designation: selected.person.designation,
+          bio: selected.person.brief,
+          expertise: selected.person.tags.join(", "),
+          groupLabel: selected.group,
+        }}
+        onClose={() => setSelected(null)}
+      />
+    )}
   </>
-);
+  );
+};
 
 export default TrainingFaculty;

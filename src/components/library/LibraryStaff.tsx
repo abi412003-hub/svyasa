@@ -1,8 +1,9 @@
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Mail, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { libraryStaff } from "./libraryData";
+import { FacultyProfileModal } from "@/components/faculty/FacultyProfileModal";
 import libraryStudents2 from "@/assets/library-students-2.jpg";
 import libraryDesk1 from "@/assets/library-desk-1.jpg";
 import libraryDesk2 from "@/assets/library-desk-2.jpg";
@@ -10,6 +11,9 @@ import libraryDesk2 from "@/assets/library-desk-2.jpg";
 const LibraryStaff = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [selected, setSelected] = useState<{ staff: (typeof libraryStaff)[0]; photo: string } | null>(null);
+  const photoFor = (i: number) =>
+    `https://images.unsplash.com/photo-${i === 0 ? "1472099645785-5658abf4ff4e" : "1494790108377-be9c29b29330"}?w=200&q=80`;
 
   return (
     <div ref={ref} className="space-y-12">
@@ -30,7 +34,17 @@ const LibraryStaff = () => {
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ delay: 0.2 + i * 0.2, type: "spring", bounce: 0.3 }}
             whileHover={{ y: -8 }}
-            className="group bg-white rounded-2xl p-8 shadow-lg text-center hover:shadow-xl transition-all"
+            role="button"
+            tabIndex={0}
+            aria-label={`View profile of ${staff.name}`}
+            onClick={() => setSelected({ staff, photo: photoFor(i) })}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                setSelected({ staff, photo: photoFor(i) });
+              }
+            }}
+            className="group bg-white rounded-2xl p-8 shadow-lg text-center hover:shadow-xl transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/40"
           >
             {/* Photo with ring */}
             <div className="relative w-36 h-36 mx-auto mb-6">
@@ -60,7 +74,7 @@ const LibraryStaff = () => {
                 className="absolute inset-2 rounded-full overflow-hidden bg-cream"
               >
                 <img
-                  src={`https://images.unsplash.com/photo-${i === 0 ? "1472099645785-5658abf4ff4e" : "1494790108377-be9c29b29330"}?w=200&q=80`}
+                  src={photoFor(i)}
                   alt={staff.name}
                   className="w-full h-full object-cover"
                 />
@@ -94,6 +108,7 @@ const LibraryStaff = () => {
             </motion.p>
             <motion.a
               href={`mailto:${staff.email}`}
+              onClick={(e) => e.stopPropagation()}
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 1 } : {}}
               transition={{ delay: 0.8 + i * 0.2 }}
@@ -145,6 +160,21 @@ const LibraryStaff = () => {
           <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
         </Link>
       </motion.div>
+
+      {selected && (
+        <FacultyProfileModal
+          member={{
+            id: selected.staff.name,
+            name: selected.staff.name,
+            designation: selected.staff.designation,
+            qualifications: selected.staff.qualifications,
+            photo: selected.photo,
+            department: `Email: ${selected.staff.email}`,
+            groupLabel: "Library Staff",
+          }}
+          onClose={() => setSelected(null)}
+        />
+      )}
     </div>
   );
 };

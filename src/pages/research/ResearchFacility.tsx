@@ -5,10 +5,12 @@ import lab3Img from "@/assets/labs/lab-3-cognitive.png";
 import lab4Img from "@/assets/labs/lab-4-psychology.jpg";
 import lab5Img from "@/assets/labs/lab-5-bio.jpg";
 import { ChevronDown, FlaskConical, Brain, Activity, BookOpen, Zap, CheckCircle2, Cpu } from "lucide-react";
-import { useRef } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import Layout from "@/components/layout/Layout";
 import ResearchSubNav from "@/components/research/ResearchSubNav";
+import { FacultyProfileModal, type FacultyProfile } from "@/components/faculty/FacultyProfileModal";
+import { supabase } from "@/integrations/supabase/client";
 
 /* ── Variants ── */
 const fadeUp: Variants = {
@@ -192,15 +194,32 @@ const labs: LabData[] = [
   },
 ];
 
+/* ── Faculty profile window ──
+   Lab cards open the shared profile window. Details are filled in from the
+   faculty database when the name matches a published profile. */
+const OpenProfileContext = createContext<(member: FacultyMember) => void>(() => {});
+
+const normaliseName = (name: string) =>
+  name
+    .toLowerCase()
+    .replace(/\b(dr|mr|ms|mrs|prof)\.?\s*/g, "")
+    .replace(/[^a-z]/g, "");
+
 /* ── Faculty Card ── */
 function FacultyCard({ member }: { member: FacultyMember }) {
+  const openProfile = useContext(OpenProfileContext);
   return (
-    <Link to="/research/faculty" className="flex flex-col items-center text-center group w-40 md:w-48 shrink-0">
-      <div className="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-border group-hover:border-[hsl(var(--saffron))] transition-colors duration-200 shadow-md mb-3">
+    <button
+      type="button"
+      onClick={() => openProfile(member)}
+      aria-label={`View profile of ${member.name}`}
+      className="flex flex-col items-center text-center group w-40 md:w-48 shrink-0 focus-visible:outline-none"
+    >
+      <div className="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-border group-hover:border-[hsl(var(--saffron))] group-focus-visible:border-[hsl(var(--saffron))] transition-colors duration-200 shadow-md mb-3">
         <img
           src={member.photo}
           alt={member.name}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover object-[center_20%]"
           onError={(e) => {
             (e.currentTarget as HTMLImageElement).src =
               `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=1a3d6b&color=fff&size=160`;
@@ -209,7 +228,10 @@ function FacultyCard({ member }: { member: FacultyMember }) {
       </div>
       <p className="text-[hsl(var(--navy))] font-semibold text-sm leading-tight mb-1">{member.name}</p>
       <p className="text-[hsl(var(--muted-foreground))] text-xs leading-tight">{member.designation}</p>
-    </Link>
+      <span className="mt-2 text-[11px] font-semibold text-[hsl(var(--saffron))] opacity-0 group-hover:opacity-100 transition-opacity">
+        View Profile →
+      </span>
+    </button>
   );
 }
 
@@ -362,10 +384,58 @@ function LabSection({ lab, index }: { lab: LabData; index: number }) {
 
 /* ── Page ── */
 export default function ResearchFacility() {
+  const [selected, setSelected] = useState<FacultyProfile | null>(null);
+  const [profiles, setProfiles] = useState<Map<string, FacultyProfile>>(new Map());
+
+  useEffect(() => {
+    supabase
+      .from("faculty_profiles")
+      .select("*")
+      .eq("is_published", true)
+      .then(({ data }) => {
+        if (!data) return;
+        // The same person can appear more than once; keep the most complete profile.
+        const detail = (p: FacultyProfile) =>
+          [p.bio, p.achievements, p.expertise, p.research, p.publications, p.photo].filter(Boolean).length;
+        const byName = new Map<string, FacultyProfile>();
+        for (const d of data) {
+          const profile: FacultyProfile = {
+            id: d.id,
+            name: d.name,
+            designation: d.designation || "",
+            qualifications: d.qualifications || "",
+            photo: d.photo_url || undefined,
+            bio: d.bio || undefined,
+            achievements: d.achievements ? d.achievements.split("\n").filter(Boolean) : undefined,
+            expertise: (d.area_of_expertise as string[] | null)?.join(", ") || undefined,
+            research: d.research || undefined,
+            publications: d.publications ? d.publications.split("\n").filter(Boolean) : undefined,
+            linkedin_url: d.linkedin_url || undefined,
+          };
+          const key = normaliseName(d.name);
+          const existing = byName.get(key);
+          if (!existing || detail(profile) > detail(existing)) byName.set(key, profile);
+        }
+        setProfiles(byName);
+      });
+  }, []);
+
+  const openProfile = (member: FacultyMember) => {
+    const fromDb = profiles.get(normaliseName(member.name));
+    setSelected({
+      ...(fromDb ?? { id: member.name, name: member.name, designation: member.designation }),
+      // Keep the lab card's photo when the database has none.
+      photo: fromDb?.photo ?? member.photo,
+      designation: fromDb?.designation || member.designation,
+      groupLabel: "Anvesana Research Labs",
+    });
+  };
+
   const introRef = useRef<HTMLDivElement>(null);
   const introInView = useInView(introRef, { once: true, margin: "-80px" });
 
   return (
+    <OpenProfileContext.Provider value={openProfile}>
     <Layout>
       <ResearchSubNav />
       {/* Hero Banner */}
@@ -531,6 +601,8 @@ export default function ResearchFacility() {
           </motion.div>
         </motion.div>
       </section>
+      {selected && <FacultyProfileModal member={selected} onClose={() => setSelected(null)} />}
     </Layout>
+    </OpenProfileContext.Provider>
   );
 }

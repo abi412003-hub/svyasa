@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight, X, ArrowRight } from "lucide-react";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
+import { FacultyProfileModal } from "@/components/faculty/FacultyProfileModal";
 
 const faculty = [
   {
@@ -146,7 +147,19 @@ const PKFaculty = () => {
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <div className="relative bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 group-hover:-translate-y-2">
+                  <div
+                    role="button"
+                    tabIndex={0}
+                    aria-label={`View profile of ${member.name}`}
+                    onClick={() => setSelectedFaculty(member)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        setSelectedFaculty(member);
+                      }
+                    }}
+                    className="relative bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 group-hover:-translate-y-2 cursor-pointer focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/40"
+                  >
                     {/* Animated top border on hover */}
                     <motion.div
                       className="absolute top-0 left-0 h-1 bg-primary z-10"
@@ -160,7 +173,7 @@ const PKFaculty = () => {
                       <motion.img
                         src={member.image}
                         alt={member.name}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover object-[center_20%]"
                         whileHover={{ scale: 1.06 }}
                         transition={{ duration: 0.4 }}
                       />
@@ -175,7 +188,10 @@ const PKFaculty = () => {
                         {member.designation}
                       </p>
                       <button
-                        onClick={() => setSelectedFaculty(member)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedFaculty(member);
+                        }}
                         className="text-primary text-sm font-medium hover:underline flex items-center gap-1 group/link"
                       >
                         Read more
@@ -197,8 +213,8 @@ const PKFaculty = () => {
           viewport={{ once: true }}
           transition={{ delay: 0.5 }}
         >
-          <a
-            href="/research-faculty"
+          <Link
+            to="/research/faculty"
             className="inline-flex items-center gap-2 text-primary font-medium hover:underline group"
           >
             View all faculties
@@ -208,52 +224,25 @@ const PKFaculty = () => {
             >
               <ArrowRight className="w-4 h-4" />
             </motion.span>
-          </a>
+          </Link>
         </motion.div>
       </div>
 
       {/* Faculty modal */}
-      <Dialog open={!!selectedFaculty} onOpenChange={() => setSelectedFaculty(null)}>
-        <DialogContent className="max-w-lg">
-          <AnimatePresence>
-            {selectedFaculty && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                className="space-y-6"
-              >
-                <div className="relative h-64 rounded-xl overflow-hidden">
-                  <img
-                    src={selectedFaculty.image}
-                    alt={selectedFaculty.name}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div>
-                  <h3 className="font-playfair text-2xl font-bold text-secondary mb-1">
-                    {selectedFaculty.name}
-                  </h3>
-                  <p className="text-accent font-medium mb-1">
-                    {selectedFaculty.designation}
-                  </p>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    Prashanti Kutiram
-                  </p>
-                  <div className="border-t border-border pt-4">
-                    <h4 className="font-semibold text-secondary mb-2">
-                      Educational Qualifications
-                    </h4>
-                    <p className="text-muted-foreground">
-                      {selectedFaculty.qualifications}
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </DialogContent>
-      </Dialog>
+      {selectedFaculty && (
+        <FacultyProfileModal
+          member={{
+            id: selectedFaculty.name,
+            name: selectedFaculty.name,
+            designation: selectedFaculty.designation,
+            qualifications: selectedFaculty.qualifications,
+            photo: selectedFaculty.image,
+            department: "Prashanti Kutiram Campus",
+            groupLabel: "Prashanti Kutiram Faculty",
+          }}
+          onClose={() => setSelectedFaculty(null)}
+        />
+      )}
     </section>
   );
 };

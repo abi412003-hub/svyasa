@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
+import { FacultyProfileModal } from "@/components/faculty/FacultyProfileModal";
 import nagendraImg from "@/assets/society/dr-hr-nagendra.jpg";
 import subrahmanyamImg from "@/assets/society/prof-subrahmanyam.jpg";
 import nagarathnaImg from "@/assets/society/dr-nagarathna.jpg";
@@ -74,9 +75,11 @@ const AnimatedRing = ({ isPresident }: { isPresident?: boolean }) => (
 const BoardMemberCard = ({
   member,
   index,
+  onOpen,
 }: {
   member: (typeof boardMembers)[0];
   index: number;
+  onOpen: () => void;
 }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
@@ -91,7 +94,17 @@ const BoardMemberCard = ({
       transition={{ duration: 0.6, delay: index * 0.15 }}
     >
       <motion.div
-        className={`relative bg-card rounded-2xl p-6 shadow-soft transition-all duration-500 
+        role="button"
+        tabIndex={0}
+        aria-label={`View profile of ${member.name}`}
+        onClick={onOpen}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            onOpen();
+          }
+        }}
+        className={`relative bg-card rounded-2xl p-6 shadow-soft transition-all duration-500 cursor-pointer focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/40 
           ${member.isPresident ? "border-2 border-gold/30" : "border border-border"}`}
         whileHover={{
           y: -10,
@@ -163,6 +176,9 @@ const BoardMemberCard = ({
             {member.name}
           </h3>
           <p className="text-sm text-muted-foreground">{member.designation}</p>
+          <span className="mt-3 inline-block text-xs font-semibold text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+            View Profile →
+          </span>
         </motion.div>
       </motion.div>
     </motion.div>
@@ -243,6 +259,8 @@ const LotusWatermark = () => (
 );
 
 const BoardMembers = () => {
+  const [selected, setSelected] = useState<(typeof boardMembers)[0] | null>(null);
+
   return (
     <section className="relative py-24 bg-cream overflow-hidden">
       <LotusWatermark />
@@ -255,13 +273,13 @@ const BoardMembers = () => {
           {/* President card first, centered on larger screens */}
           <div className="md:col-span-2 lg:col-span-3 xl:col-span-4 flex justify-center mb-8">
             <div className="w-full max-w-sm">
-              <BoardMemberCard member={boardMembers[0]} index={0} />
+              <BoardMemberCard member={boardMembers[0]} index={0} onOpen={() => setSelected(boardMembers[0])} />
             </div>
           </div>
 
           {/* Other board members */}
           {boardMembers.slice(1).map((member, index) => (
-            <BoardMemberCard key={member.name} member={member} index={index + 1} />
+            <BoardMemberCard key={member.name} member={member} index={index + 1} onOpen={() => setSelected(member)} />
           ))}
         </div>
       </div>
@@ -276,6 +294,20 @@ const BoardMembers = () => {
       >
         <div className="h-full bg-gradient-to-r from-transparent via-gold to-transparent" />
       </motion.div>
+
+      {selected && (
+        <FacultyProfileModal
+          member={{
+            id: selected.name,
+            name: selected.name,
+            designation: selected.designation,
+            photo: selected.image,
+            photoPosition: "object-top",
+            groupLabel: selected.isPresident ? "President, S-VYASA Society" : "S-VYASA Society Board",
+          }}
+          onClose={() => setSelected(null)}
+        />
+      )}
     </section>
   );
 };

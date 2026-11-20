@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import Layout from "@/components/layout/Layout";
+import { FacultyProfileModal } from "@/components/faculty/FacultyProfileModal";
 import { Badge } from "@/components/ui/badge";
 
 // ─── TYPES ─────────────────────────────────────────────────────────────────────
@@ -808,108 +809,21 @@ function MemberCard({ member, onClick, featured = false }: { member: AnyMember; 
 type AnyMember = AdminProfile | ECMember;
 function ProfileDrawer({ member, onClose }: { member: AnyMember; onClose: () => void }) {
   return (
-    <AnimatePresence>
-      <motion.div
-        key="backdrop"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className="fixed inset-0 bg-black/60 z-50 flex items-center justify-end"
-        onClick={onClose}
-      >
-        <motion.aside
-          key="drawer"
-          initial={{ x: "100%" }}
-          animate={{ x: 0 }}
-          exit={{ x: "100%" }}
-          transition={{ type: "spring", damping: 30, stiffness: 300 }}
-          className="relative bg-white h-full w-full max-w-xl overflow-y-auto shadow-2xl"
-          onClick={(e) => e.stopPropagation()}
-        >
-          {/* Drawer Header */}
-          <div
-            className="sticky top-0 z-10 px-8 pt-8 pb-6"
-            style={{ background: "linear-gradient(160deg, hsl(35 92% 18%), hsl(25 80% 28%))" }}
-          >
-            <button
-              onClick={onClose}
-              className="absolute top-5 right-5 text-white/60 hover:text-white transition-colors p-1"
-              aria-label="Close"
-            >
-              <X size={22} />
-            </button>
-            <div className="flex items-start gap-5">
-              <div className="rounded-2xl overflow-hidden border-2 border-white/30 shrink-0">
-                <AdminAvatar photo={member.photo} name={member.name} size="xl" />
-              </div>
-              <div className="pt-1">
-                <p className="text-amber-300 text-[10px] font-bold uppercase tracking-widest mb-1">
-                  S-VYASA Deemed to be University
-                </p>
-                <h2 className="text-white font-['Playfair_Display',serif] text-xl font-bold leading-snug mb-0.5">
-                  {member.name}
-                </h2>
-                <p className="text-white/70 text-sm mb-0.5">{member.designation}</p>
-                {member.qualifications && (
-                  <p className="text-white/60 text-xs leading-relaxed">{member.qualifications}</p>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* Drawer Body */}
-          <div className="px-8 py-8 space-y-8">
-            {/* Description */}
-            <div>
-              <p className="text-[hsl(var(--foreground))] text-base leading-relaxed">{member.description}</p>
-            </div>
-
-            {member.achievements && member.achievements.length > 0 && (
-              <div>
-                <div className="flex items-center gap-2 mb-4">
-                  <Award className="text-[hsl(var(--saffron))]" size={18} />
-                  <h3 className="font-semibold text-[hsl(var(--navy))] text-base">Key Achievements</h3>
-                </div>
-                <ul className="space-y-2.5">
-                  {member.achievements.map((a, i) => (
-                    <li key={i} className="flex items-start gap-2.5 text-sm text-[hsl(var(--muted-foreground))] leading-relaxed">
-                      <span className="mt-2 w-1.5 h-1.5 rounded-full bg-[hsl(var(--saffron))] shrink-0" />
-                      {a}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {member.expertise && (
-              <div>
-                <div className="flex items-center gap-2 mb-3">
-                  <FlaskConical className="text-[hsl(var(--teal))]" size={18} />
-                  <h3 className="font-semibold text-[hsl(var(--navy))] text-base">Area of Expertise</h3>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {member.expertise.split(",").map((e, i) => (
-                    <span
-                      key={i}
-                      className="inline-flex items-center bg-[hsl(var(--cream))] text-[hsl(var(--navy))] text-xs font-medium px-3 py-1.5 rounded-full border border-border"
-                    >
-                      {e.trim()}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {!member.achievements && !member.expertise && (
-              <div className="text-center py-12 text-[hsl(var(--muted-foreground))]">
-                <User className="mx-auto mb-3 opacity-30" size={40} />
-                <p className="text-sm">Full profile details coming soon.</p>
-              </div>
-            )}
-          </div>
-        </motion.aside>
-      </motion.div>
-    </AnimatePresence>
+    <FacultyProfileModal
+      member={{
+        id: member.id,
+        name: member.name,
+        designation: member.designation,
+        qualifications: member.qualifications,
+        photo: member.photo,
+        bio: member.description,
+        achievements: member.achievements,
+        expertise: member.expertise,
+        photoPosition: "photoPosition" in member ? member.photoPosition : undefined,
+        groupLabel: "S-VYASA Leadership",
+      }}
+      onClose={onClose}
+    />
   );
 }
 
