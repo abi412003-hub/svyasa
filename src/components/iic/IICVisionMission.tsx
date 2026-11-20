@@ -2,7 +2,8 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Eye, Target } from "lucide-react";
 import { missionPoints } from "./iicData";
-import visionMissionBg from "@/assets/campus-2.jpg";
+import globalCityCampus from "@/assets/gcc-campus.jpg";
+import prashantiKutiram from "@/assets/prashanti-kutiram-aerial.webp";
 
 const IICVisionMission = () => {
   const ref = useRef(null);
@@ -10,13 +11,16 @@ const IICVisionMission = () => {
 
   return (
     <section id="vision-mission" ref={ref} className="relative overflow-hidden py-16 bg-cream scroll-mt-24">
-      {/* Background photo under a light cream wash */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${visionMissionBg})` }}
-      />
-      <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-br from-cream/90 via-white/80 to-cream/90" />
+      {/* Background: S-VYASA Global City Campus (left) and Prashanti Kutiram (right) under a light cream wash */}
+      <div aria-hidden="true" className="absolute inset-0 grid grid-cols-1 grid-rows-2 md:grid-cols-2 md:grid-rows-1">
+        <div className="bg-cover bg-center" style={{ backgroundImage: `url(${globalCityCampus})` }} />
+        <div className="bg-cover bg-center" style={{ backgroundImage: `url(${prashantiKutiram})` }} />
+      </div>
+      <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-br from-cream/85 via-white/75 to-cream/85" />
+      <div className="absolute bottom-3 left-4 right-4 hidden md:flex justify-between text-[11px] font-semibold uppercase tracking-[0.2em] text-navy/60 pointer-events-none">
+        <span>S-VYASA Global City Campus</span>
+        <span>Prashanti Kutiram Campus</span>
+      </div>
       <div className="relative container mx-auto px-4">
         <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {/* Vision Card */}

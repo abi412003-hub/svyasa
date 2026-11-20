@@ -1,56 +1,3 @@
-export const teamMembers = [
-  {
-    id: "vasumathi",
-    name: "Dr. B. Vasumathi",
-    initials: "BV",
-    type: "Teaching",
-    role: "Convener",
-    featured: true,
-  },
-  {
-    id: "ankitha",
-    name: "Ms. Ankitha",
-    initials: "A",
-    type: "Non-Teaching",
-    role: "Social Media",
-  },
-  {
-    id: "shwetha",
-    name: "Dr. Shwetha B N",
-    initials: "SB",
-    type: "Teaching",
-    role: "Innovation Activity and Ambassador",
-  },
-  {
-    id: "parameshwara",
-    name: "Dr. Parameshwara",
-    initials: "P",
-    type: "Non-Teaching",
-    role: "Internship Activity Coordinator",
-  },
-  {
-    id: "sharada",
-    name: "Ms. T V Sharada",
-    initials: "TS",
-    type: "Teaching",
-    role: "Start-up Activity Coordinator",
-  },
-  {
-    id: "smrithi",
-    name: "Dr. Smrithi S. P",
-    initials: "SS",
-    type: "Teaching",
-    role: "RD Cell Coordinator",
-  },
-  {
-    id: "preetham",
-    name: "Mr. Preetham",
-    initials: "P",
-    type: "Teaching",
-    role: "Member",
-  },
-];
-
 export const objectives = [
   {
     id: "idea",
@@ -115,5 +62,4 @@ export const navTabs = [
   { id: "vision-mission", label: "Vision & Mission" },
   { id: "objectives", label: "Objectives" },
   { id: "activities", label: "Activities" },
-  { id: "team", label: "Team Members" },
 ];
