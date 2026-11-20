@@ -1,5 +1,5 @@
 import { motion, useInView, Variants, AnimatePresence } from "framer-motion";
-import { ChevronDown, X, Award, BookOpen, FlaskConical, Star, User, Linkedin } from "lucide-react";
+import { ChevronDown, X, Award, BookOpen, FlaskConical, Star, User, Linkedin, GraduationCap } from "lucide-react";
 import { useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Layout from "@/components/layout/Layout";
@@ -42,23 +42,81 @@ function avatarUrl(name: string) {
   return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=1a3d6b&color=fff&size=160&bold=true`;
 }
 
-/* ── Faculty Avatar ── */
-function FacultyAvatar({ photo, name, size = "lg" }: { photo?: string; name: string; size?: "sm" | "md" | "lg" | "xl" | "2xl" }) {
+/* ── Faculty Avatar ──
+   Fills its frame exactly; anchored near the top so faces are never cut off. */
+function FacultyAvatar({
+  photo,
+  name,
+  size = "lg",
+  className = "",
+  rounded = true,
+}: {
+  photo?: string;
+  name: string;
+  size?: "sm" | "md" | "lg" | "xl" | "2xl" | "fill";
+  className?: string;
+  rounded?: boolean;
+}) {
   const [err, setErr] = useState(false);
-  const sizeClass = { sm: "w-16 h-16", md: "w-24 h-24", lg: "w-32 h-32", xl: "w-40 h-40", "2xl": "w-48 h-48" }[size];
-  const src = (!photo || err) ? avatarUrl(name) : photo;
+  const sizeClass = {
+    sm: "w-16 h-16",
+    md: "w-24 h-24",
+    lg: "w-32 h-32",
+    xl: "w-40 h-40",
+    "2xl": "w-48 h-48",
+    fill: "w-full h-full",
+  }[size];
+  const src = !photo || err ? avatarUrl(name) : photo;
   return (
     <img
       src={src}
       alt={name}
-      className={`${sizeClass} rounded-full object-cover border-2 border-border`}
+      loading="lazy"
+      className={`${sizeClass} block object-cover object-[center_20%] ${rounded ? "rounded-full" : ""} ${className}`}
       onError={() => setErr(true)}
     />
   );
 }
 
-/* ── Faculty Modal ── */
+/* ── Faculty Profile (centred window in the site theme) ── */
+function ProfileSection({
+  icon: Icon,
+  title,
+  children,
+}: {
+  icon: React.ElementType;
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section>
+      <div className="flex items-center gap-2.5 mb-3">
+        <span className="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0">
+          <Icon size={16} />
+        </span>
+        <h3 className="font-heading font-bold text-navy text-lg">{title}</h3>
+      </div>
+      {children}
+    </section>
+  );
+}
+
 function FacultyModal({ member, onClose }: { member: FacultyProfile; onClose: () => void }) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", onKey);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [onClose]);
+
+  const sectionLabel =
+    member.section === "leadership" ? "Academic Leadership" : member.section === "project" ? "Project Staff" : "Faculty & Staff";
+  const hasDetails = member.bio || member.achievements || member.expertise || member.research || member.publications;
+
   return (
     <AnimatePresence>
       <motion.div
@@ -66,131 +124,117 @@ function FacultyModal({ member, onClose }: { member: FacultyProfile; onClose: ()
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 bg-black/60 z-50 flex items-center justify-end"
+        className="fixed inset-0 z-50 bg-navy/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6"
         onClick={onClose}
       >
-        <motion.aside
-          key="drawer"
-          initial={{ x: "100%" }}
-          animate={{ x: 0 }}
-          exit={{ x: "100%" }}
-          transition={{ type: "spring", damping: 30, stiffness: 300 }}
-          className="relative bg-white h-full w-full max-w-xl overflow-y-auto shadow-2xl"
+        <motion.div
+          key="dialog"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="faculty-profile-name"
+          initial={{ opacity: 0, y: 30, scale: 0.97 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 30, scale: 0.97 }}
+          transition={{ type: "spring", damping: 28, stiffness: 320 }}
+          className="relative w-full max-w-4xl max-h-[92vh] overflow-y-auto md:overflow-hidden rounded-3xl bg-cream shadow-2xl flex flex-col md:flex-row"
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Header */}
-          <div
-            className="sticky top-0 z-10 px-8 pt-8 pb-6"
-            style={{ background: "linear-gradient(160deg, hsl(210 60% 12%), hsl(180 45% 22%))" }}
+          <button
+            onClick={onClose}
+            aria-label="Close profile"
+            className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-white/90 text-navy shadow-md flex items-center justify-center hover:bg-primary hover:text-white transition-colors"
           >
-            <button
-              onClick={onClose}
-              className="absolute top-5 right-5 text-white/60 hover:text-white transition-colors p-1"
-            >
-              <X size={22} />
-            </button>
-            <div className="flex items-center gap-5">
-              <div className="rounded-full overflow-hidden border-2 border-white/30 w-20 h-20 shrink-0">
-                <FacultyAvatar photo={member.photo} name={member.name} size="lg" />
-              </div>
-              <div>
-                <p className="text-[hsl(var(--saffron-light))] text-xs font-semibold uppercase tracking-widest mb-1">
-                  {member.section === "leadership" ? "Academic Leadership" : member.section === "project" ? "Project Staff" : "Faculty & Staff"}
-                </p>
-                <h2 className="text-white font-['Playfair_Display',serif] text-xl font-bold leading-snug mb-1">
-                  {member.name}
-                </h2>
-                <p className="text-white/70 text-sm">{member.designation}</p>
-                {member.linkedin_url && (
-                  <a href={member.linkedin_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-white/60 hover:text-white text-xs mt-1 transition-colors">
-                    <Linkedin size={12} /> LinkedIn
-                  </a>
-                )}
-              </div>
+            <X size={20} />
+          </button>
+
+          {/* Photo + identity */}
+          <div className="md:w-[38%] shrink-0 bg-white md:border-r border-border p-6 md:p-8 flex flex-col items-center text-center md:overflow-y-auto">
+            <div className="w-36 h-36 sm:w-44 sm:h-44 md:w-full md:h-auto md:aspect-[4/5] rounded-full md:rounded-2xl overflow-hidden border-4 border-cream shadow-lg mb-5">
+              <FacultyAvatar photo={member.photo} name={member.name} size="fill" rounded={false} />
             </div>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-primary mb-2">{sectionLabel}</p>
+            <h2 id="faculty-profile-name" className="font-heading text-2xl font-bold text-navy leading-tight">
+              {member.name}
+            </h2>
+            <p className="mt-1 text-sm font-semibold text-primary">{member.designation}</p>
+            <div className="w-12 h-1 rounded-full bg-gold my-4" />
             {member.qualifications && (
-              <div className="mt-4 flex flex-wrap gap-2">
-                <span className="inline-flex items-center gap-1.5 bg-white/10 text-white/80 text-xs px-3 py-1.5 rounded-full border border-white/20">
-                  <Star size={11} />
-                  {member.qualifications}
-                </span>
-              </div>
+              <p className="inline-flex items-start gap-1.5 text-xs text-muted-foreground leading-relaxed">
+                <GraduationCap size={14} className="text-primary shrink-0 mt-0.5" />
+                {member.qualifications}
+              </p>
+            )}
+            {member.linkedin_url && (
+              <a
+                href={member.linkedin_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-navy border border-border rounded-full px-3 py-1.5 hover:border-primary hover:text-primary transition-colors"
+              >
+                <Linkedin size={13} /> LinkedIn
+              </a>
             )}
           </div>
 
-          {/* Body */}
-          <div className="px-8 py-8 space-y-8">
+          {/* Details */}
+          <div className="flex-1 md:overflow-y-auto p-6 md:p-10 space-y-8">
             {member.bio && (
-              <div>
-                <div className="flex items-center gap-2 mb-3">
-                  <User className="text-[hsl(var(--teal))]" size={18} />
-                  <h3 className="font-semibold text-[hsl(var(--navy))] text-base">About</h3>
-                </div>
-                <p className="text-sm text-[hsl(var(--muted-foreground))] leading-relaxed">{member.bio}</p>
-              </div>
+              <ProfileSection icon={User} title="About">
+                <p className="text-sm md:text-[15px] text-muted-foreground leading-relaxed">{member.bio}</p>
+              </ProfileSection>
             )}
 
             {member.achievements && member.achievements.length > 0 && (
-              <div>
-                <div className="flex items-center gap-2 mb-4">
-                  <Award className="text-[hsl(var(--saffron))]" size={18} />
-                  <h3 className="font-semibold text-[hsl(var(--navy))] text-base">Achievements</h3>
-                </div>
+              <ProfileSection icon={Award} title="Achievements">
                 <ul className="space-y-2.5">
                   {member.achievements.map((a, i) => (
-                    <li key={i} className="flex items-start gap-2.5 text-sm text-[hsl(var(--muted-foreground))] leading-relaxed">
-                      <span className="mt-2 w-1.5 h-1.5 rounded-full bg-[hsl(var(--saffron))] shrink-0" />
+                    <li key={i} className="flex items-start gap-2.5 text-sm text-muted-foreground leading-relaxed">
+                      <span className="mt-2 w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
                       {a}
                     </li>
                   ))}
                 </ul>
-              </div>
+              </ProfileSection>
             )}
 
             {member.expertise && (
-              <div>
-                <div className="flex items-center gap-2 mb-3">
-                  <FlaskConical className="text-[hsl(var(--teal))]" size={18} />
-                  <h3 className="font-semibold text-[hsl(var(--navy))] text-base">Area of Expertise</h3>
+              <ProfileSection icon={Star} title="Area of Expertise">
+                <div className="flex flex-wrap gap-2">
+                  {member.expertise.split(/,\s*/).filter(Boolean).map((e) => (
+                    <span key={e} className="text-xs font-medium text-navy bg-white border border-border rounded-full px-3 py-1.5">
+                      {e}
+                    </span>
+                  ))}
                 </div>
-                <p className="text-sm text-[hsl(var(--muted-foreground))] leading-relaxed">{member.expertise}</p>
-              </div>
+              </ProfileSection>
             )}
 
             {member.research && (
-              <div>
-                <div className="flex items-center gap-2 mb-3">
-                  <FlaskConical className="text-[hsl(var(--navy))]" size={18} />
-                  <h3 className="font-semibold text-[hsl(var(--navy))] text-base">Research</h3>
-                </div>
-                <p className="text-sm text-[hsl(var(--muted-foreground))] leading-relaxed">{member.research}</p>
-              </div>
+              <ProfileSection icon={FlaskConical} title="Research">
+                <p className="text-sm text-muted-foreground leading-relaxed whitespace-pre-line">{member.research}</p>
+              </ProfileSection>
             )}
 
             {member.publications && member.publications.length > 0 && (
-              <div>
-                <div className="flex items-center gap-2 mb-4">
-                  <BookOpen className="text-[hsl(var(--teal))]" size={18} />
-                  <h3 className="font-semibold text-[hsl(var(--navy))] text-base">Publications</h3>
-                </div>
+              <ProfileSection icon={BookOpen} title="Publications">
                 <ul className="space-y-3">
                   {member.publications.map((p, i) => (
-                    <li key={i} className="flex items-start gap-2.5 text-sm text-[hsl(var(--muted-foreground))] leading-relaxed border-l-2 border-[hsl(var(--teal))]/30 pl-3">
+                    <li key={i} className="text-sm text-muted-foreground leading-relaxed bg-white rounded-xl border border-border px-4 py-3">
                       {p}
                     </li>
                   ))}
                 </ul>
-              </div>
+              </ProfileSection>
             )}
 
-            {!member.bio && !member.achievements && !member.expertise && !member.research && !member.publications && (
-              <div className="text-center py-12 text-[hsl(var(--muted-foreground))]">
+            {!hasDetails && (
+              <div className="text-center py-16 text-muted-foreground">
                 <User className="mx-auto mb-3 opacity-30" size={40} />
                 <p className="text-sm">Full profile details coming soon.</p>
               </div>
             )}
           </div>
-        </motion.aside>
+        </motion.div>
       </motion.div>
     </AnimatePresence>
   );
@@ -207,7 +251,7 @@ function LeadershipCard({ member, onClick }: { member: FacultyProfile; onClick: 
     >
       <div className="pt-10 pb-6 px-6 flex flex-col items-center text-center">
         <div className="rounded-full overflow-hidden border-4 border-[hsl(var(--cream))] group-hover:border-[hsl(var(--saffron))]/30 transition-colors w-40 h-40 mb-5 shadow-md">
-          <FacultyAvatar photo={member.photo} name={member.name} size="xl" />
+          <FacultyAvatar photo={member.photo} name={member.name} size="fill" />
         </div>
         <h3 className="font-['Playfair_Display',serif] text-xl text-[hsl(var(--navy))] font-bold leading-tight mb-1.5">
           {member.name}
